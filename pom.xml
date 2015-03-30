@@ -8,7 +8,7 @@
     <artifactId>fairbot</artifactId>
     <packaging>war</packaging>
     <version>true</version>
-    <name>Spring MVC Application</name>
+    <name>Warbot Online</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java-version>1.8</java-version>
@@ -162,6 +162,11 @@
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>edu.warbot</groupId>
+            <artifactId>warbot</artifactId>
+            <version>3.2</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -209,6 +214,25 @@
                 <version>2.5</version>
                 <configuration>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.3.2</version>
+                <executions>
+                    <execution>
+                       <phase>process-classes</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>edu.warbot.SchemaGenerator</mainClass>
+                    <arguments>
+                        <argument>${project.basedir}/src/main/resources/db/</argument>
+                    </arguments>
                 </configuration>
             </plugin>
         </plugins>
