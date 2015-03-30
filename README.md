@@ -6,28 +6,28 @@ Dépôt du projet Warbot Online
 
 - TurtleKit doit être installé dans le dépôt maven local.
 
-"""bash
+```bash
 mvn install:install-file -Dfile=turtlekit-3.0.0.4c.jar -DgroupId=edu -DartifactId=TurtleKit -Dversion=3.0.0.4c -Dpackaging=jar
-"""
+```
 
 - Warbot doit être installé dans le dépôt maven local.
 
-"""bash
+```bash
 git clone https://github.com/ProjectWarbot/Warbot.git
 cd Warbot
 mvn clean compile install
-"""
+```
 
 ### Comment lancer le site
 
 Cloner le dépôt
 
-"""bash
+```bash
 git clone https://github.com/ProjectWarbot/Warbot-Online.git
-"""
+```
 
 Lancer le site
 
-"""bash
+```bash
 mvn test tomcat7:run
-"""
+```
