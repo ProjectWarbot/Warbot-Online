@@ -27,7 +27,8 @@ public class PartyRepository {
         return party;
     }
 
-    public Party findByName(String name) {
+    public Party findByName(String name)
+    {
         try {
             return entityManager.createNamedQuery(Party.FIND_BY_NAME, Party.class)
                     .setParameter("name", name)

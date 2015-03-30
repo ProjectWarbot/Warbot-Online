@@ -5,7 +5,7 @@ import javax.validation.Valid;
 import edu.warbot.models.Account;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.services.UserService;
-import edu.warbot.signup.SignupForm;
+import edu.warbot.form.SignupForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

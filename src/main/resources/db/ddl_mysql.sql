@@ -1,7 +1,7 @@
 
     create table ACCOUNT (
         id bigint not null auto_increment,
-        account_email varchar(255),
+        account_email varchar(255) not null,
         account_firstname varchar(255) not null,
         account_inscriptionDate datetime,
         account_activated bit not null,
@@ -15,11 +15,16 @@
         primary key (id)
     );
 
+    create table CODE (
+        id bigint not null auto_increment,
+        primary key (id)
+    );
+
     create table PARTY (
         id bigint not null auto_increment,
         party_creationDate datetime,
         party_elo integer,
-        party_language varchar(255),
+        party_language integer,
         party_name varchar(255),
         creator_id bigint,
         primary key (id)
@@ -29,6 +34,11 @@
         account_id bigint not null,
         party_id bigint not null,
         primary key (account_id, party_id)
+    );
+
+    create table WEB_AGENT (
+        id bigint not null auto_increment,
+        primary key (id)
     );
 
     alter table ACCOUNT 
