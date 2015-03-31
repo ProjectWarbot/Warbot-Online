@@ -39,7 +39,7 @@ public class PartyController
     @Autowired
     private AccountRepository accountRepository;
 
-    @RequestMapping(value = "party/show", method = RequestMethod.GET)
+    @RequestMapping(value = "party/entity", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Party party(@RequestParam("id") Long id) {
@@ -57,7 +57,8 @@ public class PartyController
 
     @RequestMapping(value = "party/create",method = RequestMethod.POST)
     public String checkParty(Principal principal,
-                             @Valid @ModelAttribute PartyForm partyForm,
+                             @Valid @ModelAttribute("form") PartyForm partyForm,
+                             Model model,
                              Errors errors, RedirectAttributes ra)
     {
         Assert.notNull(principal);
@@ -75,6 +76,7 @@ public class PartyController
             return "party/create";
         }
         MessageHelper.addErrorAttribute(ra, "party.success");
+        model.addAttribute("id",party.getId());
         return "redirect://party/show";
     }
 
@@ -85,9 +87,9 @@ public class PartyController
     {
         Party party = partyRepository.findOne(id);
         party.getMembers();
-        model.addAttribute("party",party);
+        model.addAttribute("party", party);
 
-        return "party/showTeam";
+        return "teamcode/showTeam";
     }
 
 
