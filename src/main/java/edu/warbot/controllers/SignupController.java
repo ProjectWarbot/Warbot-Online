@@ -1,7 +1,11 @@
-package edu.warbot.signup;
+package edu.warbot.controllers;
 
 import javax.validation.Valid;
 
+import edu.warbot.models.Account;
+import edu.warbot.repository.AccountRepository;
+import edu.warbot.services.UserService;
+import edu.warbot.form.SignupForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +13,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import edu.warbot.account.*;
 import edu.warbot.support.web.*;
 
 @Controller

@@ -1,9 +1,9 @@
-package edu.warbot.party;
+package edu.warbot.models;
 
 import javax.persistence.*;
 
-import edu.warbot.account.Account;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import edu.warbot.agents.WarAgent;
+import edu.warbot.scriptcore.interpreter.ScriptInterpreterLangage;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "PARTY")
-@NamedQuery(name = Party.FIND_BY_NAME, query = "select p from Party p where p.name = :name")
+@NamedQuery(name = Party.FIND_BY_NAME,query = "select p from Party p where p.name = :name")
 public class Party extends AbstractPersistable<Long>
 {
 
@@ -23,7 +23,7 @@ public class Party extends AbstractPersistable<Long>
     private String name;
 
     @Column(name="party_language")
-    private String language;
+    private ScriptInterpreterLangage language;
 
     @Column(name =  "party_elo")
     private int eloRank;
@@ -39,11 +39,14 @@ public class Party extends AbstractPersistable<Long>
             mappedBy = "teams")
     private Set<Account> members=new HashSet<>();
 
-    protected Party() { }
+    protected Party() {
+        this.members = new HashSet<>();}
 
-    public Party(String name,String language) {
+    public Party(String name,ScriptInterpreterLangage language) {
+        this();
         this.name = name;
         this.language = language;
+
     }
 
     public String getName() {
@@ -54,7 +57,7 @@ public class Party extends AbstractPersistable<Long>
         this.name = name;
     }
 
-    public void setLanguage(String language)
+    public void setLanguage(ScriptInterpreterLangage language)
     {
         this.language = language;
     }
@@ -67,5 +70,35 @@ public class Party extends AbstractPersistable<Long>
     public void setMembers(Set<Account> members)
     {
         this.members = members;
+    }
+
+    public ScriptInterpreterLangage getLanguage()
+    {
+        return language;
+    }
+
+    public int getEloRank()
+    {
+        return eloRank;
+    }
+
+    public void setEloRank(int eloRank) {
+        this.eloRank = eloRank;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Account getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Account creator) {
+        this.creator = creator;
     }
 }

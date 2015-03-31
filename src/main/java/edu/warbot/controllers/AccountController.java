@@ -1,7 +1,9 @@
-package edu.warbot.account;
+package edu.warbot.controllers;
 
 import java.security.Principal;
 
+import edu.warbot.models.Account;
+import edu.warbot.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;

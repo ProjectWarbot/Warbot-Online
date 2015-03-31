@@ -1,11 +1,9 @@
-package edu.warbot.account;
+package edu.warbot.repository;
 
 import javax.persistence.*;
 import javax.inject.Inject;
 
-import edu.warbot.party.Party;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
+import edu.warbot.models.Account;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;

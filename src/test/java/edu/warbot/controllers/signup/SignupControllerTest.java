@@ -1,4 +1,4 @@
-package edu.warbot.signup;
+package edu.warbot.controllers.signup;
 
 import org.junit.Test;
 

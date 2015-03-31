@@ -43,14 +43,15 @@ public class UserAuthenticationIntegrationTest extends WebSecurityConfigurationA
     @Test
     public void userAuthenticationFails() throws Exception {
         final String username = "user";
+        ResultMatcher matcher = new ResultMatcher() {
+            public void match(MvcResult mvcResult) throws Exception {
+                HttpSession session = mvcResult.getRequest().getSession();
+                SecurityContext securityContext = (SecurityContext) session.getAttribute(SEC_CONTEXT_ATTR);
+                Assert.assertNull(securityContext);
+            }
+        };
         mockMvc.perform(post("/authenticate").param("username", username).param("password", "invalid"))
                 .andExpect(redirectedUrl("/signin?error=1"))
-                .andExpect(new ResultMatcher() {
-                    public void match(MvcResult mvcResult) throws Exception {
-                        HttpSession session = mvcResult.getRequest().getSession();
-                        SecurityContext securityContext = (SecurityContext) session.getAttribute(SEC_CONTEXT_ATTR);
-                        Assert.assertNull(securityContext);
-                    }
-                });
+                .andExpect(matcher);
     }
 }

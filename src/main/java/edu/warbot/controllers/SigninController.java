@@ -1,4 +1,4 @@
-package edu.warbot.signin;
+package edu.warbot.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

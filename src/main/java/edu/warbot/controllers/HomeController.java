@@ -1,4 +1,4 @@
-package edu.warbot.home;
+package edu.warbot.controllers;
 
 import java.security.Principal;
 

@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 
+import edu.warbot.models.Account;
+import edu.warbot.repository.AccountRepository;
+import edu.warbot.services.UserService;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -64,6 +67,25 @@ public class UserServiceTest {
 		assertThat(demoUser.getEmail()).isEqualTo(userDetails.getUsername());
 		assertThat(demoUser.getPassword()).isEqualTo(userDetails.getPassword());
         assertThat(hasAuthority(userDetails, demoUser.getRole()));
+	}
+
+	@Test
+	public void shouldCreateAccount()
+	{
+		//arrange
+		Account demoUser = new Account("toto@gmail.com",
+				"totoé","totoç","totoLn","toto"
+				,true,false,new Date(),new Date(),
+				new Date(),"ROLE_USER",new HashSet<>());
+		when(accountRepositoryMock.findByEmail("toto@gmail.com")).thenReturn(demoUser);
+
+		// act
+		Account account = accountRepositoryMock.findByEmail("toto@gmail.com");
+
+		// assert
+		assertThat(demoUser.getEmail()).isEqualTo(account.getEmail());
+		assertThat(demoUser.getInscriptionDate()).isEqualTo(account.getInscriptionDate());
+
 	}
 
 	private boolean hasAuthority(UserDetails userDetails, String role) {
