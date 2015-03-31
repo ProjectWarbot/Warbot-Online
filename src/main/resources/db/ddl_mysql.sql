@@ -1,7 +1,7 @@
 
     create table ACCOUNT (
         id bigint not null auto_increment,
-        account_email varchar(255) not null,
+        account_email varchar(255),
         account_firstname varchar(255) not null,
         account_inscriptionDate datetime,
         account_activated bit not null,
