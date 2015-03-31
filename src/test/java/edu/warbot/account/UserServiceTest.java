@@ -70,10 +70,22 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void inscriptionAccount()
+	public void shouldCreateAccount()
 	{
-		Account demoUser = new Account("toto@gmail.com","totoé","totoç","totoLn","toto",true,false,new Date(),new Date(),new Date(),"ROLE_USER",new HashSet<>());
-		when(accountRepositoryMock.save(demoUser)).thenReturn(demoUser);
+		//arrange
+		Account demoUser = new Account("toto@gmail.com",
+				"totoé","totoç","totoLn","toto"
+				,true,false,new Date(),new Date(),
+				new Date(),"ROLE_USER",new HashSet<>());
+		when(accountRepositoryMock.findByEmail("toto@gmail.com")).thenReturn(demoUser);
+
+		// act
+		Account account = accountRepositoryMock.findByEmail("toto@gmail.com");
+
+		// assert
+		assertThat(demoUser.getEmail()).isEqualTo(account.getEmail());
+		assertThat(demoUser.getInscriptionDate()).isEqualTo(account.getInscriptionDate());
+
 	}
 
 	private boolean hasAuthority(UserDetails userDetails, String role) {

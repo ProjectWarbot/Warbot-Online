@@ -2,6 +2,7 @@ package edu.warbot.models;
 
 import javax.persistence.*;
 
+import edu.warbot.agents.WarAgent;
 import edu.warbot.scriptcore.interpreter.ScriptInterpreterLangage;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -38,11 +39,14 @@ public class Party extends AbstractPersistable<Long>
             mappedBy = "teams")
     private Set<Account> members=new HashSet<>();
 
-    protected Party() { }
+    protected Party() {
+        this.members = new HashSet<>();}
 
     public Party(String name,ScriptInterpreterLangage language) {
+        this();
         this.name = name;
         this.language = language;
+
     }
 
     public String getName() {
