@@ -9,6 +9,7 @@ import edu.warbot.repository.PartyRepository;
 import edu.warbot.services.UserService;
 import edu.warbot.support.web.MessageHelper;
 import jdk.nashorn.internal.ir.RuntimeNode;
+import org.mozilla.javascript.commonjs.module.Require;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -50,12 +51,14 @@ public class PartyController
     @RequestMapping(value = "party/create",method = RequestMethod.GET)
     public String createParty(Model model)
     {
-        model.addAttribute("form",new PartyForm());
+        model.addAttribute("form", new PartyForm());
         return "party/create";
     }
 
     @RequestMapping(value = "party/create",method = RequestMethod.POST)
-    public String checkParty(Principal principal,@Valid @ModelAttribute PartyForm partyForm, Errors errors, RedirectAttributes ra)
+    public String checkParty(Principal principal,
+                             @Valid @ModelAttribute PartyForm partyForm,
+                             Errors errors, RedirectAttributes ra)
     {
         Assert.notNull(principal);
         if(errors.hasErrors())
@@ -74,4 +77,18 @@ public class PartyController
         MessageHelper.addErrorAttribute(ra, "party.success");
         return "redirect://party/show";
     }
+
+    @RequestMapping(value = "party/show", method = RequestMethod.GET)
+    public String viewTeam(Principal principal,
+                           Model model,
+                           @RequestParam(required = true) Long id)
+    {
+        Party party = partyRepository.findOne(id);
+        party.getMembers();
+        model.addAttribute("party",party);
+
+        return "party/showTeam";
+    }
+
+
 }
