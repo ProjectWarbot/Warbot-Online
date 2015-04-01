@@ -56,13 +56,6 @@ public class Account extends AbstractPersistable<Long> {
 	private String role = "ROLE_USER";
 
     @ManyToMany(targetEntity = Party.class, cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
-    @JoinTable(name = "PARTY_MEMBERS",
-            joinColumns =
-            {
-                    @JoinColumn(name ="account_id",nullable = false,updatable = true)},
-            inverseJoinColumns = {
-                    @JoinColumn(name="party_id",nullable = false,updatable = true)
-            })
     private Set<Party> teams= new HashSet<>();
 
     @OneToMany (mappedBy="creator", cascade={CascadeType.PERSIST, CascadeType.REMOVE})

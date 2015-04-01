@@ -61,7 +61,7 @@ public class PartyRepositoryTest {
     {
         // arrange
         Account demoUser = new Account("user@example.com", "demo","firstName","lastName","screeName",
-                true,false,new Date(),new Date(),new Date(),"ROLE_USER",new HashSet<>());
+                true,false,new Date(),new Date(),new Date(),"ROLE_USER",new HashSet<Party>());
         when(accountRepositoryMock.save(demoUser)).thenReturn(demoUser);
         when(accountRepositoryMock.findByEmail("user@example.com")).thenReturn(demoUser);
         Party party = new Party("toto", ScriptInterpreterLangage.PYTHON);
@@ -86,7 +86,7 @@ public class PartyRepositoryTest {
         Account demoUser = new Account("user@example.com", "demo",
                 "firstName","lastName","screeName",
                 true,false,new Date(),new Date(),
-                new Date(),"ROLE_USER",new HashSet<>());
+                new Date(),"ROLE_USER",new HashSet<Party>());
         when(accountRepositoryMock.save(demoUser)).thenReturn(demoUser);
         when(accountRepositoryMock.findByEmail(demoUser.getEmail())).thenReturn(demoUser);
         Party party = new Party("toto", ScriptInterpreterLangage.PYTHON);
