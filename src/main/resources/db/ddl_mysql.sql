@@ -15,8 +15,16 @@
         primary key (id)
     );
 
+    create table ACCOUNT_PARTY (
+        members_id bigint not null,
+        teams_id bigint not null,
+        primary key (members_id, teams_id)
+    );
+
     create table CODE (
         id bigint not null auto_increment,
+        agent_id bigint,
+        party_id bigint,
         primary key (id)
     );
 
@@ -30,14 +38,11 @@
         primary key (id)
     );
 
-    create table PARTY_MEMBERS (
-        account_id bigint not null,
-        party_id bigint not null,
-        primary key (account_id, party_id)
-    );
-
     create table WEB_AGENT (
         id bigint not null auto_increment,
+        isActivated bit,
+        isPremium bit,
+        WarType integer,
         primary key (id)
     );
 
@@ -50,17 +55,27 @@
     alter table PARTY 
         add constraint UK_6f9crrkedyvu40ib31ca4s3w3  unique (party_name);
 
-    alter table PARTY 
-        add constraint FK_k1774sand3ceowkyfblvuhp2v 
-        foreign key (creator_id) 
+    alter table ACCOUNT_PARTY 
+        add constraint FK_thjxm36muk6f3mwrvppsv00r4 
+        foreign key (teams_id) 
+        references PARTY (id);
+
+    alter table ACCOUNT_PARTY 
+        add constraint FK_8yp9nyvbnahs7errjtnixjfyn 
+        foreign key (members_id) 
         references ACCOUNT (id);
 
-    alter table PARTY_MEMBERS 
-        add constraint FK_l63ligsxb1a58basb48ar416v 
+    alter table CODE 
+        add constraint FK_mav01bmkm1harefpd70s7bq9t 
+        foreign key (agent_id) 
+        references WEB_AGENT (id);
+
+    alter table CODE 
+        add constraint FK_sqfwawkmgtqmb67r2my477avv 
         foreign key (party_id) 
         references PARTY (id);
 
-    alter table PARTY_MEMBERS 
-        add constraint FK_tr5mu73up68rceqibb98kuvjb 
-        foreign key (account_id) 
+    alter table PARTY 
+        add constraint FK_k1774sand3ceowkyfblvuhp2v 
+        foreign key (creator_id) 
         references ACCOUNT (id);

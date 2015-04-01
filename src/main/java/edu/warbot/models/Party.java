@@ -1,11 +1,9 @@
 package edu.warbot.models;
 
-import javax.persistence.*;
-
-import edu.warbot.agents.WarAgent;
 import edu.warbot.scriptcore.interpreter.ScriptInterpreterLangage;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,6 +36,9 @@ public class Party extends AbstractPersistable<Long>
             fetch = FetchType.LAZY,
             mappedBy = "teams")
     private Set<Account> members=new HashSet<>();
+
+    @OneToMany(targetEntity = WebCode.class, mappedBy = "party")
+    private Set<WebCode> agents = new HashSet<>();
 
     protected Party() {
         this.members = new HashSet<>();}
@@ -100,5 +101,13 @@ public class Party extends AbstractPersistable<Long>
 
     public void setCreator(Account creator) {
         this.creator = creator;
+    }
+
+    public Set<WebCode> getAgents() {
+        return agents;
+    }
+
+    public void setAgents(Set<WebCode> agents) {
+        this.agents = agents;
     }
 }

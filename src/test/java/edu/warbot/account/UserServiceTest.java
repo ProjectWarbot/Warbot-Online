@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 import edu.warbot.models.Account;
+import edu.warbot.models.Party;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.services.UserService;
 import org.junit.Rule;
@@ -57,7 +58,7 @@ public class UserServiceTest {
 	public void shouldReturnUserDetails() {
 		// arrange
 		Account demoUser = new Account("user@example.com", "demo","firstName","lastName","screeName",
-                true,false,new Date(),new Date(),new Date(),"ROLE_USER",new HashSet<>());
+                true,false,new Date(),new Date(),new Date(),"ROLE_USER",new HashSet<Party>());
 		when(accountRepositoryMock.findByEmail("user@example.com")).thenReturn(demoUser);
 
 		// act
@@ -76,7 +77,7 @@ public class UserServiceTest {
 		Account demoUser = new Account("toto@gmail.com",
 				"totoé","totoç","totoLn","toto"
 				,true,false,new Date(),new Date(),
-				new Date(),"ROLE_USER",new HashSet<>());
+				new Date(),"ROLE_USER",new HashSet<Party>());
 		when(accountRepositoryMock.findByEmail("toto@gmail.com")).thenReturn(demoUser);
 
 		// act
