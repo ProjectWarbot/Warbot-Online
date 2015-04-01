@@ -1,5 +1,7 @@
 package edu.warbot.models;
 
+import edu.warbot.agents.enums.WarAgentType;
+import edu.warbot.game.Team;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Entity;
@@ -15,5 +17,9 @@ import javax.persistence.Table;
 public class WebAgent extends AbstractPersistable<Long>
 {
 
+    private WarAgentType type;
+    public WebAgent()
+    {
 
+    }
 }
