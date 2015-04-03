@@ -93,24 +93,36 @@ function getSpriteAgent(typeAgent, typeColor) {
 	}
 }
 
-function getSpritePercept(typeAgent) {
-	if(typeAgent == "WarExplorer") {
-		return perceptExplorer;
+function getSpritePercept(agent) {
+	if(agent.type == "WarExplorer") {
+		if(agent.teamType == 1)
+			return perceptExplorerRed;
+		else
+			return perceptExplorerBlue;
 	}
-	else if(typeAgent == "WarEngineer") {
+	else if(agent.type == "WarEngineer") {
 		return perceptEngineer;
 	}
-	else if(typeAgent == "WarRocketLauncher") {
-		return perceptRocketLauncher;
+	else if(agent.type == "WarRocketLauncher") {
+		if(agent.teamType == 1)
+			return perceptRocketLauncherRed;
+		else
+			return perceptRocketLauncherBlue;
 	}
-	else if(typeAgent == "WarKamikaze") {
+	else if(agent.type == "WarKamikaze") {
 		return perceptKamikaze;
 	}
-	else if(typeAgent == "WarTurret") {
-		return perceptTurret;
+	else if(agent.type == "WarTurret") {
+		if(agent.teamType == 1)
+    		return perceptTurretRed;
+    	else
+    		return perceptTurretBlue;
 	}
-	else if(typeAgent == "WarBase") {
-		return perceptBase;
+	else if(agent.type == "WarBase") {
+		if(agent.teamType == 1)
+			return perceptBaseRed;
+		else
+			return perceptBaseBlue;
 	}
 	else {
 		return perceptOther;
@@ -122,38 +134,29 @@ function changeAnchorPercept(agent) {
 	if(agent.type == "WarExplorer") { 
 		agent.SpritePercept.anchor.x = 0;
 		agent.SpritePercept.anchor.y = 0.5;
-
 	}
 	else if(agent.type == "WarEngineer") {
 		agent.SpritePercept.anchor.x = 0;
 		agent.SpritePercept.anchor.y = 0.51;
-
-
 	}
 	else if(agent.type == "WarRocketLauncher") {
 		agent.SpritePercept.anchor.x = 0;
 		agent.SpritePercept.anchor.y = 0.5;
-
-	
 	}
 	else if(agent.type == "WarKamikaze") {
 		agent.SpritePercept.anchor.x = 0;
-		agent.SpritePercept.anchor.y = 0.5;	
-
-
+		agent.SpritePercept.anchor.y = 0.5;
 	}
 	else if(agent.type == "WarTurret") { 
 		agent.SpritePercept.anchor.x = 0;
 		agent.SpritePercept.anchor.y = 0.5;
-
 	}
 	else if(agent.type == "WarBase") { 
 		agent.SpritePercept.anchor.x = 0.5;
 		agent.SpritePercept.anchor.y = 0.5;
-
 	}
 	else {
-		//NULL
+		console.log("not support this agent");
 	}	
 }
 
@@ -334,7 +337,7 @@ function createAgentJson(scene, tab, json) {
 	
 	agent.SpriteLife = life;
 
-	var percept = new PIXI.Sprite(getSpritePercept(agent.type));
+	var percept = new PIXI.Sprite(getSpritePercept(agent));
 	percept.position.x = agent.position.x;
 	percept.position.y = agent.position.y;
 

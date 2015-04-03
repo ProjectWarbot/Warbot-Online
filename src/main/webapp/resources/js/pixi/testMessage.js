@@ -11,7 +11,7 @@ var messageTeamMother = {"name" : "Mother",
 }
 
 var messageAgent = {"name"  	 	: "gygy",
-					"type"  	 	: "WarExplorer",
+					"type"  	 	: "WarRocketLauncher",
 					"x"     	 	: 100,
 					"y"     	 	: 100,
 					"team"  	 	: messageTeam,
@@ -47,7 +47,7 @@ var messageAgent3 = {"name"  	 	: "zefzef",
 }
 
 var messageAgent4 = {"name"  	 	: "efzefze",
-					"type"  	 	: "WarEngineer",
+					"type"  	 	: "WarTurret",
 					"x"     	 	: 300,
 					"y"     	 	: 300,
 					"team"  	 	: messageTeam2,
