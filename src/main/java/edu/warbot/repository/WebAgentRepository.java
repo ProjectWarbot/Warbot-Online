@@ -1,10 +1,18 @@
 package edu.warbot.repository;
 
+<<<<<<< HEAD
 import edu.warbot.models.Party;
+=======
+import edu.warbot.agents.enums.WarAgentType;
+>>>>>>> 22fcd8a86dcc9d7fa409ba8af58d4278535adbaa
 import edu.warbot.models.WebAgent;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< HEAD
+=======
+import javax.annotation.PostConstruct;
+>>>>>>> 22fcd8a86dcc9d7fa409ba8af58d4278535adbaa
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
@@ -18,6 +26,10 @@ public class WebAgentRepository
     @PersistenceContext
     private EntityManager entityManager;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 22fcd8a86dcc9d7fa409ba8af58d4278535adbaa
     @Transactional
     public WebAgent save(WebAgent agent)
     {
@@ -29,7 +41,11 @@ public class WebAgentRepository
         try
         {
             return entityManager.createQuery
+<<<<<<< HEAD
                     ("Select a From WebAgent a Where a.type LIKE :type", WebAgent.class)
+=======
+                    ("Select a From WebAgent a Where type LIKE :type", WebAgent.class)
+>>>>>>> 22fcd8a86dcc9d7fa409ba8af58d4278535adbaa
                     .setParameter("type", type)
                     .getSingleResult();
         } catch (PersistenceException e) {
@@ -37,6 +53,7 @@ public class WebAgentRepository
         }
     }
 
+<<<<<<< HEAD
     public List<WebAgent> findAllPremiumAndActivated() {
         try
         {
@@ -53,6 +70,13 @@ public class WebAgentRepository
         {
             return entityManager.createQuery
                     ("Select a From WebAgent a Where a.isActivated = true", WebAgent.class)
+=======
+    public List<WebAgent> findAllPremium() {
+        try
+        {
+            return entityManager.createQuery
+                    ("Select a From WebAgent a Where isPremium = true", WebAgent.class)
+>>>>>>> 22fcd8a86dcc9d7fa409ba8af58d4278535adbaa
                     .getResultList();
         } catch (PersistenceException e) {
             return Collections.emptyList();
@@ -63,8 +87,13 @@ public class WebAgentRepository
         try
         {
             return entityManager.createQuery
+<<<<<<< HEAD
                     ("Select a From WebAgent a Where a.id = :id", WebAgent.class)
                     .setParameter("id", aLong)
+=======
+                    ("Select a From WebAgent a Where id = :id", WebAgent.class)
+                    .setParameter("id",aLong)
+>>>>>>> 22fcd8a86dcc9d7fa409ba8af58d4278535adbaa
                     .getSingleResult();
         } catch (PersistenceException e) {
             return null;
@@ -81,6 +110,7 @@ public class WebAgentRepository
             return Collections.emptyList();
         }
     }
+<<<<<<< HEAD
 
     public List<WebAgent> findAllStarter()
     {
@@ -108,4 +138,6 @@ public class WebAgentRepository
             return Collections.emptyList();
         }
     }
+=======
+>>>>>>> 22fcd8a86dcc9d7fa409ba8af58d4278535adbaa
 }
