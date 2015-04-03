@@ -7,22 +7,22 @@
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
 </head>
 <body>
-<form class="form-narrow form-horizontal" action="#" method="post" th:action="@{/party/check}"  th:fragment="header">
+<form class="form-narrow form-horizontal" action="#"  th:object="${form}" method="post" th:action="@{/party/create}"  th:fragment="form">
     <th:block th:if="${param.error != null}">
-        <div th:replace="fragments/alert :: alert (type='danger', message='Sign in error. Please try again.')">Alert</div>
+        <div th:replace="fragments/alert :: alert (type='danger', message='Creation error')">Alert</div>
     </th:block>
     <fieldset>
         <legend>Create Team</legend>
         <div class="form-group">
             <label for="inputTeamName" class="col-lg-2 control-label">Team name</label>
             <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputTeamName" placeholder="TeamName" name="username" />
+                <input type="text" class="form-control" id="inputTeamName" th:field="*{teamName}" placeholder="TeamName" name="teamName"/>
             </div>
         </div>
         <div class="form-group">
             <label for="inputLanguage" class="col-lg-2 control-label">Language</label>
             <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputLanguage" placeholder="Language" name="language" />
+                <input type="text" class="form-control" id="inputLanguage" placeholder="Language" name="language"/>
             </div>
         </div>
         <div class="form-group">

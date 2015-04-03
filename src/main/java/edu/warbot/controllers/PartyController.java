@@ -1,9 +1,14 @@
 package edu.warbot.controllers;
 
-import edu.warbot.form.SignupForm;
-import edu.warbot.models.Party;
 import edu.warbot.form.PartyForm;
+import edu.warbot.models.Account;
+import edu.warbot.models.Party;
+import edu.warbot.repository.AccountRepository;
 import edu.warbot.repository.PartyRepository;
+import edu.warbot.services.CodeEditorService;
+import edu.warbot.support.web.MessageHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 /**
  * Created by BEUGNON on 18/03/2015.
@@ -22,33 +28,81 @@ import javax.validation.Valid;
  * @author Sébastien Beugnon
  */
 @Controller
-@Secured("ROLE_USER")
+@Secured({"ROLE_USER","ROLE_ADMIN"})
 public class PartyController
 {
+    final Logger logger = LoggerFactory.getLogger(PartyController.class);
+
     @Autowired
     private PartyRepository partyRepository;
 
-    @RequestMapping(value = "party/show", method = RequestMethod.GET)
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private CodeEditorService codeEditorService;
+
+    @RequestMapping(value = "party/entity", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Party party(@RequestParam("id") Long id) {
         Assert.notNull(id);
-        return null;
+        return partyRepository.findOne(id);
     }
 
 
     @RequestMapping(value = "party/create",method = RequestMethod.GET)
     public String createParty(Model model)
     {
-        model.addAttribute("form",new PartyForm());
+        model.addAttribute("form", new PartyForm());
         return "party/create";
     }
 
-    public String checkParty(@Valid @ModelAttribute PartyForm signupForm, Errors errors, RedirectAttributes ra) {
+    @RequestMapping(value = "party/create",method = RequestMethod.POST)
+    public String checkParty(Principal principal,
+                             @Valid @ModelAttribute("form") PartyForm partyForm,
+                             Errors errors, RedirectAttributes ra)
     {
+
+        Assert.notNull(principal);
         if(errors.hasErrors())
             return "party/create";
+        logger.debug("Pass party");
+        Account account = accountRepository.findByEmail(principal.getName());
+        if(account!=null)
+            logger.debug("Found user");
+
+        Party party = partyForm.createParty();
+        party.setCreator(account);
+        party.getMembers().add(account);
+
+        if(partyRepository.findByName(party.getName()) == null)
+        {
+            logger.debug("Not found party");
+            party = partyRepository.save(party);
+
+        }
+        else
+        {
+            logger.debug("Found party");
+            MessageHelper.addErrorAttribute(ra, "party.fail.name");
+            return "party/create";
+        }
+        MessageHelper.addSuccessAttribute(ra, "party.success");
+        ra.addAttribute("id", party.getId());
+        return "redirect:/party/show";
     }
-        return "party/show";
+
+    @RequestMapping(value = "party/show", method = RequestMethod.GET)
+    public String viewTeam(Principal principal,
+                           Model model,
+                           @RequestParam(required = true) Long id)
+    {
+        Party party = partyRepository.findOne(id);
+        party.getMembers();
+        model.addAttribute("party", party);
+        return "teamcode/showTeam";
     }
+
+
 }
