@@ -17,7 +17,6 @@ import javax.persistence.Table;
 public class WebAgent extends AbstractPersistable<Long>
 {
 
-<<<<<<< HEAD
     @Column(name = "agent_WarType")
     private WarAgentType type;
 
@@ -31,17 +30,6 @@ public class WebAgent extends AbstractPersistable<Long>
 
     }
 
-=======
-    @Column(name = "WarType")
-    private WarAgentType type;
-
-    @Column(name = "isActivated")
-    private boolean isActivated;
-
-    @Column(name = "isPremium")
-    private boolean isPremium;
-
->>>>>>> 22fcd8a86dcc9d7fa409ba8af58d4278535adbaa
     public WebAgent(WarAgentType type, boolean isActivated, boolean isPremium) {
         this.type = type;
         this.isActivated = isActivated;
