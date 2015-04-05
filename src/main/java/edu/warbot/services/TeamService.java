@@ -1,6 +1,5 @@
 package edu.warbot.services;
 
-import edu.warbot.agents.enums.WarAgentType;
 import edu.warbot.brains.WarBrain;
 import edu.warbot.brains.capacities.Agressive;
 import edu.warbot.brains.implementations.AgentBrainImplementer;
@@ -11,27 +10,13 @@ import edu.warbot.launcher.UserPreferences;
 import edu.warbot.models.Party;
 import edu.warbot.models.WebCode;
 import edu.warbot.repository.PartyRepository;
-import edu.warbot.repository.WebCodeRepository;
 import edu.warbot.scriptcore.ScriptedTeam;
-import edu.warbot.scriptcore.exceptions.DangerousFunctionPythonException;
-import edu.warbot.scriptcore.exceptions.NotFoundScriptLanguageException;
-import edu.warbot.scriptcore.exceptions.UnrecognizedScriptLanguageException;
 import edu.warbot.scriptcore.interpreter.ScriptInterpreterFactory;
-import edu.warbot.scriptcore.interpreter.ScriptInterpreterLangage;
-import edu.warbot.scriptcore.script.Script;
 import edu.warbot.tools.WarIOTools;
 import javassist.*;
-import org.python.bouncycastle.jcajce.provider.symmetric.TEA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import teams.engineer.WarExplorerBrainController;
 
@@ -41,8 +26,6 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 /**
  * Created by beugnon on 05/04/15.

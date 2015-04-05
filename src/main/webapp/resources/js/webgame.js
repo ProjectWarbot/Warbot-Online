@@ -6,22 +6,12 @@ function WebGameModel(stompClient) {
       stompClient.connect({}, function(frame) {
 
       console.log('Connected ' + frame);
-      self.username(frame.headers['user-name']);
 
-      stompClient.
-
-      stompClient.subscribe("/game/register", function(message) {
+      stompClient.subscribe("/app/game/register", function(message) {
       /* Return a message if can save */
-        self.portfolio().loadPositions(JSON.parse(message.body));
-      });
-      stompClient.subscribe("/user/game.agents.*", function(message) {
-        self.jimmyHandler().processAgent(JSON.parse(message.body));
 
       });
-      stompClient.subscribe("/user/queue/position-updates", function(message) {
-        self.pushNotification("Position update " + message.body);
-        self.portfolio().updatePosition(JSON.parse(message.body));
-      });
+
       stompClient.subscribe("/user/queue/errors", function(message) {
         self.pushNotification("Error " + message.body);
       });
@@ -45,10 +35,5 @@ function WebGameModel(stompClient) {
     if (self.notifications().length > 5) {
       self.notifications.shift();
     }
-  }
-
-  self.logout = function() {
-    stompClient.disconnect();
-    window.location.href = "../logout.html";
   }
 }

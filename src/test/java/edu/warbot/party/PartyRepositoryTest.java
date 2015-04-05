@@ -4,7 +4,7 @@ import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.repository.PartyRepository;
-import edu.warbot.scriptcore.interpreter.ScriptInterpreterLangage;
+import edu.warbot.scriptcore.interpreter.ScriptInterpreterLanguage;
 import edu.warbot.services.UserService;
 import org.junit.Assert;
 import org.junit.Rule;
@@ -64,7 +64,7 @@ public class PartyRepositoryTest {
                 true,false,new Date(),new Date(),new Date(),"ROLE_USER",new HashSet<Party>());
         when(accountRepositoryMock.save(demoUser)).thenReturn(demoUser);
         when(accountRepositoryMock.findByEmail("user@example.com")).thenReturn(demoUser);
-        Party party = new Party("toto", ScriptInterpreterLangage.PYTHON);
+        Party party = new Party("toto", ScriptInterpreterLanguage.PYTHON);
         party.setCreator(demoUser);
         party.getMembers().add(demoUser);
         when(partyRepository.findByName(party.getName())).thenReturn(party);
@@ -89,7 +89,7 @@ public class PartyRepositoryTest {
                 new Date(),"ROLE_USER",new HashSet<Party>());
         when(accountRepositoryMock.save(demoUser)).thenReturn(demoUser);
         when(accountRepositoryMock.findByEmail(demoUser.getEmail())).thenReturn(demoUser);
-        Party party = new Party("toto", ScriptInterpreterLangage.PYTHON);
+        Party party = new Party("toto", ScriptInterpreterLanguage.PYTHON);
         when(partyRepository.save(party)).thenReturn(party);
         when(partyRepository.findByName(party.getName())).thenReturn(null);
         when(partyRepository.findByName("toto")).thenThrow(NullPointerException.class);
