@@ -101,7 +101,10 @@ function getSpritePercept(agent) {
 			return perceptExplorerBlue;
 	}
 	else if(agent.type == "WarEngineer") {
-		return perceptEngineer;
+		if(agent.teamType == 1)
+			return perceptEngineerRed;
+		else
+			return perceptEngineerBlue;
 	}
 	else if(agent.type == "WarRocketLauncher") {
 		if(agent.teamType == 1)
@@ -110,7 +113,10 @@ function getSpritePercept(agent) {
 			return perceptRocketLauncherBlue;
 	}
 	else if(agent.type == "WarKamikaze") {
-		return perceptKamikaze;
+		if(agent.teamType == 1)
+			return perceptKamikazeRed;
+		else
+			return perceptKamikazeBlue;
 	}
 	else if(agent.type == "WarTurret") {
 		if(agent.teamType == 1)
