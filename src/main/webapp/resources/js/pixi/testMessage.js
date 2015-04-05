@@ -81,8 +81,6 @@ var messageAgent6 = {"name"  	 	: "egergeg",
 					"y"     	 	: 50,
 					"team"  	 	: messageTeamMother,
 					"lifeP" 	 	: 100,
-					"colorDebug" 	: {"r":125,"g":125,"b":125},
-                    "messageDebug"  : "je suis un agent 5",
 					"angle" 	 	: 0,
 					"state" 		: 1		
 }

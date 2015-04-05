@@ -162,7 +162,7 @@ function changeAnchorPercept(agent) {
 		agent.SpritePercept.anchor.y = 0.5;
 	}
 	else {
-		console.log("not support this agent");
+		//console.log("not support this agent");
 	}	
 }
 
@@ -192,7 +192,7 @@ function changePositionPercept(agent) {
 		agent.SpritePercept.position.y = agent.position.y;
 		agent.SpritePercept.rotation = agent.rotation;		
 	}
-	else if(agent.type == "WarBase") { 
+	else if(agent.type == "WarBase") {
 		agent.SpritePercept.position.x = agent.position.x;
 		agent.SpritePercept.position.y = agent.position.y;
 	}
@@ -289,11 +289,17 @@ function createAgentJson(scene, tab, json) {
 	agent.teamName = json.team.name;
 	agent.lifeP = json.lifeP;
 	agent.angle = json.angle;
-	//console.log(agent.angle);
 	agent.rotation = Math.PI * (agent.angle / 180);
-	//console.log(agent.rotation);
-	agent.colorDebug = rgb2hex2(json.colorDebug.r, json.colorDebug.g, json.colorDebug.b);
-	agent.messageDebug = json.messageDebug;
+
+	if (typeof(json.colorDebug) != "undefined")
+		agent.colorDebug = rgb2hex2(json.colorDebug.r, json.colorDebug.g, json.colorDebug.b);
+	else
+		agent.colorDebug = rgb2hex2(0, 0, 0);
+
+	if (typeof(json.messageDebug) != "undefined")
+		agent.messageDebug = json.messageDebug;
+	else
+		agent.messageDebug = "";
 
 	agent.debug = new PIXI.Text(agent.messageDebug, {font:"12px Arial", fill:agent.colorDebug});
 	agent.debug.position.x = agent.position.x;
@@ -545,8 +551,6 @@ function analyseMessageServer(message) {
 }
 
 function messageServerInit(message) {
-	//console.log("init");
-
 	initHUD();
 
 	// TODO 
@@ -560,8 +564,6 @@ function messageServerInit(message) {
 }
 
 function messageServerAgent(message) {
-	//console.log("agent");
-
 	if(typeof(message.agent.state) != "undefined" && (message.agent.state == 1)) {
 		
 		createAgentJson(camera, agentTab, message.agent);
@@ -594,8 +596,6 @@ function messageServerAgent(message) {
 }
 
 function messageServerSynchro(message) {
-	//console.log("synchro");
-
 	for(i = 0; i < message.synchro.length; i++) {
 		if(typeof(message.agent.state) != "undefined" && (message.agent.state == 1)) {
 			createAgentJson(camera, agentTab, message.agent);
@@ -630,7 +630,7 @@ function messageServerSynchro(message) {
 }
 
 function messageServerEnd(message) {
-	//console.log("end");
+
 }
 
 function rgb2hex(r, g, b){
@@ -749,7 +749,6 @@ function cameraZoome(e) {
 
 	for (i = 0; i < agentTab.length; i++) {
 		if(agentTab[i].scale.x * factor <= 1 &&  agentTab[i].scale.y * factor <= 1 && agentTab[i].scale.x * factor >= 0.32 &&  agentTab[i].scale.y * factor >= 0.32) {
-			//console.log(agentTab[i].scale.x * factor);
 			agentTab[i].scale.x *= factor;
 			agentTab[i].scale.y *= factor;
 			agentTab[i].SpriteLife.scale.x *= factor;
