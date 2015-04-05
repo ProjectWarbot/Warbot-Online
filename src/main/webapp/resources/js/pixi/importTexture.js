@@ -16,12 +16,7 @@ var bomb;
 var food = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/food.png");
 var map;
 
-
-var perceptEngineer = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/perceptEngeneer.png");
-var perceptKamikaze = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/perceptKamikaze.png");
-
 var perceptOther = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/perceptOther.png");
-
 var perceptBaseRed = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/RED/perceptBase.png");
 var perceptBaseBlue = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/BLUE/perceptBase.png");
 var perceptExplorerRed = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/RED/perceptExplorer.png");
@@ -30,8 +25,10 @@ var perceptTurretRed = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/
 var perceptTurretBlue = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/BLUE/perceptTurret.png");
 var perceptRocketLauncherRed = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/RED/perceptRocketLauncher.png");
 var perceptRocketLauncherBlue = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/BLUE/perceptRocketLauncher.png");
-
-
+var perceptEngineerRed = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/RED/perceptEngeneer.png");
+var perceptEngineerBlue = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/BLUE/perceptEngeneer.png");
+var perceptKamikazeRed = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/RED/perceptKamikaze.png");
+var perceptKamikazeBlue = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/BLUE/perceptKamikaze.png");
 
 var life001 = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/life/life001.png");
 var life002 = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/life/life002.png");
