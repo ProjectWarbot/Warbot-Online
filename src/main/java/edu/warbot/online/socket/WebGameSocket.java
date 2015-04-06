@@ -36,7 +36,7 @@ public class WebGameSocket {
     public void registerUser(Principal principal)
     {
         Assert.notNull(principal);
-        //TODO SUBSCRIBE USER
+
     }
 
 
@@ -44,6 +44,7 @@ public class WebGameSocket {
     public void startGame(Principal principal, WebGameSettings settings)
     {
         Assert.notNull(principal);
+        logger.debug(settings);
         Account account = accountRepository.findByEmail(principal.getName());
         webGameService.startExampleWebGame(account);
     }

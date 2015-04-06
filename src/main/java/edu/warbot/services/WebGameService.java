@@ -3,6 +3,8 @@ package edu.warbot.services;
 import edu.warbot.game.Team;
 import edu.warbot.game.WarGameSettings;
 import edu.warbot.launcher.WarLauncher;
+import edu.warbot.launcher.WarMain;
+import edu.warbot.launcher.WarScheduler;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.online.WebGame;
@@ -19,6 +21,7 @@ import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.broker.BrokerAvailabilityEvent;
 import org.springframework.stereotype.Service;
+import turtlekit.kernel.TurtleKit;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -81,13 +84,13 @@ public class WebGameService
 
     public void startExampleWebGame(Account account)
     {
-
+        logger.debug("trying running a example game");
         WarGameSettings wgs = new WarGameSettings();
         Collection<Team> coll = teamService.getTeams().values();
 
         Iterator<Team> it = coll.iterator();
 
-
+        logger.info("have "+coll.size()+" default teams");
         Team t1 = it.next();
         Team t2;
         if(!it.hasNext())
@@ -95,12 +98,19 @@ public class WebGameService
         else
             t2 = it.next();
 
+        logger.info("team t1 -> "+t1.getName());
+        logger.info("team t2 -> "+t2.getName());
+
         wgs.addSelectedTeam(t1);
         wgs.addSelectedTeam(t2);
 
         WebGame game = new WebGame(account.getEmail(),
                 messagingTemplate,wgs);
         WebLauncher wl = new WebLauncher(game);
-        new Madkit().doAction(KernelAction.LAUNCH_AGENT,wl);
+
+        //TurtleKit tk = new TurtleKit();
+        //TODO SET AT FALSE TO HIDE DESKTOP
+        Madkit m = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
+        m.doAction(KernelAction.LAUNCH_AGENT, wl);
     }
 }

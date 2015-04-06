@@ -1,36 +1,49 @@
 package edu.warbot.online.logs;
 
-import org.codehaus.jackson.map.ObjectMapper;
 
-import java.io.IOException;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by beugnon on 04/04/15.
+ *
+ * @author beugnon
  */
-public class RGB
+public class RGB implements Serializable
 {
-    public int r;
-
-    public int g;
-
-    public int b;
+    private Map<String,Integer> rgb;
 
     public RGB(int r, int g, int b)
     {
-        this.r = r;
-        this.g = g;
-        this.b = b;
+        this.rgb = new HashMap<>();
+        rgb.put("r",r);
+        rgb.put("g",g);
+        rgb.put("b",b);
     }
 
 
-    @Override
-    public String toString() {
-        ObjectMapper om = new ObjectMapper();
-        try {
-            return om.writeValueAsString(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public int getR() {
+        return rgb.get("r");
+    }
+
+    public void setR(int r) {
+        this.rgb.replace("r",r);
+    }
+
+    public int getG() {
+        return rgb.get("g");
+    }
+
+    public void setG(int g) {
+        this.rgb.replace("g",g);
+    }
+
+    public int getB() {
+        return rgb.get("b");
+    }
+
+    public void setB(int b) {
+        this.rgb.replace("b",b);
     }
 }

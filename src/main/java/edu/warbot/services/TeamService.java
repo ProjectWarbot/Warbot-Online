@@ -183,44 +183,44 @@ public class TeamService
         classPool.insertClassPath(ccpath);
         CtClass brainImplementationClass = classPool.get(WarBrainImplementation.class.getCanonicalName());
 
-        if(brainImplementationClass.isFrozen()) {
-            return null;
-        } else {
-            brainImplementationClass.setName(brainClassName + "BrainImplementation");
-            brainImplementationClass.setModifiers(1);
-            CtClass brainClass = classPool.get(brainClassName);
-            String capacitiesPackageName = Agressive.class.getPackage().getName();
-            CtClass[] arr$ = brainClass.getSuperclass().getInterfaces();
-            int len$ = arr$.length;
+        if(brainImplementationClass.isFrozen())
+            brainImplementationClass.defrost();
 
-            for(int i$ = 0; i$ < len$; ++i$) {
-                CtClass brainInterface = arr$[i$];
-                if(brainInterface.getPackageName().equals(capacitiesPackageName)) {
-                    CtClass brainInterfaceImplementation = classPool.get
-                            (WarBrainImplementation.class.getPackage().getName() +
-                                    ".War" +
-                                    brainInterface.getSimpleName() +
-                                    "BrainImplementation");
-                    CtMethod[] arr$1 = brainInterface.getDeclaredMethods();
-                    int len$1 = arr$1.length;
+        brainImplementationClass.setName(brainClassName + "BrainImplementation");
+        brainImplementationClass.setModifiers(1);
+        CtClass brainClass = classPool.get(brainClassName);
+        String capacitiesPackageName = Agressive.class.getPackage().getName();
+        CtClass[] arr$ = brainClass.getSuperclass().getInterfaces();
+        int len$ = arr$.length;
 
-                    for(int i$1 = 0; i$1 < len$1; ++i$1) {
-                        CtMethod interfaceImplementationMethod = arr$1[i$1];
-                        brainImplementationClass.addMethod(
-                                new CtMethod
-                                        (brainInterfaceImplementation.
-                                                getDeclaredMethod
-                                                        (interfaceImplementationMethod.getName(),
-                                                                interfaceImplementationMethod.getParameterTypes()),
-                                                brainImplementationClass,
-                                                (ClassMap)null));
-                    }
+        for(int i$ = 0; i$ < len$; ++i$) {
+            CtClass brainInterface = arr$[i$];
+            if(brainInterface.getPackageName().equals(capacitiesPackageName)) {
+                CtClass brainInterfaceImplementation = classPool.get
+                        (WarBrainImplementation.class.getPackage().getName() +
+                                ".War" +
+                                brainInterface.getSimpleName() +
+                                "BrainImplementation");
+                CtMethod[] arr$1 = brainInterface.getDeclaredMethods();
+                int len$1 = arr$1.length;
+
+                for(int i$1 = 0; i$1 < len$1; ++i$1) {
+                    CtMethod interfaceImplementationMethod = arr$1[i$1];
+                    brainImplementationClass.addMethod(
+                            new CtMethod
+                                    (brainInterfaceImplementation.
+                                            getDeclaredMethod
+                                                    (interfaceImplementationMethod.getName(),
+                                                            interfaceImplementationMethod.getParameterTypes()),
+                                            brainImplementationClass,
+                                            (ClassMap)null));
                 }
             }
-            brainImplementationClass.setSuperclass(brainClass);
-            Class<?> constructClass = classPool.toClass(brainImplementationClass, WarExplorerBrainController.class.getClassLoader(), null);
-            return constructClass.asSubclass(WarBrain.class);
         }
+        brainImplementationClass.setSuperclass(brainClass);
+        Class<?> constructClass = classPool.toClass(brainImplementationClass, WarExplorerBrainController.class.getClassLoader(), null);
+        return constructClass.asSubclass(WarBrain.class);
+
     }
 
 }
