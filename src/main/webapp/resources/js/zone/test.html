@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+	
+	<title>Test</title> 
+
+	<script type="text/javascript" src="jquery.js"></script> 
+	<script type="text/javascript" src="jquery.layout.js"></script> 
+	<script type="text/javascript" src="jquery.ui.all.js"></script> 
+
+	<script> 
+
+	var outerLayout, middleLayout; 
+
+	$(document).ready(function () { 
+
+		outerLayout = $('body').layout({ 
+			center__paneSelector:	".outer-center" 
+		,	west__paneSelector:		".outer-west" 
+		,	west__size:				600 
+		,	spacing_open:			8
+		,	spacing_closed:			12
+		,	center__onresize:		"middleLayout.resizeAll" 
+		}); 
+
+		middleLayout = $('div.outer-west').layout({ 
+			center__paneSelector:	".middle-center"
+		,	south__size:			350  
+		,	spacing_open:			8
+		,	spacing_closed:			12
+		});
+
+	}); 
+
+
+	</script> 
+
+		<style type="text/css"> 
+
+		.ui-layout-pane { /* all 'panes' */ 
+		padding: 0px; 
+		background: #FFF; 
+		border-top: 1px solid #BBB;
+		border-bottom: 1px solid #BBB;
+		}
+		.ui-layout-pane-north ,
+		.ui-layout-pane-south {
+			border: 0px solid #BBB;
+		} 
+		.ui-layout-pane-west {
+			border-left: 1px solid #BBB;
+		} 
+		.ui-layout-pane-east {
+			border-right: 1px solid #BBB;
+		} 
+		.ui-layout-pane-center {
+			border-left: 0;
+			border-right: 0;
+			} 
+			.inner-center {
+				border: 1px solid #BBB;
+			} 
+
+		.outer-west ,
+		.outer-east {
+			background-color: #EEE;
+		}
+		.middle-west ,
+		.middle-east {
+			background-color: #F8F8F8;
+		}
+
+		.ui-layout-resizer { /* all 'resizer-bars' */ 
+		background: #DDD; 
+		}
+		.ui-layout-resizer:hover { /* all 'resizer-bars' */ 
+			background: #FED; 
+		}
+		.ui-layout-resizer-west {
+			border-left: 0px solid #BBB;
+		}
+		.ui-layout-resizer-east {
+			border-right: 1px solid #BBB;
+		}
+
+		.ui-layout-toggler { /* all 'toggler-buttons' */ 
+		background: #AAA; 
+		} 
+		.ui-layout-toggler:hover { /* all 'toggler-buttons' */ 
+			background: #FC3; 
+		} 
+
+	.outer-center ,
+	.middle-center {
+		/* center pane that are 'containers' for a nested layout */ 
+		padding: 0; 
+		border: 0; 
+	} 
+
+	</style> 
+
+</head> 
+<body> 
+
+<div class="outer-center">
+	Partie Code
+</div> 
+
+<div class="outer-west">
+
+	<div class="middle-center">
+		Partie stream
+	</div>
+
+
+	<div class="ui-layout-south">
+		Partie Console
+	</div> 
+
+</div> 
+
+
+</body> 
+</html> 
+

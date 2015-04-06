@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
-import edu.warbot.account.UserService;
+import edu.warbot.services.UserService;
 
 @Configuration
 @EnableWebMvcSecurity
@@ -59,5 +59,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             .rememberMe()
                 .rememberMeServices(rememberMeServices())
                 .key("remember-me-key");
+
     }
 }

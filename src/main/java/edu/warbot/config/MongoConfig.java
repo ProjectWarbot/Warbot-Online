@@ -25,8 +25,7 @@ class MongoConfig {
 
     @Bean
     public MongoTemplate mongoTemplate() throws UnknownHostException {
-        MongoTemplate template = new MongoTemplate(mongoDbFactory(), mongoConverter());
-        return template;
+        return new MongoTemplate(mongoDbFactory(), mongoConverter());
     }
 
     @Bean
