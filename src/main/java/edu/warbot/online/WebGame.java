@@ -2,6 +2,7 @@ package edu.warbot.online;
 
 import edu.warbot.agents.ControllableWarAgent;
 import edu.warbot.agents.WarAgent;
+import edu.warbot.agents.enums.WarAgentType;
 import edu.warbot.game.Team;
 import edu.warbot.game.WarGame;
 import edu.warbot.game.WarGameSettings;
@@ -77,16 +78,15 @@ public class WebGame extends WarGame
         }
         for (Team t : getPlayerTeams())
         {
-            for(WarAgent a : t.getAllAgents())
-                if(a instanceof ControllableWarAgent)
-                {
-                    Map<String,Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
+            for(WarAgent a : t.getAllAgents()) {
+                if (a instanceof ControllableWarAgent) {
+                    Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
                     sendMessage(new AgentMessage(map));
-                }else
-                {
-                    Map<String,Object> map = this.getGameLog().addOrUpdateEntity(a);
+                } else {
+                    Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
                     sendMessage(new AgentMessage(map));
                 }
+            }
         }
 
         for(WarAgent a : getMotherNatureTeam().getAllAgents())
@@ -167,7 +167,7 @@ public class WebGame extends WarGame
         else
         {
             AgentMessage a = (AgentMessage) cm;
-            if(a.getContent().size()>1) // If useful data send it
+            if(a.getContent().size() > 1) // If useful data send it
             {
                 this.getMessageSender().
                         convertAndSendToUser

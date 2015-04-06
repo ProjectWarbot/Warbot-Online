@@ -6,6 +6,7 @@ import edu.warbot.models.Party;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.repository.PartyRepository;
 import edu.warbot.services.CodeEditorService;
+import edu.warbot.services.TeamService;
 import edu.warbot.support.web.MessageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +81,9 @@ public class PartyController
         {
             logger.debug("Not found party");
             party = partyRepository.save(party);
+
+            //TODO ADD DEFAULT CODE FOR PARTY
+
 
         }
         else
