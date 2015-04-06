@@ -23,7 +23,6 @@ public class ControllableWarEntityLog extends EntityLog {
         colorDebug = new RGB(0,0,0);
     }
 
-    @Override
     public Map<String, Object> update(ControllableWarAgent wa) {
         Map<String, Object> map = super.update(wa);
 
