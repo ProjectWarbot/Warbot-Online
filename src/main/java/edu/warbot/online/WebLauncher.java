@@ -10,45 +10,46 @@ import edu.warbot.gui.viewer.WarDefaultViewer;
 import edu.warbot.launcher.WarEnvironment;
 import edu.warbot.launcher.WarLauncher;
 import edu.warbot.launcher.WarMain;
-import edu.warbot.launcher.WarScheduler;
 import edu.warbot.maps.AbstractWarMap;
 import edu.warbot.tools.geometry.WarCircle;
 import madkit.action.SchedulingAction;
 import madkit.kernel.Madkit;
 import madkit.message.SchedulingMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import turtlekit.kernel.TKLauncher;
 import turtlekit.kernel.TurtleKit;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by beugnon on 05/04/15.
  *
  * @author beugnon²
  */
-public class WebLauncher extends WarLauncher {
+public class WebLauncher extends TKLauncher {
 
-    private static Logger logger = LoggerFactory.getLogger(WebLauncher.class);
+    private static Logger logger = Logger.getLogger(WebLauncher.class.getName());
+
     private WebGame game;
 
 
     public WebLauncher(WebGame game)
     {
         this.game = game;
-        logger.debug("Start WebLauncher");
     }
 
     @Override
     protected void activate() {
-        logger.info("Start WebLauncher");
+        logger.finest("entrée dans activate");
+        super.activate();
+        logger.finest("sortie dans activate");
     }
 
-    @Override
-    protected void createSimulationInstance() {
+    protected void init2Properties()
+    {
         WarGameSettings settings = getGame().getSettings();
         this.setLogLevel(settings.getLogLevel());
         this.setMadkitProperty(Madkit.LevelOption.agentLogLevel, settings.getLogLevel().toString());
@@ -56,22 +57,39 @@ public class WebLauncher extends WarLauncher {
         this.setMadkitProperty(Madkit.LevelOption.kernelLogLevel, settings.getLogLevel().toString());
         this.setMadkitProperty(Madkit.LevelOption.madkitLogLevel, settings.getLogLevel().toString());
         this.setMadkitProperty(Madkit.LevelOption.networkLogLevel, settings.getLogLevel().toString());
-        this.initProperties();
+        super.initProperties();
+        this.setMadkitProperty(Madkit.BooleanOption.console, "false");
         this.setMadkitProperty(TurtleKit.Option.envWidth,
                 String.valueOf(Double.valueOf(getGame().getMap().getWidth()).intValue()));
         this.setMadkitProperty(TurtleKit.Option.envHeight, String.valueOf(Double.valueOf(getGame().getMap().getHeight()).intValue()));
-        this.setMadkitProperty(TurtleKit.Option.viewers,null);
-        this.setMadkitProperty(TurtleKit.Option.scheduler, WarScheduler.class.getName());
+        this.setMadkitProperty(TurtleKit.Option.viewers, WarDefaultViewer.class.getName());
+        this.setMadkitProperty(TurtleKit.Option.scheduler, WebScheduler.class.getName());
         this.setMadkitProperty(TurtleKit.Option.environment, WarEnvironment.class.getName());
-        super.createSimulationInstance();
-        if(settings.getSituationLoader() == null) {
+    }
+
+    @Override
+    protected void createSimulationInstance() {
+        //TODO REMOVE LOGGER LEVEL MODIFICATION
+        Level l = logger.getLevel();
+        logger.setLevel(Level.ALL);
+        logger.finest("entrée dans createSimulationInstance");
+
+        init2Properties();
+        this.launchAgent(this.getMadkitProperty(TurtleKit.Option.environment));
+        this.launchConfigTurtles();
+        //VIEWER
+        if(getGame().getSettings().getSituationLoader() == null) {
             this.launchAllAgents();
-        } else {
-            settings.getSituationLoader().launchAllAgentsFromXmlSituationFile(this);
         }
+        //SCHEDULER
+        WebScheduler webScheduler = new WebScheduler(getGame());
+        launchAgent(webScheduler);
 
         this.sendMessage(this.getMadkitProperty(TurtleKit.Option.community), "engine", "scheduler", new SchedulingMessage(SchedulingAction.RUN, new Object[0]));
         getGame().setGameStarted();
+
+        logger.setLevel(l);
+        logger.finest("sortie dans createSimulationInstance");
     }
 
     public WebGame getGame() {
@@ -80,21 +98,17 @@ public class WebLauncher extends WarLauncher {
 
     protected void launchAllAgents() {
         WarGame game = getGame();
-        ArrayList playerTeams = game.getPlayerTeams();
         AbstractWarMap map = game.getMap();
         ArrayList teamsPositions = map.getTeamsPositions();
         int teamCount = 0;
         MotherNatureTeam motherNatureTeam = game.getMotherNatureTeam();
 
         try {
-            for(Iterator var8 = playerTeams.iterator(); var8.hasNext(); ++teamCount) {
-                Team t = (Team)var8.next();
+            for(Team t : game.getPlayerTeams()) {
                 WarCircle selectedPosition = (WarCircle)((ArrayList)teamsPositions.get(teamCount)).get((new Random()).nextInt(((ArrayList)teamsPositions.get(teamCount)).size()));
-                WarAgentType[] var11 = WarAgentType.values();
-                int var12 = var11.length;
 
-                for(int var13 = 0; var13 < var12; ++var13) {
-                    WarAgentType agentType = var11[var13];
+                for(WarAgentType agentType :  WarAgentType.values()) {
+
 
                     for(int e = 0; e < game.getSettings().getNbAgentOfType(agentType); ++e) {
                         try {
@@ -104,17 +118,18 @@ public class WebLauncher extends WarLauncher {
                         } catch (NoSuchMethodException |
                                 ClassNotFoundException |
                                 InvocationTargetException var16) {
-                            logger.error("Erreur lors de l\'instanciation de l\'agent." +
-                                    " Type non reconnu : " + agentType,var16);
+                            logger.severe("Erreur lors de l\'instanciation de l\'agent." +
+                                    " Type non reconnu : " + agentType);
                             var16.printStackTrace();
                         }
 
                         motherNatureTeam.createAndLaunchNewResource(game.getMap(), this, WarAgentType.WarFood);
                     }
                 }
+                teamCount++;
             }
         } catch (IllegalAccessException | IllegalArgumentException | SecurityException | InstantiationException var17) {
-            logger.error("Erreur lors de l\'instanciation des classes à partir des données XML", var17);
+            logger.severe("Erreur lors de l\'instanciation des classes à partir des données XML");
         }
 
     }

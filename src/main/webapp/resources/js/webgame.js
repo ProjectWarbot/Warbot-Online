@@ -8,9 +8,20 @@ function WebGameModel(stompClient) {
       console.log('Connected ' + frame);
 
       stompClient.subscribe("/app/game/register", function(message) {
-      /* Return a message if can save */
-
+        /* Return a message if can save */
+        // NOT NEED
       });
+      stompClient.subscribe("/user/queue/game.agents.*", function(message)
+      {
+        //UPDATE AGENT
+                     console.log(message.body);
+      });
+
+       stompClient.subscribe("/user/queue/game", function(message)
+            {
+              //UPDATE AGENT
+              console.log(message.body);
+            });
 
       stompClient.subscribe("/user/queue/errors", function(message) {
         self.pushNotification("Error " + message.body);
@@ -20,14 +31,13 @@ function WebGameModel(stompClient) {
     });
   }
 
-  self.executeTrade = function() {
+  self.launchParty = function() {
       var trade = {
-          "action" : self.action(),
-          "ticker" : self.currentRow().ticker,
-          "shares" : self.sharesToTrade()
+          "idTeam1" : 0,
+          "idTeam2" : 0
         };
       console.log(trade);
-      stompClient.send("/game/start", {}, JSON.stringify(trade));
+      stompClient.send("/app/game/start", {}, JSON.stringify(trade));
     }
 
   self.pushNotification = function(text) {

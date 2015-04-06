@@ -11,14 +11,20 @@ import java.util.Map;
  */
 public class AgentMessage extends ClassicMessage
 {
+
+    private final Map<String, Object> content;
+
+
+
     public AgentMessage(Map<String,Object> content)
     {
-        super("agent", content);
+        super("agent");
+        this.content = content;
     }
 
-    @Override
+
     public Map<String,Object> getContent()
     {
-        return (Map<String,Object>) super.getContent();
+        return this.content;
     }
 }

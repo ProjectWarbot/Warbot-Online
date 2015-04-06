@@ -9,6 +9,8 @@ import edu.warbot.online.logs.GameLog;
 import edu.warbot.online.logs.RGB;
 import edu.warbot.online.messaging.AgentMessage;
 import edu.warbot.online.messaging.ClassicMessage;
+import edu.warbot.online.messaging.EndMessage;
+import edu.warbot.online.messaging.InitMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -36,6 +38,8 @@ public class WebGame extends WarGame
 
     private SimpMessageSendingOperations messagingTemplate;
 
+    private boolean firstCall;
+
 
     public int getTick() {
         return tick;
@@ -52,6 +56,7 @@ public class WebGame extends WarGame
         super(settings);
         tick = 0;
         this.user = user;
+        this.firstCall = true;
         this.messagingTemplate = messagingTemplate;
         this.gameLog = new GameLog();
     }
@@ -59,6 +64,48 @@ public class WebGame extends WarGame
     @Override
     public void setGameStarted() {
         super.setGameStarted();
+    }
+
+    @Override
+    public void doAfterEachTick()
+    {
+        super.doAfterEachTick();
+        if(isFirstCall())
+        {
+            sendInitMessage();
+            firstCall = false;
+        }
+        for (Team t : getPlayerTeams())
+        {
+            for(WarAgent a : t.getAllAgents())
+                if(a instanceof ControllableWarAgent)
+                {
+                    Map<String,Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
+                    sendMessage(new AgentMessage(map));
+                }else
+                {
+                    Map<String,Object> map = this.getGameLog().addOrUpdateEntity(a);
+                    sendMessage(new AgentMessage(map));
+                }
+        }
+
+        for(WarAgent a : getMotherNatureTeam().getAllAgents())
+        {
+            Map<String,Object> map = this.getGameLog().addOrUpdateEntity(a);
+            sendMessage(new AgentMessage(map));
+        }
+
+
+        if(getGameMode().getEndCondition().isGameEnded())
+            setGameOver();
+    }
+
+    protected boolean isFirstCall()
+    {
+        return firstCall;
+    }
+
+    protected void sendInitMessage() {
         //Send init message
         Map<String,Object> content = new HashMap<>();
 
@@ -67,7 +114,8 @@ public class WebGame extends WarGame
         environment.put("width",getSettings().getSelectedMap().getWidth());
         environment.put("height",getSettings().getSelectedMap().getHeight());
         environment.put("mapName",getSettings().getSelectedMap().getName());
-        environment.put("walls",getSettings().getSelectedMap().getMapForbidArea());
+        //TODO trouver un autre moyen d'envoyer les limites de la carte
+       // environment.put("walls",getSettings().getSelectedMap().getMapForbidArea());
 
         content.put("environment",environment);
 
@@ -96,37 +144,14 @@ public class WebGame extends WarGame
         content.put("agents", agents);
 
         //Send message
-        sendMessage(new ClassicMessage("init", content));
-    }
-
-    @Override
-    public void doAfterEachTick()
-    {
-        super.doAfterEachTick();
-
-        for (Team t : getPlayerTeams())
-        {
-            for(WarAgent a : t.getAllAgents())
-                if(a instanceof ControllableWarAgent)
-                    sendMessage(new AgentMessage(this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a)));
-                else
-                    sendMessage(new AgentMessage(this.getGameLog().addOrUpdateEntity(a)));
-
-        }
-
-        for(WarAgent a : getMotherNatureTeam().getAllAgents())
-            sendMessage(new AgentMessage(this.getGameLog().addOrUpdateEntity(a)));
-
-
-        if(getGameMode().getEndCondition().isGameEnded())
-            setGameOver();
+        sendMessage(new InitMessage(content));
     }
 
     @Override
     public void setGameOver()
     {
         super.setGameOver();
-        sendMessage(new ClassicMessage("end","end game"));
+        sendMessage(new EndMessage("end game"));
     }
 
 
@@ -134,12 +159,32 @@ public class WebGame extends WarGame
 
     public void sendMessage(ClassicMessage cm)
     {
-        Map<String, Object> map = new HashMap<>();
-        map.put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
+        if(cm.getHeader().equals("init") || cm.getHeader().equals("end") || cm.getHeader().equals("synchro")) {
+            this.getMessageSender().
+                    convertAndSendToUser
+                            (getUser(), "/queue/game", cm);
+        }
+        else
+        {
+            AgentMessage a = (AgentMessage) cm;
+            if(a.getContent().size()>1) // If useful data send it
+            {
+                this.getMessageSender().
+                        convertAndSendToUser
+                                (getUser(), "/queue/game.agents." + a.getContent().get("name"), a);
+            }
+        }
+    }
 
-        this.messagingTemplate.
-                convertAndSendToUser
-                        (user, "/queue/game", cm,map);
+
+    public SimpMessageSendingOperations getMessageSender()
+    {
+        return this.messagingTemplate;
+    }
+
+    public String getUser()
+    {
+        return user;
     }
 
     public GameLog getGameLog() {

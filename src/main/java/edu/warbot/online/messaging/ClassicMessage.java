@@ -1,6 +1,5 @@
 package edu.warbot.online.messaging;
 
-import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 
@@ -12,16 +11,12 @@ import java.io.IOException;
  *
  * @author beugnon
  */
-public class ClassicMessage
-{
+public class ClassicMessage {
     private String header;
 
-    private Object content;
 
-    public ClassicMessage(String header, Object content)
-    {
+    public ClassicMessage(String header) {
         this.header = header;
-        this.content = content;
     }
 
     public String getHeader() {
@@ -32,22 +27,4 @@ public class ClassicMessage
         this.header = header;
     }
 
-    public Object getContent() {
-        return content;
-    }
-
-    public void setContent(Object content) {
-        this.content = content;
-    }
-
-    @Override
-    public String toString() {
-        ObjectMapper om = new ObjectMapper();
-        try {
-            return om.writeValueAsString(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 }

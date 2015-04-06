@@ -70,7 +70,7 @@
         </div>
 
         <div class="ui-layout-south">
-            Partie Console
+            <button id="launch-party-button">Launch party</button>
         </div>
 
     </div>
@@ -96,6 +96,11 @@
         //ko.applyBindings(appModel);
 
         appModel.connect();
+        $("#launch-party-button").click(function (event)
+        {
+            appModel.launchParty();
+
+        });
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
       })();
     </script>

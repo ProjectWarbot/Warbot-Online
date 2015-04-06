@@ -1,8 +1,7 @@
 package edu.warbot.online.messaging;
 
-import org.mule.mvel2.util.Make;
-
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Created by beugnon on 04/04/15.
@@ -14,10 +13,17 @@ import java.util.Collection;
 public class SynchroMessage extends ClassicMessage
 {
 
+    private final Collection<Map<String, Object>> content;
+
     public SynchroMessage(String header,
-                          Collection<Make.Map<String,Object>>
+                          Collection<Map<String,Object>>
                                   content)
     {
-        super("synchro", content);
+        super("synchro");
+        this.content = content;
+    }
+
+    public Collection<Map<String, Object>> getContent() {
+        return content;
     }
 }

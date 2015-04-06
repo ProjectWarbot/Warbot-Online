@@ -10,6 +10,11 @@ public class WebGameSettings
 
     private Long idTeam2;
 
+    public WebGameSettings()
+    {
+        this.idTeam1= new Long(0);
+        this.idTeam2= new Long(0);
+    }
 
     public WebGameSettings(Long idTeam1, Long idTeam2) {
         this.idTeam1 = idTeam1;

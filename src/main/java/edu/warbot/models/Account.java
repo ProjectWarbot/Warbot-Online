@@ -2,8 +2,8 @@ package edu.warbot.models;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.warbot.models.Party;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.util.Date;

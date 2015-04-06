@@ -2,6 +2,7 @@ package edu.warbot.online.logs;
 
 import edu.warbot.agents.ControllableWarAgent;
 import edu.warbot.agents.WarAgent;
+import edu.warbot.online.logs.entity.ControllableWarEntityLog;
 import edu.warbot.online.logs.entity.EntityLog;
 
 import java.util.*;
@@ -39,7 +40,7 @@ public class GameLog
      * @param agent
      * @return Vrai si et seulement si l'agent possède une instance d'EntityLog qui s'occupe de sa gestion des données
      */
-    public boolean contains(ControllableWarAgent agent)
+    public boolean contains(WarAgent agent)
     {
         return getEntityLog().containsKey(agent.getName());
     }
@@ -48,7 +49,7 @@ public class GameLog
     /**
      *
      * @param agent
-     * @return
+     * @return une association correspondant aux informations modifiées de l'agent
      */
     public Map<String,Object> updateControllableAgent(ControllableWarAgent agent)
     {
@@ -73,7 +74,7 @@ public class GameLog
     public Map<String,Object> addControllableAgent(ControllableWarAgent agent)
     {
         //Add ajout d'une nouvelle instance pour un nouvel agent
-        EntityLog el = new EntityLog(agent.getName());
+        EntityLog el = new ControllableWarEntityLog(agent.getName());
         getEntityLog().put(agent.getName(),el);
         return el.update(agent);
     }
@@ -85,7 +86,41 @@ public class GameLog
      */
     public Map<String,Object> addOrUpdateEntity(WarAgent agent)
     {
-        return null;
+        return contains(agent) ? updateEntity(agent) : addEntity(agent);
+    }
+
+
+    /**
+     *
+     * @param agent
+     * @return
+     */
+    public Map<String,Object> updateEntity(WarAgent agent)
+    {
+        Map<String,Object> map;
+        EntityLog el2 = getEntityLog().get(agent.getName());
+
+        //Elément exact mise-à-jour
+        map = el2.update(agent);
+
+        //Vérification de la mort de l'agent
+        if(el2.isDead())
+            getEntityLog().remove(el2);//Nettoyage de l'arbre
+
+        return map;
+    }
+
+    /**
+     *
+     * @param agent l'agent que l'on souhaite ajouter aux entités
+     * @return l'association de création pour les messages du réseau
+     */
+    public Map<String,Object> addEntity(WarAgent agent)
+    {
+        //Add ajout d'une nouvelle instance pour un nouvel agent
+        EntityLog el = new EntityLog(agent.getName());
+        getEntityLog().put(agent.getName(),el);
+        return el.update(agent);
     }
 
     /**

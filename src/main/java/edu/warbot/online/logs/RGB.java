@@ -1,6 +1,5 @@
 package edu.warbot.online.logs;
 
-import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 
@@ -9,11 +8,11 @@ import java.io.IOException;
  */
 public class RGB
 {
-    public int r;
+    private int r;
 
-    public int g;
+    private int g;
 
-    public int b;
+    private int b;
 
     public RGB(int r, int g, int b)
     {
@@ -23,14 +22,27 @@ public class RGB
     }
 
 
-    @Override
-    public String toString() {
-        ObjectMapper om = new ObjectMapper();
-        try {
-            return om.writeValueAsString(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public int getR() {
+        return r;
+    }
+
+    public void setR(int r) {
+        this.r = r;
+    }
+
+    public int getG() {
+        return g;
+    }
+
+    public void setG(int g) {
+        this.g = g;
+    }
+
+    public int getB() {
+        return b;
+    }
+
+    public void setB(int b) {
+        this.b = b;
     }
 }

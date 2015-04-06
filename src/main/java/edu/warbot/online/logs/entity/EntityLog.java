@@ -1,12 +1,11 @@
 package edu.warbot.online.logs.entity;
 
-import edu.warbot.agents.ControllableWarAgent;
+import edu.warbot.agents.WarAgent;
 import edu.warbot.agents.enums.WarAgentType;
 import edu.warbot.game.Team;
-import edu.warbot.online.logs.RGB;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by beugnon on 04/04/15.
@@ -27,31 +26,32 @@ public class EntityLog implements Comparable<EntityLog>
 
     private double y;
 
-    private RGB colorDebug;
-
-    private String messageDebug;
-
     private int state;
 
     public EntityLog(String name)
     {
         this.name = name;
+        this.team = null;
+        this.angle = 0;
+
+        this.x = 0;
+        this.y = 0;
+        this.type = null;
         this.state = 1;
+
     }
 
-    public Map<String,Object> update(ControllableWarAgent wa)
+    public Map<String,Object> update(WarAgent wa)
     {
         Map<String, Object> map = new HashMap<>();
         //key
         map.put("name",name);
-        if(x != wa.getX())
-        {
+        if(x != wa.getX()) {
             x = wa.getX();
             map.put("x",x);
         }
 
-        if(y != wa.getY())
-        {
+        if(y != wa.getY()) {
             y = wa.getY();
             map.put("y",y);
         }
@@ -71,7 +71,7 @@ public class EntityLog implements Comparable<EntityLog>
 
         if(angle != wa.getHeading())
         {
-            angle = wa.getHealth();
+            angle = wa.getHeading();
             map.put("angle",angle);
         }
 
@@ -87,23 +87,6 @@ public class EntityLog implements Comparable<EntityLog>
             map.put("state",state);
         }
 
-        if(colorDebug.r != wa.getDebugStringColor().getRed()
-                || colorDebug.g != wa.getDebugStringColor().getGreen()
-                || colorDebug.b != wa.getDebugStringColor().getBlue()
-                )
-        {
-            colorDebug.r = wa.getDebugStringColor().getRed();
-            colorDebug.g = wa.getDebugStringColor().getGreen();
-            colorDebug.b = wa.getDebugStringColor().getBlue();
-            map.put("colorDebug",colorDebug.toString());
-        }
-
-        if(!messageDebug.equals(wa.getDebugString()))
-        {
-            messageDebug = wa.getDebugString();
-            map.put("messageDebug",messageDebug);
-        }
-
         return map;
     }
     public Map<String,Object> getCurrentState()
@@ -115,9 +98,7 @@ public class EntityLog implements Comparable<EntityLog>
         map.put("state",state);
         map.put("team",team);
         map.put("angle",angle);
-        if(colorDebug!=null)
-            map.put("colorDebug",colorDebug.toString());
-        map.put("messageDebug",messageDebug);
+
         return map;
     }
 
