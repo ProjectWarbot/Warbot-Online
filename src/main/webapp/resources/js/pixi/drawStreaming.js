@@ -267,25 +267,31 @@ function createAgentJson(scene, tab, json, teams) {
 
 	var team = null;
 	for (i = 0; i < teams.length; i++) {
-		if(teams[i].name == json.name)
+		if(teams[i].name == json.team)
 			team = teams[i];
 	}
 
 	if(team == null)
-		console.log("bug team name")
+		console.log("bug team name");
+		console.log(team.name);
 
-	if(team.color.r == 255 && team.color.g == 0 && team.color.b == 0) {
+		var colorTeam = JSON.parse(team.color);
+		console.log(colorTeam.r);
+		console.log(colorTeam.g);
+		console.log(colorTeam.b);
+
+	if(colorTeam.r == 149 && colorTeam.g == 149 && colorTeam.b == 149) {
 		// RED
 		agent = new PIXI.Sprite(getSpriteAgent(json.type, 1));
 		agent.teamType = 1;
 	}
 
-	else if (team.color.r == 0 && team.color.g == 0 && team.color.b == 255) {
+	else if (colorTeam.r == 255 && colorTeam.g == 98 && colorTeam.b == 255) {
 		// BLUE
 		agent = new PIXI.Sprite(getSpriteAgent(json.type, 2));
 		agent.teamType = 2;
 	}
-	else if (team.color.r == 0 && team.color.g == 255 && team.color.b == 0) {
+	else if (colorTeam.r == 0 && colorTeam.g == 255 && colorTeam.b == 0) {
 		agent = new PIXI.Sprite(getSpriteAgent(json.type, 0));
 		agent.teamType = 0;
 	}
@@ -585,9 +591,9 @@ function messageServerInit(message) {
 	console.log(team2.name);
 	console.log(team3.name);
 
-	TeamAll.add(team1);
-	TeamAll.add(team2);
-	TeamAll.add(team3);
+	TeamAll.push(team1);
+	TeamAll.push(team2);
+	TeamAll.push(team3);
 
 	// création des agents de la partit 
 	for (i = 0; i < message.agents.length; i++) {
