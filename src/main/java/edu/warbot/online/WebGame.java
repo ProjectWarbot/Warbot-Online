@@ -2,7 +2,6 @@ package edu.warbot.online;
 
 import edu.warbot.agents.ControllableWarAgent;
 import edu.warbot.agents.WarAgent;
-import edu.warbot.agents.enums.WarAgentType;
 import edu.warbot.game.Team;
 import edu.warbot.game.WarGame;
 import edu.warbot.game.WarGameSettings;
@@ -12,12 +11,8 @@ import edu.warbot.online.messaging.AgentMessage;
 import edu.warbot.online.messaging.ClassicMessage;
 import edu.warbot.online.messaging.EndMessage;
 import edu.warbot.online.messaging.InitMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.util.MimeTypeUtils;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +35,6 @@ public class WebGame extends WarGame
     private SimpMessageSendingOperations messagingTemplate;
 
     private boolean firstCall;
-
 
     public int getTick() {
         return tick;
@@ -78,13 +72,14 @@ public class WebGame extends WarGame
         }
         for (Team t : getPlayerTeams())
         {
+
             for(WarAgent a : t.getAllAgents()) {
                 if (a instanceof ControllableWarAgent) {
                     Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
-                    sendMessage(new AgentMessage(map));
+                //    sendMessage(new AgentMessage(map));
                 } else {
                     Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
-                    sendMessage(new AgentMessage(map));
+              //      sendMessage(new AgentMessage(map));
                 }
             }
         }
@@ -92,7 +87,7 @@ public class WebGame extends WarGame
         for(WarAgent a : getMotherNatureTeam().getAllAgents())
         {
             Map<String,Object> map = this.getGameLog().addOrUpdateEntity(a);
-            sendMessage(new AgentMessage(map));
+            //sendMessage(new AgentMessage(map));
         }
 
 
@@ -125,7 +120,9 @@ public class WebGame extends WarGame
         {
             Map<String,Object> team = new HashMap<>();
             team.put("name",t.getName());
-            team.put("color",(new RGB(t.getColor().getRed(),t.getColor().getGreen(),t.getColor().getRed())).toString());
+
+                team.put("color",(new RGB(t.getColor().getRed(),t.getColor().getGreen(),t.getColor().getRed())).toMap());
+
             teams.add(team);
         }
         content.put("teams", teams);
@@ -135,10 +132,14 @@ public class WebGame extends WarGame
         for(Team t : getAllTeams())
         {
             for(WarAgent a : t.getAllAgents())
-                if(a instanceof ControllableWarAgent)
-                    agents.add(this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
+            {
+                if (a instanceof ControllableWarAgent)
+                    agents.add(this.getGameLog().addControllableAgent((ControllableWarAgent) a));
                 else
-                    agents.add(this.getGameLog().addOrUpdateEntity(a));
+                    agents.add(this.getGameLog().addEntity(a));
+
+            }
+
 
         }
         content.put("agents", agents);

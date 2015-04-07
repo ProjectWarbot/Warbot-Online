@@ -1,6 +1,9 @@
 package edu.warbot.online.logs;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,38 +15,56 @@ import java.util.Map;
  */
 public class RGB implements Serializable
 {
-    private Map<String,Integer> rgb;
+    int r;
+    int g;
+    int b;
 
     public RGB(int r, int g, int b)
     {
-        this.rgb = new HashMap<>();
-        rgb.put("r",r);
-        rgb.put("g",g);
-        rgb.put("b",b);
+       this.r = r;
+        this.g = g;
+        this.b = b;
     }
 
 
     public int getR() {
-        return rgb.get("r");
+        return r;
     }
 
     public void setR(int r) {
-        this.rgb.replace("r",r);
+        this.r = r;
     }
 
     public int getG() {
-        return rgb.get("g");
+        return this.g;
     }
 
     public void setG(int g) {
-        this.rgb.replace("g",g);
+        this.g = g;
     }
 
     public int getB() {
-        return rgb.get("b");
+        return b;
     }
 
     public void setB(int b) {
-        this.rgb.replace("b",b);
+        this.b = b;
+    }
+
+
+    @Override
+    public String toString() {
+        return "{'r':"+ r + ","+
+                "'g':" + g + ","+
+                "'b':" + b + "}";
+    }
+
+    public Map<String,Object> toMap()
+    {
+        Map<String,Object> map = new HashMap<>();
+        map.put("r",r);
+        map.put("g",g);
+        map.put("b",b);
+        return map;
     }
 }
