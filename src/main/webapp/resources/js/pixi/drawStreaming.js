@@ -14,6 +14,7 @@ requestAnimFrame( animate );
 var camera = new PIXI.DisplayObjectContainer();
 camera.follow = false;
 camera.agentFollow = null;
+camera.zoom = 1;
 
 var hud = new PIXI.DisplayObjectContainer();
 
