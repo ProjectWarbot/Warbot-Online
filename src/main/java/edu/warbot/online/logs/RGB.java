@@ -21,7 +21,7 @@ public class RGB implements Serializable
 
     public RGB(int r, int g, int b)
     {
-       this.r = r;
+        this.r = r;
         this.g = g;
         this.b = b;
     }
@@ -59,6 +59,10 @@ public class RGB implements Serializable
                 "'b':" + b + "}";
     }
 
+    /**
+     *
+     * @return une association de couleur rouge, vert, bleu
+     */
     public Map<String,Object> toMap()
     {
         Map<String,Object> map = new HashMap<>();
