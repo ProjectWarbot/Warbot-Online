@@ -29,6 +29,7 @@ public class CodeEditorService
     {
         private Account editor;
 
+        //fsuro@hotmail.fr beta tester
         private Party party;
 
         private WebAgent agent;

@@ -1,6 +1,6 @@
 package edu.warbot.models;
 
-import edu.warbot.scriptcore.interpreter.ScriptInterpreterLangage;
+import edu.warbot.scriptcore.interpreter.ScriptInterpreterLanguage;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
@@ -21,7 +21,7 @@ public class Party extends AbstractPersistable<Long>
     private String name;
 
     @Column(name="party_language")
-    private ScriptInterpreterLangage language;
+    private ScriptInterpreterLanguage language;
 
     @Column(name =  "party_elo")
     private int eloRank;
@@ -43,7 +43,7 @@ public class Party extends AbstractPersistable<Long>
     protected Party() {
         this.members = new HashSet<>();}
 
-    public Party(String name,ScriptInterpreterLangage language) {
+    public Party(String name,ScriptInterpreterLanguage language) {
         this();
         this.name = name;
         this.language = language;
@@ -58,7 +58,7 @@ public class Party extends AbstractPersistable<Long>
         this.name = name;
     }
 
-    public void setLanguage(ScriptInterpreterLangage language)
+    public void setLanguage(ScriptInterpreterLanguage language)
     {
         this.language = language;
     }
@@ -73,7 +73,7 @@ public class Party extends AbstractPersistable<Long>
         this.members = members;
     }
 
-    public ScriptInterpreterLangage getLanguage()
+    public ScriptInterpreterLanguage getLanguage()
     {
         return language;
     }

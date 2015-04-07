@@ -1,7 +1,7 @@
 package edu.warbot.form;
 
 import edu.warbot.models.Party;
-import edu.warbot.scriptcore.interpreter.ScriptInterpreterLangage;
+import edu.warbot.scriptcore.interpreter.ScriptInterpreterLanguage;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -22,7 +22,7 @@ public class PartyForm
 
     public Party createParty()
     {
-        Party p = new Party(teamName, ScriptInterpreterLangage.valueOf(language));
+        Party p = new Party(teamName, ScriptInterpreterLanguage.valueOf(language));
         return p;
     }
 
