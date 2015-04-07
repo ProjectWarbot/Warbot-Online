@@ -47,5 +47,7 @@ public class WebGameSocket {
         logger.debug(settings);
         Account account = accountRepository.findByEmail(principal.getName());
         webGameService.startExampleWebGame(account);
+
+        //TODO RETURN RESULT OF WebGameSettings
     }
 }

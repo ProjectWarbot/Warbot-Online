@@ -41,7 +41,6 @@ public class WebGame extends WarGame
 
     private boolean firstCall;
 
-
     public int getTick() {
         return tick;
     }
@@ -78,13 +77,14 @@ public class WebGame extends WarGame
         }
         for (Team t : getPlayerTeams())
         {
+
             for(WarAgent a : t.getAllAgents()) {
                 if (a instanceof ControllableWarAgent) {
                     Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
-                    sendMessage(new AgentMessage(map));
+                //    sendMessage(new AgentMessage(map));
                 } else {
                     Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
-                    sendMessage(new AgentMessage(map));
+              //      sendMessage(new AgentMessage(map));
                 }
             }
         }
@@ -92,7 +92,7 @@ public class WebGame extends WarGame
         for(WarAgent a : getMotherNatureTeam().getAllAgents())
         {
             Map<String,Object> map = this.getGameLog().addOrUpdateEntity(a);
-            sendMessage(new AgentMessage(map));
+            //sendMessage(new AgentMessage(map));
         }
 
 
@@ -135,10 +135,14 @@ public class WebGame extends WarGame
         for(Team t : getAllTeams())
         {
             for(WarAgent a : t.getAllAgents())
-                if(a instanceof ControllableWarAgent)
-                    agents.add(this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
+            {
+                if (a instanceof ControllableWarAgent)
+                    agents.add(this.getGameLog().addControllableAgent((ControllableWarAgent) a));
                 else
-                    agents.add(this.getGameLog().addOrUpdateEntity(a));
+                    agents.add(this.getGameLog().addEntity(a));
+
+            }
+
 
         }
         content.put("agents", agents);
