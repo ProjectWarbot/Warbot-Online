@@ -7,7 +7,6 @@ import edu.warbot.game.Team;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,7 +62,6 @@ public class EntityLog implements Comparable<EntityLog>
             map.put("y",y);
         }
 
-
         if(type == null)//Only one time
         {
             type = wa.getType();
@@ -105,7 +103,6 @@ public class EntityLog implements Comparable<EntityLog>
     public Map<String,Object> getCurrentState()
     {
         Map<String,Object> map = new HashMap<>();
-
         map.put("team",team);
         map.put("name",name);
         map.put("type",type);

@@ -20,7 +20,6 @@ public class ControllableWarEntityLog extends EntityLog {
     public ControllableWarEntityLog(String name) {
         super(name);
         this.lifeP = 100;
-
         this.messageDebug = null;
         colorDebug = new RGB(0,0,0);
     }
@@ -36,7 +35,6 @@ public class ControllableWarEntityLog extends EntityLog {
         }
 
         if(wa.getDebugStringColor() != null
-
                 && (
                 colorDebug.getR() != wa.getDebugStringColor().getRed()
                  || colorDebug.getG() != wa.getDebugStringColor().getGreen()
