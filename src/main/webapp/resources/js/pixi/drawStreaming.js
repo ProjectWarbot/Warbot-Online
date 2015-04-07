@@ -17,7 +17,6 @@ camera.agentFollow = null;
 
 camera.zoom = 1;
 
-
 var hud = new PIXI.DisplayObjectContainer();
 
 stage.addChild(camera);
@@ -26,6 +25,7 @@ stage.addChild(hud);
 var agentTab = new Array();
 
 var buttonTab = new Array();
+
 
 var TeamAll = new Array();
 
@@ -260,6 +260,7 @@ function changeDebugMessage(agent, json) {
 
 }
 
+
 function createAgentJson(scene, tab, json, teams) {
 	//console.log("create agent");
 
@@ -287,11 +288,13 @@ function createAgentJson(scene, tab, json, teams) {
 	}
 
 	else if (colorTeam.r == 255 && colorTeam.g == 98 && colorTeam.b == 255) {
+
 		// BLUE
 		agent = new PIXI.Sprite(getSpriteAgent(json.type, 2));
 		agent.teamType = 2;
 	}
 	else if (colorTeam.r == 0 && colorTeam.g == 255 && colorTeam.b == 0) {
+
 		agent = new PIXI.Sprite(getSpriteAgent(json.type, 0));
 		agent.teamType = 0;
 	}
@@ -598,7 +601,6 @@ function messageServerInit(message) {
 	// création des agents de la partit 
 	for (i = 0; i < message.agents.length; i++) {
 		createAgentJson(camera, agentTab, message.agents[i], message.teams);
-
 	}
 
 }
@@ -607,13 +609,13 @@ function messageServerAgent(message) {
 
 	if(typeof(message.state) != "undefined" && (message.state == 1)) {
 		createAgentJson(camera, agentTab, message, TeamAll);
-
 	}
 	else {
 
 		var index = -1;
 
 		for(i = 0; i < agentTab.length; i++) {
+
 			if(agentTab[i].name == message.name) {
 				if(typeof(message.state) != "undefined") {
 					if(message.state == -1) {
@@ -650,6 +652,7 @@ function messageServerSynchro(message) {
 				if(agentTab[i].name == message.name) {
 					if(typeof(message.state) != "undefined") {
 						if(message.state == -1) {
+
 							indexTab.add(i);
 						}
 					}
@@ -834,4 +837,5 @@ function myFunction7() {
 
 function myFunction8() {
 	analyseMessageServer (message8);
+
 }

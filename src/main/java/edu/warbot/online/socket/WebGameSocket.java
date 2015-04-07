@@ -48,8 +48,6 @@ public class WebGameSocket {
         Account account = accountRepository.findByEmail(principal.getName());
         webGameService.startExampleWebGame(account);
 
-
         //TODO RETURN RESULT OF WebGameSettings
-
     }
 }

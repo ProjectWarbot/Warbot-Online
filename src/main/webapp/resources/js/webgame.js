@@ -21,6 +21,7 @@ function WebGameModel(stompClient) {
               //UPDATE AGENT
               //console.log(message.body);
               analyseMessageServer(JSON.parse(message.body));
+
             });
 
       stompClient.subscribe("/user/queue/errors", function(message) {
