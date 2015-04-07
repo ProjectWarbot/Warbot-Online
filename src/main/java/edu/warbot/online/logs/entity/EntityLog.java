@@ -8,6 +8,9 @@ import edu.warbot.game.Team;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Created by beugnon on 04/04/15.
  *
@@ -15,6 +18,9 @@ import java.util.Map;
  */
 public class EntityLog implements Comparable<EntityLog>
 {
+
+    private static Logger logger = Logger.getLogger(EntityLog.class.getName());
+
     private String name;
 
     private WarAgentType type;
@@ -57,17 +63,17 @@ public class EntityLog implements Comparable<EntityLog>
             map.put("y",y);
         }
 
-        if(type != null)//Only one time
+
+        if(type == null)//Only one time
         {
             type = wa.getType();
             map.put("type",type);
-
         }
 
-        if(team != null)
+        if(team == null)
         {
-            team = wa.getTeamName();
-            map.put("team",team);
+            team = wa.getTeam().getName();
+            map.put("team", team);
         }
 
         if(angle != wa.getHeading())
@@ -99,11 +105,13 @@ public class EntityLog implements Comparable<EntityLog>
     public Map<String,Object> getCurrentState()
     {
         Map<String,Object> map = new HashMap<>();
+
+        map.put("team",team);
         map.put("name",name);
+        map.put("type",type);
         map.put("x",x);
         map.put("y",y);
         map.put("state",state);
-        map.put("team",team);
         map.put("angle",angle);
         return map;
     }

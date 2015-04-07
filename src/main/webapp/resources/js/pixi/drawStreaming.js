@@ -261,7 +261,6 @@ function changeDebugMessage(agent, json) {
 }
 
 function createAgentJson(scene, tab, json, teams) {
-
 	//console.log("create agent");
 
 	var agent= null;
@@ -280,6 +279,7 @@ function createAgentJson(scene, tab, json, teams) {
 		agent = new PIXI.Sprite(getSpriteAgent(json.type, 1));
 		agent.teamType = 1;
 	}
+
 	else if (team.color.r == 0 && team.color.g == 0 && team.color.b == 255) {
 		// BLUE
 		agent = new PIXI.Sprite(getSpriteAgent(json.type, 2));
@@ -300,7 +300,9 @@ function createAgentJson(scene, tab, json, teams) {
 	agent.type = json.type;
 	agent.position.x = json.x;
 	agent.position.y = json.y;
+
 	agent.teamName = team.name;
+
 	agent.lifeP = json.lifeP;
 	agent.angle = json.angle;
 	agent.rotation = Math.PI * (agent.angle / 180);
@@ -553,6 +555,7 @@ function addButton(scene, form, formDown, formTrans, cX, cY, tab, type) {
 }
 
 function analyseMessageServer(message) {
+
 	console.log(message["header"]);
 	console.log("Message");
 	console.log(message);
@@ -574,7 +577,6 @@ function messageServerInit(message) {
 	// TODO 
 	// createMapJson(message.init.environment)
 
-
 	var team1 = message.teams[0];
 	var team2 = message.teams[1];
 	var team3 = message.teams[2];
@@ -587,19 +589,19 @@ function messageServerInit(message) {
 	TeamAll.add(team2);
 	TeamAll.add(team3);
 
-
-
-
 	// création des agents de la partit 
 	for (i = 0; i < message.agents.length; i++) {
 		createAgentJson(camera, agentTab, message.agents[i], message.teams);
+
 	}
 
 }
 
 function messageServerAgent(message) {
+
 	if(typeof(message.state) != "undefined" && (message.state == 1)) {
 		createAgentJson(camera, agentTab, message, TeamAll);
+
 	}
 	else {
 
@@ -609,11 +611,13 @@ function messageServerAgent(message) {
 			if(agentTab[i].name == message.name) {
 				if(typeof(message.state) != "undefined") {
 					if(message.state == -1) {
+
 						index = i;
 					}
 				}
 				else {
 					agentChangeValue(agentTab[i], message);
+
 				}
 			}
 		}
