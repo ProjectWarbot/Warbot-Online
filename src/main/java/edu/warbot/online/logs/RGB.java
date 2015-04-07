@@ -28,7 +28,7 @@ public class RGB implements Serializable
     }
 
     public void setR(int r) {
-        this.rgb.replace("r",r);
+        this.rgb.put("r",r);
     }
 
     public int getG() {
@@ -36,7 +36,7 @@ public class RGB implements Serializable
     }
 
     public void setG(int g) {
-        this.rgb.replace("g",g);
+        this.rgb.put("g",g);
     }
 
     public int getB() {
@@ -44,6 +44,6 @@ public class RGB implements Serializable
     }
 
     public void setB(int b) {
-        this.rgb.replace("b",b);
+        this.rgb.put("b",b);
     }
 }

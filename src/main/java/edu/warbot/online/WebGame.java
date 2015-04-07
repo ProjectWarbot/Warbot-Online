@@ -81,10 +81,10 @@ public class WebGame extends WarGame
             for(WarAgent a : t.getAllAgents()) {
                 if (a instanceof ControllableWarAgent) {
                     Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
-                    sendMessage(new AgentMessage(map));
+                    //sendMessage(new AgentMessage(map));
                 } else {
                     Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
-                    sendMessage(new AgentMessage(map));
+                   // sendMessage(new AgentMessage(map));
                 }
             }
         }
@@ -92,7 +92,7 @@ public class WebGame extends WarGame
         for(WarAgent a : getMotherNatureTeam().getAllAgents())
         {
             Map<String,Object> map = this.getGameLog().addOrUpdateEntity(a);
-            sendMessage(new AgentMessage(map));
+         //   sendMessage(new AgentMessage(map));
         }
 
 
@@ -159,10 +159,13 @@ public class WebGame extends WarGame
 
     public void sendMessage(ClassicMessage cm)
     {
+        Map<String, Object> map = new HashMap<>();
+        map.put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
+
         if(cm.getHeader().equals("init") || cm.getHeader().equals("end") || cm.getHeader().equals("synchro")) {
             this.getMessageSender().
                     convertAndSendToUser
-                            (getUser(), "/queue/game", cm);
+                            (getUser(), "/queue/game", cm, map);
         }
         else
         {

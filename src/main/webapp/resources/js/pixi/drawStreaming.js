@@ -27,6 +27,8 @@ var agentTab = new Array();
 
 var buttonTab = new Array();
 
+var TeamAll = new Array();
+
 cameraMove(stage, camera);
 addWheelLister();
 
@@ -258,23 +260,32 @@ function changeDebugMessage(agent, json) {
 
 }
 
-function createAgentJson(scene, tab, json) {
+function createAgentJson(scene, tab, json, teams) {
 
 	//console.log("create agent");
 
 	var agent= null;
 
-	if(json.team.color.r == 255 && json.team.color.g == 0 && json.team.color.b == 0) {
+	var team = null;
+	for (i = 0; i < teams.length; i++) {
+		if(teams[i].name == json.name)
+			team = teams[i];
+	}
+
+	if(team == null)
+		console.log("bug team name")
+
+	if(team.color.r == 255 && team.color.g == 0 && team.color.b == 0) {
 		// RED
 		agent = new PIXI.Sprite(getSpriteAgent(json.type, 1));
 		agent.teamType = 1;
 	}
-	else if (json.team.color.r == 0 && json.team.color.g == 0 && json.team.color.b == 255) {
+	else if (team.color.r == 0 && team.color.g == 0 && team.color.b == 255) {
 		// BLUE
 		agent = new PIXI.Sprite(getSpriteAgent(json.type, 2));
 		agent.teamType = 2;
 	}
-	else if (json.team.color.r == 0 && json.team.color.g == 255 && json.team.color.b == 0) {
+	else if (team.color.r == 0 && team.color.g == 255 && team.color.b == 0) {
 		agent = new PIXI.Sprite(getSpriteAgent(json.type, 0));
 		agent.teamType = 0;
 	}
@@ -289,7 +300,7 @@ function createAgentJson(scene, tab, json) {
 	agent.type = json.type;
 	agent.position.x = json.x;
 	agent.position.y = json.y;
-	agent.teamName = json.team.name;
+	agent.teamName = team.name;
 	agent.lifeP = json.lifeP;
 	agent.angle = json.angle;
 	agent.rotation = Math.PI * (agent.angle / 180);
@@ -542,6 +553,10 @@ function addButton(scene, form, formDown, formTrans, cX, cY, tab, type) {
 }
 
 function analyseMessageServer(message) {
+	console.log(message["header"]);
+	console.log("Message");
+	console.log(message);
+
 	if(message.header == "init")
 		messageServerInit(message.content);
 	else if (message.header == "agent")
@@ -559,32 +574,46 @@ function messageServerInit(message) {
 	// TODO 
 	// createMapJson(message.init.environment)
 
+
+	var team1 = message.teams[0];
+	var team2 = message.teams[1];
+	var team3 = message.teams[2];
+
+	console.log(team1.name);
+	console.log(team2.name);
+	console.log(team3.name);
+
+	TeamAll.add(team1);
+	TeamAll.add(team2);
+	TeamAll.add(team3);
+
+
+
+
 	// création des agents de la partit 
-	for (i = 0; i < message.init.agents.length; i++) {
-		createAgentJson(camera, agentTab, message.init.agents[i]);
+	for (i = 0; i < message.agents.length; i++) {
+		createAgentJson(camera, agentTab, message.agents[i], message.teams);
 	}
 
 }
 
 function messageServerAgent(message) {
-	if(typeof(message.agent.state) != "undefined" && (message.agent.state == 1)) {
-		
-		createAgentJson(camera, agentTab, message.agent);
-	
+	if(typeof(message.state) != "undefined" && (message.state == 1)) {
+		createAgentJson(camera, agentTab, message, TeamAll);
 	}
 	else {
 
 		var index = -1;
 
 		for(i = 0; i < agentTab.length; i++) {
-			if(agentTab[i].name == message.agent.name) {
-				if(typeof(message.agent.state) != "undefined") {
-					if(message.agent.state == -1) {
+			if(agentTab[i].name == message.name) {
+				if(typeof(message.state) != "undefined") {
+					if(message.state == -1) {
 						index = i;
 					}
 				}
 				else {
-					agentChangeValue(agentTab[i], message.agent);
+					agentChangeValue(agentTab[i], message);
 				}
 			}
 		}
@@ -599,18 +628,18 @@ function messageServerAgent(message) {
 }
 
 function messageServerSynchro(message) {
-	for(i = 0; i < message.synchro.length; i++) {
-		if(typeof(message.agent.state) != "undefined" && (message.agent.state == 1)) {
-			createAgentJson(camera, agentTab, message.agent);
+	for(i = 0; i < message.length; i++) {
+		if(typeof(message.state) != "undefined" && (message.state == 1)) {
+			createAgentJson(camera, agentTab, message, TeamAll);
 		}
 		else {
 
 			var indexTab = new Array();
 
 			for(i = 0; i < agentTab.length; i++) {
-				if(agentTab[i].name == message.agent.name) {
-					if(typeof(message.agent.state) != "undefined") {
-						if(message.agent.state == -1) {
+				if(agentTab[i].name == message.name) {
+					if(typeof(message.state) != "undefined") {
+						if(message.state == -1) {
 							indexTab.add(i);
 						}
 					}
