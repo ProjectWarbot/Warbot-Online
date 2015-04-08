@@ -2,9 +2,6 @@ package edu.warbot.services;
 
 import edu.warbot.game.Team;
 import edu.warbot.game.WarGameSettings;
-import edu.warbot.launcher.WarLauncher;
-import edu.warbot.launcher.WarMain;
-import edu.warbot.launcher.WarScheduler;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.online.WebGame;
@@ -17,14 +14,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.broker.BrokerAvailabilityEvent;
 import org.springframework.stereotype.Service;
-import turtlekit.kernel.TurtleKit;
+import org.springframework.util.Assert;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -74,6 +71,12 @@ public class WebGameService
         Team t1 = teamService.generateTeamFromParty(party1);
         Team t2 = teamService.generateTeamFromParty(party2);
 
+        Assert.notNull(t1);
+        Assert.notNull(t2);
+
+        wgs.addSelectedTeam(t1);
+        wgs.addSelectedTeam(t2);
+
 
         WebGame game = new WebGame(account.getEmail(),
                 messagingTemplate,wgs);
@@ -84,6 +87,8 @@ public class WebGameService
 
     public void startExampleWebGame(Account account)
     {
+        //TODO TEST IF ACCOUNT ALREADY TO ANOTHER WEBGAME
+
         logger.debug("trying running a example game");
         WarGameSettings wgs = new WarGameSettings();
         Collection<Team> coll = teamService.getTeams().values();
@@ -99,18 +104,49 @@ public class WebGameService
             t2 = it.next();
 
         logger.info("team t1 -> "+t1.getName());
-        logger.info("team t2 -> "+t2.getName());
+        logger.info("team t2 -> " + t2.getName());
 
         wgs.addSelectedTeam(t1);
         wgs.addSelectedTeam(t2);
 
+        //TODO GIVE UUID TO GAME
+        UUID uuid = UUID.randomUUID();// ID OF GAME
+
         WebGame game = new WebGame(account.getEmail(),
                 messagingTemplate,wgs);
-        WebLauncher wl = new WebLauncher(game);
+        //MUST SAVE WebGame
 
-        //TurtleKit tk = new TurtleKit();
-        //TODO SET AT FALSE TO HIDE DESKTOP
+
+        WebLauncher wl = new WebLauncher(game);
         Madkit m = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
-        m.doAction(KernelAction.LAUNCH_AGENT, wl);
+        m.doAction(KernelAction.LAUNCH_AGENT,wl);
+
+//        //Association <Account,WebGame>
+//        //TODO ADD GAME IS OVER ACCESSEUR
+//        final WebLauncher wl = new WebLauncher(game);
+//        Madkit m = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
+//        m.doAction(KernelAction.LAUNCH_AGENT, wl);
+//
+//        ProcessBuilder pb = new ProcessBuilder("java -jar MonoSpringWarbot.jar");
+//        pb.redirectInput(ProcessBuilder.Redirect.PIPE);
+//        pb.redirectOutput(ProcessBuilder.Redirect.PIPE);
+//
+//        try {
+//            Process p = pb.start();
+//            ObjectOutputStream oos = new ObjectOutputStream(p.getOutputStream());
+//            oos.writeObject(game);
+//            // OR SEND UUID WEBGAME
+//            // AND LOAD IT BY SERVICE
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
     }
+
+//    @Scheduled(fixedDelay = 10)
+//    public void purge()
+//    {
+////        Clear association <Account,WebGame> if webGame is over
+//    }
+
 }

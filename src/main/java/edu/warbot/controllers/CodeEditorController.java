@@ -87,7 +87,7 @@ public class CodeEditorController
         Assert.notNull(party);
         WebAgent agent = webAgentRepository.findOne(idWebAgent);
         Assert.notNull(agent);
-        return codeEditorService.lockForEdit(account, party, agent);
+        return true;
     }
 
     @RequestMapping(value = "editor/save/", method = RequestMethod.GET)
@@ -130,7 +130,7 @@ public class CodeEditorController
         Assert.notNull(party);
         WebAgent agent = webAgentRepository.findOne(idWebAgent);
         Assert.notNull(agent);
-        return codeEditorService.unlockForEdit(account,party,agent);
+        return true;
     }
 
 
