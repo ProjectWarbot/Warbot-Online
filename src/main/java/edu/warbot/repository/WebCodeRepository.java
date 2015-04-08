@@ -18,7 +18,7 @@ import java.util.List;
  * @author Sebastien Beugnon
  */
 @Repository
-@Transactional(readOnly = true)
+@Transactional
 public class WebCodeRepository {
 
     /**
@@ -32,7 +32,7 @@ public class WebCodeRepository {
      * @param code l'instance de code à persister
      * @return l'instance de code persistée
      */
-    @Transactional
+
     public WebCode save(WebCode code)
     {
         entityManager.persist(code);

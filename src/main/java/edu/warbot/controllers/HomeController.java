@@ -13,9 +13,5 @@ public class HomeController {
 		return principal != null ? "home/homeSignedIn" : "home/homeNotSignedIn";
 	}
 
-	@RequestMapping(value = "/teamcode", method = RequestMethod.GET)
-	public String teamcode(Principal principal) {
-		return principal != null ? "teamcode/teamcode" : "teamcode/teamcode";
-	}
 
 }

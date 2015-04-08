@@ -7,6 +7,8 @@ import edu.warbot.repository.AccountRepository;
 import edu.warbot.repository.PartyRepository;
 import edu.warbot.services.CodeEditorService;
 import edu.warbot.services.TeamService;
+import edu.warbot.services.UserService;
+import edu.warbot.services.WarbotOnlineService;
 import edu.warbot.support.web.MessageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,21 +36,20 @@ public class PartyController
 {
     final Logger logger = LoggerFactory.getLogger(PartyController.class);
 
+
     @Autowired
-    private PartyRepository partyRepository;
+    private WarbotOnlineService warbotOnlineService;
 
     @Autowired
     private AccountRepository accountRepository;
 
-    @Autowired
-    private CodeEditorService codeEditorService;
 
     @RequestMapping(value = "party/entity", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Party party(@RequestParam("id") Long id) {
         Assert.notNull(id);
-        return partyRepository.findOne(id);
+        return warbotOnlineService.findPartyById(id);
     }
 
 
@@ -77,14 +78,12 @@ public class PartyController
         party.setCreator(account);
         party.getMembers().add(account);
 
-        if(partyRepository.findByName(party.getName()) == null)
+        if(warbotOnlineService.findPartyByName(party.getName()) == null)
         {
             logger.debug("Not found party");
-            party = partyRepository.save(party);
+            party = warbotOnlineService.createParty(party);
 
             //TODO ADD DEFAULT CODE FOR PARTY
-
-
         }
         else
         {
@@ -93,8 +92,8 @@ public class PartyController
             return "party/create";
         }
         MessageHelper.addSuccessAttribute(ra, "party.success");
-        ra.addAttribute("id", party.getId());
-        return "redirect:/party/show";
+        ra.addAttribute("idParty", party.getId());
+        return "redirect:/teamcode";
     }
 
     @RequestMapping(value = "party/show", method = RequestMethod.GET)
@@ -102,7 +101,7 @@ public class PartyController
                            Model model,
                            @RequestParam(required = true) Long id)
     {
-        Party party = partyRepository.findOne(id);
+        Party party = warbotOnlineService.findPartyById(id);
         party.getMembers();
         model.addAttribute("party", party);
         return "teamcode/showTeam";

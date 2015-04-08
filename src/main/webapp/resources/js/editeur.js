@@ -5,6 +5,18 @@ $(document).ready(function(){
 			    editor1.getSession().setMode("ace/mode/python");
 				editor1.setOptions({enableBasicAutocompletion: true});
 
+				$.getJSON( "ajax/test.json", function( data ) {
+                  var items = [];
+                  $.each( data, function( key, val ) {
+                    items.push( "<li id='" + key + "'>" + val + "</li>" );
+                  });
+
+                  $( "<ul/>", {
+                    "class": "my-new-list",
+                    html: items.join( "" )
+                  }).appendTo( "body" );
+                });
+
 
 			    var editor2 = ace.edit("editor2");
 			    editor2.setTheme("ace/theme/monokai");

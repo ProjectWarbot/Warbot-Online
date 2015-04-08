@@ -1,5 +1,6 @@
 package edu.warbot.controllers;
 
+import edu.warbot.agents.enums.WarAgentType;
 import edu.warbot.exceptions.NotFoundEntityException;
 import edu.warbot.exceptions.UnauthorisedToEditLockException;
 import edu.warbot.exceptions.UnauthorisedToEditNotMemberException;
@@ -11,15 +12,18 @@ import edu.warbot.repository.AccountRepository;
 import edu.warbot.repository.PartyRepository;
 import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.services.CodeEditorService;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,12 +44,26 @@ public class CodeEditorController
     private PartyRepository partyRepository;
     @Autowired
     private AccountRepository accountRepository;
-
-
-
     @Autowired
     private CodeEditorService codeEditorService;
 
+
+    @RequestMapping(value = "/teamcode", method = RequestMethod.GET)
+    public String teamcode(Principal principal,
+                           Model model,
+                           @RequestParam Long idParty) {
+        Assert.notNull(principal);
+        Account account = accountRepository.findByEmail(principal.getName());
+        Party party = partyRepository.findOne(idParty);
+        Assert.notNull(party);
+
+        model.addAttribute("party", party);
+//        l.add(new WebAgent(WarAgentType.WarBase,true,false));
+//        l.add(new WebAgent(WarAgentType.WarExplorer, true, false));
+//        l.add(new WebAgent(WarAgentType.WarRocketLauncher,true,false));
+        model.addAttribute("agents",webAgentRepository.findAllStarter());
+        return "teamcode/teamcode";
+    }
 
     @RequestMapping(value = "editor/", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
@@ -53,8 +71,7 @@ public class CodeEditorController
     public List<WebAgent> giveListAgentFor(@RequestParam Long idParty)
             throws NotFoundEntityException {
         Party party = partyRepository.findOne(idParty);
-        if(party==null)
-            throw new NotFoundEntityException(Party.class);
+        Assert.notNull(party);
         return webAgentRepository.findForParty(party);
     }
 
@@ -77,8 +94,8 @@ public class CodeEditorController
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public boolean lock(@RequestParam Long idParty,
-                             @RequestParam Long idWebAgent,
-                            Principal principal)
+                        @RequestParam Long idWebAgent,
+                        Principal principal)
     {
         Assert.notNull(principal);
         Account account = accountRepository.findByEmail(principal.getName());
