@@ -9,7 +9,7 @@
 <body>
 <form class="form-narrow form-horizontal" action="#"  th:object="${form}" method="post" th:action="@{/party/create}"  th:fragment="form">
     <th:block th:if="${param.error != null}">
-        <div th:replace="fragments/alert :: alert (type='danger', message='Sign in error. Please try again.')">Alert</div>
+        <div th:replace="fragments/alert :: alert (type='danger', message='Creation error')">Alert</div>
     </th:block>
     <fieldset>
         <legend>Create Team</legend>

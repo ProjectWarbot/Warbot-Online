@@ -59,5 +59,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
             .rememberMe()
                 .rememberMeServices(rememberMeServices())
                 .key("remember-me-key");
+
     }
 }

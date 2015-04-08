@@ -18,8 +18,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ActiveProfiles("test")
 @WebAppConfiguration
 @ContextConfiguration(classes = {
-        JpaConfig.class,
+        DataSourceConfig.class,
         ApplicationConfig.class,
+        WebSocketConfig.class,
         EmbeddedDataSourceConfig.class,
         NoCsrfSecurityConfig.class,
         WebMvcConfig.class

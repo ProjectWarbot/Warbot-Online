@@ -17,6 +17,8 @@
     <script src="../../../resources/js/ace-builds-master/src-noconflict/ace.js" th:href="@{/resources/js/ace-builds-master/src-noconflict/ace.js}"></script>
     <script src="../../../resources/js/ace-builds-master/src-noconflict/ext-language_tools.js" th:href="@{/resources/js/ace-builds-master/src-noconflict/ext-language_tools.js}"></script>
     <script src="../../../resources/js/editeur.js" th:src="@{/resources/js/editeur.js}" ></script>
+    <script src="../../../resources/js/pixi/pixi.js" th:src="@{/resources/js/pixi/pixi.js}" ></script>
+    <script src="../../../resources/js/pixi/importTexture.js" th:src="@{/resources/js/pixi/importTexture.js}" ></script>
 </head>
 <body>
 
@@ -66,16 +68,52 @@
 
     <div class="outer-west">
 
-        <div class="middle-center">
-            Partie stream
+        <div id="stream" class="middle-center">
+
         </div>
 
         <div class="ui-layout-south">
-            Partie Console
-        </div>
+            <button id="launch-party-button">Launch party</button>
+            <!--  <button onclick="myFunction()">Play</button>
+             <button onclick="myFunction2()">Move1</button>
+             <button onclick="myFuncFion3()">Create1</button>
+             <button onclick="myFuncFion4()">Delete1</button>
+             <button onclick="myFuncFion5()">Life1</button>
+             <button onclick="myFuncFion6()">Food1</button>
+             <button onclick="myFunction7()">Rotate1</button>
+             <button onclick="myFunction8()">DebugMessage</button> -->
+         </div>
+     </div>
+ </div>
 
-    </div>
-</div>
+ <script src="../../../resources/js/sockjs.js" th:src="@{/resources/js/sockjs.js}" ></script>
+ <script src="../../../resources/js/stomp.js" th:src="@{/resources/js/stomp.js}" ></script>
+ <!-- application -->
+<script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}" ></script>
+<script src="../../../resources/js/pixi/testMessage.js" th:src="@{/resources/js/pixi/testMessage.js}" ></script>
+<script src="../../../resources/js/pixi/drawStreaming.js" th:src="@{/resources/js/pixi/drawStreaming.js}" ></script>
+
+
+<script>
+      (function() {
+        var socket = new SockJS('/warbot');
+        var stompClient = Stomp.over(socket);
+
+        var appModel = new WebGameModel(stompClient);
+        //ko.applyBindings(appModel);
+
+        appModel.connect();
+        $("#launch-party-button").click(function (event)
+        {
+            appModel.launchParty();
+
+        });
+        //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
+      })();
+
+    var anc_onglet = 'agent1';
+	change_onglet(anc_onglet);
+</script>
 
 
 </body>

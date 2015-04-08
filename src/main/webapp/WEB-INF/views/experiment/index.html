@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}" ></script>
+<script src="../../../resources/js/sockjs.js" th:src="@{/resources/js/sockjs.js}" ></script>
+<script src="../../../resources/js/stomp.js" th:src="@{/resources/js/stomp.js}" ></script>
+<!-- application -->
+<script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}" ></script>
+<span th:text="${#httpServletRequest.contextPath}}">d</span>
+<script>
+      (function() {
+        var socket = new SockJS('/warbot');
+        var stompClient = Stomp.over(socket);
+
+        var appModel = new ApplicationModel(stompClient);
+        ko.applyBindings(appModel);
+
+        appModel.connect();
+        appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
+      })();
+    </script>
+</body>
+</html>
