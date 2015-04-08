@@ -1,11 +1,13 @@
 package edu.warbot.repository;
 
 
+import edu.warbot.agents.enums.WarAgentType;
 import edu.warbot.models.Party;
 import edu.warbot.models.WebAgent;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
