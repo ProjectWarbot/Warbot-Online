@@ -1,3 +1,5 @@
+/*
+
 var messageTeam = {"name" : "Team_1",
 				   "color" :  {"r":255,"g":0,"b":0}
 }	
@@ -159,3 +161,6 @@ var message7 = { "header" : "agent",
 var message8 = { "header" : "agent",
              		"content": messageAg7
     }
+
+
+    */

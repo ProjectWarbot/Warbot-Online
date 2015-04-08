@@ -72,7 +72,6 @@ public class EntityLog implements Comparable<EntityLog>
         {
             team = wa.getTeam().getName();
             map.put("team", team);
-
         }
 
         if(angle != wa.getHeading())
