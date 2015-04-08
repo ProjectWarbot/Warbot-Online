@@ -28,7 +28,7 @@ public class ControllableWarEntityLog extends EntityLog {
         Map<String, Object> map = super.update(wa);
 
         double lifePercent = computeLifePercent(wa.getHealth(), wa.getMaxHealth());
-
+        
         if (lifeP != lifePercent) {
             lifeP = lifePercent;
             map.put("lifeP", lifeP);

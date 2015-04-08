@@ -14,8 +14,8 @@ function WebGameModel(stompClient) {
       stompClient.subscribe("/user/queue/game.agents.*", function(message)
       {
         //UPDATE AGENT
-                     console.log(message.body);
-
+                    // console.log(message.body);
+                    analyseMessageServer(JSON.parse(message.body));
                      
       });
        stompClient.subscribe("/user/queue/game", function(message)

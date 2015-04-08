@@ -5,7 +5,7 @@ var colorStreamOff = 0x000000;
 var stage = new PIXI.Stage(colorStreamOff);
 stage.interactive = true;
 
-var renderer = new PIXI.autoDetectRenderer(200 , 200);
+var renderer = new PIXI.autoDetectRenderer(0 , 0);
 renderer.view.style.display = "block";
 contener.appendChild(renderer.view);
 
@@ -25,6 +25,7 @@ stage.addChild(hud);
 var agentTab = new Array();
 
 var buttonTab = new Array();
+
 
 
 var TeamAll = new Array();
@@ -142,7 +143,7 @@ function getSpritePercept(agent) {
 
 function changeAnchorPercept(agent) {
 
-	if(agent.type == "WarExplorer") { 
+	if(agent.type == "WarExplorer") {
 		agent.SpritePercept.anchor.x = 0;
 		agent.SpritePercept.anchor.y = 0.5;
 	}
@@ -158,21 +159,21 @@ function changeAnchorPercept(agent) {
 		agent.SpritePercept.anchor.x = 0;
 		agent.SpritePercept.anchor.y = 0.5;
 	}
-	else if(agent.type == "WarTurret") { 
+	else if(agent.type == "WarTurret") {
 		agent.SpritePercept.anchor.x = 0;
 		agent.SpritePercept.anchor.y = 0.5;
 	}
-	else if(agent.type == "WarBase") { 
+	else if(agent.type == "WarBase") {
 		agent.SpritePercept.anchor.x = 0.5;
 		agent.SpritePercept.anchor.y = 0.5;
 	}
 	else {
 		//console.log("not support this agent");
-	}	
+	}
 }
 
 function changePositionPercept(agent) {
-	if(agent.type == "WarExplorer") { 
+	if(agent.type == "WarExplorer") {
 		agent.SpritePercept.position.x = agent.position.x;
 		agent.SpritePercept.position.y = agent.position.y;
 		agent.SpritePercept.rotation = agent.rotation;
@@ -195,7 +196,7 @@ function changePositionPercept(agent) {
 	else if(agent.type == "WarTurret") {
 		agent.SpritePercept.position.x = agent.position.x;
 		agent.SpritePercept.position.y = agent.position.y;
-		agent.SpritePercept.rotation = agent.rotation;		
+		agent.SpritePercept.rotation = agent.rotation;
 	}
 	else if(agent.type == "WarBase") {
 		agent.SpritePercept.position.x = agent.position.x;
@@ -203,11 +204,13 @@ function changePositionPercept(agent) {
 	}
 	else {
 		//NULL
-	}	
+	}
 }
 
 function getSpriteLife(lifeP) {
-	//console.log("LIFE");
+	console.log("LIFE");
+	console.log(lifeP);
+
 	if(lifeP == 100) {
 		return life001;
 	}
@@ -247,10 +250,11 @@ function getSpriteLife(lifeP) {
 	else if (lifeP <= 17.5 && lifeP > 10) {
 		return life013;
 	}
-	else if (lifeP <= 10 && lifeP > 2.5) {
+	else if (lifeP <= 10 && lifeP > 1.5) {
 		return life014;
 	}
 	else {
+
 		return life015;
 	}
 }
@@ -260,26 +264,27 @@ function changeDebugMessage(agent, json) {
 
 }
 
-
 function createAgentJson(scene, tab, json, teams) {
 	//console.log("create agent");
 
 	var agent= null;
 
 	var team = null;
-	for (i = 0; i < teams.length; i++) {
-		if(teams[i].name == json.team)
-			team = teams[i];
+
+	if(teams[0].name == json.team) {
+		team = teams[0];
+		}
+	else if (teams[1].name == json.team) {
+		team = teams[1];
+	}
+	else if (teams[2].name == json.team) {
+		team = teams[2]	;
 	}
 
 	if(team == null)
 		console.log("bug team name");
-		console.log(team.name);
 
-		var colorTeam = JSON.parse(team.color);
-		console.log(colorTeam.r);
-		console.log(colorTeam.g);
-		console.log(colorTeam.b);
+	var colorTeam = team.color;
 
 	if(colorTeam.r == 149 && colorTeam.g == 149 && colorTeam.b == 149) {
 		// RED
@@ -312,7 +317,13 @@ function createAgentJson(scene, tab, json, teams) {
 
 	agent.teamName = team.name;
 
-	agent.lifeP = json.lifeP;
+	if(typeof(json.lifeP) != "undefined") {
+		agent.lifeP = json.lifeP;
+	}
+	else {
+		agent.lifeP = 100;
+	}
+
 	agent.angle = json.angle;
 	agent.rotation = Math.PI * (agent.angle / 180);
 
@@ -371,7 +382,7 @@ function createAgentJson(scene, tab, json, teams) {
 	if(cont || agent.type == "WarFood") {
 		life.alpha = -1;
 	}
-	
+
 	agent.SpriteLife = life;
 
 	var percept = new PIXI.Sprite(getSpritePercept(agent));
@@ -430,12 +441,7 @@ function createAgentJson(scene, tab, json, teams) {
    			scene.position.y += (renderer.height / 2) - this.position.y;
    		}
     };
-/*
-	agent.movePerceptAgent = function (data) {
-		agent.SpritePercept.rotation = agent.rotation - Math.PI / 4;
-		agent.SpritePercept.position.x = Math.cos(agent.rotation / 180) + agent.position.x ;
-		agent.SpritePercept.position.y = Math.sin(agent.rotation / 180) + agent.position.y ;
-	}*/
+
 }
 
 
@@ -521,7 +527,7 @@ function addButton(scene, form, formDown, formTrans, cX, cY, tab, type) {
    		if (this.isdown) {
    			this.isdown = false;
         	this.setTexture(form);
-        	
+
         	for (i = 0; i < agentTab.length; i++) {
         		if(type == 1) {
         			// life
@@ -565,9 +571,11 @@ function addButton(scene, form, formDown, formTrans, cX, cY, tab, type) {
 
 function analyseMessageServer(message) {
 
-	console.log(message["header"]);
-	console.log("Message");
-	console.log(message);
+	//console.log(message["header"]);
+	//console.log("Message");
+	//console.log(message);
+
+
 
 	if(message.header == "init")
 		messageServerInit(message.content);
@@ -583,24 +591,26 @@ function analyseMessageServer(message) {
 function messageServerInit(message) {
 	initHUD();
 
-	// TODO 
+	// TODO
 	// createMapJson(message.init.environment)
 
 	var team1 = message.teams[0];
 	var team2 = message.teams[1];
 	var team3 = message.teams[2];
 
-	console.log(team1.name);
-	console.log(team2.name);
-	console.log(team3.name);
+	//console.log(team1.name);
+	//console.log(team2.name);
+	//console.log(team3.name);
 
 	TeamAll.push(team1);
 	TeamAll.push(team2);
 	TeamAll.push(team3);
 
-	// création des agents de la partit 
+	// création des agents de la partit
+	//console.log(message.agents.length);
 	for (i = 0; i < message.agents.length; i++) {
-		createAgentJson(camera, agentTab, message.agents[i], message.teams);
+
+		createAgentJson(camera, agentTab, message.agents[i], TeamAll);
 	}
 
 }
@@ -613,14 +623,17 @@ function messageServerAgent(message) {
 	else {
 
 		var index = -1;
+		//var i = 0;
+		//var contAgentModif = true;
 
 		for(i = 0; i < agentTab.length; i++) {
-
+		//while(i < agentTab.length && contAgentModif) {
 			if(agentTab[i].name == message.name) {
 				if(typeof(message.state) != "undefined") {
 					if(message.state == -1) {
 
 						index = i;
+						//contAgentModif = false;
 					}
 				}
 				else {
@@ -628,6 +641,7 @@ function messageServerAgent(message) {
 
 				}
 			}
+			//i++;
 		}
 
 		if(index != -1) {
@@ -692,7 +706,7 @@ function animate() {
     requestAnimFrame( animate );
 
     renderer.resize(contener.offsetWidth-1, contener.offsetHeight-1);
-    
+
     var coordCenterX = contener.offsetWidth-1 / 2;
     var coordCenterY = contener.offsetHeight-1 / 2;
 
@@ -707,6 +721,7 @@ function animate() {
 
     renderer.render(stage);
 }
+
 
 
 function initHUD() {
@@ -726,7 +741,7 @@ function cameraMove(stg, cam) {
 
 	stg.mousedown = function (moveData) {
 		var pos = moveData.global;
-		prevX = pos.x; 
+		prevX = pos.x;
 		prevY = pos.y;
 		isDragging = true;
 	};
@@ -748,7 +763,7 @@ function cameraMove(stg, cam) {
 		cam.position.x += dx;
 		cam.position.y += dy;
 
-		prevX = pos.x; 
+		prevX = pos.x;
 		prevY = pos.y;
 	};
 /*

@@ -82,10 +82,10 @@ public class WebGame extends WarGame
                 if (a instanceof ControllableWarAgent) {
                     Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
 
-                    //sendMessage(new AgentMessage(map));
+                    sendMessage(new AgentMessage(map));
                 } else {
                     Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
-                   // sendMessage(new AgentMessage(map));
+                    sendMessage(new AgentMessage(map));
 
                 }
             }
@@ -95,7 +95,7 @@ public class WebGame extends WarGame
         {
             Map<String,Object> map = this.getGameLog().addOrUpdateEntity(a);
 
-         //   sendMessage(new AgentMessage(map));
+            sendMessage(new AgentMessage(map));
         }
 
 
@@ -143,6 +143,7 @@ public class WebGame extends WarGame
             {
                 if (a instanceof ControllableWarAgent)
                     agents.add(this.getGameLog().addControllableAgent((ControllableWarAgent) a));
+
                 else
                     agents.add(this.getGameLog().addEntity(a));
 
