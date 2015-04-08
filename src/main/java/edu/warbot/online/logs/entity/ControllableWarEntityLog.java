@@ -28,7 +28,7 @@ public class ControllableWarEntityLog extends EntityLog {
         Map<String, Object> map = super.update(wa);
 
         double lifePercent = computeLifePercent(wa.getHealth(), wa.getMaxHealth());
-
+        
         if (lifeP != lifePercent) {
             lifeP = lifePercent;
             map.put("lifeP", lifeP);
@@ -39,6 +39,7 @@ public class ControllableWarEntityLog extends EntityLog {
                 colorDebug.getR() != wa.getDebugStringColor().getRed()
                  || colorDebug.getG() != wa.getDebugStringColor().getGreen()
                  || colorDebug.getB() != wa.getDebugStringColor().getBlue())
+
                 )
         {
             colorDebug.setR(wa.getDebugStringColor().getRed());
