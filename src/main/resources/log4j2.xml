@@ -9,10 +9,13 @@
         <Console name="STDOUT" target="SYSTEM_OUT">
             <PatternLayout pattern="%m%n"/>
         </Console>
+        <Console name="STDERR" target="SYSTEM_OUT">
+            <PatternLayout pattern="%m%n"/>
+        </Console>
     </Appenders>
     <Loggers>
         <Root level="trace">
-            <AppenderRef ref="file" level="DEBUG"/>
+            <AppenderRef ref="STDERR" level="DEBUG"/>
             <AppenderRef ref="STDOUT" level="INFO"/>
         </Root>
     </Loggers>
