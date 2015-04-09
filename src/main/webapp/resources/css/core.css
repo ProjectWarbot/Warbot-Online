@@ -55,15 +55,6 @@ margin:0;
 
  .box{  height:105%;
         margin:0 auto;
+        margin-left: 7px;
+        margin-right: 7px;
  }
-
-
-
-.editor {
-         position: absolute;
-         margin-top: 42px;
-         top: 0;
-         right: 0;
-         bottom: 0;
-         left: 0;
-     }
