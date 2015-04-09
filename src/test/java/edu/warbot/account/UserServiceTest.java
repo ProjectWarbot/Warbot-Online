@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 import edu.warbot.models.Account;
+import edu.warbot.models.Party;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.services.UserService;
 import org.junit.Rule;
@@ -57,7 +58,7 @@ public class UserServiceTest {
 	public void shouldReturnUserDetails() {
 		// arrange
 		Account demoUser = new Account("user@example.com", "demo","firstName","lastName","screeName",
-                true,false,new Date(),new Date(),new Date(),"ROLE_USER",new HashSet<>());
+                true,false,new Date(),new Date(),new Date(),"ROLE_USER",new HashSet<Party>());
 		when(accountRepositoryMock.findByEmail("user@example.com")).thenReturn(demoUser);
 
 		// act
@@ -70,10 +71,22 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void inscriptionAccount()
+	public void shouldCreateAccount()
 	{
-		Account demoUser = new Account("toto@gmail.com","totoé","totoç","totoLn","toto",true,false,new Date(),new Date(),new Date(),"ROLE_USER",new HashSet<>());
-		when(accountRepositoryMock.save(demoUser)).thenReturn(demoUser);
+		//arrange
+		Account demoUser = new Account("toto@gmail.com",
+				"totoé","totoç","totoLn","toto"
+				,true,false,new Date(),new Date(),
+				new Date(),"ROLE_USER",new HashSet<Party>());
+		when(accountRepositoryMock.findByEmail("toto@gmail.com")).thenReturn(demoUser);
+
+		// act
+		Account account = accountRepositoryMock.findByEmail("toto@gmail.com");
+
+		// assert
+		assertThat(demoUser.getEmail()).isEqualTo(account.getEmail());
+		assertThat(demoUser.getInscriptionDate()).isEqualTo(account.getInscriptionDate());
+
 	}
 
 	private boolean hasAuthority(UserDetails userDetails, String role) {

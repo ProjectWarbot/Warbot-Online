@@ -37,7 +37,7 @@ public class SchemaGenerator
         logger.info(packageName);
         SchemaGenerator gen = new SchemaGenerator(packageName);
         final String directory = args[0];
-        gen.generate(Dialect.MYSQL, directory);
+        //gen.generate(Dialect.MYSQL, directory);
         //gen.generate(Dialect.ORACLE, directory);
         gen.generate(Dialect.HSQL, directory);
         gen.generate(Dialect.H2, directory);
@@ -46,7 +46,7 @@ public class SchemaGenerator
     public SchemaGenerator(String packageName) throws Exception
     {
         cfg = new Configuration();
-        cfg.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        cfg.setProperty("hibernate.hbm2ddl.auto", "validate");
 
         for (Class clazz : getClasses(packageName))
         {

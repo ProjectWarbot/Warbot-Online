@@ -11,7 +11,7 @@
     <name>Warbot Online</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java-version>1.8</java-version>
+        <java-version>1.7</java-version>
         <io.spring.platform-version>1.1.1.RELEASE</io.spring.platform-version>
         <!-- AssertJ is not a part of Spring IO platform, so the version must be provided explicitly -->
         <assertj-core-version>1.5.0</assertj-core-version>
@@ -31,7 +31,25 @@
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
         </dependency>
         <!-- Security -->
         <dependency>
@@ -61,7 +79,7 @@
         <!-- Persistence -->
         <dependency>
             <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
+            <artifactId>HikariCP-java6</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -100,10 +118,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
+
         <!-- @Inject -->
         <dependency>
             <groupId>javax.inject</groupId>
@@ -117,9 +132,19 @@
         </dependency>
         <!-- JSON -->
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+
+
         <!-- Utilities -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -167,6 +192,12 @@
             <artifactId>warbot</artifactId>
             <version>3.2.1-BETA</version>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.186</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

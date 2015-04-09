@@ -2,15 +2,18 @@ package edu.warbot.config;
 
 import static org.springframework.context.annotation.ComponentScan.Filter;
 
+import org.hibernate.SessionFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.orm.hibernate4.support.OpenSessionInViewFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -22,6 +25,8 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
 import edu.warbot.Application;
+
+import javax.servlet.ServletContext;
 
 @Configuration
 @ComponentScan(basePackageClasses = Application.class, includeFilters = @Filter(Controller.class), useDefaultFilters = false)
@@ -41,6 +46,8 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
         return requestMappingHandlerMapping;
     }
 
+
+
     @Bean(name = "messageSource")
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -55,6 +62,7 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
         templateResolver.setPrefix(VIEWS);
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("HTML5");
+        templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setCacheable(false);
         return templateResolver;
     }
@@ -102,4 +110,5 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
             return "forward:/resources/images/favicon.ico";
         }
     }
+
 }

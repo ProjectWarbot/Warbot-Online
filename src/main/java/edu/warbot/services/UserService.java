@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import javax.annotation.PostConstruct;
 
+import edu.warbot.models.Party;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.models.Account;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,8 @@ public class UserService implements UserDetailsService {
 	@PostConstruct
 	public void initialize()
 	{
-		accountRepository.save(new Account("user", "demo","toto","toto","demoUser",true,false,new Date(),new Date(),new Date(),"ROLE_USER",new HashSet<>()));
-		accountRepository.save(new Account("admin", "admin","toto","toto","demoAdmin",true,true,new Date(),new Date(),new Date(),"ROLE_ADMIN",new HashSet<>()));
+		accountRepository.save(new Account("user", "demo","toto","toto","demoUser",true,false,new Date(),new Date(),new Date(),"ROLE_USER",new HashSet<Party>()));
+		accountRepository.save(new Account("admin", "admin","toto","toto","demoAdmin",true,true,new Date(),new Date(),new Date(),"ROLE_ADMIN",new HashSet<Party>()));
 	}
 
 	@Override

@@ -1,10 +1,9 @@
 package edu.warbot.models;
 
-import javax.persistence.*;
-
-import edu.warbot.scriptcore.interpreter.ScriptInterpreterLangage;
+import edu.warbot.scriptcore.interpreter.ScriptInterpreterLanguage;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,7 +21,7 @@ public class Party extends AbstractPersistable<Long>
     private String name;
 
     @Column(name="party_language")
-    private ScriptInterpreterLangage language;
+    private ScriptInterpreterLanguage language;
 
     @Column(name =  "party_elo")
     private int eloRank;
@@ -38,11 +37,17 @@ public class Party extends AbstractPersistable<Long>
             mappedBy = "teams")
     private Set<Account> members=new HashSet<>();
 
-    protected Party() { }
+    @OneToMany(targetEntity = WebCode.class, mappedBy = "party")
+    private Set<WebCode> agents = new HashSet<>();
 
-    public Party(String name,ScriptInterpreterLangage language) {
+    protected Party() {
+        this.members = new HashSet<>();}
+
+    public Party(String name,ScriptInterpreterLanguage language) {
+        this();
         this.name = name;
         this.language = language;
+
     }
 
     public String getName() {
@@ -53,7 +58,7 @@ public class Party extends AbstractPersistable<Long>
         this.name = name;
     }
 
-    public void setLanguage(ScriptInterpreterLangage language)
+    public void setLanguage(ScriptInterpreterLanguage language)
     {
         this.language = language;
     }
@@ -68,7 +73,7 @@ public class Party extends AbstractPersistable<Long>
         this.members = members;
     }
 
-    public ScriptInterpreterLangage getLanguage()
+    public ScriptInterpreterLanguage getLanguage()
     {
         return language;
     }
@@ -96,5 +101,13 @@ public class Party extends AbstractPersistable<Long>
 
     public void setCreator(Account creator) {
         this.creator = creator;
+    }
+
+    public Set<WebCode> getAgents() {
+        return agents;
+    }
+
+    public void setAgents(Set<WebCode> agents) {
+        this.agents = agents;
     }
 }
