@@ -176,7 +176,6 @@ public class WebGame extends WarGame
     public void setGameOver()
     {
         super.setGameOver();
-        System.out.println("IS ENDED");
         sendMessage(new EndMessage("end game"));
     }
 
