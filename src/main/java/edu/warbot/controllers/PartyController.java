@@ -1,5 +1,6 @@
 package edu.warbot.controllers;
 
+
 import edu.warbot.agents.enums.WarAgentType;
 import edu.warbot.exceptions.UnauthorisedToEditLockException;
 import edu.warbot.exceptions.UnauthorisedToEditNotMemberException;
@@ -132,6 +133,7 @@ public class PartyController implements ApplicationContextAware
 
             List<WebAgent> webAgents = webAgentRepository.findAllStarter();
 
+
             for(WebAgent agent : webAgents)
             {
                 WebCode webCode = new WebCode(agent, party);
@@ -143,6 +145,7 @@ public class PartyController implements ApplicationContextAware
                 } catch (UnauthorisedToEditNotMemberException e) {
                     e.printStackTrace();
                 }
+
             }
         }
         else
