@@ -82,7 +82,6 @@
         var stompClient = Stomp.over(socket);
 
         var appModel = new WebGameModel(stompClient);
-        var editorModel = new EditorModel(stompClient);
         //ko.applyBindings(appModel);
 
         appModel.connect();
@@ -92,11 +91,18 @@
             appModel.launchParty(idParty,-1);
 
         });
+        $(".webcode-request").click(function(event)
+        {
+          var child = $(this).children("input");
+
+          var vidAgent = child[0].value;
+          var vidParty = $("#idParty")[0].value;
+          appModel.get(vidParty,vidAgent);
+
+        });
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
       })();
 </script>
-
-
 </body>
 </html>
 

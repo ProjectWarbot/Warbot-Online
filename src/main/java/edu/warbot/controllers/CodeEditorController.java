@@ -13,17 +13,22 @@ import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.services.CodeEditorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by BEUGNON on 01/04/2015.
@@ -45,6 +50,8 @@ public class CodeEditorController
     private AccountRepository accountRepository;
     @Autowired
     private CodeEditorService codeEditorService;
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
 
 
 
@@ -52,7 +59,6 @@ public class CodeEditorController
     public void registerUser(Principal principal)
     {
         Assert.notNull(principal);
-
     }
 
 
@@ -64,19 +70,54 @@ public class CodeEditorController
         return webAgentRepository.findForParty(party);
     }
 
+    public static class Trade
+    {
+        private Long idParty;
+        private Long idWebAgent;
+
+        public Trade() {
+        }
+
+        public Trade(Long idParty, Long idWebAgent) {
+            this.idParty = idParty;
+            this.idWebAgent = idWebAgent;
+        }
+
+        public Long getIdParty() {
+            return idParty;
+        }
+
+        public void setIdParty(Long idParty) {
+            this.idParty = idParty;
+        }
+
+        public Long getIdWebAgent() {
+            return idWebAgent;
+        }
+
+        public void setIdWebAgent(Long idWebAgent) {
+            this.idWebAgent = idWebAgent;
+        }
+    }
 
     @MessageMapping("/editor/get")
-    public WebCode getCodeForAgent(
-            @RequestParam Long idParty,
-            @RequestParam Long idWebAgent)
+    public void getCodeForAgent(Principal principal, Trade trade)
             throws NotFoundEntityException {
-        Party party = partyRepository.findOne(idParty);
+        Party party = partyRepository.findOne(trade.getIdParty());
         Assert.notNull(party);
-        WebAgent agent = webAgentRepository.findOne(idWebAgent);
+        WebAgent agent = webAgentRepository.findOne(trade.getIdWebAgent());
         Assert.notNull(agent);
         WebCode wc = codeEditorService.getWebCode(party, agent);
-        Assert.notNull(agent);
-        return wc;
+        Assert.notNull(wc);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
+
+        Map<String,Object> m = new HashMap<>();
+        m.put("webAgentId",agent.getId());
+        m.put("content",wc.getContent());
+
+        messagingTemplate.convertAndSendToUser(principal.getName(),"/editor/code",m,map);
     }
 
     @MessageMapping("/editor/lock")

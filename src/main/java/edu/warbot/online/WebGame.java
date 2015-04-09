@@ -201,7 +201,7 @@ public class WebGame extends WarGame
             {
                 this.getMessageSender().
                         convertAndSendToUser
-                                (getUser(), "/queue/game.agents." + a.getContent().get("name"), a);
+                                (getUser(), "/queue/game.agents." + a.getContent().get("name"), a,map);
             }
         }
     }
