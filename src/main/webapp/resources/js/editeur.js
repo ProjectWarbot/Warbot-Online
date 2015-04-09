@@ -10,7 +10,16 @@ $(document).ready(function(){
                     ed.getSession().setMode("ace/mode/python");
                     ed.setOptions({enableBasicAutocompletion: true});
 
-                   	$(this).html+= "def:\n pass";
+                    this.style.position = "absolute";
+                    this.style.marginTop = "42px";
+                    this.style.top = 0;
+                    this.style.right = 0;
+                    this.style.bottom = 0;
+                    this.style.left = 0;
+
+
+                   	$(this).html += "def toto :\n\t pass";
+
 				});
 
 
