@@ -135,21 +135,60 @@ public class CodeEditorController
         return true;
     }
 
+    public static class SaveTrade
+
+    {
+        private Long idParty;
+
+        private Long idWebAgent;
+
+        private String content;
+
+        public SaveTrade(){}
+
+        public SaveTrade(Long idParty, Long idWebAgent, String content) {
+            this.idParty = idParty;
+            this.idWebAgent = idWebAgent;
+            this.content = content;
+        }
+
+        public Long getIdParty() {
+            return idParty;
+        }
+
+        public void setIdParty(Long idParty) {
+            this.idParty = idParty;
+        }
+
+        public Long getIdWebAgent() {
+            return idWebAgent;
+        }
+
+        public void setIdWebAgent(Long idWebAgent) {
+            this.idWebAgent = idWebAgent;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+    }
     @MessageMapping("/editor/save")
-    public boolean save(@RequestParam Long idParty,
-                        @RequestParam Long idWebAgent,
-                        @RequestParam String content,
+    public boolean save(SaveTrade trade,
                         Principal principal)
     {
         Assert.notNull(principal);
         Account account = accountRepository.findByEmail(principal.getName());
         Assert.notNull(account);
-        Party party = partyRepository.findOne(idParty);
+        Party party = partyRepository.findOne(trade.getIdParty());
         Assert.notNull(party);
-        WebAgent agent = webAgentRepository.findOne(idWebAgent);
+        WebAgent agent = webAgentRepository.findOne(trade.getIdWebAgent());
         Assert.notNull(agent);
         WebCode code = codeEditorService.getWebCode(party, agent);
-        code.setContent(content);
+        code.setContent(trade.getContent());
         try {
             codeEditorService.saveWebCode(account, code);
             return true;

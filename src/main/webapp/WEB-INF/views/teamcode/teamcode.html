@@ -39,6 +39,7 @@
 
             <div th:id="${agent.id}" th:each="agent : ${agents}" class="tab-pane fade">
                 <div th:id="${agent.id}+'-editor'" class="editor"></div>
+                <a href="#" class="btn btn-sm btn-info save" th:id="${agent.id}" >Save</a>
             </div>
 
         </div>
@@ -65,6 +66,7 @@
              -->
         </div>
     </div>
+
 </div>
 
 <script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
@@ -91,6 +93,7 @@
             appModel.launchParty(idParty,-1);
 
         });
+
         $(".webcode-request").click(function(event)
         {
           var child = $(this).children("input");
@@ -100,6 +103,24 @@
           appModel.get(vidParty,vidAgent);
 
         });
+
+
+         $(".btn.btn-sm.btn-info.save").click(function(event)
+        {
+          var child = $(this);
+
+          var vidAgent = child[0].id;
+          var vidParty = $("#idParty")[0].value;
+
+          var vCode = editors[vidAgent+"-editor"].getSession().getValue();
+
+          appModel.save(vidParty,vidAgent, vCode);
+
+          console.log(vidAgent);
+          console.log(vCode);
+          console.log(vidParty);
+        });
+
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
       })();
 </script>
