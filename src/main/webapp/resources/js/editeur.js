@@ -57,6 +57,14 @@ function EditorModel(stompClient) {
         /* Return a message if can save */
         // NOT NEED
       });
+
+      stompClient.subscribe("/user/editor/code",function (message)
+      {
+        var m = JSON.parse(message.body);
+
+        $("#"+m.idWebAgent+"-editor").append(m.content);
+      });
+
     }, function(error) {
       console.log("STOMP protocol error " + error);
     });
@@ -68,7 +76,7 @@ function EditorModel(stompClient) {
           "idWebAgent" : idAgent1
       };
 
-      stompClient.send("/app/editor/get", {}, JSON.stringify(trade));
+      stompClient.send("/app/editor/get",{},JSON.stringify(trade));
     }
 
   self.save = function(idParty1,idAgent1,content) {
