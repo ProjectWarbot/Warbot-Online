@@ -10,6 +10,7 @@ import edu.warbot.game.WarGame;
 import edu.warbot.game.WarGameSettings;
 import edu.warbot.online.logs.GameLog;
 import edu.warbot.online.logs.RGB;
+import edu.warbot.online.logs.entity.EntityLog;
 import edu.warbot.online.messaging.AgentMessage;
 import edu.warbot.online.messaging.ClassicMessage;
 import edu.warbot.online.messaging.EndMessage;
@@ -75,29 +76,44 @@ public class WebGame extends WarGame
             sendInitMessage();
             firstCall = false;
         }
+
+        getGameLog().obsolete();
+
         for (Team t : getPlayerTeams())
         {
-
             for(WarAgent a : t.getAllAgents()) {
-                if (a instanceof ControllableWarAgent) {
-                    Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
 
-                    sendMessage(new AgentMessage(map));
-                } else {
-                    Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
-                    sendMessage(new AgentMessage(map));
+                    if (a instanceof ControllableWarAgent) {
+                        Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
 
-                }
+                        sendMessage(new AgentMessage(map));
+                    } else {
+                        Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
+                        sendMessage(new AgentMessage(map));
+
+                    }
             }
         }
 
         for(WarAgent a : getMotherNatureTeam().getAllAgents())
         {
             Map<String,Object> map = this.getGameLog().addOrUpdateEntity(a);
-
             sendMessage(new AgentMessage(map));
         }
 
+        List<EntityLog> agentDead = new ArrayList<>();
+
+        for(EntityLog el : this.getGameLog().getEntityLog().values())
+            if(!el.isUpdated())
+                agentDead.add(el);
+
+        for(EntityLog el : agentDead) {
+            this.getGameLog().getEntityLog().remove(el.getName());
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", el.getName());
+            map.put("state", -1);
+            sendMessage(new AgentMessage(map));
+        }
 
         if(getGameMode().getEndCondition().isGameEnded())
             setGameOver();

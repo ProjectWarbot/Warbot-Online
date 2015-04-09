@@ -14,7 +14,7 @@ var wall;
 var rocket;
 var bomb;
 var food = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/food.png");
-var map = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/map002.png");
+var map = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/map003.png");
 
 var perceptOther = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/perceptOther.png");
 var perceptBaseRed = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/RED/perceptBase.png");

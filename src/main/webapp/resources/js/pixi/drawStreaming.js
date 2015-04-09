@@ -35,8 +35,6 @@ function analyseMessageServer(message) {
 function messageServerInit(message) {
 	initHUD();
 
-	createMapJson();
-
 	var team1 = message.teams[0];
 	var team2 = message.teams[1];
 	var team3 = message.teams[2];
@@ -44,6 +42,8 @@ function messageServerInit(message) {
 	TeamAll.push(team1);
 	TeamAll.push(team2);
 	TeamAll.push(team3);
+
+	createMapJson();
 
 	for (i = 0; i < message.agents.length; i++) {
 		createAgentJson(camera, agentTab, message.agents[i], TeamAll);
@@ -149,11 +149,32 @@ function createMapJson() {
 
 	mapWarbot.position.x = 0;
 	mapWarbot.position.y = 0;
-	mapWarbot.anchor.x = 0.5;
-	mapWarbot.anchor.y = 0.5;
+	mapWarbot.anchor.x = 0;
+	mapWarbot.anchor.y = 0;
 	mapWarbot.alpha = 1;
 
 	camera.addChild(mapWarbot);
+
+	for(i = 0; i < 3; i++) {
+		if(TeamAll[i].color.r == 149 && TeamAll[i].color.g == 149 && TeamAll[i].color.b == 149) {
+			var teamName = new PIXI.Text("RED : "+TeamAll[i].name, {font:"12px Arial", fill:"red"});
+			teamName.position.x = 30;
+			teamName.position.y = -30;
+			teamName.alpha = 1;
+			camera.addChild(teamName);
+		}
+		else if(TeamAll[i].color.r == 255 && TeamAll[i].color.g == 98 && TeamAll[i].color.b == 255) {
+			var teamName = new PIXI.Text("BLUE : "+TeamAll[i].name, {font:"12px Arial", fill:"blue"});
+			teamName.position.x = 130;
+			teamName.position.y = -30;
+			teamName.alpha = 1;
+			camera.addChild(teamName);
+		}
+		else {
+			//console.log("Bug team");
+		}
+	}
+
 }
 
 /**
@@ -196,6 +217,8 @@ function createAgentJson(scene, tab, json, teams) {
 	agent.position.y = json.y;
 	agent.angle = json.angle;
 	agent.rotation = Math.PI * (agent.angle / 180);
+	agent.scale.x = 0.5;
+	agent.scale.y = 0.5;
 
     if (typeof(json.lifeP) != "undefined") {
     	agent.lifeP = json.lifeP;
@@ -237,6 +260,8 @@ function createAgentJson(scene, tab, json, teams) {
 	life.anchor.y = 0.5;
 	life.position.x = agent.position.x;
 	life.position.y = agent.position.y - Math.sqrt(agent.height * agent.height) * agent.scale.y;
+	life.scale.x = 0.5;
+	life.scale.y = 0.5;
 
 	indTab = 0;
 	cont = true;
@@ -258,6 +283,8 @@ function createAgentJson(scene, tab, json, teams) {
 	var percept = new PIXI.Sprite(getSpritePercept(agent));
 	percept.position.x = agent.position.x;
 	percept.position.y = agent.position.y;
+	percept.scale.x = 0.5;
+	percept.scale.y = 0.5;
 
 	indTab = 0;
 	cont = true;

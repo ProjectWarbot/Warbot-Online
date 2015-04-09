@@ -66,6 +66,13 @@ public class GameLog
         return map;
     }
 
+    public void obsolete() {
+        for(EntityLog el : getEntityLog().values()) {
+            el.flipUpdated();
+        }
+
+    }
+
     /**
      *
      * @param agent l'agent que l'on souhaite ajouter aux entités
