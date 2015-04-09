@@ -1,33 +1,24 @@
-$(document).ready(function(){
-
-    			var editor1 = ace.edit("editor1");
-			    editor1.setTheme("ace/theme/monokai");
-			    editor1.getSession().setMode("ace/mode/python");
-				editor1.setOptions({enableBasicAutocompletion: true});
+function buildEditor(nom){
 
 
-			    var editor2 = ace.edit("editor2");
-			    editor2.setTheme("ace/theme/monokai");
-			    editor2.getSession().setMode("ace/mode/python");
-			    editor2.setOptions({enableBasicAutocompletion: true});
 
-			    var editor3 = ace.edit("editor3");
-			    editor3.setTheme("ace/theme/monokai");
-			    editor3.getSession().setMode("ace/mode/python");
-			    editor3.setOptions({enableBasicAutocompletion: true});
 
-			    var editor4 = ace.edit("editor4");
-			    editor4.setTheme("ace/theme/monokai");
-			    editor4.getSession().setMode("ace/mode/python");
-			    editor4.setOptions({enableBasicAutocompletion: true});
+				document.getElementById("myTab").innerHTML += "<li><a data-toggle='tab' href="+nom+">"+nom+"</a></li>";
+                document.getElementById("tab-content").innerHTML += "<div id='"+nom+"'class='tab-pane fade'><div class='editor' id="+nom+"editor"+"></div></div>";
+/*
+                document.getElementById(nom+'editor').style.position = "absolute";
+				document.getElementById(nom+'editor').style.marginTop = "42px";
+				document.getElementById(nom+'editor').style.top = "0";
+				document.getElementById(nom+'editor').style.right = "0";
+				document.getElementById(nom+'editor').style.bottom = "0";
+				document.getElementById(nom+'editor').style.left = "0";
+*/
+				var editor = nom;
+                editor = ace.edit(editor+'editor');
+                editor.setTheme("ace/theme/monokai");
+                editor.getSession().setMode("ace/mode/python");
+                editor.setOptions({enableBasicAutocompletion: true});
 
-			    var editor5 = ace.edit("editor5");
-			    editor5.setTheme("ace/theme/monokai");
-			    editor5.getSession().setMode("ace/mode/python");
-			    editor5.setOptions({enableBasicAutocompletion: true});
 
-			    var editor6 = ace.edit("editor6");
-			    editor6.setTheme("ace/theme/monokai");
-			    editor6.getSession().setMode("ace/mode/python");
-			    editor6.setOptions({enableBasicAutocompletion: true});
- });
+
+ };
