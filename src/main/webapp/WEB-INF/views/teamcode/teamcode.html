@@ -25,13 +25,22 @@
 <div th:replace="fragments/header :: header">Header</div>
 
 <div class="box">
-
     <div class="outer-center">
-
-
+        <input type="hidden" id="idParty" value="" th:value="${party.id}" />
         <ul class="nav nav-tabs" id="myTab">
+            <li  class="webcode-request" th:each="agent : ${agents}" th:data="${agent.id}">
+                <input type="hidden" value="" th:value="${agent.id}" />
+                <a data-toggle="tab" th:href="'#'+${agent.id}" th:text="${agent.type}">
+                    Ag
+                </a>
+            </li>
         </ul>
-        <div class="tab-content" id="tab-content">
+        <div class="tab-content">
+
+            <div th:id="${agent.id}" th:each="agent : ${agents}" class="tab-pane fade">
+                <div th:id="${agent.id}+'-editor'" class="editor"></div>
+            </div>
+
         </div>
 
     </div>
@@ -43,28 +52,26 @@
         </div>
 
         <div class="ui-layout-south">
+            <button id="launch-party-button">Launch party</button>
+            <!--
+             <button onclick="myFunction()">Play</button>
+             <button onclick="myFunction2()">Move1</button>
+             <button onclick="myFuncFion3()">Create1</button>
+             <button onclick="myFuncFion4()">Delete1</button>
+             <button onclick="myFuncFion5()">Life1</button>
+             <button onclick="myFuncFion6()">Food1</button>
+             <button onclick="myFunction7()">Rotate1</button>
+             <button onclick="myFunction8()">DebugMessage</button>
+             -->
+        </div>
+    </div>
+</div>
 
-         </div>
-     </div>
- </div>
-
-<script>
-buildEditor('nom');
-</script>
-
-<span id="buttons">
-    <a href="#" class="btn btn-sm btn-success" id="launch-party-button">Play</a>
-    <a href="#" class="btn btn-sm btn-warning">Pause</a>
-    <a href="#" class="btn btn-sm btn-danger">Stop</a>
-    <a href="#" class="btn btn-sm btn-primary">Save Code</a>
-    <a href="#" class="btn btn-sm btn-info">Load Code</a>
-
-</span>
-
- <script src="../../../resources/js/sockjs.js" th:src="@{/resources/js/sockjs.js}" ></script>
- <script src="../../../resources/js/stomp.js" th:src="@{/resources/js/stomp.js}" ></script>
- <!-- application -->
+<script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
+<script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}" ></script>
+<!-- application -->
 <script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}" ></script>
+<script src="../../../resources/js/request-data-editor.js" th:src="@{/resources/js/request-data-editor.js}" ></script>
 <script src="../../../resources/js/pixi/testMessage.js" th:src="@{/resources/js/pixi/testMessage.js}" ></script>
 <script src="../../../resources/js/pixi/drawStreaming.js" th:src="@{/resources/js/pixi/drawStreaming.js}" ></script>
 
@@ -80,18 +87,22 @@ buildEditor('nom');
         appModel.connect();
         $("#launch-party-button").click(function (event)
         {
-            appModel.launchParty();
+            var idParty = $("#idParty")[0].value;
+            appModel.launchParty(idParty,-1);
+
+        });
+        $(".webcode-request").click(function(event)
+        {
+          var child = $(this).children("input");
+
+          var vidAgent = child[0].value;
+          var vidParty = $("#idParty")[0].value;
+          appModel.get(vidParty,vidAgent);
 
         });
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
       })();
-
-
-
-
 </script>
-
-
 </body>
 </html>
 

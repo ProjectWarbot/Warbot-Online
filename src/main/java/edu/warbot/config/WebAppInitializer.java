@@ -1,5 +1,8 @@
 package edu.warbot.config;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.orm.hibernate4.support.OpenSessionInViewFilter;
+import org.springframework.orm.jdo.support.OpenPersistenceManagerInViewFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -23,6 +26,12 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new Class<?>[] {WebMvcConfig.class};
     }
 
+    @Bean
+    public OpenSessionInViewFilter openSessionInViewFilter()
+    {
+        return new OpenSessionInViewFilter();
+    }
+
     @Override
     protected Filter[] getServletFilters() {
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
@@ -31,7 +40,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
         DelegatingFilterProxy securityFilterChain = new DelegatingFilterProxy("springSecurityFilterChain");
 
-        return new Filter[] {characterEncodingFilter, securityFilterChain};
+        return new Filter[] {characterEncodingFilter, securityFilterChain,
+                    };
     }
 
     @Override

@@ -13,14 +13,22 @@ import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.services.CodeEditorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.Assert;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by BEUGNON on 01/04/2015.
@@ -28,8 +36,8 @@ import java.util.List;
  * à l'éditeur de code
  * @author Sébastien Beugnon
  */
-@Controller
 @Async
+@Controller
 @Secured({"ROLE_USER","ROLE_ADMIN"})
 public class CodeEditorController
 {
@@ -40,45 +48,82 @@ public class CodeEditorController
     private PartyRepository partyRepository;
     @Autowired
     private AccountRepository accountRepository;
-
-
-
     @Autowired
     private CodeEditorService codeEditorService;
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
 
 
-    @RequestMapping(value = "editor/", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
+
+    @SubscribeMapping("/editor/register")
+    public void registerUser(Principal principal)
+    {
+        Assert.notNull(principal);
+    }
+
+
+    @MessageMapping("/editor/list")
     public List<WebAgent> giveListAgentFor(@RequestParam Long idParty)
             throws NotFoundEntityException {
         Party party = partyRepository.findOne(idParty);
-        if(party==null)
-            throw new NotFoundEntityException(Party.class);
+        Assert.notNull(party);
         return webAgentRepository.findForParty(party);
     }
 
+    public static class Trade
+    {
+        private Long idParty;
+        private Long idWebAgent;
 
-    @RequestMapping(value = "editor/get/", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
-    public WebCode getCodeForAgent(
-            @RequestParam Long idParty,
-            @RequestParam Long idWebAgent)
-            throws NotFoundEntityException {
-        Party party = partyRepository.findOne(idParty);
-        Assert.notNull(party);
-        WebAgent agent = webAgentRepository.findOne(idWebAgent);
-        Assert.notNull(agent);
-        return codeEditorService.getWebCodeReadOnly(party, agent);
+        public Trade() {
+        }
+
+        public Trade(Long idParty, Long idWebAgent) {
+            this.idParty = idParty;
+            this.idWebAgent = idWebAgent;
+        }
+
+        public Long getIdParty() {
+            return idParty;
+        }
+
+        public void setIdParty(Long idParty) {
+            this.idParty = idParty;
+        }
+
+        public Long getIdWebAgent() {
+            return idWebAgent;
+        }
+
+        public void setIdWebAgent(Long idWebAgent) {
+            this.idWebAgent = idWebAgent;
+        }
     }
 
-    @RequestMapping(value = "editor/lock/", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
+    @MessageMapping("/editor/get")
+    public void getCodeForAgent(Principal principal, Trade trade)
+            throws NotFoundEntityException {
+        Party party = partyRepository.findOne(trade.getIdParty());
+        Assert.notNull(party);
+        WebAgent agent = webAgentRepository.findOne(trade.getIdWebAgent());
+        Assert.notNull(agent);
+        WebCode wc = codeEditorService.getWebCode(party, agent);
+        Assert.notNull(wc);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
+
+        Map<String,Object> m = new HashMap<>();
+        m.put("webAgentId",agent.getId());
+        m.put("content",wc.getContent());
+
+        messagingTemplate.convertAndSendToUser(principal.getName(),"/editor/code",m,map);
+    }
+
+    @MessageMapping("/editor/lock")
     public boolean lock(@RequestParam Long idParty,
-                             @RequestParam Long idWebAgent,
-                            Principal principal)
+                        @RequestParam Long idWebAgent,
+                        Principal principal)
     {
         Assert.notNull(principal);
         Account account = accountRepository.findByEmail(principal.getName());
@@ -87,12 +132,10 @@ public class CodeEditorController
         Assert.notNull(party);
         WebAgent agent = webAgentRepository.findOne(idWebAgent);
         Assert.notNull(agent);
-        return codeEditorService.lockForEdit(account, party, agent);
+        return true;
     }
 
-    @RequestMapping(value = "editor/save/", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
+    @MessageMapping("/editor/save")
     public boolean save(@RequestParam Long idParty,
                         @RequestParam Long idWebAgent,
                         @RequestParam String content,
@@ -105,7 +148,7 @@ public class CodeEditorController
         Assert.notNull(party);
         WebAgent agent = webAgentRepository.findOne(idWebAgent);
         Assert.notNull(agent);
-        WebCode code = codeEditorService.getWebCodeReadOnly(party,agent);
+        WebCode code = codeEditorService.getWebCode(party, agent);
         code.setContent(content);
         try {
             codeEditorService.saveWebCode(account, code);
@@ -116,9 +159,7 @@ public class CodeEditorController
         }
     }
 
-    @RequestMapping(value = "editor/unlock/", method = RequestMethod.GET)
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
+    @MessageMapping("/editor/unlock")
     public boolean unlock(@RequestParam Long idParty,
                           @RequestParam Long idWebAgent,
                           Principal principal)
@@ -130,7 +171,7 @@ public class CodeEditorController
         Assert.notNull(party);
         WebAgent agent = webAgentRepository.findOne(idWebAgent);
         Assert.notNull(agent);
-        return codeEditorService.unlockForEdit(account,party,agent);
+        return true;
     }
 
 
