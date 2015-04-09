@@ -197,7 +197,7 @@ public class TeamService
         if(brainImplementationClass.isFrozen())
             brainImplementationClass.defrost();
 
-        if(!brainImplementationClass.isFrozen())
+        if(brainImplementationClass.isFrozen())
             return null;
 
         brainImplementationClass.setName(brainClassName + "BrainImplementation");
@@ -234,7 +234,6 @@ public class TeamService
         brainImplementationClass.setSuperclass(brainClass);
         Class<?> constructClass = classPool.toClass(brainImplementationClass, WarExplorerBrainController.class.getClassLoader(), null);
         return constructClass.asSubclass(WarBrain.class);
-
     }
 
 }
