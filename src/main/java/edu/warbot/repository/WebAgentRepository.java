@@ -17,13 +17,12 @@ import java.util.List;
 ;
 
 @Repository
-@Transactional(readOnly = true)
+@Transactional
 public class WebAgentRepository
 {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional
     public WebAgent save(WebAgent agent)
     {
         entityManager.persist(agent);
@@ -113,6 +112,7 @@ public class WebAgentRepository
         }
     }
 
+    @Transactional
     public List<WebAgent> findForParty(Party party)
     {
         try

@@ -17,6 +17,7 @@
         <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
     </th:block>
     <p>
+        <a th:href="@{/party/create}" th:text="#{link.party.create}">Create a party</a>
         Welcome to the Spring MVC Quickstart application!
     </p>
 </div>
