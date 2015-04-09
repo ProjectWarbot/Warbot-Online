@@ -28,37 +28,17 @@
     <div class="outer-center">
         <input type="hidden" id="idParty" value="" th:value="${party.id}" />
         <ul class="nav nav-tabs" id="myTab">
-            <li class="webcode-request" th:each="agent : ${agents}"><a data-toggle="tab" th:text="${agent.type}">Ag</a></li>
-            <li><a data-toggle="tab" href="#Agent2">Agent 2</a></li>
-            <li><a data-toggle="tab" href="#Agent3">Agent 3</a></li>
-            <li><a data-toggle="tab" href="#Agent4">Agent 4</a></li>
-            <li><a data-toggle="tab" href="#Agent5">Agent 5</a></li>
-            <li><a data-toggle="tab" href="#Agent6">Agent 6</a></li>
+            <li  class="webcode-request" th:each="agent : ${agents}" th:data="${agent.id}">
+                <input type="hidden" value="" th:value="${agent.id}" />
+                <a data-toggle="tab" th:href="'#'+${agent.id}" th:text="${agent.type}">
+                    Ag
+                </a>
+            </li>
         </ul>
         <div class="tab-content">
 
-            <div id="Agent1" class="tab-pane fade in active">
-                <div id="editor1">Codez en python :-)   ctrl + espace pour l'auto-completion</div>
-            </div>
-
-            <div id="Agent2" class="tab-pane fade">
-                <div id="editor2"></div>
-            </div>
-
-            <div id="Agent3" class="tab-pane fade">
-                <div id="editor3"></div>
-            </div>
-
-            <div id="Agent4" class="tab-pane fade">
-                <div id="editor4"></div>
-            </div>
-
-            <div id="Agent5" class="tab-pane fade">
-                <div id="editor5"></div>
-            </div>
-
-            <div id="Agent6" class="tab-pane fade">
-                <div id="editor6"></div>
+            <div th:id="${agent.id}" th:each="agent : ${agents}" class="tab-pane fade">
+                <div th:id="${agent.id}+'-editor'" class="editor"></div>
             </div>
 
         </div>
@@ -102,12 +82,14 @@
         var stompClient = Stomp.over(socket);
 
         var appModel = new WebGameModel(stompClient);
+        var editorModel = new EditorModel(stompClient);
         //ko.applyBindings(appModel);
 
         appModel.connect();
         $("#launch-party-button").click(function (event)
         {
-            appModel.launchParty();
+            var idParty = $("#idParty")[0].value;
+            appModel.launchParty(idParty,-1);
 
         });
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");

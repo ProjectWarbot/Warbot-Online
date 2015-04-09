@@ -94,7 +94,6 @@ public class WebGame extends WarGame
         for(WarAgent a : getMotherNatureTeam().getAllAgents())
         {
             Map<String,Object> map = this.getGameLog().addOrUpdateEntity(a);
-
             sendMessage(new AgentMessage(map));
         }
 
@@ -160,6 +159,7 @@ public class WebGame extends WarGame
     public void setGameOver()
     {
         super.setGameOver();
+        System.out.println("IS ENDED");
         sendMessage(new EndMessage("end game"));
     }
 

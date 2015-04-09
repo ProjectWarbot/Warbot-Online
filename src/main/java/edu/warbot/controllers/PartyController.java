@@ -1,19 +1,17 @@
 package edu.warbot.controllers;
 
 import edu.warbot.agents.enums.WarAgentType;
+import edu.warbot.exceptions.UnauthorisedToEditLockException;
+import edu.warbot.exceptions.UnauthorisedToEditNotMemberException;
 import edu.warbot.form.PartyForm;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.models.WebAgent;
 import edu.warbot.models.WebCode;
 import edu.warbot.repository.AccountRepository;
-import edu.warbot.repository.PartyRepository;
 import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.repository.WebCodeRepository;
-import edu.warbot.scriptcore.script.Script;
 import edu.warbot.services.CodeEditorService;
-import edu.warbot.services.TeamService;
-import edu.warbot.services.UserService;
 import edu.warbot.services.WarbotOnlineService;
 import edu.warbot.support.web.MessageHelper;
 import org.slf4j.Logger;
@@ -22,10 +20,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -36,11 +31,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.Principal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Created by BEUGNON on 18/03/2015.
@@ -61,10 +57,13 @@ public class PartyController implements ApplicationContextAware
     private AccountRepository accountRepository;
 
     @Autowired
+    private WebAgentRepository webAgentRepository;
+
+    @Autowired
     private ApplicationContext applicationContext;
 
     @Autowired
-    private WebCodeRepository webCodeRepository;
+    private CodeEditorService codeEditorService;
 
     @RequestMapping(value = "party/entity", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
@@ -105,10 +104,9 @@ public class PartyController implements ApplicationContextAware
             logger.debug("Not found party");
             party = warbotOnlineService.createParty(party);
 
-            //TODO ADD DEFAULT CODE FOR PARTY
-
             Map<WarAgentType, StringBuilder> codeAgent = new HashMap<>();
 
+            //TODO TEMP LOADING OF PYTHON DEFAULT TEAM
             try {
                 Resource[] resources = applicationContext.getResources("classpath:script/python/*");
 
@@ -135,13 +133,18 @@ public class PartyController implements ApplicationContextAware
                 e.printStackTrace();
             }
 
-            List<WebAgent> webAgents = warbotOnlineService.findAgentsForParty(party);
-
-            for(WebAgent agent : webAgents) {
+            List<WebAgent> webAgents = webAgentRepository.findAllStarter();
+            for(WebAgent agent : webAgents)
+            {
                 WebCode webCode = new WebCode(agent, party);
                 webCode.setContent(codeAgent.get(agent.getType()).toString());
-
-                webCodeRepository.save(webCode);
+                try {
+                    codeEditorService.saveWebCode(account, webCode);
+                } catch (UnauthorisedToEditLockException e) {
+                    e.printStackTrace();
+                } catch (UnauthorisedToEditNotMemberException e) {
+                    e.printStackTrace();
+                }
             }
         }
         else
@@ -160,6 +163,7 @@ public class PartyController implements ApplicationContextAware
                            Model model,
                            @RequestParam(required = true) Long id)
     {
+        Assert.notNull(principal);
         Party party = warbotOnlineService.findPartyById(id);
         party.getMembers();
         model.addAttribute("party", party);

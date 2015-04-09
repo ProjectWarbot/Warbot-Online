@@ -57,7 +57,9 @@ margin:0;
         margin:0 auto;
  }
 
- #editor1,#editor2,#editor3,#editor4,#editor5,#editor6 {
+
+
+.editor {
          position: absolute;
          margin-top: 42px;
          top: 0;

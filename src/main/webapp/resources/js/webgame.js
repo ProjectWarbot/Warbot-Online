@@ -11,6 +11,7 @@ function WebGameModel(stompClient) {
         /* Return a message if can save */
         // NOT NEED
       });
+
       stompClient.subscribe("/user/queue/game.agents.*", function(message)
       {
         //UPDATE AGENT
@@ -34,10 +35,10 @@ function WebGameModel(stompClient) {
     });
   }
 
-  self.launchParty = function() {
+  self.launchParty = function(idParty1,idParty2) {
       var trade = {
-          "idTeam1" : 0,
-          "idTeam2" : 0
+          "idTeam1" : idParty1,
+          "idTeam2" : idParty2
         };
       console.log(trade);
       stompClient.send("/app/game/start", {}, JSON.stringify(trade));

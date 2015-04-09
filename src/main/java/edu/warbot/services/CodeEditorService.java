@@ -9,6 +9,7 @@ import edu.warbot.models.WebCode;
 import edu.warbot.repository.WebCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -18,6 +19,7 @@ import java.util.Date;
  * @author Sébastien Beugnon
  */
 @Service
+@Transactional
 public class CodeEditorService
 {
 
@@ -33,9 +35,9 @@ public class CodeEditorService
         webCodeRepository.save(webCode);
     }
 
-    public WebCode getWebCodeReadOnly(Party party, WebAgent agent)
+    public WebCode getWebCode(Party party, WebAgent agent)
     {
-        return webCodeRepository.findWebCodeForTeamAndWebAgent(party,agent);
+        return webCodeRepository.findWebCodeForTeamAndWebAgent(party, agent);
     }
 
 }

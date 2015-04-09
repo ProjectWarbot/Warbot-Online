@@ -1,31 +1,26 @@
 
 
 
-function requestWebCode()
+
+
+
+$().ready(function()
 {
-    var vidAgent = $(this).data;
-    console.log(vidAgent);
-    var vidParty = $("input #idParty").value;
-
-
-    console.log(vidParty);
-
-    $.get("editor/get",{ idAgent: vidAgent,idParty:vidParty},
-    function( data )
+    $(".webcode-request").click(function(event)
     {
-      alert( "Data Loaded: " + data );
-      $("editor1").html += data;
+          var child = $(this).children("input");
+
+          var vidAgent = child[0].value;
+
+          var vidParty = $("#idParty")[0].value;
+          console.log(vidAgent);
+          console.log(vidParty);
+
+        $.get("editor/get/",{ idWebAgent: vidAgent,idParty:vidParty},
+        function( data )
+        {
+          $("#editor1").append(data);
+        });
     });
-
-
-
-}
-
-
-
-$(document).ready(function()
-{
-    console.log("start request handler");
-    $(".webcode-request").click(requestWebCode());
     console.log("end request handler");
 });
