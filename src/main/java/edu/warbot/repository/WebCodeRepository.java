@@ -18,7 +18,6 @@ import java.util.List;
  * @author Sebastien Beugnon
  */
 @Repository
-@Transactional(readOnly = true)
 public class WebCodeRepository {
 
     /**
@@ -32,7 +31,7 @@ public class WebCodeRepository {
      * @param code l'instance de code à persister
      * @return l'instance de code persistée
      */
-    @Transactional
+
     public WebCode save(WebCode code)
     {
         entityManager.persist(code);
@@ -49,7 +48,7 @@ public class WebCodeRepository {
         try
         {
             return entityManager.createQuery
-                    ("Select a From WebAgent a Where party = :party", WebCode.class)
+                    ("Select a From WebCode a Where party = :party", WebCode.class)
                     .setParameter("party", team)
                     .getResultList();
         } catch (PersistenceException e) {
@@ -68,8 +67,8 @@ public class WebCodeRepository {
         try
         {
             return entityManager.createQuery
-                    ("Select a From WebAgent a Where party = :party" +
-                            "And agent = :agent", WebCode.class)
+                    ("Select a From WebCode a Where party = :party" +
+                            " And agent = :agent", WebCode.class)
                     .setParameter("party", team)
                     .setParameter("agent",agent)
                     .getSingleResult();

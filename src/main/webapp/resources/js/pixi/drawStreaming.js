@@ -157,16 +157,16 @@ function createMapJson() {
 
 	for(i = 0; i < 3; i++) {
 		if(TeamAll[i].color.r == 149 && TeamAll[i].color.g == 149 && TeamAll[i].color.b == 149) {
-			var teamName = new PIXI.Text("RED : "+TeamAll[i].name, {font:"12px Arial", fill:"red"});
+			var teamName = new PIXI.Text("RED : "+TeamAll[i].name, {font:"25px Arial", fill:"red"});
 			teamName.position.x = 30;
-			teamName.position.y = -30;
+			teamName.position.y = -50;
 			teamName.alpha = 1;
 			camera.addChild(teamName);
 		}
 		else if(TeamAll[i].color.r == 255 && TeamAll[i].color.g == 98 && TeamAll[i].color.b == 255) {
-			var teamName = new PIXI.Text("BLUE : "+TeamAll[i].name, {font:"12px Arial", fill:"blue"});
-			teamName.position.x = 130;
-			teamName.position.y = -30;
+			var teamName = new PIXI.Text("BLUE : "+TeamAll[i].name, {font:"25px Arial", fill:"blue"});
+			teamName.position.x = 500;
+			teamName.position.y = -50;
 			teamName.alpha = 1;
 			camera.addChild(teamName);
 		}

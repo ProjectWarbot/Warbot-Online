@@ -16,7 +16,6 @@ import java.util.List;
  * @author Sebastien Beugnon
  */
 @Repository
-@Transactional(readOnly = true)
 public class PartyRepository {
     @PersistenceContext
     private EntityManager entityManager;
@@ -34,13 +33,11 @@ public class PartyRepository {
         }
     }
 
-    @Transactional
     public <S extends Party> S save(S s) {
         entityManager.persist(s);
         return s;
     }
 
-    @Transactional
     public <S extends Party> Iterable<S> save(Iterable<S> party) {
         entityManager.persist(party);
         return party;
@@ -90,7 +87,6 @@ public class PartyRepository {
     }
 
 //    @Override
-    @Transactional
     public void delete(Long aLong)
     {
         entityManager.createQuery("Delete FROM Party p WHERE p.id = :id")
@@ -98,7 +94,6 @@ public class PartyRepository {
     }
 
 //    @Override
-    @Transactional
     public void delete(Party party)
     {
         entityManager.createQuery("Delete FROM Party p WHERE p.id = :id")

@@ -25,41 +25,20 @@
 <div th:replace="fragments/header :: header">Header</div>
 
 <div class="box">
-
     <div class="outer-center">
-
+        <input type="hidden" id="idParty" value="" th:value="${party.id}" />
         <ul class="nav nav-tabs" id="myTab">
-            <li><a data-toggle="tab" href="#Agent1">Agent 1</a></li>
-            <li><a data-toggle="tab" href="#Agent2">Agent 2</a></li>
-            <li><a data-toggle="tab" href="#Agent3">Agent 3</a></li>
-            <li><a data-toggle="tab" href="#Agent4">Agent 4</a></li>
-            <li><a data-toggle="tab" href="#Agent5">Agent 5</a></li>
-            <li><a data-toggle="tab" href="#Agent6">Agent 6</a></li>
+            <li  class="webcode-request" th:each="agent : ${agents}" th:data="${agent.id}">
+                <input type="hidden" value="" th:value="${agent.id}" />
+                <a data-toggle="tab" th:href="'#'+${agent.id}" th:text="${agent.type}">
+                    Ag
+                </a>
+            </li>
         </ul>
         <div class="tab-content">
 
-            <div id="Agent1" class="tab-pane fade in active">
-                <div id="editor1">Codez en python :-)   ctrl + espace pour l'auto-completion</div>
-            </div>
-
-            <div id="Agent2" class="tab-pane fade">
-                <div id="editor2"></div>
-            </div>
-
-            <div id="Agent3" class="tab-pane fade">
-                <div id="editor3"></div>
-            </div>
-
-            <div id="Agent4" class="tab-pane fade">
-                <div id="editor4"></div>
-            </div>
-
-            <div id="Agent5" class="tab-pane fade">
-                <div id="editor5"></div>
-            </div>
-
-            <div id="Agent6" class="tab-pane fade">
-                <div id="editor6"></div>
+            <div th:id="${agent.id}" th:each="agent : ${agents}" class="tab-pane fade">
+                <div th:id="${agent.id}+'-editor'" class="editor"></div>
             </div>
 
         </div>
@@ -74,14 +53,16 @@
 
         <div class="ui-layout-south">
             <button id="launch-party-button">Launch party</button>
-            <!--  <button onclick="myFunction()">Play</button>
+            <!--
+             <button onclick="myFunction()">Play</button>
              <button onclick="myFunction2()">Move1</button>
              <button onclick="myFuncFion3()">Create1</button>
              <button onclick="myFuncFion4()">Delete1</button>
              <button onclick="myFuncFion5()">Life1</button>
              <button onclick="myFuncFion6()">Food1</button>
              <button onclick="myFunction7()">Rotate1</button>
-             <button onclick="myFunction8()">DebugMessage</button> -->
+             <button onclick="myFunction8()">DebugMessage</button>
+             -->
          </div>
      </div>
  </div>
@@ -90,6 +71,7 @@
  <script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}" ></script>
  <!-- application -->
 <script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}" ></script>
+<script src="../../../resources/js/request-data-editor.js" th:src="@{/resources/js/request-data-editor.js}" ></script>
 <script src="../../../resources/js/pixi/testMessage.js" th:src="@{/resources/js/pixi/testMessage.js}" ></script>
 <script src="../../../resources/js/pixi/drawStreaming.js" th:src="@{/resources/js/pixi/drawStreaming.js}" ></script>
 
@@ -100,17 +82,18 @@
         var stompClient = Stomp.over(socket);
 
         var appModel = new WebGameModel(stompClient);
+        var editorModel = new EditorModel(stompClient);
         //ko.applyBindings(appModel);
 
         appModel.connect();
         $("#launch-party-button").click(function (event)
         {
-            appModel.launchParty();
+            var idParty = $("#idParty")[0].value;
+            appModel.launchParty(idParty,-1);
 
         });
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
       })();
-
 </script>
 
 
