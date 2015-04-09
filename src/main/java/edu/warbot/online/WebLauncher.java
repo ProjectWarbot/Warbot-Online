@@ -69,7 +69,6 @@ public class WebLauncher extends TKLauncher {
 
     @Override
     protected void createSimulationInstance() {
-        //TODO REMOVE LOGGER LEVEL MODIFICATION
         Level l = logger.getLevel();
         logger.setLevel(Level.ALL);
         logger.finest("entrée dans createSimulationInstance");

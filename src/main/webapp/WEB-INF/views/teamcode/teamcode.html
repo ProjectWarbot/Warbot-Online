@@ -2,21 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Team Code</title>
+
     <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
     <script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}" ></script>
     <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}" ></script>
     <script src="../../../resources/js/zone/jquery.ui.all.js" th:src="@{/resources/js/zone/jquery.ui.all.js}" ></script>
-
-    <script src="../../../resources/js/editeur/ace/ace.js" th:src="@{/resources/js/editeur/ace/ace.js}" ></script>
-    <script src="../../../resources/js/editeur/ace/theme-cobalt.js" th:src="@{/resources/js/editeur/ace/theme-cobalt.js}" ></script>
-    <script src="../../../resources/js/editeur/ace/mode-python.js" th:src="@{/resources/js/editeur/ace/mode-python.js}" ></script>
-    <script src="../../../resources/js/editeur/jquery-ace.min.js" th:src="@{/resources/js/editeur/jquery-ace.min.js}" ></script>
-
-
     <script src="../../../resources/js/zone.js" th:src="@{/resources/js/zone.js}" ></script>
-    <script src="../../../resources/js/onglet.js" th:src="@{/resources/js/onglet.js}" ></script>
+
+    <script src="../../../resources/js/ace-builds-master/src-noconflict/ace.js" th:href="@{/resources/js/ace-builds-master/src-noconflict/ace.js}"></script>
+    <script src="../../../resources/js/ace-builds-master/src-noconflict/ext-language_tools.js" th:href="@{/resources/js/ace-builds-master/src-noconflict/ext-language_tools.js}"></script>
     <script src="../../../resources/js/editeur.js" th:src="@{/resources/js/editeur.js}" ></script>
     <script src="../../../resources/js/pixi/pixi.js" th:src="@{/resources/js/pixi/pixi.js}" ></script>
     <script src="../../../resources/js/pixi/importTexture.js" th:src="@{/resources/js/pixi/importTexture.js}" ></script>
@@ -27,42 +26,24 @@
 
 <div class="box">
     <div class="outer-center">
-        <div class="systeme_onglets" align="left">
-            <div class="onglets">
-                                    <span class="onglet_0 onglet" id="onglet_agent1" onclick="javascript:change_onglet('agent1');$('.my-code-area1').ace({ theme: 'cobalt', lang: 'python' })">Agent 1
-                                    </span>
-                                    <span class="onglet_0 onglet" id="onglet_agent2" onclick="javascript:change_onglet('agent2');$('.my-code-area2').ace({ theme: 'cobalt', lang: 'python' })">Agent 2
-                                    </span>
-                                    <span class="onglet_0 onglet" id="onglet_agent3" onclick="javascript:change_onglet('agent3');$('.my-code-area3').ace({ theme: 'cobalt', lang: 'python' })">Agent 3
-                                    </span>
-                                    <span class="onglet_0 onglet" id="onglet_agent4" onclick="javascript:change_onglet('agent4');$('.my-code-area4').ace({ theme: 'cobalt', lang: 'python' })">Agent 4
-                                    </span>
-                                    <span class="onglet_0 onglet" id="onglet_agent5" onclick="javascript:change_onglet('agent5');$('.my-code-area5').ace({ theme: 'cobalt', lang: 'python' })">Agent 5
-                                    </span>
-                                    <span class="onglet_0 onglet" id="onglet_agent6" onclick="javascript:change_onglet('agent6');$('.my-code-area6').ace({ theme: 'cobalt', lang: 'python' })">Agent 6
-                                    </span>
+        <input type="hidden" id="idParty" value="" th:value="${party.id}" />
+        <ul class="nav nav-tabs" id="myTab">
+            <li  class="webcode-request" th:each="agent : ${agents}" th:data="${agent.id}">
+                <input type="hidden" value="" th:value="${agent.id}" />
+                <a data-toggle="tab" th:href="'#'+${agent.id}" th:text="${agent.type}">
+                    Ag
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+
+            <div th:id="${agent.id}" th:each="agent : ${agents}" class="tab-pane fade">
+                <div th:id="${agent.id}+'-editor'" class="editor"></div>
+                <a href="#" class="btn btn-sm btn-info save" th:id="${agent.id}" >Save</a>
             </div>
-            <div class="contenu_onglets">
-                <div class="contenu_onglet" id="contenu_onglet_agent1">
-                    <textarea class="my-code-area1" rows="29" style="width: 100%">Code de l'agent 1</textarea>
-                </div>
-                <div class="contenu_onglet" id="contenu_onglet_agent2">
-                    <textarea class="my-code-area2" rows="29" style="width: 100%">Code de l'agent 2</textarea>
-                </div>
-                <div class="contenu_onglet" id="contenu_onglet_agent3">
-                    <textarea class="my-code-area3" rows="29" style="width: 100%">Code de l'agent 3</textarea>
-                </div>
-                <div class="contenu_onglet" id="contenu_onglet_agent4">
-                    <textarea class="my-code-area4" rows="29" style="width: 100%">Code de l'agent 4</textarea>
-                </div>
-                <div class="contenu_onglet" id="contenu_onglet_agent5">
-                    <textarea class="my-code-area5" rows="29" style="width: 100%">Code de l'agent 5</textarea>
-                </div>
-                <div class="contenu_onglet" id="contenu_onglet_agent6">
-                    <textarea class="my-code-area6" rows="29" style="width: 100%">Code de l'agent 6</textarea>
-                </div>
-            </div>
+
         </div>
+
     </div>
 
     <div class="outer-west">
@@ -73,27 +54,29 @@
 
         <div class="ui-layout-south">
             <button id="launch-party-button">Launch party</button>
-            <button onclick="myFunction()">Play</button>
-            <button onclick="myFunction2()">Move1</button>
-            <button onclick="myFuncFion3()">Create1</button>
-            <button onclick="myFuncFion4()">Delete1</button>
-            <button onclick="myFuncFion5()">Life1</button>
-            <button onclick="myFuncFion6()">Food1</button>
-            <button onclick="myFunction7()">Rotate1</button>
-            <button onclick="myFunction8()">DebugMessage</button>
+            <!--
+             <button onclick="myFunction()">Play</button>
+             <button onclick="myFunction2()">Move1</button>
+             <button onclick="myFuncFion3()">Create1</button>
+             <button onclick="myFuncFion4()">Delete1</button>
+             <button onclick="myFuncFion5()">Life1</button>
+             <button onclick="myFuncFion6()">Food1</button>
+             <button onclick="myFunction7()">Rotate1</button>
+             <button onclick="myFunction8()">DebugMessage</button>
+             -->
         </div>
-
     </div>
+
 </div>
 
-
-
-<script src="../../../resources/js/sockjs.js" th:src="@{/resources/js/sockjs.js}" ></script>
-<script src="../../../resources/js/stomp.js" th:src="@{/resources/js/stomp.js}" ></script>
+<script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
+<script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}" ></script>
 <!-- application -->
 <script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}" ></script>
+<script src="../../../resources/js/request-data-editor.js" th:src="@{/resources/js/request-data-editor.js}" ></script>
 <script src="../../../resources/js/pixi/testMessage.js" th:src="@{/resources/js/pixi/testMessage.js}" ></script>
 <script src="../../../resources/js/pixi/drawStreaming.js" th:src="@{/resources/js/pixi/drawStreaming.js}" ></script>
+
 
 <script>
       (function() {
@@ -106,17 +89,41 @@
         appModel.connect();
         $("#launch-party-button").click(function (event)
         {
-            appModel.launchParty();
+            var idParty = $("#idParty")[0].value;
+            appModel.launchParty(idParty,-1);
 
         });
+
+        $(".webcode-request").click(function(event)
+        {
+          var child = $(this).children("input");
+
+          var vidAgent = child[0].value;
+          var vidParty = $("#idParty")[0].value;
+          appModel.get(vidParty,vidAgent);
+
+        });
+
+
+         $(".btn.btn-sm.btn-info.save").click(function(event)
+        {
+          var child = $(this);
+
+          var vidAgent = child[0].id;
+          var vidParty = $("#idParty")[0].value;
+
+          var vCode = editors[vidAgent+"-editor"].getSession().getValue();
+
+          appModel.save(vidParty,vidAgent, vCode);
+
+          console.log(vidAgent);
+          console.log(vCode);
+          console.log(vidParty);
+        });
+
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
       })();
-
-    var anc_onglet = 'agent1';
-	change_onglet(anc_onglet);
 </script>
-
-
 </body>
 </html>
 

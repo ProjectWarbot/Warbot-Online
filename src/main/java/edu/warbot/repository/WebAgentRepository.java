@@ -1,11 +1,13 @@
 package edu.warbot.repository;
 
 
+import edu.warbot.agents.enums.WarAgentType;
 import edu.warbot.models.Party;
 import edu.warbot.models.WebAgent;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
@@ -15,13 +17,12 @@ import java.util.List;
 ;
 
 @Repository
-@Transactional(readOnly = true)
+@Transactional
 public class WebAgentRepository
 {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional
     public WebAgent save(WebAgent agent)
     {
         entityManager.persist(agent);
@@ -111,6 +112,7 @@ public class WebAgentRepository
         }
     }
 
+    @Transactional
     public List<WebAgent> findForParty(Party party)
     {
         try

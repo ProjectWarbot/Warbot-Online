@@ -14,7 +14,7 @@ var wall;
 var rocket;
 var bomb;
 var food = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/food.png");
-var map;
+var map = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/map003.png");
 
 var perceptOther = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/perceptOther.png");
 var perceptBaseRed = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/RED/perceptBase.png");
@@ -55,3 +55,7 @@ var buttonMessageTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/butt
 var buttonPercept = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonPerceptOff.png");
 var buttonPerceptDown = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonPerceptOn.png");
 var buttonPerceptTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonPerceptTrans.png");
+
+var buttonStats = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonStatsOff.png");
+var buttonStatsDown = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonStatsOn.png");
+var buttonStatsTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonStatsTrans.png");
