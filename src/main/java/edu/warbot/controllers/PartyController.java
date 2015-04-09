@@ -10,7 +10,6 @@ import edu.warbot.models.WebAgent;
 import edu.warbot.models.WebCode;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.repository.WebAgentRepository;
-import edu.warbot.repository.WebCodeRepository;
 import edu.warbot.services.CodeEditorService;
 import edu.warbot.services.WarbotOnlineService;
 import edu.warbot.support.web.MessageHelper;
@@ -60,10 +59,10 @@ public class PartyController implements ApplicationContextAware
     private WebAgentRepository webAgentRepository;
 
     @Autowired
-    private ApplicationContext applicationContext;
+    private CodeEditorService codeEditorService;
 
     @Autowired
-    private CodeEditorService codeEditorService;
+    private ApplicationContext applicationContext;
 
     @RequestMapping(value = "party/entity", method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
@@ -103,10 +102,8 @@ public class PartyController implements ApplicationContextAware
         {
             logger.debug("Not found party");
             party = warbotOnlineService.createParty(party);
-
             Map<WarAgentType, StringBuilder> codeAgent = new HashMap<>();
 
-            //TODO TEMP LOADING OF PYTHON DEFAULT TEAM
             try {
                 Resource[] resources = applicationContext.getResources("classpath:script/python/*");
 
@@ -134,6 +131,7 @@ public class PartyController implements ApplicationContextAware
             }
 
             List<WebAgent> webAgents = webAgentRepository.findAllStarter();
+
             for(WebAgent agent : webAgents)
             {
                 WebCode webCode = new WebCode(agent, party);
