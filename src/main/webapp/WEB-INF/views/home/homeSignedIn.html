@@ -17,9 +17,26 @@
         <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
     </th:block>
     <p>
-        <a th:href="@{/party/create}" th:text="#{link.party.create}">Create a party</a>
-        Welcome to the Spring MVC Quickstart application!
+        Welcome to the Warbot Online, <span th:text="${account.email}">email</span> !
     </p>
+
+    <h2>Actions</h2>
+    <ul class="action">
+        <li>
+            <a th:href="@{/party/create}" th:text="#{link.party.create}">Create a party</a>
+        </li>
+    </ul>
+
+    <h2>Parties</h2>
+    <p th:if="${parties.size()}==0">
+        <span th:text="#{dont.have.team}">dont have team</span>
+    </p>
+
+    <ul th:if="${parties.size()}>0">
+        <li th:each="party : ${parties}"><a th:href="@{/teamcode}+'?idParty='+${party.id}" th:text="${party.name}">teamName</a></li>
+    </ul>
+
+
 </div>
 </body>
 </html>
