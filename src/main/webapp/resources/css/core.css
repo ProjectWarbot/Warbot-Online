@@ -53,8 +53,34 @@ margin:0;
         background: #FC3;
         }
 
+ .ui-layout-south {
+    background: #302D2D;
+ }
+
  .box{  height:105%;
         margin:0 auto;
         margin-left: 7px;
         margin-right: 7px;
  }
+
+ .save, .load, .launch, .stop, .pause {
+    margin:0 auto;
+    margin-left: 10px;
+    margin-top: 10px;
+    font-weight: bold;
+ }
+
+
+
+    .nav-tabs > li.active > a,
+    .nav-tabs > li.active > a:hover,
+    .nav-tabs > li.active > a:focus {
+    color : #ffffff;
+    cursor: pointer;
+    background-color: #C1C1C1;
+    }
+
+    .tab-pane{
+        background-color: #C1C1C1;
+        height: 550px;
+    }
