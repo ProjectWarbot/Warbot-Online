@@ -55,3 +55,7 @@ var buttonMessageTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/butt
 var buttonPercept = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonPerceptOff.png");
 var buttonPerceptDown = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonPerceptOn.png");
 var buttonPerceptTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonPerceptTrans.png");
+
+var buttonStats = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonStatsOff.png");
+var buttonStatsDown = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonStatsOn.png");
+var buttonStatsTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonStatsTrans.png");

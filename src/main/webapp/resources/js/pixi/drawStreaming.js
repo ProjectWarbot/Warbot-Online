@@ -538,6 +538,7 @@ function initHUD() {
 	addButton(hud, buttonLife, buttonLifeDown, buttonLifeTrans, 20, 20, buttonTab, 1);
 	addButton(hud, buttonMessage, buttonMessageDown, buttonMessageTrans, 60, 20, buttonTab, 2);
 	addButton(hud, buttonPercept, buttonPerceptDown, buttonPerceptTrans, 100, 20, buttonTab, 3);
+	addButton(hud, buttonStats, buttonStatsDown, buttonStatsTrans, 140, 20, buttonTab, 4);
 }
 
 function initStreaming() {

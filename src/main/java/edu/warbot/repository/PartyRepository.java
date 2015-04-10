@@ -1,5 +1,7 @@
 package edu.warbot.repository;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,5 +111,17 @@ public class PartyRepository {
 //    @Override
     public void deleteAll() {
         //NEVER DEFINED
+    }
+
+    public List<Party> findByCreator(Account account) {
+        try {
+            return entityManager.createQuery(
+                    "Select p from Party p where p.creator = :creator",
+                    Party.class)
+                    .setParameter("creator",account)
+                    .getResultList();
+        } catch (PersistenceException e) {
+            return Collections.emptyList();
+        }
     }
 }
