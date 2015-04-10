@@ -54,7 +54,7 @@ margin:0;
         }
 
  .ui-layout-south {
-    background: #302D2D;
+    /*background: #C1C1C1;*/
  }
 
  .box{  height:105%;
@@ -72,15 +72,3 @@ margin:0;
 
 
 
-    .nav-tabs > li.active > a,
-    .nav-tabs > li.active > a:hover,
-    .nav-tabs > li.active > a:focus {
-    color : #ffffff;
-    cursor: pointer;
-    background-color: #C1C1C1;
-    }
-
-    .tab-pane{
-        background-color: #C1C1C1;
-        height: 550px;
-    }

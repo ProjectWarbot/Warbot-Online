@@ -54,20 +54,25 @@
 
         <div id="stream" class="middle-center">
 
+            <!-- STREAM -->
+
         </div>
 
         <div class="ui-layout-south">
 
-            <!--
-             <button onclick="myFunction()">Play</button>
-             <button onclick="myFunction2()">Move1</button>
-             <button onclick="myFuncFion3()">Create1</button>
-             <button onclick="myFuncFion4()">Delete1</button>
-             <button onclick="myFuncFion5()">Life1</button>
-             <button onclick="myFuncFion6()">Food1</button>
-             <button onclick="myFunction7()">Rotate1</button>
-             <button onclick="myFunction8()">DebugMessage</button>
-             -->
+            <ul class="nav nav-tabs console" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Console</a></li>
+                <li role="presentation"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">Map</a></li>
+                <li role="presentation"><a href="#agent" aria-controls="agent" role="tab" data-toggle="tab">Agent</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content console">
+                <div role="tabpanel" class="tab-pane active" id="home">Sortit console général avec les bugs</div>
+                <div role="tabpanel" class="tab-pane" id="map"> Sortit pour les infos sur la map en général</div>
+                <div role="tabpanel" class="tab-pane" id="agent"> Sortit pour les infos sur un agent en particulier</div>
+            </div>
+
         </div>
     </div>
 
