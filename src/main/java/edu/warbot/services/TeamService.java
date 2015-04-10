@@ -3,6 +3,7 @@ package edu.warbot.services;
 import edu.warbot.brains.WarBrain;
 import edu.warbot.brains.capacities.Agressive;
 import edu.warbot.brains.implementations.AgentBrainImplementer;
+import edu.warbot.brains.implementations.WarAgressiveBrainImplementation;
 import edu.warbot.brains.implementations.WarBrainImplementation;
 import edu.warbot.game.Team;
 import edu.warbot.launcher.TeamConfigReader;
@@ -12,6 +13,7 @@ import edu.warbot.models.WebCode;
 import edu.warbot.repository.PartyRepository;
 import edu.warbot.repository.WebCodeRepository;
 import edu.warbot.scriptcore.ScriptedTeam;
+import edu.warbot.scriptcore.interpreter.ScriptInterpreter;
 import edu.warbot.scriptcore.interpreter.ScriptInterpreterFactory;
 import edu.warbot.tools.WarIOTools;
 import javassist.*;
@@ -59,11 +61,14 @@ public class TeamService
     public Team generateTeamFromParty(Party party)
     {
         ScriptedTeam team = new ScriptedTeam(party.getName());
-        team.setInterpreter
-                (ScriptInterpreterFactory.getInstance(party.getLanguage())
-                        .createScriptInterpreter());
+//        team.setInterpreter
+//                (ScriptInterpreterFactory.getInstance(party.getLanguage())
+//                        .createScriptInterpreter());
+        ScriptInterpreter si = ScriptInterpreterFactory.getInstance(party.getLanguage())
+                            .createScriptInterpreter();
 
-        for(WebCode webcode :party.getAgents())
+
+        for(WebCode webcode : party.getAgents())
         {
             StringBuilder sb = new StringBuilder(webcode.getContent());
             team.getInterpreter().addScript(sb,webcode.getAgent().getType());
@@ -192,6 +197,9 @@ public class TeamService
         if(brainImplementationClass.isFrozen())
             brainImplementationClass.defrost();
 
+        if(brainImplementationClass.isFrozen())
+            return null;
+
         brainImplementationClass.setName(brainClassName + "BrainImplementation");
         brainImplementationClass.setModifiers(1);
         CtClass brainClass = classPool.get(brainClassName);
@@ -226,7 +234,6 @@ public class TeamService
         brainImplementationClass.setSuperclass(brainClass);
         Class<?> constructClass = classPool.toClass(brainImplementationClass, WarExplorerBrainController.class.getClassLoader(), null);
         return constructClass.asSubclass(WarBrain.class);
-
     }
 
 }

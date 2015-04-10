@@ -34,8 +34,25 @@ public class WebCodeRepository {
 
     public WebCode save(WebCode code)
     {
-        entityManager.persist(code);
+        if(findOne(code.getId())==null)
+            entityManager.persist(code);
+        else
+            entityManager.merge(code);
         return code;
+    }
+
+
+    public WebCode findOne(Long aLong)
+    {
+        try
+        {
+            return entityManager.createQuery
+                    ("Select a From WebCode a Where a.id = :id", WebCode.class)
+                    .setParameter("id", aLong)
+                    .getSingleResult();
+        } catch (PersistenceException e) {
+            return null;
+        }
     }
 
     /**
