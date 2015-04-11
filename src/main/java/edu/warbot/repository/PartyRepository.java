@@ -1,5 +1,7 @@
 package edu.warbot.repository;
 
+import edu.emory.mathcs.backport.java.util.Collections;
+import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +18,6 @@ import java.util.List;
  * @author Sebastien Beugnon
  */
 @Repository
-@Transactional(readOnly = true)
 public class PartyRepository {
     @PersistenceContext
     private EntityManager entityManager;
@@ -34,13 +35,11 @@ public class PartyRepository {
         }
     }
 
-    @Transactional
     public <S extends Party> S save(S s) {
         entityManager.persist(s);
         return s;
     }
 
-    @Transactional
     public <S extends Party> Iterable<S> save(Iterable<S> party) {
         entityManager.persist(party);
         return party;
@@ -90,7 +89,6 @@ public class PartyRepository {
     }
 
 //    @Override
-    @Transactional
     public void delete(Long aLong)
     {
         entityManager.createQuery("Delete FROM Party p WHERE p.id = :id")
@@ -98,7 +96,6 @@ public class PartyRepository {
     }
 
 //    @Override
-    @Transactional
     public void delete(Party party)
     {
         entityManager.createQuery("Delete FROM Party p WHERE p.id = :id")
@@ -114,5 +111,17 @@ public class PartyRepository {
 //    @Override
     public void deleteAll() {
         //NEVER DEFINED
+    }
+
+    public List<Party> findByCreator(Account account) {
+        try {
+            return entityManager.createQuery(
+                    "Select p from Party p where p.creator = :creator",
+                    Party.class)
+                    .setParameter("creator",account)
+                    .getResultList();
+        } catch (PersistenceException e) {
+            return Collections.emptyList();
+        }
     }
 }
