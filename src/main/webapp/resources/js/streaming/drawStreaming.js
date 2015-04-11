@@ -274,7 +274,7 @@ function createAgentJson(scene, tab, json, teams) {
 		indTab++;
 	}
 
-	if(cont || agent.type == "WarFood") {
+	if(cont || agent.type == "WarFood" || agent.type == "WarRocket") {
 		life.alpha = -1;
 	}
 
