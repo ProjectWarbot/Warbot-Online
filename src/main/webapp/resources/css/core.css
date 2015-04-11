@@ -63,7 +63,7 @@ margin:0;
         margin-right: 7px;
  }
 
- .save, .load, .launch, .stop, .pause {
+ .save, .load, .launch, .stop, .pause, .debug {
     margin:0 auto;
     margin-left: 10px;
     margin-top: 10px;

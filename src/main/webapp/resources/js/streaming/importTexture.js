@@ -59,3 +59,10 @@ var buttonPerceptTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/butt
 var buttonStats = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonStatsOff.png");
 var buttonStatsDown = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonStatsOn.png");
 var buttonStatsTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonStatsTrans.png");
+
+var buttonTeamRed = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/RED/buttonSelectTeamOff.png");
+var buttonTeamRedDown = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/RED/buttonSelectTeamOn.png");
+var buttonTeamRedTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/RED/buttonSelectTeamTrans.png");
+var buttonTeamBlue = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/BLUE/buttonSelectTeamOff.png");
+var buttonTeamBlueDown = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/BLUE/buttonSelectTeamOn.png");
+var buttonTeamBlueTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/BLUE/buttonSelectTeamTrans.png");
