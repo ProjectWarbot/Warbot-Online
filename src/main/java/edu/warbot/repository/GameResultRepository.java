@@ -33,8 +33,7 @@ public class GameResultRepository {
     }
 
     public GameResult findByLauncher(Party launcher) {
-        try
-        {
+        try {
             return entityManager.createQuery
                     ("Select g From GameResult g Where g.launcher LIKE :launcher", GameResult.class)
                     .setParameter("launcher", launcher)
@@ -42,4 +41,16 @@ public class GameResultRepository {
         } catch (PersistenceException e) {
             return null;
         }
+    }
+
+public GameResult findByDateLauncherTarget(Party launcher,Party target, Date launchDate) {
+        try {
+            return entityManager.createQuery
+                    ("Select g From GameResult g Where g.launcher LIKE :launcher And g.target LIKE :target And g.launchDate LIKE :launchDate", GameResult.class)
+                    .setParameter("launcher", launcher).setParameter("target", target).setParameter("launchDate", launchDate)
+                    .getSingleResult();
+        } catch (PersistenceException e) {
+            return null;
+        }
+    }
 }
