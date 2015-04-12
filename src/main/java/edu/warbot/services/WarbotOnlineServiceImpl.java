@@ -46,6 +46,7 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
         webAgentRepository.save(new WebAgent(WarAgentType.WarRocketLauncher,true,false));
         webAgentRepository.save(new WebAgent(WarAgentType.WarEngineer,true,false));
         webAgentRepository.save(new WebAgent(WarAgentType.WarTurret,true,false));
+        webAgentRepository.save(new WebAgent(WarAgentType.WarKamikaze, true, false));
     }
 
     @Override
