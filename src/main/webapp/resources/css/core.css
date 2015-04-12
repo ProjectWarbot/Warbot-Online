@@ -72,4 +72,39 @@ margin:0;
  }
 
 
+ .mapRed {
+    background:#FE2E2E;
+    font-weight: bold;
+ }
 
+.mapBlue {
+    background:#2E64FE;
+    font-weight: bold;
+
+}
+
+.mapFood {
+    background:#2EFE2E;
+    font-weight: bold;
+}
+
+
+.mapNameAgent {
+    background:#FE9A2E;
+    font-weight: bold;
+}
+
+.mapNameTeam {
+    background:#FE642E;
+    font-weight: bold;
+}
+
+.mapAgentOther {
+    background:#F7FE2E;
+    font-weight: bold;
+}
+
+.mapAgentName {
+    background:#FACC2E;
+    font-weight: bold;
+}
