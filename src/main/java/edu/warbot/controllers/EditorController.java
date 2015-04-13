@@ -17,11 +17,16 @@ public class EditorController {
 
     final Logger logger = LoggerFactory.getLogger(EditorController.class);
 
-
     @RequestMapping(value = "editor/list", method = RequestMethod.GET)
     public String listEditor() {
 
         return "editor/select";
+    }
+
+    @RequestMapping(value = "editor/new", method = RequestMethod.GET)
+    public String createEditor() {
+
+        return "editor/create";
     }
 
 
