@@ -1,6 +1,6 @@
 package edu.warbot.services;
 
-import edu.warbot.code_editor_gestion.CodeEditorListener;
+import edu.warbot.codeEditorGestion.CodeEditorListener;
 import edu.warbot.exceptions.UnauthorisedToEditLockException;
 import edu.warbot.exceptions.UnauthorisedToEditNotMemberException;
 import edu.warbot.models.Account;

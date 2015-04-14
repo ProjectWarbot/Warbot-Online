@@ -1,9 +1,6 @@
-package edu.warbot.code_editor_gestion;
+package edu.warbot.codeEditorGestion;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 
 import edu.warbot.models.Account;
 import edu.warbot.models.WebCode;
@@ -11,7 +8,6 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
-import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 

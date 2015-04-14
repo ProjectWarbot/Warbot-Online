@@ -1,6 +1,6 @@
 package edu.warbot.controllers;
 
-import edu.warbot.code_editor_gestion.CodeEditorListener;
+import edu.warbot.codeEditorGestion.CodeEditorListener;
 import edu.warbot.exceptions.NotFoundEntityException;
 import edu.warbot.exceptions.UnauthorisedToEditLockException;
 import edu.warbot.exceptions.UnauthorisedToEditNotMemberException;
@@ -14,7 +14,6 @@ import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.services.CodeEditorService;
 import edu.warbot.services.WarbotOnlineService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -22,7 +21,6 @@ import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
