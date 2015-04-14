@@ -1,5 +1,6 @@
 package edu.warbot.controllers;
 
+import edu.warbot.code_editor_gestion.CodeEditorListener;
 import edu.warbot.exceptions.NotFoundEntityException;
 import edu.warbot.exceptions.UnauthorisedToEditLockException;
 import edu.warbot.exceptions.UnauthorisedToEditNotMemberException;
@@ -11,6 +12,7 @@ import edu.warbot.repository.AccountRepository;
 import edu.warbot.repository.PartyRepository;
 import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.services.CodeEditorService;
+import edu.warbot.services.WarbotOnlineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.MessageHeaders;
@@ -52,6 +54,10 @@ public class CodeEditorController
     private CodeEditorService codeEditorService;
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
+    @Autowired
+    private WarbotOnlineService warbotOnlineService;
+    @Autowired
+    private CodeEditorListener locks;
 
 
 
@@ -132,6 +138,7 @@ public class CodeEditorController
         Assert.notNull(party);
         WebAgent agent = webAgentRepository.findOne(idWebAgent);
         Assert.notNull(agent);
+        locks.lock(account, warbotOnlineService.findWebCodeForPartyAndAgent(party, agent));
         return true;
     }
 

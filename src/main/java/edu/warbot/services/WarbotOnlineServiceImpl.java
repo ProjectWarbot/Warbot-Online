@@ -63,6 +63,11 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
     }
 
     @Override
+    public WebCode findWebCodeForPartyAndAgent(Party party, WebAgent agent) {
+        return webCodeRepository.findWebCodeForTeamAndWebAgent(party, agent);
+    }
+
+    @Override
     public Party findPartyById(Long id) {
         return partyRepository.findOne(id);
     }

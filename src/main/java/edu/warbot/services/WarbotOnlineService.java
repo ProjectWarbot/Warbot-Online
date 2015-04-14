@@ -17,6 +17,8 @@ public interface WarbotOnlineService
 
     List<WebCode> findWebCodesForParty(Party party);
 
+    WebCode findWebCodeForPartyAndAgent(Party party, WebAgent agent);
+
     Party findPartyById(Long id);
 
     Party findPartyByName(String name);

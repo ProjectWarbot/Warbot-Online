@@ -1,5 +1,6 @@
 package edu.warbot.services;
 
+import edu.warbot.code_editor_gestion.CodeEditorListener;
 import edu.warbot.exceptions.UnauthorisedToEditLockException;
 import edu.warbot.exceptions.UnauthorisedToEditNotMemberException;
 import edu.warbot.models.Account;
@@ -26,6 +27,10 @@ public class CodeEditorService
     @Autowired
     private WebCodeRepository webCodeRepository;
 
+
+    @Autowired
+    private CodeEditorListener locks;
+
     public void saveWebCode(Account editor, WebCode webCode)
             throws UnauthorisedToEditLockException,
             UnauthorisedToEditNotMemberException {
@@ -33,6 +38,7 @@ public class CodeEditorService
             throw new UnauthorisedToEditNotMemberException(editor,webCode.getParty());
         webCode.setLastModification(new Date());
         webCodeRepository.save(webCode);
+        locks.unlock(editor, webCode);
     }
 
     public WebCode getWebCode(Party party, WebAgent agent)
