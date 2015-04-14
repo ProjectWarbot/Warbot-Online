@@ -13,7 +13,6 @@
 
 <div th:replace="fragments/header :: header">Header</div>
 
-<div class="box">
     <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Search"/>
@@ -21,7 +20,7 @@
         <!--<button type="submit" class="btn btn-default">Submit</button>-->
     </form>
     <div class="">
-        <ul class="nav nav-pills" id="myTab">
+        <ul class="nav nav-pills">
             <li  th:each="party : ${parties}" th:data="${party.id}" role="presentation">
                 <input type="hidden" value="" th:value="${party.id}" />
                 <a data-toggle="tab" th:href="'#'+${party.id}" th:text="${party.name}">
@@ -31,17 +30,8 @@
         </ul>
     </div>
 
-</div>
-
 <script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
 <script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}" ></script>
-<!-- application -->
-<script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}" ></script>
-<script src="../../../resources/js/request-data-editor.js" th:src="@{/resources/js/request-data-editor.js}" ></script>
-<script src="../../../resources/js/pixi/testMessage.js" th:src="@{/resources/js/pixi/testMessage.js}" ></script>
-<script src="../../../resources/js/pixi/drawStreaming.js" th:src="@{/resources/js/pixi/drawStreaming.js}" ></script>
-
-
 </body>
 </html>
 
