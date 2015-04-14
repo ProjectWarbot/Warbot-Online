@@ -7,6 +7,7 @@ import edu.warbot.models.WebCode;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
@@ -19,11 +20,14 @@ public class CodeEditorListener implements ApplicationListener<ApplicationEvent>
     private HashMap<Account, WebCode> userCodeLocks;
     private HashMap<WebCode, Account> codeUserLocks;
     private String logIn;
+    private SimpMessagingTemplate messagingTemplate;
 
-    public CodeEditorListener() {
+
+    public CodeEditorListener(SimpMessagingTemplate simpMessagingTemplate) {
         userCodeLocks = new HashMap<Account, WebCode>();
         codeUserLocks = new HashMap<WebCode, Account>();
-        logIn = "/editor/register";
+        logIn = "";
+        messagingTemplate = simpMessagingTemplate;
     }
 
 
@@ -74,6 +78,14 @@ public class CodeEditorListener implements ApplicationListener<ApplicationEvent>
 
     public void setReverseLogs(HashMap<WebCode, Account> reverseLogs) {
         this.codeUserLocks = reverseLogs;
+    }
+
+    public SimpMessagingTemplate getMessagingTemplate() {
+        return messagingTemplate;
+    }
+
+    public void setMessagingTemplate(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
     }
 
     public void lock(Account account, WebCode code) {

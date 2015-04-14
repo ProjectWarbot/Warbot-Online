@@ -29,7 +29,7 @@ public class CodeEditorService
 
 
     @Autowired
-    private CodeEditorListener locks;
+    private CodeEditorListener codeEditorListener;
 
     public void saveWebCode(Account editor, WebCode webCode)
             throws UnauthorisedToEditLockException,
@@ -38,7 +38,7 @@ public class CodeEditorService
   //          throw new UnauthorisedToEditNotMemberException(editor,webCode.getParty());
         webCode.setLastModification(new Date());
         webCodeRepository.save(webCode);
-        locks.unlock(editor, webCode);
+        codeEditorListener.unlock(editor, webCode);
     }
 
     public WebCode getWebCode(Party party, WebAgent agent)
