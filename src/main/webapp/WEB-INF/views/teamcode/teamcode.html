@@ -39,6 +39,7 @@
 
             <div th:id="${agent.id}" th:each="agent : ${agents}" class="tab-pane fade">
                 <div th:id="${agent.id}+'-editor'" class="editor"></div>
+                <a href="#" class="btn btn-sm btn-info save" th:id="${agent.id}" >Save</a>
             </div>
 
         </div>
@@ -63,13 +64,14 @@
              <button onclick="myFunction7()">Rotate1</button>
              <button onclick="myFunction8()">DebugMessage</button>
              -->
-         </div>
-     </div>
- </div>
+        </div>
+    </div>
 
- <script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
- <script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}" ></script>
- <!-- application -->
+</div>
+
+<script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
+<script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}" ></script>
+<!-- application -->
 <script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}" ></script>
 <script src="../../../resources/js/request-data-editor.js" th:src="@{/resources/js/request-data-editor.js}" ></script>
 <script src="../../../resources/js/pixi/testMessage.js" th:src="@{/resources/js/pixi/testMessage.js}" ></script>
@@ -82,32 +84,46 @@
         var stompClient = Stomp.over(socket);
 
         var appModel = new WebGameModel(stompClient);
-        var editorModel = new EditorModel(stompClient);
         //ko.applyBindings(appModel);
 
         appModel.connect();
-        editorModel.connect();
         $("#launch-party-button").click(function (event)
         {
             var idParty = $("#idParty")[0].value;
             appModel.launchParty(idParty,-1);
 
         });
+
         $(".webcode-request").click(function(event)
         {
           var child = $(this).children("input");
 
           var vidAgent = child[0].value;
-
           var vidParty = $("#idParty")[0].value;
-          editorModel.get(vidParty,vidAgent);
+          appModel.get(vidParty,vidAgent);
 
         });
+
+
+         $(".btn.btn-sm.btn-info.save").click(function(event)
+        {
+          var child = $(this);
+
+          var vidAgent = child[0].id;
+          var vidParty = $("#idParty")[0].value;
+
+          var vCode = editors[vidAgent+"-editor"].getSession().getValue();
+
+          appModel.save(vidParty,vidAgent, vCode);
+
+          console.log(vidAgent);
+          console.log(vCode);
+          console.log(vidParty);
+        });
+
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
       })();
 </script>
-
-
 </body>
 </html>
 

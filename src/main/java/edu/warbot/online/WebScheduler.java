@@ -21,7 +21,6 @@ public class WebScheduler extends WarScheduler implements WarGameListener {
     public void onGameOver() {
         super.onGameOver();
         sendMessage("local", "system", "manager", new KernelMessage(KernelAction.EXIT, new Object[0]));
-
     }
 }
 
