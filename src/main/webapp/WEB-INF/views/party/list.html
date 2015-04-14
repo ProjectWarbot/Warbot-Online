@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Party List</title>
+
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}" ></script>
+    <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}" ></script>
+    <script src="../../../resources/js/zone/jquery.ui.all.js" th:src="@{/resources/js/zone/jquery.ui.all.js}" ></script>
+    <script src="../../../resources/js/zone.js" th:src="@{/resources/js/zone.js}" ></script>
+
+</head>
+<body>
+
+<div th:replace="fragments/header :: header">Header</div>
+
+<div class="box">
+    <div class="outer-center">
+        <ul class="nav nav-tabs" id="myTab">
+            <li  class="webcode-request" th:each="party : ${parties}" th:data="${party.id}">
+                <input type="hidden" value="" th:value="${party.id}" />
+                <a data-toggle="tab" th:href="'#'+${party.id}" th:text="${party.name}">
+                    Ag
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+</body>
+</html>
+

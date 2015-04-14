@@ -22,4 +22,6 @@ public interface WarbotOnlineService
     Party findPartyById(Long id);
 
     Party findPartyByName(String name);
+
+    Iterable<Party> findAllParty();
 }

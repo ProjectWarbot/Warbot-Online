@@ -1,6 +1,8 @@
 package edu.warbot.controllers;
 
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.List;
 
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
@@ -44,6 +46,14 @@ public class HomeController {
 		model.addAttribute("party", party);
 		model.addAttribute("agents", webAgentRepository.findAllStarter());
 		return "teamcode/teamcode";
+	}
+
+	@RequestMapping(value = "/teamlist", method = RequestMethod.GET)
+	public String teamlist(Model model) {
+		Iterable<Party> partyList;
+		partyList = warbotOnlineService.findAllParty();
+		model.addAttribute("parties", partyList);
+		return "party/list";
 	}
 
 }

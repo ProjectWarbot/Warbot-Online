@@ -77,4 +77,9 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
     public Party findPartyByName(String name) {
         return partyRepository.findByName(name);
     }
+
+    @Override
+    public Iterable<Party> findAllParty() {
+        return partyRepository.findAll();
+    }
 }
