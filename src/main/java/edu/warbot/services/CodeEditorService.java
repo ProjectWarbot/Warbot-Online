@@ -34,8 +34,8 @@ public class CodeEditorService
     public void saveWebCode(Account editor, WebCode webCode)
             throws UnauthorisedToEditLockException,
             UnauthorisedToEditNotMemberException {
-        if(!webCode.getParty().getMembers().contains(editor))
-            throw new UnauthorisedToEditNotMemberException(editor,webCode.getParty());
+//        if(!webCode.getParty().getMembers().contains(editor))
+  //          throw new UnauthorisedToEditNotMemberException(editor,webCode.getParty());
         webCode.setLastModification(new Date());
         webCodeRepository.save(webCode);
         locks.unlock(editor, webCode);
