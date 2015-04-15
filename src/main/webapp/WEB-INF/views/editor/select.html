@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editor</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+</head>
+<body>
+    <div th:replace="fragments/header :: header">Header</div>
+
+    <fieldset>
+        <h3>Editeur de configuration</h3>
+
+        <div class="container searchZoneTest">
+            <div class="row">
+                <div class="col-xs-5 col-xs-offset-0">
+                    <div class="input-group">
+                        <input type="hidden" name="search_param" value="all" id="search_param"/>
+                        <input type="text" class="form-control" name="x" placeholder="Salle de test"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                    </div>
+                </div>
+                <a href="./new" class="btn btn-success">Nouvel zone de test</a>
+            </div>
+        </div>
+
+        <div id="contenerTableTestZone">
+            <table class="table table-bordered" id="tableListTestZone">
+                <thead>
+                    <tr class="titleTestZone">
+                        <td class="idTestZone">ID</td>
+                        <td>Nom</td>
+                        <td>Description</td>
+                        <td class="levelTestZone">Niveau</td>
+                        <td>Créateur</td>
+                        <td class="toolsTestZone">Outils</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="idTestZone">0001</td>
+                        <td>MapTest001</td>
+                        <td>Une petite map de test</td>
+                        <td class="levelTestZone">Easy</td>
+                        <td>Falindir</td>
+                        <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
+                    </tr>
+                    <tr>
+                        <td class="idTestZone">0002</td>
+                        <td>MapTest002</td>
+                        <td>Une petite map de test 2</td>
+                        <td class="levelTestZone">Medium</td>
+                        <td>Tsubame</td>
+                        <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
+                    </tr>
+                    <tr>
+                        <td class="idTestZone">0004</td>
+                        <td>MapTest003</td>
+                        <td>Une petite map de test 3</td>
+                        <td class="levelTestZone">Hard</td>
+                        <td>Gouga34</td>
+                        <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
+                    </tr>
+                    <tr>
+                        <td class="idTestZone">999999999</td>
+                        <td>MapTest003gdrgergergergzergergerg</td>
+                        <td>Une petite map de test 3 ergerg ergergerg reg erg ergerg er erg ergerg erg er ger er er erer gr er er gerg re  f</td>
+                        <td class="levelTestZone">Hard</td>
+                        <td>SuperConnard000000000000000030</td>
+                        <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </fieldset>
+</body>
+</html>
