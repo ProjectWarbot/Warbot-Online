@@ -3,10 +3,10 @@
 <head>
     <title th:text="#{view.index.title}">Welcome!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="../../../resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
 </head>
 <body>
 <div th:replace="fragments/header :: header">&nbsp;</div>
@@ -17,26 +17,9 @@
         <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
     </th:block>
     <p>
-        Welcome to the Warbot Online, <span th:text="${account.email}">email</span> !
+        <a th:href="@{/party/create}" th:text="#{link.party.create}">Create a party</a>
+        Welcome to the Spring MVC Quickstart application!
     </p>
-
-    <h2>Actions</h2>
-    <ul class="action">
-        <li>
-            <a th:href="@{/party/create}" th:text="#{link.party.create}">Create a party</a>
-        </li>
-    </ul>
-
-    <h2>Parties</h2>
-    <p th:if="${parties.size()}==0">
-        <span th:text="#{dont.have.team}">dont have team</span>
-    </p>
-
-    <ul th:if="${parties.size()}>0">
-        <li th:each="party : ${parties}"><a th:href="@{/teamcode}+'?idParty='+${party.id}" th:text="${party.name}">teamName</a></li>
-    </ul>
-
-
 </div>
 </body>
 </html>
