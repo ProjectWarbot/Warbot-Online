@@ -11,7 +11,7 @@ var turretBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/turret.
 var baseRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/base.png");
 var baseBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/base.png");
 var wall;
-var rocket = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/rocket2.png");;
+var rocket;
 var bomb;
 var food = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/food.png");
 var map = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/map003.png");
@@ -59,17 +59,3 @@ var buttonPerceptTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/butt
 var buttonStats = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonStatsOff.png");
 var buttonStatsDown = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonStatsOn.png");
 var buttonStatsTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/buttonStatsTrans.png");
-
-var buttonTeamRed = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/RED/buttonSelectTeamOff.png");
-var buttonTeamRedDown = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/RED/buttonSelectTeamOn.png");
-var buttonTeamRedTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/RED/buttonSelectTeamTrans.png");
-var buttonTeamBlue = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/BLUE/buttonSelectTeamOff.png");
-var buttonTeamBlueDown = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/BLUE/buttonSelectTeamOn.png");
-var buttonTeamBlueTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/BLUE/buttonSelectTeamTrans.png");
-
-var buttonCreateBaseRed = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/RED/buttonCreateBaseOff.png");
-var buttonCreateBaseRedDown = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/RED/buttonCreateBaseOn.png");
-var buttonCreateBaseRedTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/RED/buttonCreateBaseTrans.png");
-var buttonCreateBaseBlue = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/BLUE/buttonCreateBaseOff.png");
-var buttonCreateBaseBlueDown = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/BLUE/buttonCreateBaseOn.png");
-var buttonCreateBaseBlueTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/BLUE/buttonCreateBaseTrans.png");
