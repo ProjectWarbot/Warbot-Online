@@ -53,6 +53,7 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename(MESSAGE_SOURCE);
         messageSource.setCacheSeconds(5);
+        messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
 
