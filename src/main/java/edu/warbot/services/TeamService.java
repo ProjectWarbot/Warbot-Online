@@ -52,7 +52,7 @@ public class TeamService
     private Map<String,Team> sourcesTeam=new HashMap<>();
 
 
-    //@PostConstruct
+    @PostConstruct
     public void init()
     {
         loadSourceTeams();
