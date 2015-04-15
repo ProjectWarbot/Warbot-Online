@@ -3,11 +3,11 @@
 <head>
     <title>Team Code</title>
 
-    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
 
     <script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}" ></script>
     <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}" ></script>
@@ -17,8 +17,8 @@
     <script src="../../../resources/js/ace-builds-master/src-noconflict/ace.js" th:href="@{/resources/js/ace-builds-master/src-noconflict/ace.js}"></script>
     <script src="../../../resources/js/ace-builds-master/src-noconflict/ext-language_tools.js" th:href="@{/resources/js/ace-builds-master/src-noconflict/ext-language_tools.js}"></script>
     <script src="../../../resources/js/editeur.js" th:src="@{/resources/js/editeur.js}" ></script>
-    <script src="../../../resources/js/pixi/pixi.js" th:src="@{/resources/js/pixi/pixi.js}" ></script>
-    <script src="../../../resources/js/pixi/importTexture.js" th:src="@{/resources/js/pixi/importTexture.js}" ></script>
+    <script src="../../../resources/js/streaming/pixi.js" th:src="@{/resources/js/streaming/pixi.js}" ></script>
+    <script src="../../../resources/js/streaming/importTexture.js" th:src="@{/resources/js/streaming/importTexture.js}" ></script>
 </head>
 <body>
 
@@ -26,6 +26,16 @@
 
 <div class="box">
     <div class="outer-center">
+
+        <!--
+        <a href="#" class="btn btn-sm btn-success launch"><span class="glyphicon glyphicon-play"></span></a>
+        <a href="#" class="btn btn-sm btn-warning pause"><span class="glyphicon glyphicon-pause"></span></a>
+        <a href="#" class="btn btn-sm btn-danger stop"><span class="glyphicon glyphicon-stop"></span></a>
+        <a href="#" class="btn btn-sm btn-primary save" ><span class="glyphicon glyphicon-cloud-upload"></span></a>
+        <a href="#" class="btn btn-sm btn-info load"><span class="glyphicon glyphicon-cloud-download"></span></a>
+        <a href="#" class="btn btn-sm btn-warning debug"><span class="glyphicon glyphicon-cog"></span></a>
+        -->
+
         <input type="hidden" id="idParty" value="" th:value="${party.id}" />
         <ul class="nav nav-tabs" id="myTab">
             <li  class="webcode-request" th:each="agent : ${agents}" th:data="${agent.id}">
@@ -39,11 +49,15 @@
 
             <div th:id="${agent.id}" th:each="agent : ${agents}" class="tab-pane fade">
                 <div th:id="${agent.id}+'-editor'" class="editor"></div>
-                <a href="#" class="btn btn-sm btn-success launch">Launch party</a>
-                <a href="#" class="btn btn-sm btn-warning pause">Pause party</a>
-                <a href="#" class="btn btn-sm btn-danger stop">Stop party</a>
-                <a href="#" class="btn btn-sm btn-primary save" th:id="${agent.id}" >Save your code</a>
-                <a href="#" class="btn btn-sm btn-info load" th:id="${agent.id}">Load your code</a>
+
+
+                <a href="#" class="btn btn-sm btn-success launch"> Play</a>
+                <a href="#" class="btn btn-sm btn-warning pause"> Pause</a>
+                <a href="#" class="btn btn-sm btn-danger stop"> Stop</a>
+                <a href="#" class="btn btn-sm btn-primary save" th:id="${agent.id}" > Save</a>
+                <a href="#" class="btn btn-sm btn-info load" th:id="${agent.id}"> Load</a>
+                <a href="#" class="btn btn-sm btn-warning debug"> Debug</a>
+
             </div>
 
         </div>
@@ -54,20 +68,100 @@
 
         <div id="stream" class="middle-center">
 
+            <!-- STREAM -->
+
         </div>
 
         <div class="ui-layout-south">
 
-            <!--
-             <button onclick="myFunction()">Play</button>
-             <button onclick="myFunction2()">Move1</button>
-             <button onclick="myFuncFion3()">Create1</button>
-             <button onclick="myFuncFion4()">Delete1</button>
-             <button onclick="myFuncFion5()">Life1</button>
-             <button onclick="myFuncFion6()">Food1</button>
-             <button onclick="myFunction7()">Rotate1</button>
-             <button onclick="myFunction8()">DebugMessage</button>
-             -->
+            <ul class="nav nav-tabs console" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Console</a></li>
+                <li role="presentation"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">Map</a></li>
+                <li role="presentation"><a href="#agent" aria-controls="agent" role="tab" data-toggle="tab">Agent</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content console">
+                <div role="tabpanel" class="tab-pane active" id="home">Sortit console général avec les bugs</div>
+                <div role="tabpanel" class="tab-pane" id="map">
+                    <table class="table table-bordered">
+                        <tr class="mapFood">
+                            <td>Food</td>
+                            <td id="numberOfFoodConsoleMap">0</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="mapNameTeam">Team</td>
+                            <td class="mapRed" id="nameRedTeamConsoleMap">Null</td>
+                            <td class="mapBlue" id="nameBlueTeamConsoleMap">Null</td>
+                        </tr>
+                        <tr>
+                            <td class="mapNameAgent">WarBase</td>
+                            <td class="mapRed" id="numberOfBaseRed">0</td>
+                            <td class="mapBlue" id="numberOfBaseBlue">0</td>
+                        </tr>
+                        <tr>
+                            <td class="mapNameAgent">WarExplorer</td>
+                            <td class="mapRed" id="numberOfExplorerRed">0</td>
+                            <td class="mapBlue" id="numberOfExplorerBlue">0</td>
+                        </tr>
+                        <tr>
+                            <td class="mapNameAgent">WarEngineer</td>
+                            <td class="mapRed" id="numberOfEngineerRed">0</td>
+                            <td class="mapBlue" id="numberOfEngineerBlue">0</td>
+                        </tr>
+                        <tr>
+                            <td class="mapNameAgent">WarRocketLauncher</td>
+                            <td class="mapRed" id="numberOfRocketLauncherRed" >0</td>
+                            <td class="mapBlue" id="numberOfRocketLauncherBlue">0</td>
+                        </tr>
+                        <tr>
+                            <td class="mapNameAgent">WarKamikaze</td>
+                            <td class="mapRed" id="numberOfKamikazeRed">0</td>
+                            <td class="mapBlue" id="numberOfKamikazeBlue">0</td>
+                        </tr>
+                        <tr>
+                            <td class="mapNameAgent">WarTurret</td>
+                            <td class="mapRed" id="numberOfTurretRed" >0</td>
+                            <td class="mapBlue" id="numberOfTurretBlue" >0</td>
+                        </tr>
+                        <tr>
+                            <td class="mapNameAgent">Wall</td>
+                            <td class="mapRed" id="numberOfWallRed">0</td>
+                            <td class="mapBlue" id="numberOfWallBlue">0</td>
+                        </tr>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="agent">
+                    <table class="table table-bordered">
+                        <tr class="">
+                            <td class="mapNameTeam">Name</td>
+                            <td class="mapAgentName" id="nameOfAgentFollow">null</td>
+                        </tr>
+                        <tr class="">
+                            <td class="mapNameAgent">Team</td>
+                            <td class="mapAgentOther" id="teamOfAgentFollow">null</td>
+                        </tr>
+                        <tr class="">
+                            <td class="mapNameAgent">Type</td>
+                            <td class="mapAgentOther" id="typeOfAgentFollow">null</td>
+                        </tr>
+                        <tr class="">
+                            <td class="mapNameAgent">Life (%)</td>
+                            <td class="mapAgentOther" id="lifeOfAgentFollow">0 %</td>
+                        </tr>
+                        <tr class="">
+                            <td class="mapNameAgent">Debug message</td>
+                            <td class="mapAgentOther" id="debugMessageOfAgentFollow">null</td>
+                        </tr>
+                        <tr class="">
+                            <td class="mapNameAgent">Angle</td>
+                            <td class="mapAgentOther" id="angleOfAgentFollow">0</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -80,12 +174,15 @@
 <!-- application -->
 <script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}" ></script>
 <script src="../../../resources/js/request-data-editor.js" th:src="@{/resources/js/request-data-editor.js}" ></script>
-<script src="../../../resources/js/pixi/testMessage.js" th:src="@{/resources/js/pixi/testMessage.js}" ></script>
-<script src="../../../resources/js/pixi/drawStreaming.js" th:src="@{/resources/js/pixi/drawStreaming.js}" ></script>
+<script src="../../../resources/js/streaming/testMessage.js" th:src="@{/resources/js/streaming/testMessage.js}" ></script>
+<script src="../../../resources/js/streaming/drawStreaming.js" th:src="@{/resources/js/streaming/drawStreaming.js}" ></script>
+<script src="../../../resources/js/streaming/modeDebug.js" th:src="@{/resources/js/streaming/modeDebug.js}" ></script>
+
+
 
 
 <script>
-      (function() {
+(function() {
         var socket = new SockJS('/warbot');
         var stompClient = Stomp.over(socket);
 
@@ -97,50 +194,36 @@
         {
             var idParty = $("#idParty")[0].value;
             appModel.launchParty(idParty,-1);
-
         });
 
         $(".webcode-request").click(function(event)
         {
-         // var child = $(this).children("input");
-
+          //var child = $(this).children("input");
           //var vidAgent = child[0].value;
           //var vidParty = $("#idParty")[0].value;
           //appModel.get(vidParty,vidAgent);
-
         });
-
 
          $(".btn.btn-sm.btn-primary.save").click(function(event)
         {
           var child = $(this);
-
           var vidAgent = child[0].id;
           var vidParty = $("#idParty")[0].value;
-
           var vCode = editors[vidAgent+"-editor"].getSession().getValue();
-
           appModel.save(vidParty,vidAgent, vCode);
-
-          console.log(vidAgent);
-          console.log(vCode);
-          console.log(vidParty);
         });
 
         $(".btn.btn-sm.btn-info.load").click(function(event)
         {
           var child = $(this);
-
           var vidAgent = child[0].id;
           var vidParty = $("#idParty")[0].value;
-
-          //var vCode = editors[vidAgent+"-editor"].getSession().getValue();
-
           appModel.get(vidParty,vidAgent);
+        });
 
-          console.log(vidAgent);
-          //console.log(vCode);
-          console.log(vidParty);
+        $(".btn.btn-sm.btn-warning.debug").click(function(event)
+        {
+            initHUDDebug();
         });
 
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
