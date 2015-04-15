@@ -108,3 +108,39 @@ margin:0;
     background:#FACC2E;
     font-weight: bold;
 }
+
+h3 {
+     text-align: center;
+}
+
+
+
+.searchZoneTest {
+    margin-top:40px;
+}
+
+#tableListTestZone {
+   width:95%;
+    margin-left:2.5%;
+    margin-right:2.5%;
+}
+
+#contenerTableTestZone {
+    margin-top : 40px;
+}
+
+.toolsTestZone {
+    width:16%;
+}
+
+.levelTestZone {
+    width:5%;
+}
+
+.titleTestZone {
+    font-weight: bold;
+}
+
+.idTestZone {
+    width:6%;
+}
