@@ -1,6 +1,7 @@
 package edu.warbot.controllers;
 
 import java.security.Principal;
+import java.util.HashSet;
 import java.util.List;
 
 import edu.warbot.models.Account;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HomeController {
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Principal principal,Model model) {
 		if(principal !=null)
@@ -58,6 +59,14 @@ public class HomeController {
 		model.addAttribute("party", party);
 		model.addAttribute("agents", webAgentRepository.findAllStarter());
 		return "teamcode/teamcode";
+	}
+
+	@RequestMapping(value = "/teamlist", method = RequestMethod.GET)
+	public String teamlist(Model model) {
+		Iterable<Party> partyList;
+		partyList = warbotOnlineService.findAllParty();
+		model.addAttribute("parties", partyList);
+		return "party/list";
 	}
 
 }

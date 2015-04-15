@@ -1,8 +1,11 @@
 package edu.warbot.config;
 
 import edu.warbot.Application;
+import edu.warbot.codeEditorGestion.CodeEditorListener;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -27,5 +30,12 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     {
         registry.enableSimpleBroker("/queue/", "/game/","/editor/");
         registry.setApplicationDestinationPrefixes("/app");
+    }
+
+    @Bean
+    public CodeEditorListener codeEditorListener(SimpMessagingTemplate messagingTemplate) {
+        CodeEditorListener codeEditorListener = new CodeEditorListener(messagingTemplate);
+        codeEditorListener.setLogIn("/editor/register");
+        return codeEditorListener;
     }
 }
