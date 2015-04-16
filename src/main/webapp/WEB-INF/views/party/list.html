@@ -21,7 +21,7 @@
     <!--<button type="submit" class="btn btn-default">Submit</button>-->
 </form>
 
-<table class="table table-bordered">
+<table id="tableListParties" class="table table-bordered">
     <thead>
     <tr>
         <th>#</th>
@@ -35,7 +35,7 @@
     <tbody>
     <tr th:each="party : ${parties}" th:data="${party.id}">
         <th><p th:text="${party.id}"></p></th>
-        <th><a name="partyName" th:href="'#'+${party.id}" th:text="${party.name}"></a></th>
+        <th><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}"></a></th>
         <th><p> <!--th:text="${party.creator.email}"-->CREATOR NE MARCHE PAS</p></th>
         <th><p th:text="${party.language}"></p></th>
         <th><p th:text="${party.eloRank}"></p></th>
@@ -45,18 +45,17 @@
         $(function() {
         var parties = $('[name="partyName"]');
         var nameParties = [];
-            parties.forEach(function(name) {
-                console.log(name);
-            });
-        nameParties.push(parties[0].text);
-        nameParties.push(parties[1].text);
-        nameParties.push(parties[2].text);
-
+            console.log(parties);
+            console.log(nameParties);
+        $.each( parties, function( index, value ){
+            nameParties[index] = value.text;
+        });
+            console.log(parties);
+            console.log(nameParties);
         $("#autocomplete").autocomplete({
             source: nameParties
         });
-        console.log(parties);
-        console.log(nameParties);
+
         });
     </script>
     </tbody>
