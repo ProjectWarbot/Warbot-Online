@@ -7,6 +7,7 @@ import java.util.List;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.repository.AccountRepository;
+import edu.warbot.repository.PartyRepository;
 import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.services.WarbotOnlineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,26 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HomeController {
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(Principal principal) {
-		return principal != null ? "home/homeSignedIn" : "home/homeNotSignedIn";
+	public String index(Principal principal,Model model) {
+		if(principal !=null)
+		{
+			Account account = accountRepository.findByEmail(principal.getName());
+			Assert.notNull(account);
+			model.addAttribute("account",account);
+			List<Party> l = partyRepository.findByCreator(account);
+			model.addAttribute("parties",l);
+			return "home/homeSignedIn";
+		}
+		return "home/homeNotSignedIn";
 	}
 
 	@Autowired
 	private AccountRepository accountRepository;
+
+	@Autowired
+	private PartyRepository partyRepository;
 
 	@Autowired
 	private WarbotOnlineService warbotOnlineService;
