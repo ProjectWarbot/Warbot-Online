@@ -65,6 +65,11 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
     }
 
     @Override
+    public WebCode findWebCodeForPartyAndAgent(Party party, WebAgent agent) {
+        return webCodeRepository.findWebCodeForTeamAndWebAgent(party, agent);
+    }
+
+    @Override
     public Party findPartyById(Long id) {
         return partyRepository.findOne(id);
     }
@@ -72,5 +77,10 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
     @Override
     public Party findPartyByName(String name) {
         return partyRepository.findByName(name);
+    }
+
+    @Override
+    public Iterable<Party> findAllParty() {
+        return partyRepository.findAll();
     }
 }
