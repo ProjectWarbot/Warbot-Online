@@ -43,19 +43,14 @@
     </tr>
     <script>
         $(function() {
-        var parties = $('[name="partyName"]');
-        var nameParties = [];
-            console.log(parties);
-            console.log(nameParties);
-        $.each( parties, function( index, value ){
-            nameParties[index] = value.text;
-        });
-            console.log(parties);
-            console.log(nameParties);
-        $("#autocomplete").autocomplete({
-            source: nameParties
-        });
-
+            var parties = $('[name="partyName"]');
+            var nameParties = [];
+            $.each( parties, function( index, value ){
+                nameParties[index] = value.text;
+            });
+            $("#autocomplete").autocomplete({
+                source: nameParties
+            });
         });
     </script>
     </tbody>
