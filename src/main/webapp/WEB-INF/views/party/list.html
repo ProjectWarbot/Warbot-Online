@@ -35,11 +35,11 @@
     <tbody>
     <tr th:each="party : ${parties}" th:data="${party.id}">
         <th><p th:text="${party.id}"></p></th>
-        <th><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}"></a></th>
+        <th><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}" data-sortable="true"></a></th>
         <th><p> <!--th:text="${party.creator.email}"-->CREATOR NE MARCHE PAS</p></th>
         <th><p th:text="${party.language}"></p></th>
-        <th><p th:text="${party.eloRank}"></p></th>
-        <th><p th:text="${party.creationDate}"></p></th>
+        <th><p th:text="${party.eloRank}" data-sortable="true"></p></th>
+        <th><p th:text="${party.creationDate}" data-sortable="true"></p></th>
     </tr>
     <script>
         $(function() {
