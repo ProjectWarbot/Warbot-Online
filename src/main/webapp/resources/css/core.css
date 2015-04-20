@@ -144,3 +144,7 @@ h3 {
 .idTestZone {
     width:6%;
 }
+
+#console{
+overflow: auto;
+}
