@@ -5,16 +5,73 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+
+    <script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}" ></script>
+    <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}" ></script>
+    <script src="../../../resources/js/zone/jquery.ui.all.js" th:src="@{/resources/js/zone/jquery.ui.all.js}" ></script>
+    <script src="../../../resources/js/trainingConfigurationZone.js" th:src="@{/resources/js/trainingConfigurationZone.js}" ></script>
+
+    <script src="../../../resources/js/streaming/pixi.js" th:src="@{/resources/js/streaming/pixi.js}" ></script>
+    <script src="../../../resources/js/streaming/importTexture.js" th:src="@{/resources/js/streaming/importTexture.js}" ></script>
 </head>
 <body>
     <div th:replace="fragments/header :: header">Header</div>
 
-    //EDITOR OF MAP
+    <div id="contenerTools" class="form-group">
+
+        <div class="col-xs-2 selectContainer">
+            <select class="form-control" name="selectTeam">
+                <option value="red" selected="selected">Red Team</option>
+                <option value="blue">Blue Team</option>
+                <option value="mother">Mother Team</option>
+            </select>
+        </div>
+
+        <div class="col-xs-2 selectContainer">
+            <select class="form-control" name="selectAgent">
+                <option value="" selected="selected">WarBase</option>
+                <option value="">WarEngineer</option>
+                <option value="">WarExplorer</option>
+                <option value="">WarKamikaze</option>
+                <option value="">WarRocketLauncher</option>
+                <option value="">WarTurret</option>
+            </select>
+        </div>
+
+        <div class="col-xs-2 selectContainer">
+            <select class="form-control" name="selectMap">
+                <option value="closed" selected="selected">Closed world</option>
+                <option value="open">Open world</option>
+                <option value="semi">Semi-closed word</option>
+            </select>
+        </div>
+
+        <div class="col-xs-2 selectContainer">
+            <input id="teamName" name="textinput" placeholder="teamName" class="form-control" type="text"/>
+        </div>
+
+        <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-hand-up"></span></button>
+        <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-remove-circle"></span></button>
+        <button class="btn btn-info" type="submit">Percept</button>
+
+        <button class="btn btn-danger" type="submit">Reset</button>
+        <button class="btn btn-primary" type="submit">Save</button>
+
+    </div>
+
+    <div class="contenerMapEditor">
+
+        <div id="mapEditor" class="outer-center">
+
+        </div>
+
+        <div class="outer-south">
+        </div>
+
+    </div>
 
 
-
-
-
+    <script src="../../../resources/js/streaming/mapEditor.js" th:src="@{/resources/js/streaming/mapEditor.js}" ></script>
 
 </body>
 </html>

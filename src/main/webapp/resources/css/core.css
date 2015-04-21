@@ -148,3 +148,22 @@ h3 {
 #console{
 overflow: auto;
 }
+
+#contenerTools {
+    background-color: #707070 ;
+    height:60px;
+    width:100%;
+    margin-top: -10px;
+    padding-top: 12px;
+}
+
+select {
+    cursor:pointer;
+}
+
+.contenerMapEditor {
+   height:94%;
+   margin:0 auto;
+   margin-left: 7px;
+   margin-right: 7px;
+}
