@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import teams.engineer.WarExplorerBrainController;
 
 import javax.annotation.PostConstruct;
@@ -51,36 +52,31 @@ public class TeamService
 
     private Map<String,Team> sourcesTeam=new HashMap<>();
 
+    private HashMap<String,Class<? extends WarBrain>> brainControllers = new HashMap<String,Class<? extends WarBrain>>();
+
+
 
     @PostConstruct
     public void init()
     {
         loadSourceTeams();
+        loadScriptClasses();
+
     }
 
-    public Team generateTeamFromParty(Party party)
-    {
-        ScriptedTeam team = new ScriptedTeam(party.getName());
-//        team.setInterpreter
-//                (ScriptInterpreterFactory.getInstance(party.getLanguage())
-//                        .createScriptInterpreter());
-        ScriptInterpreter si = ScriptInterpreterFactory.getInstance(party.getLanguage())
-                            .createScriptInterpreter();
-
-
-        for(WebCode webcode : party.getAgents())
-        {
-            StringBuilder sb = new StringBuilder(webcode.getContent());
-            team.getInterpreter().addScript(sb,webcode.getAgent().getType());
+    protected void loadScriptClasses() {
+        try {
+            ClassPool defaultClassPool = ClassPool.getDefault();
+            brainControllers.put("WarBase", createNewWarBrainImplementationClass(defaultClassPool,"edu.warbot.scriptcore.team.ScriptableWarBase"));
+            brainControllers.put("WarExplorer", createNewWarBrainImplementationClass(defaultClassPool,"edu.warbot.scriptcore.team.ScriptableWarExplorer"));
+            brainControllers.put("WarEngineer", createNewWarBrainImplementationClass(defaultClassPool,"edu.warbot.scriptcore.team.ScriptableWarEngineer"));
+            brainControllers.put("WarRocketLauncher", createNewWarBrainImplementationClass(defaultClassPool,"edu.warbot.scriptcore.team.ScriptableWarRocketLauncher"));
+            brainControllers.put("WarKamikaze", createNewWarBrainImplementationClass(defaultClassPool,"edu.warbot.scriptcore.team.ScriptableWarKamikaze"));
+            brainControllers.put("WarTurret", createNewWarBrainImplementationClass(defaultClassPool,"edu.warbot.scriptcore.team.ScriptableWarTurret"));
+        } catch (NotFoundException | CannotCompileException | IOException e) {
+            e.printStackTrace();
         }
-        return team;
     }
-
-    public Map<String,Team> getTeams()
-    {
-        return sourcesTeam;
-    }
-
 
     protected void loadSourceTeams()
     {
@@ -134,6 +130,30 @@ public class TeamService
             }
         }
     }
+
+
+    public Team generateTeamFromParty(Party party)
+    {
+        ScriptedTeam team = new ScriptedTeam(party.getName(),getBrains());
+        team.setInterpreter
+                (ScriptInterpreterFactory.getInstance(party.getLanguage())
+                        .createScriptInterpreter());
+
+        for(WebCode webcode : webCodeRepository.findWebCodeForTeam(party))
+        {
+            StringBuilder sb = new StringBuilder(webcode.getContent());
+            team.getInterpreter().addScript(sb, webcode.getAgent().getType());
+        }
+        return team;
+    }
+
+    public Map<String,Team> getTeams()
+    {
+        return sourcesTeam;
+    }
+
+
+
 
     protected Team loadTeamFromSources(Map<String, String> teamsSourcesFolders, final TeamConfigReader teamConfigReader) throws ClassNotFoundException, IOException, NotFoundException, CannotCompileException {
 
@@ -236,4 +256,7 @@ public class TeamService
         return constructClass.asSubclass(WarBrain.class);
     }
 
+    public HashMap<String,Class<?extends WarBrain>> getBrains() {
+        return brainControllers;
+    }
 }

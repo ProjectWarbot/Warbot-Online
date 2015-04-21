@@ -1,4 +1,4 @@
-package edu.warbot.codeEditorGestion;
+package edu.warbot.editor;
 
 import java.util.HashMap;
 
