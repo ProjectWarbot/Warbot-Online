@@ -156,7 +156,7 @@ public class PartyController implements ApplicationContextAware
         }
         MessageHelper.addSuccessAttribute(ra, "party.success");
         ra.addAttribute("idParty", party.getId());
-        return "redirect:/party/show";
+        return "redirect:/teamcode";
     }
 
     @RequestMapping(value = "party/show", method = RequestMethod.GET)
@@ -168,7 +168,7 @@ public class PartyController implements ApplicationContextAware
         Party party = warbotOnlineService.findPartyById(id);
         party.getMembers();
         model.addAttribute("party", party);
-        return "party/show";
+        return "teamcode/showTeam";
     }
 
 
