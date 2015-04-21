@@ -5,6 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
 
     <script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}" ></script>
     <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}" ></script>
@@ -20,7 +23,7 @@
     <div id="contenerTools" class="form-group">
 
         <div class="col-xs-2 selectContainer">
-            <select class="form-control" name="selectTeam">
+            <select id="selectTeamName" class="form-control" name="selectTeam" onchange="nameTeamChange()">
                 <option value="red" selected="selected">Red Team</option>
                 <option value="blue">Blue Team</option>
                 <option value="mother">Mother Team</option>
@@ -28,18 +31,20 @@
         </div>
 
         <div class="col-xs-2 selectContainer">
-            <select class="form-control" name="selectAgent">
-                <option value="" selected="selected">WarBase</option>
-                <option value="">WarEngineer</option>
-                <option value="">WarExplorer</option>
-                <option value="">WarKamikaze</option>
-                <option value="">WarRocketLauncher</option>
-                <option value="">WarTurret</option>
+            <select id="selectAgentName" class="form-control" name="selectAgent" onchange="nameAgentChange()">
+                <option value="WarBase" selected="selected">Base</option>
+                <option value="WarEngineer">Engineer</option>
+                <option value="WarExplorer">Explorer</option>
+                <option value="WarKamikaze">Kamikaze</option>
+                <option value="WarRocketLauncher">RocketLauncher</option>
+                <option value="WarTurret">Turret</option>
+                <option value="Wall">Wall</option>
+                <option value="WarFood">Food</option>
             </select>
         </div>
 
         <div class="col-xs-2 selectContainer">
-            <select class="form-control" name="selectMap">
+            <select id="selectMapName" class="form-control" name="selectMap" onchange="nameMapChange()">
                 <option value="closed" selected="selected">Closed world</option>
                 <option value="open">Open world</option>
                 <option value="semi">Semi-closed word</option>
@@ -50,13 +55,17 @@
             <input id="teamName" name="textinput" placeholder="teamName" class="form-control" type="text"/>
         </div>
 
-        <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-hand-up"></span></button>
-        <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-remove-circle"></span></button>
-        <button class="btn btn-info" type="submit">Percept</button>
+        <button id="buttonAddAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-hand-up"></span></button>
+        <button id="buttonRemoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-remove-circle"></span></button>
+        <button id="buttonPercept" class="btn btn-primary" type="submit">Percept</button>
 
         <button class="btn btn-danger" type="submit">Reset</button>
-        <button class="btn btn-primary" type="submit">Save</button>
-
+        <button class="btn btn-success" type="submit">Save</button>
+        <!--
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+            Single toggle
+        </button>
+        -->
     </div>
 
     <div class="contenerMapEditor">
@@ -65,7 +74,7 @@
 
         </div>
 
-        <div class="outer-south">
+        <div id="resumeMapEditor" class="outer-south">
         </div>
 
     </div>
@@ -73,5 +82,63 @@
 
     <script src="../../../resources/js/streaming/mapEditor.js" th:src="@{/resources/js/streaming/mapEditor.js}" ></script>
 
+    <script>
+
+        (function() {
+
+            var buttonAddAgent = document.getElementById('buttonAddAgent');
+            var buttonRemoveAgent = document.getElementById('buttonRemoveAgent');
+            var buttonPerceptAgent = document.getElementById('buttonPercept');
+
+
+
+            $(buttonAddAgent).click(function(event)
+            {
+                var addAgentClassName = $(buttonAddAgent).attr('class');
+
+                if(addAgentClassName == "btn btn-primary") {
+                    $(buttonAddAgent).attr('class', 'btn btn-primary active');
+                    buttonAddAgentME = true;
+                }
+                else {
+                    $(buttonAddAgent).attr('class', 'btn btn-primary');
+                    buttonAddAgentME = false;
+                }
+
+            });
+
+            $(buttonRemoveAgent).click(function(event)
+            {
+                var removeAgentClassName = $(buttonRemoveAgent).attr('class');
+
+                if(removeAgentClassName == "btn btn-primary") {
+                    $(buttonRemoveAgent).attr('class', 'btn btn-primary active');
+                    buttonRemoveAgentME = true;
+                }
+                else {
+                    $(buttonRemoveAgent).attr('class', 'btn btn-primary');
+                    buttonRemoveAgentME = false;
+                }
+
+            });
+
+            $(buttonPerceptAgent).click(function(event)
+            {
+                var perceptAgentClassName = $(buttonPerceptAgent).attr('class');
+
+                if(perceptAgentClassName == "btn btn-primary") {
+                    $(buttonPerceptAgent).attr('class', 'btn btn-primary active');
+                    buttonPerceptAgentME = true;
+                }
+                else {
+                    $(buttonPerceptAgent).attr('class', 'btn btn-primary');
+                    buttonPerceptAgentME = false;
+                }
+
+            });
+
+
+      })();
+    </script>
 </body>
 </html>

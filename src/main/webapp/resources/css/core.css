@@ -167,3 +167,7 @@ select {
    margin-left: 7px;
    margin-right: 7px;
 }
+
+#resumeMapEditor {
+    background-color: #000000 ;
+}
