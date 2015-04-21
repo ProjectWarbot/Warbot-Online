@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Team Code</title>
+    <title th:text="${party.name}">x</title>
     <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
 
@@ -10,7 +10,13 @@
 
 <div th:replace="fragments/header :: header">Header</div>
 
-<span th:text="${party.name}">x</span>
+<div class="container">
+    <span th:text="${party.name}">x</span>
+    <!--<span th:text="${party.creator}">x</span>
+    <span th:text="${party.members}">x</span>
+    <span th:text="${party.}">x</span>-->
+</div>
+
 
 </body>
 </html>
