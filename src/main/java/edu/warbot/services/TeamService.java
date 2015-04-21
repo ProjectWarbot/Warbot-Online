@@ -56,7 +56,7 @@ public class TeamService
 
 
 
-    @PostConstruct
+    //@PostConstruct
     public void init()
     {
         loadSourceTeams();
