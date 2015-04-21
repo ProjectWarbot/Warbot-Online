@@ -1,7 +1,7 @@
 package edu.warbot.form;
 
-import edu.warbot.models.TestZone;
-import edu.warbot.models.enums.LevelTestZoneEnum;
+import edu.warbot.models.TrainingConfiguration;
+import edu.warbot.models.enums.LevelTrainingConfigurationEnum;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -9,21 +9,21 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 
 
-public class TestZoneForm {
+public class TrainingConfigurationForm {
 
     private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
 
-    @NotBlank(message = TestZoneForm.NOT_BLANK_MESSAGE)
+    @NotBlank(message = TrainingConfigurationForm.NOT_BLANK_MESSAGE)
     public String zoneName;
 
-    @NotBlank(message = TestZoneForm.NOT_BLANK_MESSAGE)
+    @NotBlank(message = TrainingConfigurationForm.NOT_BLANK_MESSAGE)
     public String level;
 
-    @NotBlank(message = TestZoneForm.NOT_BLANK_MESSAGE)
+    @NotBlank(message = TrainingConfigurationForm.NOT_BLANK_MESSAGE)
     public String description;
 
-    public TestZone createTestZone() {
-        TestZone tz = new TestZone(zoneName, LevelTestZoneEnum.valueOf(level), description);
+    public TrainingConfiguration createTestZone() {
+        TrainingConfiguration tz = new TrainingConfiguration(zoneName, LevelTrainingConfigurationEnum.valueOf(level), description);
         return tz;
     }
 
