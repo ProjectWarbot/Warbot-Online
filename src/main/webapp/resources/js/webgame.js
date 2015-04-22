@@ -63,7 +63,7 @@ function WebGameModel(stompClient) {
           "idTeam2" : idParty2
         };
       console.log(trade);
-      stompClient.send("/app/game/start", {}, JSON.stringify(trade));
+      stompClient.send("/app/game/start.against.ia", {}, JSON.stringify(trade));
     };
 
      self.get = function(idParty1,idAgent1) {
