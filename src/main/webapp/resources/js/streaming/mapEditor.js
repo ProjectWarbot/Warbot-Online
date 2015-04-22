@@ -85,7 +85,15 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
     agent.scale.x = 0.5;
     agent.scale.y = 0.5;
 
-    //TODO add percept
+    agent.interactive = true;
+    agent.buttonMode = true;
+    agent.defaultCursor = "pointer";
+
+
+
+
+
+
 
     scene.addChild(agent);
     listAgentEditor.push(agent);
@@ -218,7 +226,7 @@ function getSpriteAgent(typeAgent, typeColor) {
 		if(typeColor == 1) {
 			return explorerRed;
 		}
-		else {
+		else if (typeColor == 2){
 			return explorerBlue;
 		}
 	}
@@ -226,7 +234,7 @@ function getSpriteAgent(typeAgent, typeColor) {
 		if(typeColor == 1) {
 			return engineerRed;
 		}
-		else {
+		else if (typeColor == 2){
 			return engineerBlue;
 		}
 	}
@@ -234,7 +242,7 @@ function getSpriteAgent(typeAgent, typeColor) {
 		if(typeColor == 1) {
 			return rocketLauncherRed;
 		}
-		else {
+		else if (typeColor == 2){
 			return rocketLauncherBlue;
 		}
 	}
@@ -242,7 +250,7 @@ function getSpriteAgent(typeAgent, typeColor) {
 		if(typeColor == 1) {
 			return kamikazeRed;
 		}
-		else {
+		else if (typeColor == 2){
 			return kamikazeBlue;
 		}
 	}
@@ -250,7 +258,7 @@ function getSpriteAgent(typeAgent, typeColor) {
 		if(typeColor == 1) {
 			return turretRed;
 		}
-		else {
+		else if (typeColor == 2){
 			return turretBlue;
 		}
 	}
@@ -258,7 +266,7 @@ function getSpriteAgent(typeAgent, typeColor) {
 		if(typeColor == 1) {
 			return baseRed;
 		}
-		else {
+		else if (typeColor == 2){
 			return baseBlue;
 		}
 	}
@@ -278,3 +286,16 @@ function getSpriteAgent(typeAgent, typeColor) {
 		console.log("bug getSpriteAgent")
 	}
 }
+
+function resetMapEditor(){
+
+	for (i = 0; i < listAgentEditor.length; i++) {
+		cameraMapEditor.removeChild(listAgentEditor[i]);
+	}
+
+	while(listAgentEditor.length > 0) {
+        listAgentEditor.pop();
+    }
+
+}
+

@@ -59,8 +59,9 @@
         <button id="buttonRemoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-remove-circle"></span></button>
         <button id="buttonPercept" class="btn btn-primary" type="submit">Percept</button>
 
-        <button class="btn btn-danger" type="submit">Reset</button>
+        <button id="buttonReset" class="btn btn-danger" type="submit">Reset</button>
         <button class="btn btn-success" type="submit">Save</button>
+
         <!--
         <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
             Single toggle
@@ -89,8 +90,7 @@
             var buttonAddAgent = document.getElementById('buttonAddAgent');
             var buttonRemoveAgent = document.getElementById('buttonRemoveAgent');
             var buttonPerceptAgent = document.getElementById('buttonPercept');
-
-
+            var buttonResetMapEditor = document.getElementById('buttonReset');
 
             $(buttonAddAgent).click(function(event)
             {
@@ -104,7 +104,6 @@
                     $(buttonAddAgent).attr('class', 'btn btn-primary');
                     buttonAddAgentME = false;
                 }
-
             });
 
             $(buttonRemoveAgent).click(function(event)
@@ -136,6 +135,12 @@
                 }
 
             });
+
+            $(buttonResetMapEditor).click(function(event)
+            {
+                resetMapEditor();
+            });
+
 
 
       })();
