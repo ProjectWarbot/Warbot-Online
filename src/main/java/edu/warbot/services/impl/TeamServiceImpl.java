@@ -1,4 +1,4 @@
-package edu.warbot.services;
+package edu.warbot.services.impl;
 
 import edu.warbot.brains.WarBrain;
 import edu.warbot.brains.capacities.Agressive;
@@ -13,6 +13,7 @@ import edu.warbot.repository.PartyRepository;
 import edu.warbot.repository.WebCodeRepository;
 import edu.warbot.scriptcore.ScriptedTeam;
 import edu.warbot.scriptcore.interpreter.ScriptInterpreterFactory;
+import edu.warbot.services.TeamService;
 import edu.warbot.tools.WarIOTools;
 import javassist.*;
 import org.slf4j.Logger;

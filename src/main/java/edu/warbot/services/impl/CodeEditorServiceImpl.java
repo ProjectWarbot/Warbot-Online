@@ -1,4 +1,4 @@
-package edu.warbot.services;
+package edu.warbot.services.impl;
 
 import edu.warbot.editor.CodeEditorListener;
 import edu.warbot.exceptions.UnauthorisedToEditLockException;
@@ -8,6 +8,7 @@ import edu.warbot.models.Party;
 import edu.warbot.models.WebAgent;
 import edu.warbot.models.WebCode;
 import edu.warbot.repository.WebCodeRepository;
+import edu.warbot.services.CodeEditorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

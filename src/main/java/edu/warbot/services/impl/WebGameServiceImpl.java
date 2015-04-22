@@ -1,4 +1,4 @@
-package edu.warbot.services;
+package edu.warbot.services.impl;
 
 import edu.warbot.game.Team;
 import edu.warbot.game.WarGameSettings;
@@ -8,6 +8,8 @@ import edu.warbot.online.WebGame;
 import edu.warbot.online.WebLauncher;
 import edu.warbot.online.messaging.WebGameSettings;
 import edu.warbot.repository.PartyRepository;
+import edu.warbot.services.TeamService;
+import edu.warbot.services.WebGameService;
 import madkit.action.KernelAction;
 import madkit.kernel.Madkit;
 import org.apache.commons.logging.Log;

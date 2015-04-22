@@ -5,7 +5,7 @@ import edu.warbot.models.Party;
 import edu.warbot.online.messaging.WebGameSettings;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.services.WarbotOnlineService;
-import edu.warbot.services.WebGameServiceImpl;
+import edu.warbot.services.impl.WebGameServiceImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
