@@ -169,5 +169,31 @@ select {
 }
 
 #resumeMapEditor {
-    background-color: #000000 ;
+    background-color: #FFFFFF ;
 }
+
+#tableMap {
+    width:50%;
+    float: left;
+}
+
+#tableAgent {
+    float: left;
+    width:50%;
+}
+
+#ongletMapTitle {
+    text-align: center;
+    font-weight: bold;
+    color: #000000 ;
+    background-color:#F5D0A9;
+}
+
+#ongletAgentTitle {
+    text-align: center;
+    font-weight: bold;
+    color: #000000 ;
+    background-color:#F3E2A9;
+
+}
+
