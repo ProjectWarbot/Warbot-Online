@@ -61,12 +61,5 @@ public class HomeController {
 		return "teamcode/teamcode";
 	}
 
-	@RequestMapping(value = "/teamlist", method = RequestMethod.GET)
-	public String teamlist(Model model) {
-		Iterable<Party> partyList;
-		partyList = warbotOnlineService.findAllParty();
-		model.addAttribute("parties", partyList);
-		return "party/list";
-	}
 
 }

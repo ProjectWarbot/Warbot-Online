@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Team Code</title>
+    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+
+</head>
+<body>
+
+<div th:replace="fragments/header :: header">Header</div>
+
+
+<div class="well">
+    <span th:text="${party.name}"></span>
+    <!--<span th:text="${party.creator}">x</span>
+    <span th:text="${party.members}">x</span>
+    <span th:text="${party.}">x</span>-->
+    <a th:href="@{/teamcode}+'?idParty='+${party.id}" class="btn btn-sm btn-success launch"> Party Code</a>
+</div>
+
+
+</body>
+</html>
+

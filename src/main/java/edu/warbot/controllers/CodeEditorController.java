@@ -1,6 +1,6 @@
 package edu.warbot.controllers;
 
-import edu.warbot.codeEditorGestion.CodeEditorListener;
+import edu.warbot.editor.CodeEditorListener;
 import edu.warbot.exceptions.NotFoundEntityException;
 import edu.warbot.exceptions.UnauthorisedToEditLockException;
 import edu.warbot.exceptions.UnauthorisedToEditNotMemberException;
