@@ -1,7 +1,6 @@
 package edu.warbot.controllers;
 
-import edu.warbot.form.PartyForm;
-import edu.warbot.form.TestZoneForm;
+import edu.warbot.form.TrainingConfigurationForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.annotation.Secured;
@@ -16,25 +15,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @Secured({"ROLE_USER","ROLE_ADMIN"})
-public class ConfigurationEditorController {
+public class TrainingConfigurationController {
 
-    final Logger logger = LoggerFactory.getLogger(ConfigurationEditorController.class);
+    final Logger logger = LoggerFactory.getLogger(TrainingConfigurationController.class);
 
     @RequestMapping(value = "configuration-editor/list", method = RequestMethod.GET)
     public String listEditor() {
 
         return "configuration-editor/select";
     }
-
-
     @RequestMapping(value = "configuration-editor/new",method = RequestMethod.GET)
     public String createEditor(Model model)
     {
-        model.addAttribute("formZone", new TestZoneForm());
+        model.addAttribute("formZone", new TrainingConfigurationForm());
         return "configuration-editor/create";
     }
-
-
-
-
+    
 }
