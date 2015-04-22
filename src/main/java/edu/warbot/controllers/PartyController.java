@@ -156,7 +156,8 @@ public class PartyController implements ApplicationContextAware
         }
         MessageHelper.addSuccessAttribute(ra, "party.success");
         ra.addAttribute("idParty", party.getId());
-        return "redirect:/party/create";
+
+        return "redirect:/party/show";
     }
 
     @RequestMapping(value = "party/show", method = RequestMethod.GET)
