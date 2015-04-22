@@ -12,6 +12,7 @@ import edu.warbot.models.WebCode;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.services.CodeEditorService;
+import edu.warbot.services.CodeEditorServiceImpl;
 import edu.warbot.services.WarbotOnlineService;
 import edu.warbot.support.web.MessageHelper;
 import org.slf4j.Logger;
@@ -157,7 +158,7 @@ public class PartyController implements ApplicationContextAware
         MessageHelper.addSuccessAttribute(ra, "party.success");
         ra.addAttribute("idParty", party.getId());
 
-        return "redirect:/party/show";
+        return "redirect:/teamcode";
     }
 
     @RequestMapping(value = "party/show", method = RequestMethod.GET)

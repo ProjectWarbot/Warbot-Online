@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import edu.warbot.models.Account;
 import edu.warbot.models.WebCode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -19,14 +20,15 @@ public class CodeEditorListener implements ApplicationListener<ApplicationEvent>
 
     private HashMap<Account, WebCode> userCodeLocks;
     private HashMap<WebCode, Account> codeUserLocks;
-    private String logIn;
+    private String access;
+
+    @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
 
     public CodeEditorListener(SimpMessagingTemplate simpMessagingTemplate) {
         userCodeLocks = new HashMap<Account, WebCode>();
         codeUserLocks = new HashMap<WebCode, Account>();
-        logIn = "";
         messagingTemplate = simpMessagingTemplate;
     }
 
@@ -64,14 +66,6 @@ public class CodeEditorListener implements ApplicationListener<ApplicationEvent>
         this.userCodeLocks = locks;
     }
 
-    public String getLogIn() {
-        return logIn;
-    }
-
-    public void setLogIn(String logIn) {
-        this.logIn = logIn;
-    }
-
     public HashMap<WebCode, Account> getReverseLogs() {
         return codeUserLocks;
     }
@@ -104,5 +98,13 @@ public class CodeEditorListener implements ApplicationListener<ApplicationEvent>
     public void removeFromLocks(Account user, WebCode code) {
         userCodeLocks.remove(user);
         codeUserLocks.remove(code);
+    }
+
+    public void setAccess(String access) {
+        this.access = access;
+    }
+
+    public String getAccess() {
+        return access;
     }
 }

@@ -20,23 +20,18 @@ public class ConfigurationEditorController {
 
     final Logger logger = LoggerFactory.getLogger(ConfigurationEditorController.class);
 
-    @RequestMapping(value = "editor/list", method = RequestMethod.GET)
+    @RequestMapping(value = "configuration-editor/list", method = RequestMethod.GET)
     public String listEditor() {
 
-        return "editor/select";
+        return "configuration-editor/select";
     }
-/*
-    @RequestMapping(value = "editor/new", method = RequestMethod.GET)
-    public String createEditor() {
 
-        return "editor/create";
-    }*/
 
-    @RequestMapping(value = "editor/new",method = RequestMethod.GET)
+    @RequestMapping(value = "configuration-editor/new",method = RequestMethod.GET)
     public String createEditor(Model model)
     {
         model.addAttribute("formZone", new TestZoneForm());
-        return "editor/create";
+        return "configuration-editor/create";
     }
 
 
