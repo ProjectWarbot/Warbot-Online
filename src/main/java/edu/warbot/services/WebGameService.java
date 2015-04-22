@@ -79,7 +79,7 @@ public class WebGameService
                 messagingTemplate,wgs);
         WebLauncher wl = new WebLauncher(game);
 
-        new Madkit().doAction(KernelAction.LAUNCH_AGENT,wl);
+        new Madkit(Madkit.BooleanOption.desktop.toString(),"false").doAction(KernelAction.LAUNCH_AGENT, wl);
     }
 
     public void startAgainstIA(Account account,Party party)
@@ -102,7 +102,7 @@ public class WebGameService
                 messagingTemplate,wgs);
         WebLauncher wl = new WebLauncher(game);
 
-        Madkit m = new Madkit();
+        Madkit m = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
         m.doAction(KernelAction.LAUNCH_AGENT,wl);
     }
 

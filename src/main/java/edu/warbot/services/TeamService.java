@@ -61,14 +61,11 @@ public class TeamService
     public Team generateTeamFromParty(Party party)
     {
         ScriptedTeam team = new ScriptedTeam(party.getName());
-//        team.setInterpreter
-//                (ScriptInterpreterFactory.getInstance(party.getLanguage())
-//                        .createScriptInterpreter());
-        ScriptInterpreter si = ScriptInterpreterFactory.getInstance(party.getLanguage())
-                            .createScriptInterpreter();
+        team.setInterpreter
+                (ScriptInterpreterFactory.getInstance(party.getLanguage())
+                        .createScriptInterpreter());
 
-
-        for(WebCode webcode : party.getAgents())
+        for(WebCode webcode : webCodeRepository.findWebCodeForTeam(party))
         {
             StringBuilder sb = new StringBuilder(webcode.getContent());
             team.getInterpreter().addScript(sb,webcode.getAgent().getType());
