@@ -1,5 +1,8 @@
 package edu.warbot.config;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.orm.hibernate4.support.OpenSessionInViewFilter;
+import org.springframework.orm.jdo.support.OpenPersistenceManagerInViewFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -14,13 +17,19 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     }
 
     @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {ApplicationConfig.class, JpaConfig.class, SecurityConfig.class};
+    protected Class<?>[] getRootConfigClasses() {//JPA Config
+        return new Class<?>[] {ApplicationConfig.class, DataSourceConfig.class, WebSocketConfig.class,SecurityConfig.class};
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[] {WebMvcConfig.class};
+    }
+
+    @Bean
+    public OpenSessionInViewFilter openSessionInViewFilter()
+    {
+        return new OpenSessionInViewFilter();
     }
 
     @Override
@@ -31,7 +40,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
         DelegatingFilterProxy securityFilterChain = new DelegatingFilterProxy("springSecurityFilterChain");
 
-        return new Filter[] {characterEncodingFilter, securityFilterChain};
+        return new Filter[] {characterEncodingFilter, securityFilterChain,
+                    };
     }
 
     @Override

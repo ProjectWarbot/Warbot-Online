@@ -1,5 +1,6 @@
 package edu.warbot.form;
 
+import edu.warbot.models.Party;
 import org.hibernate.validator.constraints.*;
 
 import edu.warbot.models.Account;
@@ -72,6 +73,6 @@ public class SignupForm {
     public Account createAccount() {
         return new Account(getEmail(), getPassword(),firstName,lastName,screenName,
                 false,false,
-                new Date(),null,new Date(),"ROLE_USER",new HashSet<>());
+                new Date(),null,new Date(),"ROLE_USER",new HashSet<Party>());
 	}
 }
