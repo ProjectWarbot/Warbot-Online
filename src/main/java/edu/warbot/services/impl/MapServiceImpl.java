@@ -16,7 +16,7 @@ public class MapServiceImpl implements MapService {
 
     @Autowired
     private MapRepository mapRepository;
-    
+
     public void saveMap(Map m) { mapRepository.save(m);}
 
     @Override
