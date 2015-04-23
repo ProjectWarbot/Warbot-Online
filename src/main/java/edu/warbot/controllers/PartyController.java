@@ -168,7 +168,15 @@ public class PartyController implements ApplicationContextAware
         Party party = warbotOnlineService.findPartyById(id);
         party.getMembers();
         model.addAttribute("party", party);
-        return "teamcode/showTeam";
+        return "party/showParty";
+    }
+
+    @RequestMapping(value = "/partylist", method = RequestMethod.GET)
+    public String partylist(Model model) {
+        Iterable<Party> partyList;
+        partyList = warbotOnlineService.findAllParty();
+        model.addAttribute("parties", partyList);
+        return "party/list";
     }
 
 

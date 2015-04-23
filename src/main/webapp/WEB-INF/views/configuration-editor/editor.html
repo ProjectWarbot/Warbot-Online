@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Map</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
+
+    <script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}" ></script>
+    <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}" ></script>
+    <script src="../../../resources/js/zone/jquery.ui.all.js" th:src="@{/resources/js/zone/jquery.ui.all.js}" ></script>
+    <script src="../../../resources/js/trainingConfigurationZone.js" th:src="@{/resources/js/trainingConfigurationZone.js}" ></script>
+
+    <script src="../../../resources/js/streaming/pixi.js" th:src="@{/resources/js/streaming/pixi.js}" ></script>
+    <script src="../../../resources/js/streaming/importTexture.js" th:src="@{/resources/js/streaming/importTexture.js}" ></script>
+</head>
+<body>
+    <div th:replace="fragments/header :: header">Header</div>
+
+    <div id="contenerTools" class="form-group">
+
+        <div class="col-xs-2 selectContainer">
+            <select id="selectTeamName" class="form-control" name="selectTeam" onchange="nameTeamChange()">
+                <option value="red" selected="selected">Red Team</option>
+                <option value="blue">Blue Team</option>
+                <option value="mother">Mother Team</option>
+            </select>
+        </div>
+
+        <div class="col-xs-2 selectContainer">
+            <select id="selectAgentName" class="form-control" name="selectAgent" onchange="nameAgentChange()">
+                <option value="WarBase" selected="selected">Base</option>
+                <option value="WarEngineer">Engineer</option>
+                <option value="WarExplorer">Explorer</option>
+                <option value="WarKamikaze">Kamikaze</option>
+                <option value="WarRocketLauncher">RocketLauncher</option>
+                <option value="WarTurret">Turret</option>
+                <option value="Wall">Wall</option>
+                <option value="WarFood">Food</option>
+            </select>
+        </div>
+
+        <div class="col-xs-2 selectContainer">
+            <select id="selectMapName" class="form-control" name="selectMap" onchange="nameMapChange()">
+                <option value="closed" selected="selected">Closed world</option>
+                <option value="open">Open world</option>
+                <option value="semi">Semi-closed word</option>
+            </select>
+        </div>
+
+        <div class="col-xs-2 selectContainer">
+            <input id="teamName" name="textinput" placeholder="teamName" class="form-control" type="text"/>
+        </div>
+
+        <button id="buttonAddAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-hand-up"></span></button>
+        <button id="buttonRemoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-remove-circle"></span></button>
+        <button id="buttonPercept" class="btn btn-primary" type="submit">Percept</button>
+
+        <button id="buttonReset" class="btn btn-danger" type="submit">Reset</button>
+        <button class="btn btn-success" type="submit">Save</button>
+
+        <!--
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+            Single toggle
+        </button>
+        -->
+    </div>
+
+    <div id="contentMapEditor" class="contenerMapEditor">
+
+        <div id="mapEditor" class="outer-center">
+
+        </div>
+
+        <div id="resumeMapEditor" class="outer-south">
+            <table id="tableMap" class="table table-bordered">
+                <caption id="ongletMapTitle">Map</caption>
+                <tr class="mapFood">
+                    <td>Food</td>
+                    <td id="numberOfFoodConsoleMap">0</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="mapNameTeam">Team</td>
+                    <td class="mapRed" id="nameRedTeamConsoleMap">My Team</td>
+                    <td class="mapBlue" id="nameBlueTeamConsoleMap">Other Team</td>
+                </tr>
+                <tr>
+                    <td class="mapNameAgent">Total Agents</td>
+                    <td class="mapRed" id="totalRedTeamAgent">0</td>
+                    <td class="mapBlue" id="totalBlueTeamAgent">0</td>
+                </tr>
+                <tr>
+                    <td class="mapNameAgent">WarBase</td>
+                    <td class="mapRed" id="numberOfBaseRed">0</td>
+                    <td class="mapBlue" id="numberOfBaseBlue">0</td>
+                </tr>
+                <tr>
+                    <td class="mapNameAgent">WarExplorer</td>
+                    <td class="mapRed" id="numberOfExplorerRed">0</td>
+                    <td class="mapBlue" id="numberOfExplorerBlue">0</td>
+                </tr>
+                <tr>
+                    <td class="mapNameAgent">WarEngineer</td>
+                    <td class="mapRed" id="numberOfEngineerRed">0</td>
+                    <td class="mapBlue" id="numberOfEngineerBlue">0</td>
+                </tr>
+                <tr>
+                    <td class="mapNameAgent">WarRocketLauncher</td>
+                    <td class="mapRed" id="numberOfRocketLauncherRed" >0</td>
+                    <td class="mapBlue" id="numberOfRocketLauncherBlue">0</td>
+                </tr>
+                <tr>
+                    <td class="mapNameAgent">WarKamikaze</td>
+                    <td class="mapRed" id="numberOfKamikazeRed">0</td>
+                    <td class="mapBlue" id="numberOfKamikazeBlue">0</td>
+                </tr>
+                <tr>
+                    <td class="mapNameAgent">WarTurret</td>
+                    <td class="mapRed" id="numberOfTurretRed" >0</td>
+                    <td class="mapBlue" id="numberOfTurretBlue" >0</td>
+                </tr>
+                <tr>
+                    <td class="mapNameAgent">Wall</td>
+                    <td class="mapRed" id="numberOfWallRed">0</td>
+                    <td class="mapBlue" id="numberOfWallBlue">0</td>
+                </tr>
+
+            </table>
+
+            <table id="tableAgent" class="table table-bordered">
+                <caption id="ongletAgentTitle">Agent</caption>
+                <tr class="">
+                    <td class="mapNameTeam">Name</td>
+                    <td class="mapAgentName" id="nameOfAgentFollow">null</td>
+                </tr>
+                <tr class="">
+                    <td class="mapNameAgent">Team</td>
+                    <td class="mapAgentOther" id="teamOfAgentFollow">null</td>
+                </tr>
+                <tr class="">
+                    <td class="mapNameAgent">Type</td>
+                    <td class="mapAgentOther" id="typeOfAgentFollow">null</td>
+                </tr>
+                <tr class="">
+                    <td class="mapNameAgent">Angle</td>
+                    <td class="mapAgentOther" id="angleOfAgentFollow">0</td>
+                </tr>
+                <tr class="">
+                    <td class="mapNameAgent">Distance view</td>
+                    <td class="mapAgentOther" id="distanceViewAgentFollow">0</td>
+                </tr>
+                <tr class="">
+                    <td class="mapNameAgent">Angle view</td>
+                    <td class="mapAgentOther" id="angleViewAgentFollow">0</td>
+                </tr>
+                <tr class="">
+                    <td class="mapNameAgent">Life</td>
+                    <td class="mapAgentOther" id="lifeAgentFollow"> 0 ∕ 0</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <script src="../../../resources/js/streaming/mapEditor.js" th:src="@{/resources/js/streaming/mapEditor.js}" ></script>
+
+    <script>
+        (function() {
+
+            var buttonAddAgent = document.getElementById('buttonAddAgent');
+            var buttonRemoveAgent = document.getElementById('buttonRemoveAgent');
+            var buttonPerceptAgent = document.getElementById('buttonPercept');
+            var buttonResetMapEditor = document.getElementById('buttonReset');
+
+            $(buttonAddAgent).click(function(event)
+            {
+                var addAgentClassName = $(buttonAddAgent).attr('class');
+
+                if(addAgentClassName == "btn btn-primary") {
+                    $(buttonAddAgent).attr('class', 'btn btn-primary active');
+                    buttonAddAgentME = true;
+                }
+                else {
+                    $(buttonAddAgent).attr('class', 'btn btn-primary');
+                    buttonAddAgentME = false;
+                }
+            });
+
+            $(buttonRemoveAgent).click(function(event)
+            {
+                var removeAgentClassName = $(buttonRemoveAgent).attr('class');
+
+                if(removeAgentClassName == "btn btn-primary") {
+                    $(buttonRemoveAgent).attr('class', 'btn btn-primary active');
+                    buttonRemoveAgentME = true;
+                }
+                else {
+                    $(buttonRemoveAgent).attr('class', 'btn btn-primary');
+                    buttonRemoveAgentME = false;
+                }
+
+            });
+
+            $(buttonPerceptAgent).click(function(event)
+            {
+                var perceptAgentClassName = $(buttonPerceptAgent).attr('class');
+
+                if(perceptAgentClassName == "btn btn-primary") {
+                    $(buttonPerceptAgent).attr('class', 'btn btn-primary active');
+                    buttonPerceptAgentME = true;
+                    perceptAgentMapEditor(1);
+                }
+                else {
+                    $(buttonPerceptAgent).attr('class', 'btn btn-primary');
+                    buttonPerceptAgentME = false;
+                    perceptAgentMapEditor(-1);
+                }
+
+            });
+
+            $(buttonResetMapEditor).click(function(event)
+            {
+                resetMapEditor();
+            });
+      })();
+    </script>
+</body>
+</html>

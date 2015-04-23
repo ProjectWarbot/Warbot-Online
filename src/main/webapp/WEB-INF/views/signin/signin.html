@@ -7,6 +7,7 @@
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
 </head>
 <body>
+<div th:replace="fragments/header :: header">Header</div>
 <form class="form-narrow form-horizontal" action="#" method="post" th:action="@{/authenticate}">
     <th:block th:if="${param.error != null}">
         <div th:replace="fragments/alert :: alert (type='danger', message='Sign in error. Please try again.')">Alert</div>

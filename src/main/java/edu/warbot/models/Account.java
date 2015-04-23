@@ -25,13 +25,13 @@ public class Account extends AbstractPersistable<Long> {
     @Column(name = "account_password",nullable = false)
 	private String password;
 
-    @Column(name = "account_firstname",nullable = false)
+    @Column(name = "account_firstName",nullable = false)
     private String firstName;
 
-    @Column(name = "account_lastname",nullable = false)
+    @Column(name = "account_lastName",nullable = false)
     private String lastName;
 
-    @Column(name = "account_screenname",nullable = false,unique = true)
+    @Column(name = "account_screenName",nullable = false,unique = true)
     private String screenName;
 
     @Column(name = "account_activated",nullable = false)
@@ -174,5 +174,13 @@ public class Account extends AbstractPersistable<Long> {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public Set<Party> getCreated() {
+        return created;
+    }
+
+    public void setCreated(Set<Party> created) {
+        this.created = created;
     }
 }
