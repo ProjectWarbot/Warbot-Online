@@ -29,4 +29,7 @@ public class TrainingAgent {
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = WarAgentType.class)
     private WarAgentType type;
 
+    @Column(name="trainingAgent_life", unique = false)
+    private double life;
+
 }
