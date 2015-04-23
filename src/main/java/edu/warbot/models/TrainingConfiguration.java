@@ -1,6 +1,6 @@
 package edu.warbot.models;
 
-import edu.warbot.models.enums.LevelTestZoneEnum;
+import edu.warbot.models.enums.LevelTrainingConfigurationEnum;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
@@ -10,29 +10,29 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "TEST_ZONE")
-@NamedQuery(name = TestZone.FIND_BY_NAME,query = "select z from TestZone z where z.name = :name")
-public class TestZone extends AbstractPersistable<Long> {
+@Table(name = "TRAINING_CONFIGURATION")
+@NamedQuery(name = TrainingConfiguration.FIND_BY_NAME,query = "select z from TrainingConfiguration z where z.name = :name")
+public class TrainingConfiguration extends AbstractPersistable<Long> {
 
-    public static final String FIND_BY_NAME = "TestZone.findByName";
+    public static final String FIND_BY_NAME = "TrainingConfiguration.findByName";
 
-    @Column(name="test_zone_name",unique = true)
+    @Column(name="training_configuration_name",unique = true)
     private String name;
 
-    @Column(name="test_zone_description")
+    @Column(name="training_configuration_description")
     private String description;
 
-    @Column(name="test_zone_level")
-    private LevelTestZoneEnum level;
+    @Column(name="training_configuration_level")
+    private LevelTrainingConfigurationEnum level;
 
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = Account.class)
     private Account creator;
 
-    public TestZone() {
+    public TrainingConfiguration() {
 
     }
 
-    public TestZone(String name, LevelTestZoneEnum level, String description ) {
+    public TrainingConfiguration(String name, LevelTrainingConfigurationEnum level, String description) {
         this.name = name;
         this.description = description;
         this.level = level;
@@ -46,7 +46,7 @@ public class TestZone extends AbstractPersistable<Long> {
         return description;
     }
 
-    public LevelTestZoneEnum getLevel() {
+    public LevelTrainingConfigurationEnum getLevel() {
         return level;
     }
 
@@ -62,7 +62,7 @@ public class TestZone extends AbstractPersistable<Long> {
         this.description = description;
     }
 
-    public void setLevel(LevelTestZoneEnum level) {
+    public void setLevel(LevelTrainingConfigurationEnum level) {
         this.level = level;
     }
 
