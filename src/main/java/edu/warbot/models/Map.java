@@ -24,8 +24,8 @@ public class Map extends AbstractPersistable<Long> {
     @Column(name = "map_desc", unique = false)
     private String desc;
 
-    @Column(name = "map_difficulty", unique = false)
-    private LevelTrainingConfigurationEnum difficulty;
+    @Column(name = "map_level", unique = false)
+    private LevelTrainingConfigurationEnum level;
 
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = Account.class)
     private Account creator;
