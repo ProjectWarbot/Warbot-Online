@@ -27,16 +27,15 @@ var PythonHighlightRules = function() {
         "buffer|dict|hex|object|slice|coerce|dir|id|oct|sorted|intern"
 
     );
-    var methodes = ("myMethodsendMessage|broadcastMessageToAll|broadcastMessageToAgentType|broadcastMessage|"+
-                    "reply|getMessages|setIdNextAgentToGive|getBagSize|getNbElementsInBag|isBagEmpty|isBagFull|"+
-                    "setViewDirection|getHealth|getPerceptsAllies|getPerceptsEnemies|getPerceptsResources|getPerceptsAlliesByType|"+
-                    "getPerceptsEnemiesByType|getPercepts|getDebugString|setDebugString|getDebugStringColor|setDebugStringColor|"+
-                    "getAveragePositionOfUnitInPercept|getIndirectPositionOfAgentWithMessage|getTargetedAgentPosition|getViewDirection|"+
-                    "getMaxHealth|isBlocked|getSpeed|getHeading|setHeading|RandomHeading|setRandomHeading|getTeamName|"+
-                    "isEnemy|getID|requestRole|leaveRole|leaveGroup|numberOfAgentsInRole|getMaxDistanceTakeFood|"+
-                    "getFoodHealthGiven|angleOfView|bagSize|cost|distanceOfView|maxHealth|speed|create|eat|give|idle|move|take|maxDistanceGive|"+
-                    "setNextAgentToCreate|getNextAgentToCreate|isAbleToCreate|ticksToReload|fire|reloadWeapon|isReloaded|isReloading|"+
-                    "toto(String,Int): #@return boolean");
+    var methodes = ("myMethodsendMessage|broadcastMessageToAll(String message, String ...content):|broadcastMessageToAgentType(WarAgentType agentType,String message, String ...content):#return Code|broadcastMessage(String groupeName, String roleName, String message, String ...content):#return Code|"+
+                    "reply(WarMessage warMessage, String message, String ... content): #return Code|getMessages(): #return Tableau Python|setIdNextAgentToGive(int idNextAgentToGive):|getBagSize(): #return int|getNbElementsInBag(): #return int|isBagEmpty(): #return boolean|isBagFull(): #return boolean|"+
+                    "setViewDirection(double viewDirection):|getHealth(): #return int|getPerceptsAllies(): #return Tableau Python|getPerceptsEnemies(): #return Tableau Python|getPerceptsResources(): #return Tableau Python|getPerceptsAlliesByType(WarAgentType agentType): #return Tableau Python|"+
+                    "getPerceptsEnemiesByType(WarAgentType agentType): #return Tableau Python|getPercepts(): #return Tableau Python|getDebugString(): #return String|setDebugString(String debugDtring):|getDebugStringColor(): #return Color|setDebugStringColor(Color color):|"+
+                    "getAveragePositionOfUnitInPercept(WarAgentType agentType): #return coordPolar|getIndirectPositionOfAgentWithMessage(WarMessage message): #return coordPolar|getTargetedAgentPosition(double angleToAlly, double DistanceFromAlly, double angleFromAllyToTarget, double distanceBetweenAllyAndTarget): #return coordPolar|getViewDirection(): #return double|"+
+                    "getMaxHealth(): #return int|isBlocked|getSpeed|getHeading(): #return double|setHeading(double angle): |RandomHeading|setRandomHeading:()|getTeamName(): #return String|"+
+                    "isEnemy(WarAgentPercept percept): #return boolean|getID(): #return Int|requestRole(String group, String role): #return Code|leaveRole(String group, String role): #return Code|leaveGroup(String group): #return Code|getnumberOfAgentsInRole(String group, String role): #return Int|getMaxDistanceTakeFood|"+
+                    "getFoodHealthGiven|angleOfView|bagSize|cost|distanceOfView|getmaxHealth(): #return Int|speed|create|eat|give|idle|move|take|maxDistanceGive|"+
+                    "setNextAgentToCreate(WarAgentType nextAgentToCreate):|getNextAgentToCreate():#return WarAgentType|isAbleToCreate(WarAgentType agent): #boolean|ticksToReload|fire|reloadWeapon|isReloaded|isReloading");
 
     var keywordMapper = this.createKeywordMapper({
         "invalid.deprecated": "debugger",
