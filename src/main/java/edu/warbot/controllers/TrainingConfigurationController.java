@@ -19,23 +19,23 @@ public class TrainingConfigurationController {
 
     final Logger logger = LoggerFactory.getLogger(TrainingConfigurationController.class);
 
-    @RequestMapping(value = "editor/list", method = RequestMethod.GET)
+    @RequestMapping(value = "configuration/list", method = RequestMethod.GET)
     public String listEditor() {
 
-        return "editor/select";
+        return "configuration-editor/select";
     }
 
-    @RequestMapping(value = "editor/create", method = RequestMethod.POST)
+    @RequestMapping(value = "configuration/create", method = RequestMethod.POST)
     public String createEditor() {
 
-        return "editor/editor";
+        return "configuration-editor/editor";
     }
 
-    @RequestMapping(value = "editor/new",method = RequestMethod.GET)
+    @RequestMapping(value = "configuration/new",method = RequestMethod.GET)
     public String createEditor(Model model)
     {
         model.addAttribute("formZone", new TrainingConfigurationForm());
-        return "editor/create";
+        return "configuration-editor/create";
     }
 
 

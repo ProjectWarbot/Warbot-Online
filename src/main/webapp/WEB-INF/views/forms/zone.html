@@ -8,7 +8,7 @@
     <script src="../../../resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
 </head>
 <body>
-<form class="form-narrow form-horizontal" action="#"  th:object="${formZone}" method="post" th:action="@{/editor/create}"  th:fragment="formZone">
+<form class="form-narrow form-horizontal" action="#"  th:object="${formZone}" method="post" th:action="@{/configuration/create}"  th:fragment="formZone">
     <th:block th:if="${param.error != null}">
         <div th:replace="fragments/alert :: alert (type='danger', message='Creation error')">Alert</div>
     </th:block>
