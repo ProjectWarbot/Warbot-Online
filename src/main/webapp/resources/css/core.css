@@ -125,6 +125,12 @@ h3 {
     margin-right:2.5%;
 }
 
+#tableListParties {
+    width:95%;
+    margin-left:2.5%;
+    margin-right:2.5%;
+}
+
 #contenerTableTestZone {
     margin-top : 40px;
 }

@@ -1,7 +1,7 @@
 package edu.warbot.config;
 
 import edu.warbot.Application;
-import edu.warbot.codeEditorGestion.CodeEditorListener;
+import edu.warbot.editor.CodeEditorListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +35,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     @Bean
     public CodeEditorListener codeEditorListener(SimpMessagingTemplate messagingTemplate) {
         CodeEditorListener codeEditorListener = new CodeEditorListener(messagingTemplate);
-        codeEditorListener.setLogIn("/editor/register");
+        codeEditorListener.setAccess("/editor/register");
         return codeEditorListener;
     }
 }
