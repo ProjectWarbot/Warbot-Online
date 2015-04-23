@@ -175,6 +175,10 @@ select {
 }
 
 #resumeMapEditor {
+    overflow: auto;
+}
+
+#resumeMapEditor {
     background-color: #FFFFFF ;
 }
 
