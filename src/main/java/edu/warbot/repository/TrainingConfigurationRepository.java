@@ -1,6 +1,7 @@
 package edu.warbot.repository;
 
-import edu.warbot.models.Map;
+
+import edu.warbot.models.TrainingConfiguration;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -10,15 +11,15 @@ import javax.persistence.PersistenceException;
 /**
  * Created by quent on 23/04/2015.
  */@Repository
-   public class MapRepository {
+   public class TrainingConfigurationRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Map findByName(String name)
+    public TrainingConfiguration findByName(String name)
     {
         try {
-            return entityManager.createNamedQuery(Map.FIND_BY_NAME, Map.class)
+            return entityManager.createNamedQuery(TrainingConfiguration.FIND_BY_NAME, TrainingConfiguration.class)
                     .setParameter("name", name)
                     .getSingleResult();
         } catch (PersistenceException e) {
@@ -26,14 +27,14 @@ import javax.persistence.PersistenceException;
         }
     }
 
-    public <S extends Map> S save(S s) {
+    public <S extends TrainingConfiguration> S save(S s) {
         entityManager.persist(s);
         return s;
     }
 
-    public Map findOne(Long aLong) {
+    public TrainingConfiguration findOne(Long aLong) {
         try {
-            return (Map) entityManager.createQuery("Select m from Map m where m.id = :id", Map.class)
+            return (TrainingConfiguration) entityManager.createQuery("Select m from TrainingConfiguration m where m.id = :id", TrainingConfiguration.class)
                     .setParameter("id",aLong)
                     .getSingleResult();
         } catch (PersistenceException e) {
@@ -47,19 +48,19 @@ import javax.persistence.PersistenceException;
     }
 
     //    @Override
-    public Iterable<Map> findAll() {
-        return  entityManager.createQuery("Select m from Map m ", Map.class).getResultList();
+    public Iterable<TrainingConfiguration> findAll() {
+        return  entityManager.createQuery("Select m from TrainingConfiguration m ", TrainingConfiguration.class).getResultList();
     }
 
     //    @Override
     public long count() {
-        return (Long) entityManager.createQuery("Select Count * FROM Map").getSingleResult();
+        return (Long) entityManager.createQuery("Select Count * FROM TrainingConfiguration").getSingleResult();
     }
 
     //    @Override
-    public void delete(Map map)
+    public void delete(TrainingConfiguration map)
     {
-        entityManager.createQuery("Delete FROM Map m WHERE m.id = :id")
+        entityManager.createQuery("Delete FROM TrainingConfiguration m WHERE m.id = :id")
                 .setParameter("id", map.getId()).executeUpdate();
     }
 

@@ -1,17 +1,22 @@
 package edu.warbot.models;
 
 import edu.warbot.agents.enums.WarAgentType;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by quent on 23/04/2015.
  */
-public class TrainingAgent {
+@Entity
+@Table(name = "TRAINING_AGENT")
+@NamedQuery(name = TrainingAgent.FIND_BY_NAME,query = "select m from TrainingAgent m where m.name = :name")
+public class TrainingAgent extends AbstractPersistable<Long> {
 
-    @Column(name = "trainingAgent_name", unique = false)
+    public static final String FIND_BY_NAME = "TrainingAgent.findByName";
+
+
+    @Column(name = "trainingAgent_name", unique = true)
     private String name;
 
     @Column(name = "trainingAgent_x", unique = false)
@@ -26,7 +31,7 @@ public class TrainingAgent {
     @Column(name = "trainingAgent_team", unique = false)
     private String teamName;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = WarAgentType.class)
+    @Column(name = "trainingAgent_type")
     private WarAgentType type;
 
     @Column(name="trainingAgent_life", unique = false)
