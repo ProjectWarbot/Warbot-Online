@@ -19,6 +19,11 @@ public class TrainingConfigurationServiceImpl implements TrainingConfigurationSe
 
     public void save(TrainingConfiguration t) { trainingConfigurationRepository.save(t);}
 
+    public TrainingConfiguration createTrainingConfiguration(TrainingConfiguration t) {
+        trainingConfigurationRepository.save(t);
+        return t;
+    }
+
     @Override
     public TrainingConfiguration findOne(Long id) {
         return trainingConfigurationRepository.findOne(id);

@@ -40,21 +40,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="trainingConf : ${trainingConfigurations}" th:data="${trainingConf.id}">
-                        <td class="idTestZone"><p th:text="${party.id}"></p></td>
-                        <td><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}" data-sortable="true"></a></td>
+                    <tr th:each="trainingConf : ${trainingConfigurations}">
+                        <td class="idTestZone"><p>Ne marche pas </p></td>
+                        <td name="partyName" th:text="${trainingConf.name}" data-sortable="true"></td>
                         <td><p th:text="${trainingConf.description}"></p></td>
                         <td class="levelTestZone"><p th:text="${trainingConf.level}"></p></td>
                         <td><p> <!--th:text="${trainingConf.creator.email}"-->CREATOR NE MARCHE PAS</p></td>
                         <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
-                    </tr>
-                    <tr th:each="party : ${parties}" th:data="${party.id}">
-                        <th><p th:text="${party.id}"></p></th>
-                        <th><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}" data-sortable="true"></a></th>
-                        <th><p> <!--th:text="${party.creator.email}"-->CREATOR NE MARCHE PAS</p></th>
-                        <th><p th:text="${party.language}"></p></th>
-                        <th><p th:text="${party.eloRank}" data-sortable="true"></p></th>
-                        <th><p th:text="${party.creationDate}" data-sortable="true"></p></th>
                     </tr>
                 </tbody>
             </table>

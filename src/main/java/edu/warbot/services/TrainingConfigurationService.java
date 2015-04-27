@@ -19,4 +19,6 @@ public interface TrainingConfigurationService {
     TrainingConfiguration copy(TrainingConfiguration m);
 
     TrainingConfiguration copy(Long id);
+
+    TrainingConfiguration createTrainingConfiguration(TrainingConfiguration t);
 }
