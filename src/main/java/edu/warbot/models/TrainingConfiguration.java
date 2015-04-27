@@ -30,7 +30,7 @@ public class TrainingConfiguration extends AbstractPersistable<Long> {
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = Account.class)
     private Account creator;
 
-    @ManyToMany(targetEntity = TrainingAgent.class, fetch = FetchType.LAZY, mappedBy = "training_configuration_trainingAgents")
+    @ManyToMany(targetEntity = TrainingAgent.class, fetch = FetchType.LAZY)
     private Set<TrainingAgent> trainingAgents = new HashSet<>();
 
     public TrainingConfiguration() {
