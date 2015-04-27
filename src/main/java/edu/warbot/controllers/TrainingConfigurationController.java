@@ -1,8 +1,12 @@
 package edu.warbot.controllers;
 
 import edu.warbot.form.TrainingConfigurationForm;
+import edu.warbot.models.TrainingConfiguration;
+import edu.warbot.services.TrainingConfigurationService;
+import edu.warbot.services.WarbotOnlineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +23,14 @@ public class TrainingConfigurationController {
 
     final Logger logger = LoggerFactory.getLogger(TrainingConfigurationController.class);
 
-    @RequestMapping(value = "configuration/list", method = RequestMethod.GET)
-    public String listEditor() {
+    @Autowired
+    private TrainingConfigurationService trainingConfigurationService;
 
+    @RequestMapping(value = "configuration/list", method = RequestMethod.GET)
+    public String listEditor(Model model) {
+        Iterable<TrainingConfiguration> trainingConfigurationsList;
+        trainingConfigurationsList = trainingConfigurationService.findAll();
+        model.addAttribute("trainingConfigurations", trainingConfigurationsList);
         return "configuration-editor/select";
     }
 

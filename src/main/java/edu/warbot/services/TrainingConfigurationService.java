@@ -8,11 +8,15 @@ import edu.warbot.models.TrainingConfiguration;
  */
 public interface TrainingConfigurationService {
 
-    void saveMap(TrainingConfiguration map);
+    void save(TrainingConfiguration map);
 
     TrainingConfiguration findOne(Long id);
 
     TrainingConfiguration findByName(String name);
 
     Iterable<TrainingConfiguration> findAll();
+
+    TrainingConfiguration copy(TrainingConfiguration m);
+
+    TrainingConfiguration copy(Long id);
 }

@@ -34,7 +34,7 @@ import javax.persistence.PersistenceException;
 
     public TrainingConfiguration findOne(Long aLong) {
         try {
-            return (TrainingConfiguration) entityManager.createQuery("Select m from TrainingConfiguration m where m.id = :id", TrainingConfiguration.class)
+            return entityManager.createQuery("Select m from TrainingConfiguration m where m.id = :id", TrainingConfiguration.class)
                     .setParameter("id",aLong)
                     .getSingleResult();
         } catch (PersistenceException e) {

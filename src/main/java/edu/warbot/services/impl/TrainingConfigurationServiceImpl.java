@@ -15,22 +15,38 @@ import org.springframework.transaction.annotation.Transactional;
 public class TrainingConfigurationServiceImpl implements TrainingConfigurationService {
 
     @Autowired
-    private TrainingConfigurationRepository mapRepository;
+    private TrainingConfigurationRepository trainingConfigurationRepository;
 
-    public void saveMap(TrainingConfiguration m) { mapRepository.save(m);}
+    public void save(TrainingConfiguration t) { trainingConfigurationRepository.save(t);}
 
     @Override
     public TrainingConfiguration findOne(Long id) {
-        return mapRepository.findOne(id);
+        return trainingConfigurationRepository.findOne(id);
     }
 
     @Override
     public TrainingConfiguration findByName(String name) {
-        return mapRepository.findByName(name);
+        return trainingConfigurationRepository.findByName(name);
     }
 
     @Override
     public Iterable<TrainingConfiguration> findAll() {
-        return mapRepository.findAll();
+        return trainingConfigurationRepository.findAll();
     }
+
+    @Override
+    public TrainingConfiguration copy(TrainingConfiguration t) {
+        TrainingConfiguration tmp;
+        tmp = t;
+        return tmp;
+    }
+
+    @Override
+    public TrainingConfiguration copy(Long id) {
+        TrainingConfiguration tmp;
+        tmp = trainingConfigurationRepository.findOne(id);
+        return tmp;
+    }
+
+
 }
