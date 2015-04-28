@@ -275,7 +275,7 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
     if(buttonPerceptAgentME)
     	percept.alpha = 1;
 	else
-		percept.alpka = -1;
+		percept.alpha = -1;
 
 	var followAgentBorder = new PIXI.Sprite(followAgent);
 	followAgentBorder.position.x = agent.position.x;
