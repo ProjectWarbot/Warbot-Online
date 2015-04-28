@@ -247,16 +247,20 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
     agent.type = type;
     agent.name = type + "-" + listAgentEditor.length;
 
-    agent.position.x = posX;
-    agent.position.y = posY;
 
-    agent.anchor.x = 0.5;
-    agent.anchor.y = 0.5;
+
+
+
+    agent.anchor.x = 0.5 * cameraMapEditor.zoom;
+    agent.anchor.y = 0.5 * cameraMapEditor.zoom;
 
     agent.angle = 0;
     agent.rotation = Math.PI * (agent.angle / 180);
-    agent.scale.x = 0.5;
-    agent.scale.y = 0.5;
+    agent.scale.x = 0.5 * cameraMapEditor.zoom;
+    agent.scale.y = 0.5 * cameraMapEditor.zoom;
+
+    agent.position.x = posX;
+    agent.position.y = posY;
 
     agent.interactive = true;
     agent.buttonMode = true;
@@ -265,15 +269,19 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
     var percept = new PIXI.Sprite(getSpritePercept(agent));
     percept.position.x = agent.position.x;
     percept.position.y = agent.position.y;
-    percept.scale.x = 0.5;
-    percept.scale.y = 0.5;
-    percept.alpha = -1;
+    percept.scale.x = 0.5 * cameraMapEditor.zoom;
+    percept.scale.y = 0.5 * cameraMapEditor.zoom;
+
+    if(buttonPerceptAgentME)
+    	percept.alpha = 1;
+	else
+		percept.alpka = -1;
 
 	var followAgentBorder = new PIXI.Sprite(followAgent);
 	followAgentBorder.position.x = agent.position.x;
     followAgentBorder.position.y = agent.position.y;
-	followAgentBorder.scale.x = 0.5;
-    followAgentBorder.scale.y = 0.5;
+	followAgentBorder.scale.x = 0.5 * cameraMapEditor.zoom;
+    followAgentBorder.scale.y = 0.5 * cameraMapEditor.zoom;
     followAgentBorder.anchor.x = 0.5;
     followAgentBorder.anchor.y = 0.5;
     followAgentBorder.alpha = -1;
@@ -358,6 +366,36 @@ function addWheelLister() {
 
 function cameraZoome(e) {
 
+	var e = window.event || e; // old IE support
+	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+  	var x = e.clientX;
+  	var y = e.clientY;
+  	var isZoomIn = delta > 0;
+  	var direction = isZoomIn ? 1 : -1;
+	var factor = (1 + direction * 0.1);
+
+	cameraMapEditor.zoom *= factor;
+
+	cameraMapEditor.newMap.position.x += x;
+	cameraMapEditor.newMap.position.y += y;
+	cameraMapEditor.newMap.scale.x *= factor;
+	cameraMapEditor.newMap.scale.y *= factor;
+	cameraMapEditor.newMap.position.x += -x;
+    cameraMapEditor.newMap.position.y += -y;
+
+	for (i = 0; i < listAgentEditor.length; i++) {
+
+		listAgentEditor[i].scale.x *= factor;
+    	listAgentEditor[i].scale.y *= factor;
+    	listAgentEditor[i].SpritePercept.scale.x *= factor;
+        listAgentEditor[i].SpritePercept.scale.y *= factor;
+
+		listAgentEditor[i].position.x *= factor;
+		listAgentEditor[i].position.y *= factor;
+    	listAgentEditor[i].SpritePercept.position.x *= factor;
+        listAgentEditor[i].SpritePercept.position.y *= factor;
+
+	}
 
 
 };
