@@ -376,12 +376,9 @@ function cameraZoome(e) {
 
 	cameraMapEditor.zoom *= factor;
 
-	cameraMapEditor.newMap.position.x += x;
-	cameraMapEditor.newMap.position.y += y;
 	cameraMapEditor.newMap.scale.x *= factor;
 	cameraMapEditor.newMap.scale.y *= factor;
-	cameraMapEditor.newMap.position.x += -x;
-    cameraMapEditor.newMap.position.y += -y;
+
 
 	for (i = 0; i < listAgentEditor.length; i++) {
 
