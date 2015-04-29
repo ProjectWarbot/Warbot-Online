@@ -275,7 +275,7 @@ function createAgentJson(scene, tab, json, teams) {
     	indTab++;
     }
 
-    if(cont || agent.type == "WarFood") {
+    if(cont || agent.type == "WarFood" || agent.type =="Wall") {
     	agent.debug.alpha = -1;
     }
 
@@ -751,10 +751,12 @@ function updateDataAgentMap(agent) {
 			}
 			else if(agent.type == "Wall") {
 				if(agent.teamName == nameTeamRed) {
-					// TODO
+					counterAgent.redWall -= 1;
+					document.getElementById('numberOfWallRed').innerHTML = counterAgent.redWall;
 				}
 				else {
-					// TODO
+					counterAgent.blueWall -= 1;
+					document.getElementById('numberOfWallBlue').innerHTML = counterAgent.blueWall;
 				}
 			}
 			else {
@@ -837,7 +839,16 @@ function getSpriteAgent(typeAgent, typeColor) {
 		}
 	}
 	else if(typeAgent == "Wall") {
-		return wall;
+		if(typeColor == 1) {
+			counterAgent.redWall += 1;
+			document.getElementById('numberOfWallRed').innerHTML = counterAgent.redWall;
+			return redWall;
+		}
+		else {
+			counterAgent.blueWall += 1;
+			document.getElementById('numberOfWallBlue').innerHTML = counterAgent.blueWall;
+			return blueWall;
+		}
 	}
 	else if(typeAgent == "WarRocket") {
 		return rocket;
