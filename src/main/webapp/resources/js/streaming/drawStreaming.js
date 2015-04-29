@@ -156,7 +156,6 @@ function messageServerSynchro(message) {
 */
 function messageServerEnd(message) {
 
-	// TODO
 
 }
 
@@ -413,8 +412,6 @@ function getTeamOfAgent(teams, json) {
     	return null;
     }
 }
-
-
 
 function addSpriteOfAgentToCamera(sprite) {
 	camera.addChild(sprite);
