@@ -13,7 +13,7 @@
         <div th:replace="fragments/alert :: alert (type='danger', message='Creation error')">Alert</div>
     </th:block>
     <fieldset>
-        <legend>Create Test Zone</legend>
+        <legend>Create Training Zone</legend>
         <div class="form-group">
             <label for="inputTestZoneName" class="col-lg-2 control-label">Zone name</label>
             <div class="col-lg-10">
@@ -21,14 +21,24 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="inputTestZoneLevel" class="col-lg-2 control-label">Level</label>
+            <label class="col-lg-2 control-label">Level</label>
             <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputTestZoneLevel"  name="level" value="EASY" readonly="readonly"/>
+                <select id="inputTestZoneLevel" name="level" class="form-control selectpicker">
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputTestZonedesc" class="col-lg-2 control-label">Description</label>
+            <div class="col-lg-10">
+                <textarea class="form-control" rows="2" id="inputTestZonedesc" name="description"></textarea>
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10">
-                <button type="submit" class="btn btn-default">Create</button>
+                <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </div>
     </fieldset>

@@ -16,20 +16,20 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#" th:href="@{/}">Home</a></li>
+                <li class="active"><a href="#" th:href="@{/}" th:text="#{home.1}" >Home</a></li>
                 <!--<li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#teamcode" th:href="@{/teamcode}">Team Code</a></li>-->
-                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#configuration" th:href="@{/configuration/list}">Training Configuration</a></li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#teamlist" th:href="@{/teamlist}">Team List</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#configuration" th:href="@{/configuration/list}" th:text="#{training}" >Training Configuration</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#partylist" th:href="@{/partylist}" th:text="#{vs}">Team List</a></li>
 
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#about" th:text="#{about}">About</a></li>
+                <li><a href="#contact" th:text="#{contact}" >Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li th:if="${#authorization.expression('!isAuthenticated()')}">
-                    <a href="/signin" th:href="@{/signin}">Sign in</a>
+                    <a href="/signin" th:href="@{/signin}" th:text="#{sign.up}">Sign up</a>
                 </li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a href="/logout" th:href="@{#}" onclick="$('#form').submit();">Logout</a>
+                    <a href="/logout" th:href="@{#}" onclick="$('#form').submit();" th:text="#{logout}" >Logout</a>
                     <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
                 </li>
             </ul>

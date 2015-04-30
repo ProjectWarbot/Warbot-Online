@@ -57,10 +57,11 @@
 
         <button id="buttonAddAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-hand-up"></span></button>
         <button id="buttonRemoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-remove-circle"></span></button>
+        <button id="buttonMoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-move"></span></button>
         <button id="buttonPercept" class="btn btn-primary" type="submit">Percept</button>
 
         <button id="buttonReset" class="btn btn-danger" type="submit">Reset</button>
-        <button class="btn btn-success" type="submit">Save</button>
+        <button id="buttonSave" class="btn btn-success" type="submit">Save</button>
 
         <!--
         <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
@@ -175,6 +176,9 @@
             var buttonRemoveAgent = document.getElementById('buttonRemoveAgent');
             var buttonPerceptAgent = document.getElementById('buttonPercept');
             var buttonResetMapEditor = document.getElementById('buttonReset');
+            var buttonMoveAgent = document.getElementById('buttonMoveAgent');
+
+            var contenerMapEditor = document.getElementById('mapEditor');
 
             $(buttonAddAgent).click(function(event)
             {
@@ -182,7 +186,11 @@
 
                 if(addAgentClassName == "btn btn-primary") {
                     $(buttonAddAgent).attr('class', 'btn btn-primary active');
+                    $(buttonRemoveAgent).attr('class', 'btn btn-primary');
+                    buttonRemoveAgentME = false;
                     buttonAddAgentME = true;
+                    buttonMoveAgentME = false;
+                    $(buttonMoveAgentME).attr('class', 'btn btn-primary');
                 }
                 else {
                     $(buttonAddAgent).attr('class', 'btn btn-primary');
@@ -196,13 +204,51 @@
 
                 if(removeAgentClassName == "btn btn-primary") {
                     $(buttonRemoveAgent).attr('class', 'btn btn-primary active');
+                    $(buttonAddAgent).attr('class', 'btn btn-primary');
+                    buttonAddAgentME = false;
                     buttonRemoveAgentME = true;
+                    buttonMoveAgentME = false;
+                    $(buttonMoveAgentME).attr('class', 'btn btn-primary');
                 }
                 else {
                     $(buttonRemoveAgent).attr('class', 'btn btn-primary');
                     buttonRemoveAgentME = false;
                 }
 
+            });
+
+            $(document).ready(function (){
+
+
+
+                 $("#mapEditor").keypress(function( event ) {
+                  // var caractere = String.fromCharCode(e.which);
+                   alert("dd");
+
+                
+
+               });
+
+            });
+            $(buttonMoveAgent).click(function(event)
+            {
+                var mouveAgentClassName = $(buttonMoveAgent).attr('class');
+
+                if(mouveAgentClassName == "btn btn-primary") {
+                    $(buttonMoveAgentME).attr('class', 'btn btn-primary active');
+                    buttonMoveAgentME = true;
+
+                    $(buttonAddAgent).attr('class', 'btn btn-primary');
+                    buttonAddAgentME = false;
+
+                    $(buttonRemoveAgent).attr('class', 'btn btn-primary');
+                    buttonRemoveAgentME = false;
+                }
+                else {
+                    buttonMoveAgentME = false;
+                    $(buttonMoveAgentME).attr('class', 'btn btn-primary');
+
+                }
             });
 
             $(buttonPerceptAgent).click(function(event)
@@ -217,8 +263,19 @@
                 else {
                     $(buttonPerceptAgent).attr('class', 'btn btn-primary');
                     buttonPerceptAgentME = false;
+
                     perceptAgentMapEditor(-1);
                 }
+
+            });
+
+            $(buttonSave).click(function(event)
+            {
+                var listAgent = saveTrainingConfiguration();
+
+                console.debug(listAgent);
+
+
 
             });
 

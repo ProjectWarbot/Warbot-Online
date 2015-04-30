@@ -17,9 +17,9 @@
                 <div class="col-xs-5 col-xs-offset-0">
                     <div class="input-group">
                         <input type="hidden" name="search_param" value="all" id="search_param"/>
-                        <input type="text" class="form-control" name="x" placeholder="Salle de test"/>
+                        <input id ="searchTrainingC" type="text" class="form-control" name="x" placeholder="Salle de test"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                            <button id ="btn" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
                         </span>
                     </div>
                 </div>
@@ -27,12 +27,15 @@
             </div>
         </div>
 
+        <datalist id="trainingC">
+        </datalist>
+
         <div id="contenerTableTestZone">
             <table class="table table-bordered" id="tableListTestZone">
                 <thead>
                     <tr class="titleTestZone">
                         <td class="idTestZone">ID</td>
-                        <td>Nom</td>
+                        <td data-sortable="true">Nom</td>
                         <td>Description</td>
                         <td class="levelTestZone">Niveau</td>
                         <td>Créateur</td>
@@ -40,38 +43,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="idTestZone">0001</td>
-                        <td>MapTest001</td>
-                        <td>Une petite map de test</td>
-                        <td class="levelTestZone">Easy</td>
-                        <td>Falindir</td>
+                    <tr th:each="trainingConf : ${trainingConfigurations}">
+                        <td class="idTestZone" th:text="${trainingConf.id}"><p></p></td>
+                        <td name="tCName" th:text="${trainingConf.name}"></td>
+                        <td><p th:text="${trainingConf.description}"></p></td>
+                        <td class="levelTestZone"><p th:text="${trainingConf.level}"></p></td>
+                        <td><p> <!--th:text="${trainingConf.creator.email}"-->CREATOR NE MARCHE PAS</p></td>
                         <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
                     </tr>
-                    <tr>
-                        <td class="idTestZone">0002</td>
-                        <td>MapTest002</td>
-                        <td>Une petite map de test 2</td>
-                        <td class="levelTestZone">Medium</td>
-                        <td>Tsubame</td>
-                        <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
-                    </tr>
-                    <tr>
-                        <td class="idTestZone">0004</td>
-                        <td>MapTest003</td>
-                        <td>Une petite map de test 3</td>
-                        <td class="levelTestZone">Hard</td>
-                        <td>Gouga34</td>
-                        <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
-                    </tr>
-                    <tr>
-                        <td class="idTestZone">999999999</td>
-                        <td>MapTest003gdrgergergergzergergerg</td>
-                        <td>Une petite map de test 3 ergerg ergergerg reg erg ergerg er erg ergerg erg er ger er er erer gr er er gerg re  f</td>
-                        <td class="levelTestZone">Hard</td>
-                        <td>SuperConnard000000000000000030</td>
-                        <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
-                    </tr>
+                    <script>
+                        $(function() {
+                            var parties = $('[name="partyName"]');
+                            $.each( parties, function( index, value ){
+                                $('#parties').append('<option id="'+ value +'" value="'+ value.text +'">'+ value.text +'</option>');
+                            });
+                        });
+
+                        $('#btn').click(function(){
+                            var textval = $('#searchTrainingC').val();
+                            $('#trainingC option').each(function(){
+                                if($(this).val() == textval){
+                                    window.location = $(this).attr('id');
+                                }
+                            });
+                        });
+                    </script>
                 </tbody>
             </table>
         </div>

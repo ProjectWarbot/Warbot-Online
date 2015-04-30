@@ -4,6 +4,8 @@ import edu.warbot.models.enums.LevelTrainingConfigurationEnum;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by jimmy on 14/04/15.
@@ -27,6 +29,9 @@ public class TrainingConfiguration extends AbstractPersistable<Long> {
 
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = Account.class)
     private Account creator;
+
+    @ManyToMany(targetEntity = TrainingAgent.class, fetch = FetchType.LAZY)
+    private Set<TrainingAgent> trainingAgents = new HashSet<>();
 
     public TrainingConfiguration() {
 
