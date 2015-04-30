@@ -51,7 +51,7 @@ public class TrainingConfigurationController {
     }
 
     @RequestMapping(value = "configuration/create", method = RequestMethod.POST)
-    public String createEditor(Principal principal, @Valid @ModelAttribute("form") TrainingConfigurationForm tcForm) {
+    public String createEditor(Principal principal, @Valid @ModelAttribute("form") TrainingConfigurationForm tcForm, RedirectAttributes ra) {
 
         Account account = accountRepository.findByEmail(principal.getName());
         if(account!=null)
@@ -64,7 +64,7 @@ public class TrainingConfigurationController {
     }
 
     @RequestMapping(value = "configuration/edit", method = RequestMethod.POST)
-    public String createEditor(Principal principal, Long trainingId) {
+    public String edit(Principal principal, Long trainingId, RedirectAttributes ra) {
 
         Account account = accountRepository.findByEmail(principal.getName());
         if(account!=null)
@@ -75,6 +75,7 @@ public class TrainingConfigurationController {
         if(tc.getCreator() != account) {
             tc = trainingConfigurationService.copy(tc, account);
         }
+        ra.addAttribute("idtrain", tc.getId());
         return "configuration-editor/editor";
     }
 
