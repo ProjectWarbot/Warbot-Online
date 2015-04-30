@@ -6,32 +6,64 @@
     <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 </head>
 <body>
+    <div th:replace="fragments/header :: header">Header</div>
 
-<div th:replace="fragments/header :: header">Header</div>
-
-    <form class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search"/>
+    <div class="container searchTeamList">
+        <div class="row">
+            <div class="col-xs-5 col-xs-offset-0">
+                <div class="input-group">
+                    <input type="hidden" name="search_param" value="all"/>
+                    <input type="text" class="form-control" name="x" list="parties" placeholder="Team name"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                </div>
+            </div>
         </div>
-        <!--<button type="submit" class="btn btn-default">Submit</button>-->
-    </form>
-    <div class="">
-        <ul class="nav nav-pills">
-            <li  th:each="party : ${parties}" th:data="${party.id}" role="presentation">
-                <input type="hidden" value="" th:value="${party.id}" />
-                <a data-toggle="tab" th:href="'#'+${party.id}" th:text="${party.name}">
-
-                </a>
-            </li>
-        </ul>
     </div>
 
-<script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
-<script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}" ></script>
+    <datalist id="parties">
+    </datalist>
+
+
+    <table id="tableListParties" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Team name</th>
+            <th>Creator</th>
+            <th>Langage</th>
+            <th>Rank</th>
+            <th>Creation date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="party : ${parties}" th:data="${party.id}">
+            <th><p th:text="${party.id}"></p></th>
+            <th><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}" data-sortable="true"></a></th>
+            <th><p> <!--th:text="${party.creator.email}"-->CREATOR NE MARCHE PAS</p></th>
+            <th><p th:text="${party.language}"></p></th>
+            <th><p th:text="${party.eloRank}" data-sortable="true"></p></th>
+            <th><p th:text="${party.creationDate}" data-sortable="true"></p></th>
+        </tr>
+        <script>
+            $(function() {
+                var parties = $('[name="partyName"]');
+                $.each( parties, function( index, value ){
+                    $('#parties').append('<option value="'+ value +'">'+ value.text +'</option>');
+                });
+            });
+        </script>
+        </tbody>
+    </table>
+    <script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
+    <script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}" ></script>
 </body>
 </html>
 

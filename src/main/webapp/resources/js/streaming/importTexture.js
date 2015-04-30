@@ -10,10 +10,12 @@ var turretRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/turret.pn
 var turretBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/turret.png");
 var baseRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/base.png");
 var baseBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/base.png");
-var wall;
+var wallRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/wall.png");
+var wallBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/wall.png");
 var rocket = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/rocket2.png");;
 var bomb;
 var food = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/food.png");
+
 var map = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/map003.png");
 
 var perceptOther = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/perceptOther.png");

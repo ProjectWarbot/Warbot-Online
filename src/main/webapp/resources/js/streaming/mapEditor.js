@@ -191,7 +191,18 @@ function updateResumeCounterAgent(agent) {
 		}
 	}
 	else if(agent.type == "Wall") {
-		return wall;
+		if(agent.teamType == 1) {
+        	counterAgent.redWall -= 1;
+        	counterAgentRed -= 1;
+        	document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfWallRed').innerHTML = counterAgent.redWall;
+        }
+        else if (agent.teamType == 2){
+        	counterAgent.blueWall -= 1;
+        	counterAgentBlue -= 1;
+        	document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfWallBlue').innerHTML = counterAgent.blueWall;
+        }
 	}
 	else if(agent.type == "WarFood" && agent.teamType == 0) {
 		counterAgent.food -= 1;
@@ -219,6 +230,8 @@ function resetResumeCounterAgent() {
     document.getElementById('numberOfTurretBlue').innerHTML = counterAgent.blueTurret;
     document.getElementById('numberOfBaseRed').innerHTML = counterAgent.redBase;
     document.getElementById('numberOfBaseBlue').innerHTML = counterAgent.blueBase;
+    document.getElementById('numberOfWallRed').innerHTML = counterAgent.redWall;
+    document.getElementById('numberOfWallBlue').innerHTML = counterAgent.blueWall;
 }
 
 function createAgentMapEditor(scene, teamName, type , posX, posY) {
@@ -247,16 +260,20 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
     agent.type = type;
     agent.name = type + "-" + listAgentEditor.length;
 
-    agent.position.x = posX;
-    agent.position.y = posY;
+
+
+
 
     agent.anchor.x = 0.5;
     agent.anchor.y = 0.5;
 
     agent.angle = 0;
     agent.rotation = Math.PI * (agent.angle / 180);
-    agent.scale.x = 0.5;
-    agent.scale.y = 0.5;
+    agent.scale.x = 0.5 * cameraMapEditor.zoom;
+    agent.scale.y = 0.5 * cameraMapEditor.zoom;
+
+    agent.position.x = posX;
+    agent.position.y = posY;
 
     agent.interactive = true;
     agent.buttonMode = true;
@@ -265,15 +282,19 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
     var percept = new PIXI.Sprite(getSpritePercept(agent));
     percept.position.x = agent.position.x;
     percept.position.y = agent.position.y;
-    percept.scale.x = 0.5;
-    percept.scale.y = 0.5;
-    percept.alpha = -1;
+    percept.scale.x = 0.5 * cameraMapEditor.zoom;
+    percept.scale.y = 0.5 * cameraMapEditor.zoom;
+
+    if(buttonPerceptAgentME)
+    	percept.alpha = 1;
+	else
+		percept.alpha = -1;
 
 	var followAgentBorder = new PIXI.Sprite(followAgent);
 	followAgentBorder.position.x = agent.position.x;
     followAgentBorder.position.y = agent.position.y;
-	followAgentBorder.scale.x = 0.5;
-    followAgentBorder.scale.y = 0.5;
+	followAgentBorder.scale.x = 0.5 * cameraMapEditor.zoom;
+    followAgentBorder.scale.y = 0.5 * cameraMapEditor.zoom;
     followAgentBorder.anchor.x = 0.5;
     followAgentBorder.anchor.y = 0.5;
     followAgentBorder.alpha = -1;
@@ -294,46 +315,48 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
     	agent.mousedown = function(data) {
 
 			if(buttonRemoveAgentME) {
-				cameraMapEditor.removeChild(agent.SpriteFollow);
-                cameraMapEditor.removeChild(agent.SpritePercept);
-                cameraMapEditor.removeChild(agent);
-                scene.follow = false;
-                scene.agentFollow = -1;
-                scene.agentEntityFollow = null;
-
-   				resetResumeAgentFollow();
+                if(scene.follow = true) {
+                	if(scene.agentFollow == agent.name) {
+                		scene.follow = false;
+                		scene.agentFollow = -1;
+                		scene.agentEntityFollow.SpriteFollow.alpha = -1;
+                		scene.agentEntityFollow = null;
+                		resetResumeAgentFollow();
+                	}
+                }
 
 				updateResumeCounterAgent(this);
 
 				var i = 0;
 				var index = 0;
 
-                while(i < listAgentEditor.length() && listAgentEditor[i].agent.name != this.name) {
+                while(i < listAgentEditor.length && listAgentEditor[i].name != this.name) {
               		index++;
                 	i++;
                 }
 
                 listAgentEditor.splice(index, 1);
 
-
+				cameraMapEditor.removeChild(agent.SpriteFollow);
+                cameraMapEditor.removeChild(agent.SpritePercept);
+                cameraMapEditor.removeChild(agent);
 			}
 			else {
 				if (this.isdown) {
 					this.isdown = false;
 					scene.follow = false;
 					scene.agentFollow = -1;
+					if(scene.agentEntityFollow != null)
+						scene.agentEntityFollow.SpriteFollow.alpha = -1;
 					scene.agentEntityFollow = null;
-
 					this.SpriteFollow.alpha = -1;
-
 					resetResumeAgentFollow();
-
 				}
 				else {
 					this.isdown = true;
 					scene.follow = true;
 					if(scene.agentEntityFollow != null)
-					scene.agentEntityFollow.SpriteFollow.alpha = -1;
+						scene.agentEntityFollow.SpriteFollow.alpha = -1;
 					scene.agentFollow = agent.name;
 					scene.agentEntityFollow = this;
 					this.SpriteFollow.alpha = 1;
@@ -358,8 +381,34 @@ function addWheelLister() {
 
 function cameraZoome(e) {
 
+	var e = window.event || e; // old IE support
+	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+  	var x = e.clientX;
+  	var y = e.clientY;
+  	var isZoomIn = delta > 0;
+  	var direction = isZoomIn ? 1 : -1;
+	var factor = (1 + direction * 0.1);
 
+	cameraMapEditor.zoom *= factor;
 
+	cameraMapEditor.newMap.scale.x *= factor;
+	cameraMapEditor.newMap.scale.y *= factor;
+
+	for (i = 0; i < listAgentEditor.length; i++) {
+		listAgentEditor[i].scale.x *= factor;
+    	listAgentEditor[i].scale.y *= factor;
+    	listAgentEditor[i].SpritePercept.scale.x *= factor;
+        listAgentEditor[i].SpritePercept.scale.y *= factor;
+        listAgentEditor[i].SpriteFollow.scale.x *= factor;
+        listAgentEditor[i].SpriteFollow.scale.y *= factor;
+
+		listAgentEditor[i].position.x *= factor;
+		listAgentEditor[i].position.y *= factor;
+    	listAgentEditor[i].SpritePercept.position.x *= factor;
+        listAgentEditor[i].SpritePercept.position.y *= factor;
+        listAgentEditor[i].SpriteFollow.position.x *= factor;
+        listAgentEditor[i].SpriteFollow.position.y *= factor;
+	}
 };
 
 function animate() {
@@ -428,7 +477,7 @@ function cameraMove(stg, cam) {
 
 					if(nameTeamSelected == "red") {
 						if(counterAgentRed < numberMaxAgentByTeamUser) {
-							if((tx - vx) > 0 && (tx - vx) < mapWigth && (ty - vy) > 0 && (ty - vy) < mapHeigth) {
+							if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
 								createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
 							}
 						}
@@ -438,7 +487,7 @@ function cameraMove(stg, cam) {
 					}
 					else if (nameTeamSelected == "blue") {
 						if(counterAgentBlue < numberMaxAgentByTeamUser) {
-							if((tx - vx) > 0 && (tx - vx) < mapWigth && (ty - vy) > 0 && (ty - vy) < mapHeigth) {
+							if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
 								createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
 							}
 						}
@@ -560,6 +609,9 @@ function getLifeMaxAgent(agent) {
     }
     else if(agent.type == "WarBase") {
     	return 12000;
+    }
+    else if(agent.type == "Wall") {
+        return 15000;
     }
     else {
     	return 1;
@@ -752,7 +804,20 @@ function getSpriteAgent(typeAgent, typeColor) {
 		}
 	}
 	else if(typeAgent == "Wall") {
-		return wall;
+		if(typeColor == 1) {
+    		counterAgent.redWall += 1;
+    		counterAgentRed += 1;
+    		document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfWallRed').innerHTML = counterAgent.redWall;
+    		return wallRed;
+    	}
+    	else if (typeColor == 2){
+    		counterAgent.blueWall += 1;
+    		counterAgentBlue += 1;
+    		document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfWallBlue').innerHTML = counterAgent.blueWall;
+    		return wallBlue;
+    	}
 	}
 	else if(typeAgent == "WarRocket") {
 		return rocket;

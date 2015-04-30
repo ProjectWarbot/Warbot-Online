@@ -40,36 +40,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="idTestZone">0001</td>
-                        <td>MapTest001</td>
-                        <td>Une petite map de test</td>
-                        <td class="levelTestZone">Easy</td>
-                        <td>Falindir</td>
-                        <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
-                    </tr>
-                    <tr>
-                        <td class="idTestZone">0002</td>
-                        <td>MapTest002</td>
-                        <td>Une petite map de test 2</td>
-                        <td class="levelTestZone">Medium</td>
-                        <td>Tsubame</td>
-                        <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
-                    </tr>
-                    <tr>
-                        <td class="idTestZone">0004</td>
-                        <td>MapTest003</td>
-                        <td>Une petite map de test 3</td>
-                        <td class="levelTestZone">Hard</td>
-                        <td>Gouga34</td>
-                        <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
-                    </tr>
-                    <tr>
-                        <td class="idTestZone">999999999</td>
-                        <td>MapTest003gdrgergergergzergergerg</td>
-                        <td>Une petite map de test 3 ergerg ergergerg reg erg ergerg er erg ergerg erg er ger er er erer gr er er gerg re  f</td>
-                        <td class="levelTestZone">Hard</td>
-                        <td>SuperConnard000000000000000030</td>
+                    <tr th:each="trainingConf : ${trainingConfigurations}">
+                        <td class="idTestZone"><p>Ne marche pas </p></td>
+                        <td name="partyName" th:text="${trainingConf.name}" data-sortable="true"></td>
+                        <td><p th:text="${trainingConf.description}"></p></td>
+                        <td class="levelTestZone"><p th:text="${trainingConf.level}"></p></td>
+                        <td><p> <!--th:text="${trainingConf.creator.email}"-->CREATOR NE MARCHE PAS</p></td>
                         <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
                     </tr>
                 </tbody>
