@@ -1,6 +1,7 @@
 package edu.warbot.services;
 
 
+import edu.warbot.models.Account;
 import edu.warbot.models.TrainingConfiguration;
 
 /**
@@ -16,9 +17,7 @@ public interface TrainingConfigurationService {
 
     Iterable<TrainingConfiguration> findAll();
 
-    TrainingConfiguration copy(TrainingConfiguration m);
-
-    TrainingConfiguration copy(Long id);
+    TrainingConfiguration copy(TrainingConfiguration tc, Account newCreator);
 
     TrainingConfiguration createTrainingConfiguration(TrainingConfiguration t);
 }

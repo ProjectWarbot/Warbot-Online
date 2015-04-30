@@ -1,5 +1,6 @@
 package edu.warbot.services.impl;
 
+import edu.warbot.models.Account;
 import edu.warbot.models.TrainingConfiguration;
 import edu.warbot.repository.TrainingConfigurationRepository;
 import edu.warbot.services.TrainingConfigurationService;
@@ -39,17 +40,13 @@ public class TrainingConfigurationServiceImpl implements TrainingConfigurationSe
         return trainingConfigurationRepository.findAll();
     }
 
-    @Override
-    public TrainingConfiguration copy(TrainingConfiguration t) {
-        TrainingConfiguration tmp;
-        tmp = t;
-        return tmp;
-    }
 
     @Override
-    public TrainingConfiguration copy(Long id) {
+    public TrainingConfiguration copy(TrainingConfiguration tc, Account newCreator) {
         TrainingConfiguration tmp;
-        tmp = trainingConfigurationRepository.findOne(id);
+        tmp = tc;
+        tmp.setCreator(newCreator);
+        trainingConfigurationRepository.save(tmp);
         return tmp;
     }
 
