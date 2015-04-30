@@ -916,3 +916,43 @@ function resetMapEditor(){
     resetResumeCounterAgent();
 }
 
+function checkPossibleCreateAgent(posX, posY) {
+
+	var minDistance = 30;
+	var cont = true;
+	var i = 0;
+	while (i < listAgentEditor.length && cont) {
+		var x = (listAgentEditor[i].position.x - posX) * (listAgentEditor[i].position.x - posX);
+		var y = (listAgentEditor[i].position.y - posY) * (listAgentEditor[i].position.y - posY);
+		var dist = Math.sqrt(x + y);
+
+		if(dist < minDistance)
+			cont = false;
+	}
+
+    return cont;
+}
+
+
+function saveTrainingConfiguration() {
+
+	var listAgentForSave = new Array();
+
+	for (i = 0; i < listAgentEditor.length; i++) {
+		var agent = {
+			name : listAgentEditor[i].name,
+			x : listAgentEditor[i].position.x,
+			y : listAgentEditor[i].position.y,
+			angle : listAgentEditor[i].angle,
+			teamName : listAgentEditor[i].teamName,
+			type : listAgentEditor[i].type,
+			life : getLifeMaxAgent(listAgentEditor[i])
+
+		};
+
+		listAgentForSave.push(agent);
+	}
+
+	return listAgentForSave;
+}
+

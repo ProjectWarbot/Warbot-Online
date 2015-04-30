@@ -60,7 +60,7 @@
         <button id="buttonPercept" class="btn btn-primary" type="submit">Percept</button>
 
         <button id="buttonReset" class="btn btn-danger" type="submit">Reset</button>
-        <button class="btn btn-success" type="submit">Save</button>
+        <button id="buttonSave" class="btn btn-success" type="submit">Save</button>
 
         <!--
         <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
@@ -224,6 +224,16 @@
 
                     perceptAgentMapEditor(-1);
                 }
+
+            });
+
+            $(buttonSave).click(function(event)
+            {
+                var listAgent = saveTrainingConfiguration();
+
+                console.debug(listAgent);
+
+
 
             });
 
