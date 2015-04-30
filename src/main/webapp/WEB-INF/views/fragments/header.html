@@ -18,8 +18,8 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#" th:href="@{/}">Home</a></li>
                 <!--<li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#teamcode" th:href="@{/teamcode}">Team Code</a></li>-->
-                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#editor" th:href="@{/editor/list}">Editor</a></li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#teamlist" th:href="@{/teamlist}">Team List</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#configuration" th:href="@{/configuration/list}">Training List</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#partylist" th:href="@{/partylist}">Team List</a></li>
 
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
