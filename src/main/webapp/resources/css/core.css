@@ -113,8 +113,6 @@ h3 {
      text-align: center;
 }
 
-
-
 .searchZoneTest {
     margin-top:40px;
 }
@@ -175,7 +173,11 @@ select {
 }
 
 #resumeMapEditor {
-    background-color: #FFFFFF ;
+    overflow: auto;
+}
+
+#resumeMapEditor {
+    background-color: #707070 ;
 }
 
 #tableMap {
@@ -200,6 +202,14 @@ select {
     font-weight: bold;
     color: #000000 ;
     background-color:#F3E2A9;
-
 }
 
+#inputTestZonedesc {
+    resize:vertical;
+    overflow:auto;
+}
+
+.searchTeamList {
+    margin-top:20px;
+    margin-bottom:20px;
+}

@@ -156,7 +156,6 @@ function messageServerSynchro(message) {
 */
 function messageServerEnd(message) {
 
-	// TODO
 
 }
 
@@ -174,6 +173,7 @@ function createMapJson() {
 	mapWarbot.anchor.y = 0;
 	mapWarbot.alpha = 1;
 
+	camera.map = mapWarbot;
 	camera.addChild(mapWarbot);
 
 	for(i = 0; i < 3; i++) {
@@ -240,12 +240,12 @@ function createAgentJson(scene, tab, json, teams) {
 	agent.name = json.name;
 	agent.teamName = team.name;
 	agent.type = json.type;
-	agent.position.x = json.x;
-	agent.position.y = json.y;
+	agent.position.x = json.x * camera.zoom;
+	agent.position.y = json.y * camera.zoom;
 	agent.angle = json.angle;
 	agent.rotation = Math.PI * (agent.angle / 180);
-	agent.scale.x = 0.5;
-	agent.scale.y = 0.5;
+	agent.scale.x = 0.5 * camera.zoom;
+	agent.scale.y = 0.5 * camera.zoom;
 
     if (typeof(json.lifeP) != "undefined") {
     	agent.lifeP = json.lifeP;
@@ -274,7 +274,7 @@ function createAgentJson(scene, tab, json, teams) {
     	indTab++;
     }
 
-    if(cont || agent.type == "WarFood") {
+    if(cont || agent.type == "WarFood" || agent.type =="Wall") {
     	agent.debug.alpha = -1;
     }
 
@@ -287,8 +287,8 @@ function createAgentJson(scene, tab, json, teams) {
 	life.anchor.y = 0.5;
 	life.position.x = agent.position.x;
 	life.position.y = agent.position.y - Math.sqrt(agent.height * agent.height) * agent.scale.y;
-	life.scale.x = 0.5;
-	life.scale.y = 0.5;
+	life.scale.x = 0.5 * camera.zoom;
+	life.scale.y = 0.5 * camera.zoom;
 
 	indTab = 0;
 	cont = true;
@@ -310,8 +310,8 @@ function createAgentJson(scene, tab, json, teams) {
 	var percept = new PIXI.Sprite(getSpritePercept(agent));
 	percept.position.x = agent.position.x;
 	percept.position.y = agent.position.y;
-	percept.scale.x = 0.5;
-	percept.scale.y = 0.5;
+	percept.scale.x = 0.5 * camera.zoom;
+	percept.scale.y = 0.5 * camera.zoom;
 
 	indTab = 0;
 	cont = true;
@@ -413,8 +413,6 @@ function getTeamOfAgent(teams, json) {
     }
 }
 
-
-
 function addSpriteOfAgentToCamera(sprite) {
 	camera.addChild(sprite);
 }
@@ -422,7 +420,7 @@ function addSpriteOfAgentToCamera(sprite) {
 function agentChangeValue(agent, json) {
 	if (typeof(json.x) != "undefined")
 	{
-		agent.position.x = json.x;
+		agent.position.x = json.x * camera.zoom;
 		agent.SpriteLife.position.x = agent.position.x;
 		changePositionPercept(agent);
 		agent.debug.position.x = agent.position.x;
@@ -430,7 +428,7 @@ function agentChangeValue(agent, json) {
 
 	if (typeof(json.y) != "undefined")
 	{
-		agent.position.y = json.y;
+		agent.position.y = json.y * camera.zoom;
 		agent.SpriteLife.position.y = agentTab[i].position.y - Math.sqrt(agentTab[i].height * agentTab[i].scale.x * agentTab[i].height * agentTab[i].scale.x);
 		changePositionPercept(agent);
 		agent.debug.position.y = agent.position.y;
@@ -585,7 +583,6 @@ function initHUD() {
 	addButton(hud, buttonLife, buttonLifeDown, buttonLifeTrans, 20, 20, buttonTab, 1);
 	addButton(hud, buttonMessage, buttonMessageDown, buttonMessageTrans, 60, 20, buttonTab, 2);
 	addButton(hud, buttonPercept, buttonPerceptDown, buttonPerceptTrans, 100, 20, buttonTab, 3);
-	//addButton(hud, buttonStats, buttonStatsDown, buttonStatsTrans, 140, 20, buttonTab, 4);
 }
 
 function initStreaming() {
@@ -633,24 +630,6 @@ function cameraMove(stg, cam) {
 		prevX = pos.x;
 		prevY = pos.y;
 	};
-/*
-	stg.mouseout = function(data) {
-
-		console.log("OUT");
-		//for (i = 0; i < buttonTab.length; i++) {
-			//buttonTab[i].alpha = -1;
-		//}
-	}
-
-	stg.mouseover = function(data) {
-
-console.log("on");
-	for (i = 0; i < buttonTab.length; i++) {
-		buttonTab[i].alpha = 1;
-	}
-}*/
-
-
 }
 
 function addWheelLister() {
@@ -674,17 +653,31 @@ function cameraZoome(e) {
   	var direction = isZoomIn ? 1 : -1;
 	var factor = (1 + direction * 0.1);
 
+	//if(camera.zoom * factor <= 2 && camera.zoom * factor >= 0.32) {
+		camera.zoom *= factor;
+		camera.map.scale.x *= factor;
+		camera.map.scale.y *= factor;
+		camera.map.position.x *= factor;
+        camera.map.position.y *= factor;
+	//}
+
 	for (i = 0; i < agentTab.length; i++) {
-		if(agentTab[i].scale.x * factor <= 1 &&  agentTab[i].scale.y * factor <= 1 && agentTab[i].scale.x * factor >= 0.32 &&  agentTab[i].scale.y * factor >= 0.32) {
+		//if(agentTab[i].scale.x * factor <= 2 &&  agentTab[i].scale.y * factor <= 2 && agentTab[i].scale.x * factor >= 0.32 &&  agentTab[i].scale.y * factor >= 0.32) {
 			agentTab[i].scale.x *= factor;
 			agentTab[i].scale.y *= factor;
+			agentTab[i].position.x *= factor;
+            agentTab[i].position.y *= factor;
 			agentTab[i].SpriteLife.scale.x *= factor;
 			agentTab[i].SpriteLife.scale.y *= factor;
+			agentTab[i].SpriteLife.position.x = agentTab[i].position.x;
 			agentTab[i].SpriteLife.position.y = agentTab[i].position.y - Math.sqrt(agentTab[i].height * agentTab[i].scale.x * agentTab[i].height * agentTab[i].scale.x);
 			agentTab[i].SpritePercept.scale.x *= factor;
 			agentTab[i].SpritePercept.scale.y *= factor;
+			agentTab[i].SpritePercept.position.x = agentTab[i].position.x;
+			agentTab[i].SpritePercept.position.y = agentTab[i].position.y;
+			changePositionPercept(agentTab[i]);
 			agentTab[i].debug.setStyle();
-		}
+		//}
 	}
 };
 
@@ -755,10 +748,12 @@ function updateDataAgentMap(agent) {
 			}
 			else if(agent.type == "Wall") {
 				if(agent.teamName == nameTeamRed) {
-					// TODO
+					counterAgent.redWall -= 1;
+					document.getElementById('numberOfWallRed').innerHTML = counterAgent.redWall;
 				}
 				else {
-					// TODO
+					counterAgent.blueWall -= 1;
+					document.getElementById('numberOfWallBlue').innerHTML = counterAgent.blueWall;
 				}
 			}
 			else {
@@ -841,7 +836,16 @@ function getSpriteAgent(typeAgent, typeColor) {
 		}
 	}
 	else if(typeAgent == "Wall") {
-		return wall;
+		if(typeColor == 1) {
+			counterAgent.redWall += 1;
+			document.getElementById('numberOfWallRed').innerHTML = counterAgent.redWall;
+			return redWall;
+		}
+		else {
+			counterAgent.blueWall += 1;
+			document.getElementById('numberOfWallBlue').innerHTML = counterAgent.blueWall;
+			return blueWall;
+		}
 	}
 	else if(typeAgent == "WarRocket") {
 		return rocket;
@@ -1020,37 +1024,3 @@ function changeDebugMessage(agent, json) {
 
 
 }
-/*
-function myFunction() {
-	analyseMessageServer(message1);
-}
-
-function myFunction2() {
-	analyseMessageServer (message2);
-}
-
-function myFuncFion3() {
-	analyseMessageServer (message3);
-}
-
-function myFuncFion4() {
-	analyseMessageServer (message4);
-}
-
-function myFuncFion5() {
-	analyseMessageServer (message5);
-}
-
-function myFuncFion6() {
-	analyseMessageServer (message6);
-}
-
-function myFunction7() {
-	analyseMessageServer (message7);
-}
-
-function myFunction8() {
-	analyseMessageServer (message8);
-
-}
-*/

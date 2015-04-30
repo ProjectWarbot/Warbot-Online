@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Welcome to the Spring MVC Quickstart application! Get started quickly by signing up!</title>
+    <title th:text="#{view.index.title}" >Warbot - Online</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
@@ -12,13 +12,11 @@
 <div th:replace="fragments/header :: header">Header</div>
 <div class="container">
     <div class="text-center">
-        <h1>Test</h1>
+        <h1 th:text="#{home}">Bienvenue sur Warbot Online</h1>
         <p class="lead">
-            Welcome to the Spring MVC Quickstart application!
-            Get started quickly by signing up.
         </p>
         <p>
-            <a href="/signup" th:href="@{/signup}" class="btn btn-success btn-lg">Sign up</a>
+            <a href="/signup" th:href="@{/signup}" class="btn btn-success btn-lg" th:text="#{sign.in}" >Sign in</a>
         </p>
     </div>
     <div th:replace="fragments/footer :: footer">&copy; 2013 The Static Templates</div>

@@ -14,6 +14,7 @@ import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.services.CodeEditorService;
 import edu.warbot.services.WarbotOnlineService;
 import edu.warbot.support.web.MessageHelper;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
