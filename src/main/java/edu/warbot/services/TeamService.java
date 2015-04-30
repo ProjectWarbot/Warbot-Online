@@ -8,7 +8,6 @@ import edu.warbot.models.Party;
  */
 public interface TeamService {
 
-
     Team generateTeamFromParty(Party party);
     Team getIATeamByName(String name);
 }

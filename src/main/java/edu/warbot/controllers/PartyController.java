@@ -156,7 +156,6 @@ public class PartyController implements ApplicationContextAware
         }
         MessageHelper.addSuccessAttribute(ra, "party.success");
         ra.addAttribute("idParty", party.getId());
-
         return "redirect:/teamcode";
     }
 
