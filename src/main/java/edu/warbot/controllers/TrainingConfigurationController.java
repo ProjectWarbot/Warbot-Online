@@ -4,6 +4,7 @@ import edu.warbot.form.TrainingConfigurationForm;
 import edu.warbot.models.Account;
 import edu.warbot.models.TrainingConfiguration;
 import edu.warbot.repository.AccountRepository;
+import edu.warbot.repository.TrainingConfigurationRepository;
 import edu.warbot.services.TrainingConfigurationService;
 import edu.warbot.services.WarbotOnlineService;
 import org.slf4j.Logger;
@@ -38,6 +39,9 @@ public class TrainingConfigurationController {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private TrainingConfigurationRepository trainingConfigurationRepository;
+
     @RequestMapping(value = "configuration/list", method = RequestMethod.GET)
     public String listEditor(Model model) {
         Iterable<TrainingConfiguration> trainingConfigurationsList;
@@ -47,8 +51,7 @@ public class TrainingConfigurationController {
     }
 
     @RequestMapping(value = "configuration/create", method = RequestMethod.POST)
-    public String createEditor(Principal principal, @Valid @ModelAttribute("form") TrainingConfigurationForm tcForm,
-                               Errors errors) {
+    public String createEditor(Principal principal, @Valid @ModelAttribute("form") TrainingConfigurationForm tcForm) {
 
         Account account = accountRepository.findByEmail(principal.getName());
         if(account!=null)
@@ -57,6 +60,21 @@ public class TrainingConfigurationController {
         TrainingConfiguration tc = tcForm.createTestZone();
         tc.setCreator(account);
         tc = trainingConfigurationService.createTrainingConfiguration(tc);
+        return "configuration-editor/editor";
+    }
+
+    @RequestMapping(value = "configuration/edit", method = RequestMethod.POST)
+    public String createEditor(Principal principal, Long trainingId) {
+
+        Account account = accountRepository.findByEmail(principal.getName());
+        if(account!=null)
+            logger.debug("Found user");
+
+        TrainingConfiguration tc = trainingConfigurationService.findOne(trainingId);
+
+        if(tc.getCreator() != account) {
+            tc = trainingConfigurationService.copy(tc, account);
+        }
         return "configuration-editor/editor";
     }
 

@@ -32,7 +32,7 @@
                 <thead>
                     <tr class="titleTestZone">
                         <td class="idTestZone">ID</td>
-                        <td>Nom</td>
+                        <td data-sortable="true">Nom</td>
                         <td>Description</td>
                         <td class="levelTestZone">Niveau</td>
                         <td>Créateur</td>
@@ -41,8 +41,8 @@
                 </thead>
                 <tbody>
                     <tr th:each="trainingConf : ${trainingConfigurations}">
-                        <td class="idTestZone"><p>Ne marche pas </p></td>
-                        <td name="partyName" th:text="${trainingConf.name}" data-sortable="true"></td>
+                        <td class="idTestZone" th:text="${trainingConf.id}"><p></p></td>
+                        <td name="partyName" th:text="${trainingConf.name}"></td>
                         <td><p th:text="${trainingConf.description}"></p></td>
                         <td class="levelTestZone"><p th:text="${trainingConf.level}"></p></td>
                         <td><p> <!--th:text="${trainingConf.creator.email}"-->CREATOR NE MARCHE PAS</p></td>
