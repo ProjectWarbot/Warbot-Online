@@ -60,7 +60,7 @@
         <button id="buttonPercept" class="btn btn-primary" type="submit">Percept</button>
 
         <button id="buttonReset" class="btn btn-danger" type="submit">Reset</button>
-        <button class="btn btn-success" type="submit">Save</button>
+        <button id="buttonSave" class="btn btn-success" type="submit">Save</button>
 
         <!--
         <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
@@ -87,6 +87,11 @@
                     <td class="mapNameTeam">Team</td>
                     <td class="mapRed" id="nameRedTeamConsoleMap">My Team</td>
                     <td class="mapBlue" id="nameBlueTeamConsoleMap">Other Team</td>
+                </tr>
+                <tr>
+                    <td class="mapNameAgent">Total Agents</td>
+                    <td class="mapRed" id="totalRedTeamAgent">0</td>
+                    <td class="mapBlue" id="totalBlueTeamAgent">0</td>
                 </tr>
                 <tr>
                     <td class="mapNameAgent">WarBase</td>
@@ -152,6 +157,10 @@
                     <td class="mapNameAgent">Angle view</td>
                     <td class="mapAgentOther" id="angleViewAgentFollow">0</td>
                 </tr>
+                <tr class="">
+                    <td class="mapNameAgent">Life</td>
+                    <td class="mapAgentOther" id="lifeAgentFollow"> 0 ∕ 0</td>
+                </tr>
             </table>
         </div>
 
@@ -173,6 +182,8 @@
 
                 if(addAgentClassName == "btn btn-primary") {
                     $(buttonAddAgent).attr('class', 'btn btn-primary active');
+                    $(buttonRemoveAgent).attr('class', 'btn btn-primary');
+                    buttonRemoveAgentME = false;
                     buttonAddAgentME = true;
                 }
                 else {
@@ -187,6 +198,8 @@
 
                 if(removeAgentClassName == "btn btn-primary") {
                     $(buttonRemoveAgent).attr('class', 'btn btn-primary active');
+                    $(buttonAddAgent).attr('class', 'btn btn-primary');
+                    buttonAddAgentME = false;
                     buttonRemoveAgentME = true;
                 }
                 else {
@@ -208,8 +221,19 @@
                 else {
                     $(buttonPerceptAgent).attr('class', 'btn btn-primary');
                     buttonPerceptAgentME = false;
+
                     perceptAgentMapEditor(-1);
                 }
+
+            });
+
+            $(buttonSave).click(function(event)
+            {
+                var listAgent = saveTrainingConfiguration();
+
+                console.debug(listAgent);
+
+
 
             });
 

@@ -18,22 +18,31 @@ var nameTeamSelected = "red";
 var nameAgentSelected = "WarBase";
 var nameMapSelected = "closed";
 
+var numberMaxAgentByTeamUser = 30;
+var numberMaxFood = 100;
+
+var counterAgentRed    = 0;
+var counterAgentBlue   = 0;
+
+var mapHeigth = 600;
+var mapWigth = 1000;
+
 var counterAgent = {
-	food : 0,
-	redBase : 0,
-	blueBase : 0,
-	redExplorer : 0,
-	blueExplorer : 0,
-	redKamikaze : 0,
-	blueKamikaze : 0,
-	redRocketLauncher : 0,
+	food               : 0,
+	redBase            : 0,
+	blueBase           : 0,
+	redExplorer        : 0,
+	blueExplorer       : 0,
+	redKamikaze        : 0,
+	blueKamikaze       : 0,
+	redRocketLauncher  : 0,
 	blueRocketLauncher : 0,
-	redTurret : 0,
-	blueTurret : 0,
-	redEngineer : 0,
-	blueEngineer : 0,
-	redWall : 0,
-	blueWall : 0
+	redTurret          : 0,
+	blueTurret         : 0,
+	redEngineer        : 0,
+	blueEngineer       : 0,
+	redWall            : 0,
+	blueWall           : 0
 };
 
 requestAnimFrame( animate );
@@ -55,6 +64,10 @@ function initDebug() {
     cameraMapEditor.follow = false;
     cameraMapEditor.agentFollow = null;
     cameraMapEditor.agentEntityFollow;
+
+    document.getElementById('numberOfFoodConsoleMap').innerHTML = 0 + " / " + numberMaxFood;
+    document.getElementById('totalRedTeamAgent').innerHTML = 0 + " / " + numberMaxAgentByTeamUser;
+    document.getElementById('totalBlueTeamAgent').innerHTML = 0 + " / " + numberMaxAgentByTeamUser;
 }
 
 function createNewMap() {
@@ -70,6 +83,155 @@ function createNewMap() {
     cameraMapEditor.addChild(mapWarbot);
 
 
+}
+
+function resetResumeAgentFollow(){
+	document.getElementById('nameOfAgentFollow').innerHTML = "null";
+    document.getElementById('teamOfAgentFollow').innerHTML = "null";
+    document.getElementById('typeOfAgentFollow').innerHTML = "null";
+    document.getElementById('angleOfAgentFollow').innerHTML = "0";
+    document.getElementById('distanceViewAgentFollow').innerHTML = "0";
+    document.getElementById('angleViewAgentFollow').innerHTML = "0";
+    document.getElementById('lifeAgentFollow').innerHTML = "0 / 0";
+}
+
+function updateResumeAgentFollow(agent) {
+	document.getElementById('nameOfAgentFollow').innerHTML = agent.name;
+	document.getElementById('teamOfAgentFollow').innerHTML = agent.teamName;
+	document.getElementById('typeOfAgentFollow').innerHTML = agent.type;
+	document.getElementById('angleOfAgentFollow').innerHTML = agent.angle;
+	document.getElementById('distanceViewAgentFollow').innerHTML = getViewDistance(agent);
+    document.getElementById('angleViewAgentFollow').innerHTML = getViewAngle(agent);
+	document.getElementById('lifeAgentFollow').innerHTML = getLifeMaxAgent(agent) + " / " + getLifeMaxAgent(agent);
+}
+
+function updateResumeCounterAgent(agent) {
+	if(agent.type == "WarExplorer") {
+		if(agent.teamType == 1) {
+			counterAgent.redExplorer -= 1;
+			counterAgentRed -= 1;
+        	document.getElementById('numberOfExplorerRed').innerHTML = counterAgent.redExplorer;
+        	document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
+		}
+		else if (agent.teamType == 2){
+			counterAgent.blueExplorer -= 1;
+			counterAgentBlue -= 1;
+			document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfExplorerBlue').innerHTML = counterAgent.blueExplorer;
+		}
+	}
+	else if(agent.type == "WarEngineer") {
+		if(agent.teamType == 1) {
+			counterAgent.redEngineer -= 1;
+			counterAgentRed -= 1;
+			document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfEngineerRed').innerHTML = counterAgent.redEngineer;
+		}
+		else if (agent.teamType == 2){
+			counterAgent.blueEngineer -= 1;
+			counterAgentBlue -= 1;
+			document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfEngineerBlue').innerHTML = counterAgent.blueEngineer;
+		}
+	}
+	else if(agent.type == "WarRocketLauncher") {
+		if(agent.teamType == 1) {
+			counterAgent.redRocketLauncher -= 1;
+			counterAgentRed -= 1;
+			document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfRocketLauncherRed').innerHTML = counterAgent.redRocketLauncher;
+		}
+		else if (agent.teamType == 2){
+			counterAgent.blueRocketLauncher -= 1;
+			counterAgentBlue -= 1;
+			document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfRocketLauncherBlue').innerHTML = counterAgent.blueRocketLauncher;
+		}
+	}
+	else if(agent.type == "WarKamikaze") {
+		if(agent.teamType == 1) {
+			counterAgent.redKamikaze -= 1;
+			counterAgentRed -= 1;
+			document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfKamikazeRed').innerHTML = counterAgent.redKamikaze;
+		}
+		else if (agent.teamType == 2){
+			counterAgent.blueKamikaze -= 1;
+			counterAgentBlue -= 1;
+			document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfKamikazeBlue').innerHTML = counterAgent.blueKamikaze;
+		}
+	}
+	else if(agent.type == "WarTurret") {
+		if(agent.teamType == 1) {
+			counterAgent.redTurret -= 1;
+			counterAgentRed -= 1;
+			document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
+			document.getElementById('numberOfTurretRed').innerHTML = counterAgent.redTurret;
+		}
+		else if (agent.teamType == 2){
+			counterAgent.blueTurret -= 1;
+			counterAgentBlue -= 1;
+			document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
+			document.getElementById('numberOfTurretBlue').innerHTML = counterAgent.blueTurret;
+		}
+	}
+	else if(agent.type == "WarBase") {
+		if(agent.teamType == 1) {
+			counterAgent.redBase -= 1;
+			counterAgentRed -= 1;
+			document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
+        	document.getElementById('numberOfBaseRed').innerHTML = counterAgent.redBase;
+		}
+		else if (agent.teamType == 2){
+			counterAgent.blueBase -= 1;
+			counterAgentBlue -= 1;
+			document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
+        	document.getElementById('numberOfBaseBlue').innerHTML = counterAgent.blueBase;
+		}
+	}
+	else if(agent.type == "Wall") {
+		if(agent.teamType == 1) {
+        	counterAgent.redWall -= 1;
+        	counterAgentRed -= 1;
+        	document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfWallRed').innerHTML = counterAgent.redWall;
+        }
+        else if (agent.teamType == 2){
+        	counterAgent.blueWall -= 1;
+        	counterAgentBlue -= 1;
+        	document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfWallBlue').innerHTML = counterAgent.blueWall;
+        }
+	}
+	else if(agent.type == "WarFood" && agent.teamType == 0) {
+		counterAgent.food -= 1;
+		document.getElementById('numberOfFoodConsoleMap').innerHTML = counterAgent.food + " / " + numberMaxFood;
+	}
+	else {
+		console.log("bug getSpriteAgent")
+	}
+}
+
+function resetResumeCounterAgent() {
+	document.getElementById('numberOfFoodConsoleMap').innerHTML = counterAgent.food + " / " + numberMaxFood;
+	document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
+    document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
+
+	document.getElementById('numberOfExplorerRed').innerHTML = counterAgent.redExplorer;
+    document.getElementById('numberOfExplorerBlue').innerHTML = counterAgent.blueExplorer;
+    document.getElementById('numberOfEngineerRed').innerHTML = counterAgent.redEngineer;
+    document.getElementById('numberOfEngineerBlue').innerHTML = counterAgent.blueEngineer;
+    document.getElementById('numberOfRocketLauncherRed').innerHTML = counterAgent.redRocketLauncher;
+    document.getElementById('numberOfRocketLauncherBlue').innerHTML = counterAgent.blueRocketLauncher;
+    document.getElementById('numberOfKamikazeRed').innerHTML = counterAgent.redKamikaze;
+    document.getElementById('numberOfKamikazeBlue').innerHTML = counterAgent.blueKamikaze;
+    document.getElementById('numberOfTurretRed').innerHTML = counterAgent.redTurret;
+    document.getElementById('numberOfTurretBlue').innerHTML = counterAgent.blueTurret;
+    document.getElementById('numberOfBaseRed').innerHTML = counterAgent.redBase;
+    document.getElementById('numberOfBaseBlue').innerHTML = counterAgent.blueBase;
+    document.getElementById('numberOfWallRed').innerHTML = counterAgent.redWall;
+    document.getElementById('numberOfWallBlue').innerHTML = counterAgent.blueWall;
 }
 
 function createAgentMapEditor(scene, teamName, type , posX, posY) {
@@ -98,16 +260,20 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
     agent.type = type;
     agent.name = type + "-" + listAgentEditor.length;
 
-    agent.position.x = posX;
-    agent.position.y = posY;
+
+
+
 
     agent.anchor.x = 0.5;
     agent.anchor.y = 0.5;
 
     agent.angle = 0;
     agent.rotation = Math.PI * (agent.angle / 180);
-    agent.scale.x = 0.5;
-    agent.scale.y = 0.5;
+    agent.scale.x = 0.5 * cameraMapEditor.zoom;
+    agent.scale.y = 0.5 * cameraMapEditor.zoom;
+
+    agent.position.x = posX;
+    agent.position.y = posY;
 
     agent.interactive = true;
     agent.buttonMode = true;
@@ -116,20 +282,22 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
     var percept = new PIXI.Sprite(getSpritePercept(agent));
     percept.position.x = agent.position.x;
     percept.position.y = agent.position.y;
-    percept.scale.x = 0.5;
-    percept.scale.y = 0.5;
-    percept.alpha = -1;
+    percept.scale.x = 0.5 * cameraMapEditor.zoom;
+    percept.scale.y = 0.5 * cameraMapEditor.zoom;
+
+    if(buttonPerceptAgentME)
+    	percept.alpha = 1;
+	else
+		percept.alpha = -1;
 
 	var followAgentBorder = new PIXI.Sprite(followAgent);
 	followAgentBorder.position.x = agent.position.x;
     followAgentBorder.position.y = agent.position.y;
-	followAgentBorder.scale.x = 0.5;
-    followAgentBorder.scale.y = 0.5;
+	followAgentBorder.scale.x = 0.5 * cameraMapEditor.zoom;
+    followAgentBorder.scale.y = 0.5 * cameraMapEditor.zoom;
     followAgentBorder.anchor.x = 0.5;
     followAgentBorder.anchor.y = 0.5;
     followAgentBorder.alpha = -1;
-
-
 
     // TODO move followAgentBorder
 
@@ -147,41 +315,42 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
     	agent.mousedown = function(data) {
 
 			if(buttonRemoveAgentME) {
-				cameraMapEditor.removeChild(agent.SpriteFollow);
-                cameraMapEditor.removeChild(agent.SpritePercept);
-                cameraMapEditor.removeChild(agent);
-                scene.follow = false;
-                scene.agentFollow = -1;
-                scene.agentEntityFollow = null;
-                document.getElementById('nameOfAgentFollow').innerHTML = "null";
-                document.getElementById('teamOfAgentFollow').innerHTML = "null";
-                document.getElementById('typeOfAgentFollow').innerHTML = "null";
-                document.getElementById('angleOfAgentFollow').innerHTML = "0";
+                if(scene.follow = true) {
+                	if(scene.agentFollow == agent.name) {
+                		scene.follow = false;
+                		scene.agentFollow = -1;
+                		scene.agentEntityFollow.SpriteFollow.alpha = -1;
+                		scene.agentEntityFollow = null;
+                		resetResumeAgentFollow();
+                	}
+                }
+
+				updateResumeCounterAgent(this);
 
 				var i = 0;
 				var index = 0;
 
-                while(i < listAgentEditor.length() && listAgentEditor[i].agent.name != this.name) {
+                while(i < listAgentEditor.length && listAgentEditor[i].name != this.name) {
               		index++;
                 	i++;
                 }
 
                 listAgentEditor.splice(index, 1);
 
-
+				cameraMapEditor.removeChild(agent.SpriteFollow);
+                cameraMapEditor.removeChild(agent.SpritePercept);
+                cameraMapEditor.removeChild(agent);
 			}
 			else {
 				if (this.isdown) {
 					this.isdown = false;
 					scene.follow = false;
 					scene.agentFollow = -1;
+					if(scene.agentEntityFollow != null)
+						scene.agentEntityFollow.SpriteFollow.alpha = -1;
 					scene.agentEntityFollow = null;
-
 					this.SpriteFollow.alpha = -1;
-					document.getElementById('nameOfAgentFollow').innerHTML = "null";
-					document.getElementById('teamOfAgentFollow').innerHTML = "null";
-					document.getElementById('typeOfAgentFollow').innerHTML = "null";
-					document.getElementById('angleOfAgentFollow').innerHTML = "0";
+					resetResumeAgentFollow();
 				}
 				else {
 					this.isdown = true;
@@ -191,10 +360,8 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
 					scene.agentFollow = agent.name;
 					scene.agentEntityFollow = this;
 					this.SpriteFollow.alpha = 1;
-					document.getElementById('nameOfAgentFollow').innerHTML = this.name;
-					document.getElementById('teamOfAgentFollow').innerHTML = this.teamName;
-					document.getElementById('typeOfAgentFollow').innerHTML = this.type;
-					document.getElementById('angleOfAgentFollow').innerHTML = this.angle;
+
+					updateResumeAgentFollow(this);
 				}
 			}
         };
@@ -214,8 +381,34 @@ function addWheelLister() {
 
 function cameraZoome(e) {
 
+	var e = window.event || e; // old IE support
+	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+  	var x = e.clientX;
+  	var y = e.clientY;
+  	var isZoomIn = delta > 0;
+  	var direction = isZoomIn ? 1 : -1;
+	var factor = (1 + direction * 0.1);
 
+	cameraMapEditor.zoom *= factor;
 
+	cameraMapEditor.newMap.scale.x *= factor;
+	cameraMapEditor.newMap.scale.y *= factor;
+
+	for (i = 0; i < listAgentEditor.length; i++) {
+		listAgentEditor[i].scale.x *= factor;
+    	listAgentEditor[i].scale.y *= factor;
+    	listAgentEditor[i].SpritePercept.scale.x *= factor;
+        listAgentEditor[i].SpritePercept.scale.y *= factor;
+        listAgentEditor[i].SpriteFollow.scale.x *= factor;
+        listAgentEditor[i].SpriteFollow.scale.y *= factor;
+
+		listAgentEditor[i].position.x *= factor;
+		listAgentEditor[i].position.y *= factor;
+    	listAgentEditor[i].SpritePercept.position.x *= factor;
+        listAgentEditor[i].SpritePercept.position.y *= factor;
+        listAgentEditor[i].SpriteFollow.position.x *= factor;
+        listAgentEditor[i].SpriteFollow.position.y *= factor;
+	}
 };
 
 function animate() {
@@ -263,7 +456,50 @@ function cameraMove(stg, cam) {
 
 
 		if(buttonAddAgentME) {
-		    createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
+
+			if(nameTeamSelected == "mother") {
+				if(nameAgentSelected == "WarFood") {
+					if(counterAgent.food < numberMaxFood) {
+						if((tx - vx) > 0 && (tx - vx) < mapWigth && (ty - vy) > 0 && (ty - vy) < mapHeigth) {
+							createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
+						}
+					}
+					else {
+						console.log("Impossible create food because number max is already max")
+					}
+				}
+				else {
+					console.log("Mother can't create : " + nameAgentSelected);
+				}
+			}
+			else {
+				if(nameAgentSelected != "WarFood") {
+
+					if(nameTeamSelected == "red") {
+						if(counterAgentRed < numberMaxAgentByTeamUser) {
+							if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
+								createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
+							}
+						}
+						else {
+							console.log("number max for red team is ok");
+						}
+					}
+					else if (nameTeamSelected == "blue") {
+						if(counterAgentBlue < numberMaxAgentByTeamUser) {
+							if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
+								createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
+							}
+						}
+						else {
+							console.log("number max for blue team is ok");
+						}
+					}
+				}
+				else {
+					console.log("Team can't create food");
+				}
+			}
 		}
 	};
 
@@ -305,6 +541,81 @@ function cameraMove(stg, cam) {
 	};
 
 
+}
+
+function getViewAngle(agent) {
+	if(agent.type == "WarExplorer") {
+    	return 180;
+    }
+    else if(agent.type == "WarEngineer") {
+    	return 150;
+    }
+    else if(agent.type == "WarRocketLauncher") {
+    	return 120;
+    }
+    else if(agent.type == "WarKamikaze") {
+    	return 150;
+    }
+    else if(agent.type == "WarTurret") {
+    	return 180;
+    }
+    else if(agent.type == "WarBase") {
+    	return 360;
+    }
+    else {
+    	return 0;
+    }
+}
+
+function getViewDistance(agent) {
+	if(agent.type == "WarExplorer") {
+    	return 200;
+    }
+    else if(agent.type == "WarEngineer") {
+    	return 120;
+    }
+    else if(agent.type == "WarRocketLauncher") {
+    	return 80;
+    }
+    else if(agent.type == "WarKamikaze") {
+    	return 80;
+    }
+    else if(agent.type == "WarTurret") {
+    	return 200;
+    }
+    else if(agent.type == "WarBase") {
+    	return 360;
+    }
+    else {
+    	return 0;
+    }
+}
+
+function getLifeMaxAgent(agent) {
+	if(agent.type == "WarExplorer") {
+    	return 3000;
+    }
+    else if(agent.type == "WarEngineer") {
+    	return 3000;
+    }
+    else if(agent.type == "WarRocketLauncher") {
+    	return 8000;
+    }
+    else if(agent.type == "WarKamikaze") {
+    	return 3000;
+    }
+    else if(agent.type == "WarTurret") {
+    	return 4000;
+    }
+    else if(agent.type == "WarBase") {
+    	return 12000;
+    }
+    else if(agent.type == "Wall") {
+        return 15000;
+    }
+    else {
+    	return 1;
+    }
 }
 
 function nameTeamChange() {
@@ -399,11 +710,15 @@ function getSpriteAgent(typeAgent, typeColor) {
 	if(typeAgent == "WarExplorer") {
 		if(typeColor == 1) {
 			counterAgent.redExplorer += 1;
+			counterAgentRed += 1;
         	document.getElementById('numberOfExplorerRed').innerHTML = counterAgent.redExplorer;
+        	document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
 			return explorerRed;
 		}
 		else if (typeColor == 2){
 			counterAgent.blueExplorer += 1;
+			counterAgentBlue += 1;
+			document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
             document.getElementById('numberOfExplorerBlue').innerHTML = counterAgent.blueExplorer;
 			return explorerBlue;
 		}
@@ -411,11 +726,15 @@ function getSpriteAgent(typeAgent, typeColor) {
 	else if(typeAgent == "WarEngineer") {
 		if(typeColor == 1) {
 			counterAgent.redEngineer += 1;
+			counterAgentRed += 1;
+			document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
             document.getElementById('numberOfEngineerRed').innerHTML = counterAgent.redEngineer;
 			return engineerRed;
 		}
 		else if (typeColor == 2){
 			counterAgent.blueEngineer += 1;
+			counterAgentBlue += 1;
+			document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
             document.getElementById('numberOfEngineerBlue').innerHTML = counterAgent.blueEngineer;
 			return engineerBlue;
 		}
@@ -423,11 +742,15 @@ function getSpriteAgent(typeAgent, typeColor) {
 	else if(typeAgent == "WarRocketLauncher") {
 		if(typeColor == 1) {
 			counterAgent.redRocketLauncher += 1;
+			counterAgentRed += 1;
+			document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
             document.getElementById('numberOfRocketLauncherRed').innerHTML = counterAgent.redRocketLauncher;
 			return rocketLauncherRed;
 		}
 		else if (typeColor == 2){
 			counterAgent.blueRocketLauncher += 1;
+			counterAgentBlue += 1;
+			document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
             document.getElementById('numberOfRocketLauncherBlue').innerHTML = counterAgent.blueRocketLauncher;
 			return rocketLauncherBlue;
 		}
@@ -435,11 +758,15 @@ function getSpriteAgent(typeAgent, typeColor) {
 	else if(typeAgent == "WarKamikaze") {
 		if(typeColor == 1) {
 			counterAgent.redKamikaze += 1;
+			counterAgentRed += 1;
+			document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
             document.getElementById('numberOfKamikazeRed').innerHTML = counterAgent.redKamikaze;
 			return kamikazeRed;
 		}
 		else if (typeColor == 2){
 			counterAgent.blueKamikaze += 1;
+			counterAgentBlue += 1;
+			document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
             document.getElementById('numberOfKamikazeBlue').innerHTML = counterAgent.blueKamikaze;
 			return kamikazeBlue;
 		}
@@ -447,11 +774,15 @@ function getSpriteAgent(typeAgent, typeColor) {
 	else if(typeAgent == "WarTurret") {
 		if(typeColor == 1) {
 			counterAgent.redTurret += 1;
+			counterAgentRed += 1;
+			document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
 			document.getElementById('numberOfTurretRed').innerHTML = counterAgent.redTurret;
 			return turretRed;
 		}
 		else if (typeColor == 2){
 			counterAgent.blueTurret += 1;
+			counterAgentBlue += 1;
+			document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
 			document.getElementById('numberOfTurretBlue').innerHTML = counterAgent.blueTurret;
 			return turretBlue;
 		}
@@ -459,17 +790,34 @@ function getSpriteAgent(typeAgent, typeColor) {
 	else if(typeAgent == "WarBase") {
 		if(typeColor == 1) {
 			counterAgent.redBase += 1;
+			counterAgentRed += 1;
+			document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
         	document.getElementById('numberOfBaseRed').innerHTML = counterAgent.redBase;
 			return baseRed;
 		}
 		else if (typeColor == 2){
 			counterAgent.blueBase += 1;
+			counterAgentBlue += 1;
+			document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
         	document.getElementById('numberOfBaseBlue').innerHTML = counterAgent.blueBase;
 			return baseBlue;
 		}
 	}
 	else if(typeAgent == "Wall") {
-		return wall;
+		if(typeColor == 1) {
+    		counterAgent.redWall += 1;
+    		counterAgentRed += 1;
+    		document.getElementById('totalRedTeamAgent').innerHTML = counterAgentRed + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfWallRed').innerHTML = counterAgent.redWall;
+    		return wallRed;
+    	}
+    	else if (typeColor == 2){
+    		counterAgent.blueWall += 1;
+    		counterAgentBlue += 1;
+    		document.getElementById('totalBlueTeamAgent').innerHTML = counterAgentBlue + " / " + numberMaxAgentByTeamUser;
+            document.getElementById('numberOfWallBlue').innerHTML = counterAgent.blueWall;
+    		return wallBlue;
+    	}
 	}
 	else if(typeAgent == "WarRocket") {
 		return rocket;
@@ -479,7 +827,7 @@ function getSpriteAgent(typeAgent, typeColor) {
 	}
 	else if(typeAgent == "WarFood" && typeColor == 0) {
 		counterAgent.food += 1;
-		document.getElementById('numberOfFoodConsoleMap').innerHTML = counterAgent.food;
+		document.getElementById('numberOfFoodConsoleMap').innerHTML = counterAgent.food + " / " + numberMaxFood;
 		return food;
 	}
 	else {
@@ -537,6 +885,25 @@ function resetMapEditor(){
 		cameraMapEditor.removeChild(listAgentEditor[i]);
 	}
 
+	counterAgentBlue = 0;
+	counterAgentRed = 0;
+
+    counterAgent.food = 0;
+    counterAgent.redBase = 0;
+    counterAgent.blueBase = 0;
+    counterAgent.redExplorer = 0;
+    counterAgent.blueExplorer = 0;
+    counterAgent.redKamikaze = 0;
+    counterAgent.blueKamikaze = 0;
+    counterAgent.redRocketLauncher = 0;
+    counterAgent.blueRocketLauncher = 0;
+    counterAgent.redTurret = 0;
+    counterAgent.blueTurret = 0;
+    counterAgent.redEngineer = 0;
+    counterAgent.blueEngineer = 0;
+    counterAgent.redWall = 0;
+    counterAgent.blueWall = 0;
+
 	while(listAgentEditor.length > 0) {
         listAgentEditor.pop();
     }
@@ -544,9 +911,48 @@ function resetMapEditor(){
     cameraMapEditor.follow = false;
     cameraMapEditor.agentFollow = -1;
     cameraMapEditor.agentEntityFollow = null;
-    document.getElementById('nameOfAgentFollow').innerHTML = "null";
-    document.getElementById('teamOfAgentFollow').innerHTML = "null";
-    document.getElementById('typeOfAgentFollow').innerHTML = "null";
-    document.getElementById('angleOfAgentFollow').innerHTML = "0";
+
+    resetResumeAgentFollow();
+    resetResumeCounterAgent();
+}
+
+function checkPossibleCreateAgent(posX, posY) {
+
+	var minDistance = 30;
+	var cont = true;
+	var i = 0;
+	while (i < listAgentEditor.length && cont) {
+		var x = (listAgentEditor[i].position.x - posX) * (listAgentEditor[i].position.x - posX);
+		var y = (listAgentEditor[i].position.y - posY) * (listAgentEditor[i].position.y - posY);
+		var dist = Math.sqrt(x + y);
+
+		if(dist < minDistance)
+			cont = false;
+	}
+
+    return cont;
+}
+
+
+function saveTrainingConfiguration() {
+
+	var listAgentForSave = new Array();
+
+	for (i = 0; i < listAgentEditor.length; i++) {
+		var agent = {
+			name : listAgentEditor[i].name,
+			x : listAgentEditor[i].position.x,
+			y : listAgentEditor[i].position.y,
+			angle : listAgentEditor[i].angle,
+			teamName : listAgentEditor[i].teamName,
+			type : listAgentEditor[i].type,
+			life : getLifeMaxAgent(listAgentEditor[i])
+
+		};
+
+		listAgentForSave.push(agent);
+	}
+
+	return listAgentForSave;
 }
 
