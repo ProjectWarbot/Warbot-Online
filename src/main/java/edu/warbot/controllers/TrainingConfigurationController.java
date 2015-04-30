@@ -18,6 +18,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -60,11 +61,12 @@ public class TrainingConfigurationController {
         TrainingConfiguration tc = tcForm.createTestZone();
         tc.setCreator(account);
         tc = trainingConfigurationService.createTrainingConfiguration(tc);
-        return "configuration-editor/editor";
+        ra.addAttribute("trainingId", tc.getId());
+        return "redirect:/configuration/edit";
     }
 
-    @RequestMapping(value = "configuration/edit", method = RequestMethod.POST)
-    public String edit(Principal principal, Long trainingId, RedirectAttributes ra) {
+    @RequestMapping(value = "configuration/edit", method = RequestMethod.GET)
+    public String edit(Principal principal, @RequestParam Long trainingId, RedirectAttributes ra) {
 
         Account account = accountRepository.findByEmail(principal.getName());
         if(account!=null)
@@ -75,7 +77,6 @@ public class TrainingConfigurationController {
         if(tc.getCreator() != account) {
             tc = trainingConfigurationService.copy(tc, account);
         }
-        ra.addAttribute("idtrain", tc.getId());
         return "configuration-editor/editor";
     }
 

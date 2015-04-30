@@ -51,23 +51,23 @@
             <th><p th:text="${party.eloRank}" data-sortable="true"></p></th>
             <th><p th:text="${party.creationDate}" data-sortable="true"></p></th>
         </tr>
-        <script>
-            $(function() {
-                var parties = $('[name="partyName"]');
-                $.each( parties, function( index, value ){
-                    $('#parties').append('<option id="'+ value +'" value="'+ value.text +'">'+ value.text +'</option>');
+            <script>
+                $(function() {
+                    var parties = $('[name="partyName"]');
+                    $.each( parties, function( index, value ){
+                        $('#parties').append('<option id="'+ value +'" value="'+ value.text +'">'+ value.text +'</option>');
+                    });
                 });
-            });
 
-            $('#btn').click(function(){
-                var textval = $('#searchParties').val();
-                $('#parties option').each(function(){
-                    if($(this).val() == textval){
-                        window.location = $(this).attr('id');
-                    }
+                $('#btn').click(function(){
+                    var textval = $('#searchParties').val();
+                    $('#parties option').each(function(){
+                        if($(this).val() == textval){
+                            window.location = $(this).attr('id');
+                        }
+                    });
                 });
-            });
-        </script>
+            </script>
         </tbody>
     </table>
     <script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>

@@ -17,15 +17,18 @@
                 <div class="col-xs-5 col-xs-offset-0">
                     <div class="input-group">
                         <input type="hidden" name="search_param" value="all" id="search_param"/>
-                        <input type="text" class="form-control" name="x" placeholder="Salle de test"/>
+                        <input id ="searchTrainingC" type="text" class="form-control" name="x" placeholder="Salle de test"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                            <button id ="btn" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
                         </span>
                     </div>
                 </div>
                 <a href="./new" class="btn btn-success">Nouvel zone de test</a>
             </div>
         </div>
+
+        <datalist id="trainingC">
+        </datalist>
 
         <div id="contenerTableTestZone">
             <table class="table table-bordered" id="tableListTestZone">
@@ -42,12 +45,29 @@
                 <tbody>
                     <tr th:each="trainingConf : ${trainingConfigurations}">
                         <td class="idTestZone" th:text="${trainingConf.id}"><p></p></td>
-                        <td name="partyName" th:text="${trainingConf.name}"></td>
+                        <td name="tCName" th:text="${trainingConf.name}"></td>
                         <td><p th:text="${trainingConf.description}"></p></td>
                         <td class="levelTestZone"><p th:text="${trainingConf.level}"></p></td>
                         <td><p> <!--th:text="${trainingConf.creator.email}"-->CREATOR NE MARCHE PAS</p></td>
                         <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
                     </tr>
+                    <script>
+                        $(function() {
+                            var parties = $('[name="partyName"]');
+                            $.each( parties, function( index, value ){
+                                $('#parties').append('<option id="'+ value +'" value="'+ value.text +'">'+ value.text +'</option>');
+                            });
+                        });
+
+                        $('#btn').click(function(){
+                            var textval = $('#searchTrainingC').val();
+                            $('#trainingC option').each(function(){
+                                if($(this).val() == textval){
+                                    window.location = $(this).attr('id');
+                                }
+                            });
+                        });
+                    </script>
                 </tbody>
             </table>
         </div>
