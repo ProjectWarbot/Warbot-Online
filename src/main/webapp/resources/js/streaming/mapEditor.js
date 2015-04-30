@@ -13,6 +13,18 @@ var buttonTabDebug = new Array();
 var buttonAddAgentME = false;
 var buttonRemoveAgentME = false;
 var buttonPerceptAgentME = false;
+var buttonMoveAgentME = false;
+var buttonRotateAgentME = false;
+
+var tx;
+var ty;
+
+var oldPositionAgentMoveX = 0;
+var oldPositionAgentMoveY = 0;
+
+var vx = 0;
+var vy = 0;
+
 
 var nameTeamSelected = "red";
 var nameAgentSelected = "WarBase";
@@ -64,6 +76,8 @@ function initDebug() {
     cameraMapEditor.follow = false;
     cameraMapEditor.agentFollow = null;
     cameraMapEditor.agentEntityFollow;
+    cameraMapEditor.agentInMove = false;
+    cameraMapEditor.agentMove = null;
 
     document.getElementById('numberOfFoodConsoleMap').innerHTML = 0 + " / " + numberMaxFood;
     document.getElementById('totalRedTeamAgent').innerHTML = 0 + " / " + numberMaxAgentByTeamUser;
@@ -343,14 +357,24 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
 			}
 			else {
 				if (this.isdown) {
-					this.isdown = false;
-					scene.follow = false;
-					scene.agentFollow = -1;
-					if(scene.agentEntityFollow != null)
-						scene.agentEntityFollow.SpriteFollow.alpha = -1;
-					scene.agentEntityFollow = null;
-					this.SpriteFollow.alpha = -1;
-					resetResumeAgentFollow();
+					if(buttonMoveAgentME) {
+						cameraMapEditor.agentInMove = true;
+						this.defaultCursor = "grabbing";
+						cameraMapEditor.agentMove = agent;
+						var oldPositionAgentMoveX = agent.position.x;
+                        var oldPositionAgentMoveY = agent.position.y;
+					}
+					else {
+						this.defaultCursor = "default";
+						this.isdown = false;
+                    	scene.follow = false;
+                    	scene.agentFollow = -1;
+                    	if(scene.agentEntityFollow != null)
+                    		scene.agentEntityFollow.SpriteFollow.alpha = -1;
+                    	scene.agentEntityFollow = null;
+                    	this.SpriteFollow.alpha = -1;
+                    	resetResumeAgentFollow();
+                    }
 				}
 				else {
 					this.isdown = true;
@@ -411,6 +435,12 @@ function cameraZoome(e) {
 	}
 };
 
+function changeCursorAgentMapEditor() {
+
+
+
+}
+
 function animate() {
 
     requestAnimFrame( animate );
@@ -425,6 +455,9 @@ function animate() {
     }
     else if(buttonRemoveAgentME) {
         contener.style.cursor = "no-drop";
+    }
+    else if(buttonMoveAgentME) {
+    	contener.style.cursor = "grab";
     }
     else {
         contener.style.cursor = "default";
@@ -442,69 +475,88 @@ function cameraMove(stg, cam) {
     var dx;
     var dy;
 
-    var tx;
-    var ty;
 
-    var vx = 0;
-    var vy = 0;
 
 	stg.mousedown = function (moveData) {
 		var pos = moveData.global;
 		prevX = pos.x;
 		prevY = pos.y;
-		isDragging = true;
 
+
+		if(buttonMoveAgentME)
+			isDragging = false;
+		else
+			isDragging = true;
 
 		if(buttonAddAgentME) {
 
-			if(nameTeamSelected == "mother") {
-				if(nameAgentSelected == "WarFood") {
-					if(counterAgent.food < numberMaxFood) {
-						if((tx - vx) > 0 && (tx - vx) < mapWigth && (ty - vy) > 0 && (ty - vy) < mapHeigth) {
-							createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
+			if(checkPossibleCreateAgent(tx - vx, ty - vy)) {
+
+				if(nameTeamSelected == "mother") {
+					if(nameAgentSelected == "WarFood") {
+						if(counterAgent.food < numberMaxFood) {
+							if((tx - vx) > 0 && (tx - vx) < mapWigth && (ty - vy) > 0 && (ty - vy) < mapHeigth) {
+								createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
+							}
+						}
+						else {
+							console.log("Impossible create food because number max is already max")
 						}
 					}
 					else {
-						console.log("Impossible create food because number max is already max")
+						console.log("Mother can't create : " + nameAgentSelected);
 					}
 				}
 				else {
-					console.log("Mother can't create : " + nameAgentSelected);
+					if(nameAgentSelected != "WarFood") {
+
+						if(nameTeamSelected == "red") {
+							if(counterAgentRed < numberMaxAgentByTeamUser) {
+								if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
+									createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
+								}
+							}
+							else {
+								console.log("number max for red team is ok");
+							}
+						}
+						else if (nameTeamSelected == "blue") {
+							if(counterAgentBlue < numberMaxAgentByTeamUser) {
+								if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
+									createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
+								}
+							}
+							else {
+								console.log("number max for blue team is ok");
+							}
+						}
+					}
+					else {
+						console.log("Team can't create food");
+					}
 				}
+
 			}
 			else {
-				if(nameAgentSelected != "WarFood") {
-
-					if(nameTeamSelected == "red") {
-						if(counterAgentRed < numberMaxAgentByTeamUser) {
-							if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
-								createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
-							}
-						}
-						else {
-							console.log("number max for red team is ok");
-						}
-					}
-					else if (nameTeamSelected == "blue") {
-						if(counterAgentBlue < numberMaxAgentByTeamUser) {
-							if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
-								createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
-							}
-						}
-						else {
-							console.log("number max for blue team is ok");
-						}
-					}
-				}
-				else {
-					console.log("Team can't create food");
-				}
+				console.log("Impossible create agent to ")
 			}
 		}
 	};
 
 	stg.mouseup = function (moveDate) {
 		isDragging = false;
+
+		if(cameraMapEditor.agentInMove) {
+			cameraMapEditor.agentInMove = false;
+
+			if(!checkPossibleCreateAgent(tx - vx, ty - vy)) {
+				cameraMapEditor.agentMove.position.x = oldPositionAgentMoveX;
+				cameraMapEditor.agentMove.position.y = oldPositionAgentMoveY;
+			}
+
+			//cameraMapEditor.agentMove = null;
+		}
+
 	};
 
 
@@ -517,9 +569,27 @@ function cameraMove(stg, cam) {
         tx = pos.x;
         ty = pos.y;
 
+        if(cameraMapEditor.agentInMove)
+        	isDragging = false;
+
 		if (!isDragging) {
-			return;
+			if(cameraMapEditor.agentInMove) {
+				if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
+					cameraMapEditor.agentMove.position.x = tx - vx;
+					cameraMapEditor.agentMove.position.y = ty - vy;
+					cameraMapEditor.agentMove.SpritePercept.position.x = cameraMapEditor.agentMove.position.x;
+					cameraMapEditor.agentMove.SpritePercept.position.y = cameraMapEditor.agentMove.position.y;
+					cameraMapEditor.agentMove.SpriteFollow.position.x = cameraMapEditor.agentMove.position.x;
+					cameraMapEditor.agentMove.SpriteFollow.position.y = cameraMapEditor.agentMove.position.y;
+				}
+				return;
+			}
+			else {
+				return;
+			}
 		}
+
+
 
 		cam.position.x += dx;
 		cam.position.y += dy;
@@ -918,19 +988,21 @@ function resetMapEditor(){
 
 function checkPossibleCreateAgent(posX, posY) {
 
-	var minDistance = 30;
+	var minDistance = 13;
 	var cont = true;
 	var i = 0;
 	while (i < listAgentEditor.length && cont) {
-		var x = (listAgentEditor[i].position.x - posX) * (listAgentEditor[i].position.x - posX);
-		var y = (listAgentEditor[i].position.y - posY) * (listAgentEditor[i].position.y - posY);
+		var x = (posX - listAgentEditor[i].position.x) * (posX - listAgentEditor[i].position.x);
+		var y = (posY - listAgentEditor[i].position.y) * (posY - listAgentEditor[i].position.y);
 		var dist = Math.sqrt(x + y);
 
 		if(dist < minDistance)
-			cont = false;
+			return false;
+
+		i++;
 	}
 
-    return cont;
+    return true;
 }
 
 
