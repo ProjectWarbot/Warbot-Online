@@ -19,9 +19,9 @@
             <div class="col-xs-5 col-xs-offset-0">
                 <div class="input-group">
                     <input type="hidden" name="search_param" value="all"/>
-                    <input type="text" class="form-control" name="x" list="parties" placeholder="Team name"/>
+                    <input id ="searchParties" type="text" class="form-control" name="x" list="parties" placeholder="Team name"/>
                         <span class="input-group-btn">
-                            <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                            <button id ="btn" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
                         </span>
                 </div>
             </div>
@@ -52,14 +52,23 @@
             <th><p th:text="${party.eloRank}" data-sortable="true"></p></th>
             <th><p th:text="${party.creationDate}" data-sortable="true"></p></th>
         </tr>
-        <script>
-            $(function() {
-                var parties = $('[name="partyName"]');
-                $.each( parties, function( index, value ){
-                    $('#parties').append('<option value="'+ value +'">'+ value.text +'</option>');
+            <script>
+                $(function() {
+                    var parties = $('[name="partyName"]');
+                    $.each( parties, function( index, value ){
+                        $('#parties').append('<option id="'+ value +'" value="'+ value.text +'">'+ value.text +'</option>');
+                    });
                 });
-            });
-        </script>
+
+                $('#btn').click(function(){
+                    var textval = $('#searchParties').val();
+                    $('#parties option').each(function(){
+                        if($(this).val() == textval){
+                            window.location = $(this).attr('id');
+                        }
+                    });
+                });
+            </script>
         </tbody>
     </table>
     <script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
