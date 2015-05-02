@@ -491,7 +491,7 @@ function cameraMove(stg, cam) {
 				if(nameTeamSelected == "mother") {
 					if(nameAgentSelected == "WarFood") {
 						if(counterAgent.food < numberMaxFood) {
-							if((tx - vx) > 0 && (tx - vx) < mapWigth && (ty - vy) > 0 && (ty - vy) < mapHeigth) {
+							if((tx - vx) > 10 * cameraMapEditor.zoom && (tx - vx) < (mapWigth - 10)* cameraMapEditor.zoom && (ty - vy) > 10 * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - 10) * cameraMapEditor.zoom ) {
 								createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
 							}
 						}
@@ -508,7 +508,7 @@ function cameraMove(stg, cam) {
 
 						if(nameTeamSelected == "red") {
 							if(counterAgentRed < numberMaxAgentByTeamUser) {
-								if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
+								if((tx - vx) > 10 * cameraMapEditor.zoom && (tx - vx) < (mapWigth - 10)* cameraMapEditor.zoom && (ty - vy) > 10 * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - 10) * cameraMapEditor.zoom ) {
 									createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
 								}
 							}
@@ -519,7 +519,7 @@ function cameraMove(stg, cam) {
 						}
 						else if (nameTeamSelected == "blue") {
 							if(counterAgentBlue < numberMaxAgentByTeamUser) {
-								if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
+								if((tx - vx) > 10 * cameraMapEditor.zoom && (tx - vx) < (mapWigth - 10)* cameraMapEditor.zoom && (ty - vy) > 10 * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - 10) * cameraMapEditor.zoom ) {
 									createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
 								}
 							}
