@@ -54,7 +54,7 @@
             <th><a href="#" class="btn btn-primary btn-danger"><span class="glyphicon glyphicon-flash"></span> Duel</a></th>
         </tr>
             <script>
-                $(function() {
+                (function() {
                     var parties = $('[name="partyName"]');
                     $.each( parties, function( index, value ){
                         $('#parties').append('<option id="'+ value +'" value="'+ value.text +'">'+ value.text +'</option>');

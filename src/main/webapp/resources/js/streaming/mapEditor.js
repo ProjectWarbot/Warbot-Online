@@ -8,8 +8,6 @@ var hudMapEditor = new PIXI.DisplayObjectContainer();
 
 var listAgentEditor = new Array();
 
-var buttonTabDebug = new Array();
-
 var buttonAddAgentME = false;
 var buttonRemoveAgentME = false;
 var buttonPerceptAgentME = false;
@@ -517,6 +515,7 @@ function cameraMove(stg, cam) {
 								}
 							}
 							else {
+
 								console.log("number max for red team is ok");
 							}
 						}
@@ -1028,3 +1027,27 @@ function saveTrainingConfiguration() {
 	return listAgentForSave;
 }
 
+function incrementAngleAgentFollow() {
+	if(cameraMapEditor.follow) {
+		cameraMapEditor.agentEntityFollow.angle += 1;
+		if(cameraMapEditor.agentEntityFollow.angle >= 361)
+			cameraMapEditor.agentEntityFollow.angle = 0;
+
+        cameraMapEditor.agentEntityFollow.rotation = Math.PI * (cameraMapEditor.agentEntityFollow.angle / 180);
+       	changePositionPercept(cameraMapEditor.agentEntityFollow);
+        document.getElementById('angleOfAgentFollow').innerHTML = cameraMapEditor.agentEntityFollow.angle;
+	}
+}
+
+function decrementAngleAgentFollow() {
+	if(cameraMapEditor.follow) {
+		cameraMapEditor.agentEntityFollow.angle -= 1;
+
+		if(cameraMapEditor.agentEntityFollow.angle <= -1)
+        	cameraMapEditor.agentEntityFollow.angle = 360;
+
+        cameraMapEditor.agentEntityFollow.rotation = Math.PI * (cameraMapEditor.agentEntityFollow.angle / 180);
+		changePositionPercept(cameraMapEditor.agentEntityFollow);
+		document.getElementById('angleOfAgentFollow').innerHTML = cameraMapEditor.agentEntityFollow.angle;
+	}
+}

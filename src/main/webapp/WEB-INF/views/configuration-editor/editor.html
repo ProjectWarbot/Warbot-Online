@@ -60,6 +60,9 @@
         <button id="buttonMoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-move"></span></button>
         <button id="buttonPercept" class="btn btn-primary" type="submit">Percept</button>
 
+        <button id="buttonAgentAnglePlus" class="btn btn-info" type="submit"><span class="glyphicon glyphicon-plus-sign"></span></button>
+        <button id="buttonAgentAngleMinus" class="btn btn-info" type="submit"><span class="glyphicon glyphicon-minus-sign"></span></button>
+
         <button id="buttonReset" class="btn btn-danger" type="submit">Reset</button>
         <button id="buttonSave" class="btn btn-success" type="submit">Save</button>
 
@@ -178,7 +181,27 @@
             var buttonResetMapEditor = document.getElementById('buttonReset');
             var buttonMoveAgent = document.getElementById('buttonMoveAgent');
 
+            var buttonAgentAnglePlus = document.getElementById('buttonAgentAnglePlus');
+            var buttonAgentAngleMinus = document.getElementById('buttonAgentAngleMinus');
+
             var contenerMapEditor = document.getElementById('mapEditor');
+
+            var modalAgentOfTeamFull = document.getElementById('modalAgentOfTeamFull');
+
+            $(contenerMapEditor).click(function(event)
+            {
+
+            });
+
+            $(buttonAgentAnglePlus).click(function(event)
+            {
+                incrementAngleAgentFollow();
+            });
+
+            $(contenerMapEditor).click(function(event)
+            {
+                decrementAngleAgentFollow();
+            });
 
             $(buttonAddAgent).click(function(event)
             {
@@ -218,18 +241,12 @@
             });
 
             $(document).ready(function (){
-
-
-
                  $("#mapEditor").keypress(function( event ) {
                   // var caractere = String.fromCharCode(e.which);
                    alert("dd");
-
-                
-
                });
-
             });
+
             $(buttonMoveAgent).click(function(event)
             {
                 var mouveAgentClassName = $(buttonMoveAgent).attr('class');
@@ -272,11 +289,7 @@
             $(buttonSave).click(function(event)
             {
                 var listAgent = saveTrainingConfiguration();
-
                 console.debug(listAgent);
-
-
-
             });
 
             $(buttonResetMapEditor).click(function(event)

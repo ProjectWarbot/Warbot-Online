@@ -21,11 +21,10 @@
     </p>
 
     <h2>Actions</h2>
-    <ul class="action">
-        <li>
-            <a class="btn btn-primary" th:href="@{/party/create}" th:text="#{link.party.create}">Create a party</a>
-        </li>
-    </ul>
+    <a class="btn btn-primary" th:href="@{/party/create}" th:text="#{link.party.create}">Create a party</a>
+    <a href="./configuration/new" th:href="@{/configuration/new}" class="btn btn-success">Créer une salle d'entrainement</a>
+    <a th:href="@{/partylist}" class="btn btn-danger">Trouver un adversaire</a>
+
 
     <h2>Parties</h2>
     <p th:if="${parties.size()}==0">
