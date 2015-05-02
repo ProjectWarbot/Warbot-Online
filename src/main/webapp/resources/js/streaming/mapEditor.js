@@ -6,6 +6,7 @@ var renderer = new PIXI.autoDetectRenderer(0 , 0);
 var cameraMapEditor = new PIXI.DisplayObjectContainer();
 var hudMapEditor = new PIXI.DisplayObjectContainer();
 
+//La liste des agents que l'on crée sur la map
 var listAgentEditor = new Array();
 
 var buttonAddAgentME = false;
@@ -14,11 +15,17 @@ var buttonPerceptAgentME = false;
 var buttonMoveAgentME = false;
 var buttonRotateAgentME = false;
 
+
+//les variables utilisées pour
+//avoir les vrai coordonnées sur
+//la map par rapport au coordonnées
+//relative de la souris
 var tx;
 var ty;
 var vx = 0;
 var vy = 0;
 
+//On sauvegarde les anciennes position de l'agent en mouvement
 var oldPositionAgentMoveX = 0;
 var oldPositionAgentMoveY = 0;
 
@@ -300,7 +307,13 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
 	else
 		percept.alpha = -1;
 
-	var followAgentBorder = new PIXI.Sprite(followAgent);
+	var followAgentBorder;
+
+	if(agent.type != "Wall")
+		followAgentBorder = new PIXI.Sprite(followAgent);
+	else
+		followAgentBorder = new PIXI.Sprite(followWall);
+
 	followAgentBorder.position.x = agent.position.x;
     followAgentBorder.position.y = agent.position.y;
 	followAgentBorder.scale.x = 0.5 * cameraMapEditor.zoom;
@@ -1032,6 +1045,10 @@ function incrementAngleAgentFollow() {
 			cameraMapEditor.agentEntityFollow.angle = 0;
 
         cameraMapEditor.agentEntityFollow.rotation = Math.PI * (cameraMapEditor.agentEntityFollow.angle / 180);
+
+        if(cameraMapEditor.agentEntityFollow.type == "Wall")
+        	cameraMapEditor.agentEntityFollow.SpriteFollow.rotation = cameraMapEditor.agentEntityFollow.rotation;
+
        	changePositionPercept(cameraMapEditor.agentEntityFollow);
         document.getElementById('angleOfAgentFollow').innerHTML = cameraMapEditor.agentEntityFollow.angle;
 	}
@@ -1045,6 +1062,10 @@ function decrementAngleAgentFollow() {
         	cameraMapEditor.agentEntityFollow.angle = 360;
 
         cameraMapEditor.agentEntityFollow.rotation = Math.PI * (cameraMapEditor.agentEntityFollow.angle / 180);
+
+        if(cameraMapEditor.agentEntityFollow.type == "Wall")
+        	cameraMapEditor.agentEntityFollow.SpriteFollow.rotation = cameraMapEditor.agentEntityFollow.rotation;
+
 		changePositionPercept(cameraMapEditor.agentEntityFollow);
 		document.getElementById('angleOfAgentFollow').innerHTML = cameraMapEditor.agentEntityFollow.angle;
 	}
