@@ -16,13 +16,11 @@ var buttonRotateAgentME = false;
 
 var tx;
 var ty;
-
-var oldPositionAgentMoveX = 0;
-var oldPositionAgentMoveY = 0;
-
 var vx = 0;
 var vy = 0;
 
+var oldPositionAgentMoveX = 0;
+var oldPositionAgentMoveY = 0;
 
 var nameTeamSelected = "red";
 var nameAgentSelected = "WarBase";
@@ -995,7 +993,7 @@ function checkPossibleCreateAgent(posX, posY) {
 		var y = (posY - listAgentEditor[i].position.y) * (posY - listAgentEditor[i].position.y);
 		var dist = Math.sqrt(x + y);
 
-		if(dist < minDistance)
+		if(dist < minDistance * cameraMapEditor.zoom)
 			return false;
 
 		i++;
