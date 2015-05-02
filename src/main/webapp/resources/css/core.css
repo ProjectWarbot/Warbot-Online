@@ -209,6 +209,11 @@ select {
     overflow:auto;
 }
 
+#contactMessage {
+    resize:vertical;
+    overflow:auto;
+}
+
 .searchTeamList {
     margin-top:20px;
     margin-bottom:20px;

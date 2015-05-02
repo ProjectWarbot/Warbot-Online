@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/**
+ * @author Sébastien Beugnon
+ * @author Jimmy Lopez
+ */
+
 @Controller
 @Secured("ROLE_USER")
 class AccountController {
@@ -35,6 +40,12 @@ class AccountController {
         Assert.notNull(principal);
         Account account = accounts(principal);
         model.addAttribute("account",account);
-        return "account/profile";
+        return "account/private";
+    }
+
+    @RequestMapping(value = "account/userProfile", method = RequestMethod.GET)
+    public String userProfile(Model model,Principal principal)
+    {
+        return "account/public";
     }
 }

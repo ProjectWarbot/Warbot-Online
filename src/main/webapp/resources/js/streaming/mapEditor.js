@@ -6,9 +6,8 @@ var renderer = new PIXI.autoDetectRenderer(0 , 0);
 var cameraMapEditor = new PIXI.DisplayObjectContainer();
 var hudMapEditor = new PIXI.DisplayObjectContainer();
 
+//La liste des agents que l'on crée sur la map
 var listAgentEditor = new Array();
-
-var buttonTabDebug = new Array();
 
 var buttonAddAgentME = false;
 var buttonRemoveAgentME = false;
@@ -16,15 +15,19 @@ var buttonPerceptAgentME = false;
 var buttonMoveAgentME = false;
 var buttonRotateAgentME = false;
 
+
+//les variables utilisées pour
+//avoir les vrai coordonnées sur
+//la map par rapport au coordonnées
+//relative de la souris
 var tx;
 var ty;
-
-var oldPositionAgentMoveX = 0;
-var oldPositionAgentMoveY = 0;
-
 var vx = 0;
 var vy = 0;
 
+//On sauvegarde les anciennes position de l'agent en mouvement
+var oldPositionAgentMoveX = 0;
+var oldPositionAgentMoveY = 0;
 
 var nameTeamSelected = "red";
 var nameAgentSelected = "WarBase";
@@ -304,7 +307,13 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
 	else
 		percept.alpha = -1;
 
-	var followAgentBorder = new PIXI.Sprite(followAgent);
+	var followAgentBorder;
+
+	if(agent.type != "Wall")
+		followAgentBorder = new PIXI.Sprite(followAgent);
+	else
+		followAgentBorder = new PIXI.Sprite(followWall);
+
 	followAgentBorder.position.x = agent.position.x;
     followAgentBorder.position.y = agent.position.y;
 	followAgentBorder.scale.x = 0.5 * cameraMapEditor.zoom;
@@ -495,7 +504,7 @@ function cameraMove(stg, cam) {
 				if(nameTeamSelected == "mother") {
 					if(nameAgentSelected == "WarFood") {
 						if(counterAgent.food < numberMaxFood) {
-							if((tx - vx) > 0 && (tx - vx) < mapWigth && (ty - vy) > 0 && (ty - vy) < mapHeigth) {
+							if((tx - vx) > 10 * cameraMapEditor.zoom && (tx - vx) < (mapWigth - 10)* cameraMapEditor.zoom && (ty - vy) > 10 * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - 10) * cameraMapEditor.zoom ) {
 								createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
 							}
 						}
@@ -512,17 +521,18 @@ function cameraMove(stg, cam) {
 
 						if(nameTeamSelected == "red") {
 							if(counterAgentRed < numberMaxAgentByTeamUser) {
-								if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
+								if((tx - vx) > 10 * cameraMapEditor.zoom && (tx - vx) < (mapWigth - 10)* cameraMapEditor.zoom && (ty - vy) > 10 * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - 10) * cameraMapEditor.zoom ) {
 									createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
 								}
 							}
 							else {
+
 								console.log("number max for red team is ok");
 							}
 						}
 						else if (nameTeamSelected == "blue") {
 							if(counterAgentBlue < numberMaxAgentByTeamUser) {
-								if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
+								if((tx - vx) > 10 * cameraMapEditor.zoom && (tx - vx) < (mapWigth - 10)* cameraMapEditor.zoom && (ty - vy) > 10 * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - 10) * cameraMapEditor.zoom ) {
 									createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
 								}
 							}
@@ -996,7 +1006,7 @@ function checkPossibleCreateAgent(posX, posY) {
 		var y = (posY - listAgentEditor[i].position.y) * (posY - listAgentEditor[i].position.y);
 		var dist = Math.sqrt(x + y);
 
-		if(dist < minDistance)
+		if(dist < minDistance * cameraMapEditor.zoom)
 			return false;
 
 		i++;
@@ -1028,3 +1038,35 @@ function saveTrainingConfiguration() {
 	return listAgentForSave;
 }
 
+function incrementAngleAgentFollow() {
+	if(cameraMapEditor.follow) {
+		cameraMapEditor.agentEntityFollow.angle += 1;
+		if(cameraMapEditor.agentEntityFollow.angle >= 361)
+			cameraMapEditor.agentEntityFollow.angle = 0;
+
+        cameraMapEditor.agentEntityFollow.rotation = Math.PI * (cameraMapEditor.agentEntityFollow.angle / 180);
+
+        if(cameraMapEditor.agentEntityFollow.type == "Wall")
+        	cameraMapEditor.agentEntityFollow.SpriteFollow.rotation = cameraMapEditor.agentEntityFollow.rotation;
+
+       	changePositionPercept(cameraMapEditor.agentEntityFollow);
+        document.getElementById('angleOfAgentFollow').innerHTML = cameraMapEditor.agentEntityFollow.angle;
+	}
+}
+
+function decrementAngleAgentFollow() {
+	if(cameraMapEditor.follow) {
+		cameraMapEditor.agentEntityFollow.angle -= 1;
+
+		if(cameraMapEditor.agentEntityFollow.angle <= -1)
+        	cameraMapEditor.agentEntityFollow.angle = 360;
+
+        cameraMapEditor.agentEntityFollow.rotation = Math.PI * (cameraMapEditor.agentEntityFollow.angle / 180);
+
+        if(cameraMapEditor.agentEntityFollow.type == "Wall")
+        	cameraMapEditor.agentEntityFollow.SpriteFollow.rotation = cameraMapEditor.agentEntityFollow.rotation;
+
+		changePositionPercept(cameraMapEditor.agentEntityFollow);
+		document.getElementById('angleOfAgentFollow').innerHTML = cameraMapEditor.agentEntityFollow.angle;
+	}
+}

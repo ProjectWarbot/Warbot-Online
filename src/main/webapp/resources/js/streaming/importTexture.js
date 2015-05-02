@@ -77,3 +77,4 @@ var buttonCreateBaseBlueDown = PIXI.Texture.fromImage("/resources/assetWarbot/HU
 var buttonCreateBaseBlueTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/BLUE/buttonCreateBaseTrans.png");
 
 var followAgent = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/followAgent.png");
+var followWall = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/followWall.png");
