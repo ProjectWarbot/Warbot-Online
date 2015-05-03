@@ -16,18 +16,17 @@
         <!-- /* The message code is returned from the @Controller */ -->
         <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
     </th:block>
-    <p>
-        Welcome to the Warbot Online, <span th:text="${account.email}">email</span> !
-    </p>
+    <p th:text="#{mes}">Welcome to the Warbot Online,</p> <span th:text="${account.email}">email</span> !
 
-    <h2>Actions</h2>
+
+    <h2 th:text="#{action}" >Actions</h2>
     <ul class="action">
         <li>
             <a class="btn btn-primary" th:href="@{/party/create}" th:text="#{link.party.create}">Create a party</a>
         </li>
     </ul>
 
-    <h2>Parties</h2>
+    <h2 th:text="#{Team}" >Parties</h2>
     <p th:if="${parties.size()}==0">
         <span th:text="#{dont.have.team}">dont have team</span>
     </p>
