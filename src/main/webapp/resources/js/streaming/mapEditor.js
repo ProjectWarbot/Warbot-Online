@@ -1031,7 +1031,7 @@ function sendMessageForSaveTrainingConfiguration() {
 
 	var contentAgentsTrainingConfiguration = {
 		[
-			
+
 
 		]
 	}
