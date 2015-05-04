@@ -31,10 +31,33 @@
         <span th:text="#{dont.have.team}">dont have team</span>
     </p>
 
-    <ul th:if="${parties.size()}>0">
-        <li th:each="party : ${parties}"><a th:href="@{/teamcode}+'?idParty='+${party.id}" th:text="${party.name}">teamName</a></li>
-    </ul>
-
+    <table id="myListParties" class="table table-bordered" th:if="${parties.size()}>0">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Team name</th>
+            <th>Creator</th>
+            <th>Number of member</th>
+            <th>Langage</th>
+            <th>Rank</th>
+            <th>Tools</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="party : ${parties}">
+            <th><p th:text="${party.id}"></p></th>
+            <th><p th:text="${party.name}"> </p></th>
+            <th></th>
+            <th></th>
+            <th><p th:text="${party.language}"></p></th>
+            <th><p th:text="${party.eloRank}"></p></th>
+            <th>
+                <a th:href="@{/teamcode}+'?idParty='+${party.id}" class="btn btn-primary">Use</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </th>
+        </tr>
+        </tbody>
+    </table>
 
 </div>
 </body>
