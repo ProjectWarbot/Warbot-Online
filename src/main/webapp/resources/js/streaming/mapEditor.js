@@ -372,8 +372,8 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
 						cameraMapEditor.agentInMove = true;
 						this.defaultCursor = "grabbing";
 						cameraMapEditor.agentMove = agent;
-						var oldPositionAgentMoveX = agent.position.x;
-                        var oldPositionAgentMoveY = agent.position.y;
+						oldPositionAgentMoveX = agent.position.x;
+                        oldPositionAgentMoveY = agent.position.y;
 					}
 					else {
 						this.defaultCursor = "default";
@@ -564,9 +564,13 @@ function cameraMove(stg, cam) {
 			if(!checkPossibleCreateAgent(tx - vx, ty - vy)) {
 				cameraMapEditor.agentMove.position.x = oldPositionAgentMoveX;
 				cameraMapEditor.agentMove.position.y = oldPositionAgentMoveY;
+				cameraMapEditor.agentMove.SpritePercept.position.x = cameraMapEditor.agentMove.position.x;
+               	cameraMapEditor.agentMove.SpritePercept.position.y = cameraMapEditor.agentMove.position.y;
+                cameraMapEditor.agentMove.SpriteFollow.position.x = cameraMapEditor.agentMove.position.x;
+               	cameraMapEditor.agentMove.SpriteFollow.position.y = cameraMapEditor.agentMove.position.y;
 			}
 
-			//cameraMapEditor.agentMove = null;
+			cameraMapEditor.agentMove = null;
 		}
 
 	};
@@ -586,7 +590,7 @@ function cameraMove(stg, cam) {
 
 		if (!isDragging) {
 			if(cameraMapEditor.agentInMove) {
-				if((tx - vx) > 10 && (tx - vx) < mapWigth - 10 && (ty - vy) > 10 && (ty - vy) < mapHeigth - 10) {
+				if((tx - vx) > (10 + mapVector) * cameraMapEditor.zoom && (tx - vx) < (mapWigth - (10 - mapVector))* cameraMapEditor.zoom && (ty - vy) > (10 + mapVector) * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - (10 - mapVector)) * cameraMapEditor.zoom ) {
 					cameraMapEditor.agentMove.position.x = tx - vx;
 					cameraMapEditor.agentMove.position.y = ty - vy;
 					cameraMapEditor.agentMove.SpritePercept.position.x = cameraMapEditor.agentMove.position.x;
@@ -1004,12 +1008,25 @@ function checkPossibleCreateAgent(posX, posY) {
 	var cont = true;
 	var i = 0;
 	while (i < listAgentEditor.length && cont) {
-		var x = (posX - listAgentEditor[i].position.x) * (posX - listAgentEditor[i].position.x);
-		var y = (posY - listAgentEditor[i].position.y) * (posY - listAgentEditor[i].position.y);
-		var dist = Math.sqrt(x + y);
+		if(listAgentEditor[i].name != cameraMapEditor.agentFollow) {
+			var x = (posX - listAgentEditor[i].position.x) * (posX - listAgentEditor[i].position.x);
+			var y = (posY - listAgentEditor[i].position.y) * (posY - listAgentEditor[i].position.y);
+			var dist = Math.sqrt(x + y);
 
-		if(dist < minDistance * cameraMapEditor.zoom)
-			return false;
+			if(dist < minDistance * cameraMapEditor.zoom)
+				return false;
+		}
+		else {
+			if(buttonAddAgentME) {
+				var x = (posX - listAgentEditor[i].position.x) * (posX - listAgentEditor[i].position.x);
+            	var y = (posY - listAgentEditor[i].position.y) * (posY - listAgentEditor[i].position.y);
+            	var dist = Math.sqrt(x + y);
+
+            	if(dist < minDistance * cameraMapEditor.zoom)
+            		return false;
+			}
+		}
+
 
 		i++;
 	}
