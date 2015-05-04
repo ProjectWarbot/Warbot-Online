@@ -1016,6 +1016,38 @@ function checkPossibleCreateAgent(posX, posY) {
     return true;
 }
 
+function modeMapChange() {
+
+}
+
+function sendMessageForSaveTrainingConfiguration() {
+
+	var contentMapTrainingConfiguration = {
+		"id" : "tutu",
+		"mode" :
+		"type" :
+		"timer" :
+	}
+
+	var contentAgentsTrainingConfiguration = {
+		[
+			
+
+		]
+	}
+
+	var contentTrainingConfiguration = {
+		"map" : contentMapTrainingConfiguration,
+		"agents" : contentAgentsTrainingConfiguration
+	}
+
+	var trainingConfiguration = {
+		"header" : "trainingConfiguration",
+		"content" : contentTrainingConfiguration
+	};
+
+	return trainingConfiguration;
+}
 
 function saveTrainingConfiguration() {
 
