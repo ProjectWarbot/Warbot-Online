@@ -15,6 +15,8 @@ var buttonPerceptAgentME = false;
 var buttonMoveAgentME = false;
 var buttonRotateAgentME = false;
 
+var mapVector = 14;
+
 
 //les variables utilisées pour
 //avoir les vrai coordonnées sur
@@ -504,7 +506,7 @@ function cameraMove(stg, cam) {
 				if(nameTeamSelected == "mother") {
 					if(nameAgentSelected == "WarFood") {
 						if(counterAgent.food < numberMaxFood) {
-							if((tx - vx) > 10 * cameraMapEditor.zoom && (tx - vx) < (mapWigth - 10)* cameraMapEditor.zoom && (ty - vy) > 10 * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - 10) * cameraMapEditor.zoom ) {
+							if((tx - vx) > (10 + mapVector) * cameraMapEditor.zoom && (tx - vx) < (mapWigth - (10 - mapVector))* cameraMapEditor.zoom && (ty - vy) > (10 + mapVector) * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - (10 - mapVector)) * cameraMapEditor.zoom ) {
 								createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
 							}
 						}
@@ -521,7 +523,7 @@ function cameraMove(stg, cam) {
 
 						if(nameTeamSelected == "red") {
 							if(counterAgentRed < numberMaxAgentByTeamUser) {
-								if((tx - vx) > 10 * cameraMapEditor.zoom && (tx - vx) < (mapWigth - 10)* cameraMapEditor.zoom && (ty - vy) > 10 * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - 10) * cameraMapEditor.zoom ) {
+								if((tx - vx) > (10 + mapVector) * cameraMapEditor.zoom && (tx - vx) < (mapWigth - (10 - mapVector))* cameraMapEditor.zoom && (ty - vy) > (10 + mapVector) * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - (10 - mapVector)) * cameraMapEditor.zoom ) {
 									createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
 								}
 							}
@@ -532,7 +534,7 @@ function cameraMove(stg, cam) {
 						}
 						else if (nameTeamSelected == "blue") {
 							if(counterAgentBlue < numberMaxAgentByTeamUser) {
-								if((tx - vx) > 10 * cameraMapEditor.zoom && (tx - vx) < (mapWigth - 10)* cameraMapEditor.zoom && (ty - vy) > 10 * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - 10) * cameraMapEditor.zoom ) {
+								if((tx - vx) > (10 + mapVector) * cameraMapEditor.zoom && (tx - vx) < (mapWigth - (10 - mapVector))* cameraMapEditor.zoom && (ty - vy) > (10 + mapVector) * cameraMapEditor.zoom && (ty - vy) < (mapHeigth - (10 - mapVector)) * cameraMapEditor.zoom ) {
 									createAgentMapEditor(cameraMapEditor, nameTeamSelected, nameAgentSelected, tx - vx, ty-vy);
 								}
 							}

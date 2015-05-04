@@ -167,8 +167,8 @@ function createMapJson() {
 
 	var mapWarbot = new PIXI.Sprite(map);
 
-	mapWarbot.position.x = 0;
-	mapWarbot.position.y = 0;
+	mapWarbot.position.x = -14;
+	mapWarbot.position.y = -14;
 	mapWarbot.anchor.x = 0;
 	mapWarbot.anchor.y = 0;
 	mapWarbot.alpha = 1;
