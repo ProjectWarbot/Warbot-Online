@@ -324,8 +324,6 @@ function createAgentMapEditor(scene, teamName, type , posX, posY) {
     followAgentBorder.anchor.y = 0.5;
     followAgentBorder.alpha = -1;
 
-    // TODO move followAgentBorder
-
 	agent.SpritePercept = percept;
 	agent.SpriteFollow = followAgentBorder;
 
@@ -493,11 +491,7 @@ function cameraMove(stg, cam) {
 		prevX = pos.x;
 		prevY = pos.y;
 
-
-		if(buttonMoveAgentME)
-			isDragging = false;
-		else
-			isDragging = true;
+		isDragging = true;
 
 		if(buttonAddAgentME) {
 
@@ -570,6 +564,7 @@ function cameraMove(stg, cam) {
                	cameraMapEditor.agentMove.SpriteFollow.position.y = cameraMapEditor.agentMove.position.y;
 			}
 
+			cameraMapEditor.agentMove.defaultCursor = "default";
 			cameraMapEditor.agentMove = null;
 		}
 
@@ -605,28 +600,15 @@ function cameraMove(stg, cam) {
 			}
 		}
 
-
-
 		cam.position.x += dx;
 		cam.position.y += dy;
 
 		vx += dx;
 		vy += dy;
 
-		//tx = cam.position.x - pos.x;
-		//ty = cam.position.y - pos.y;
-/*
-		console.log("BITE");
-		console.log(pos.x);
-		console.log(pos.y);
-		console.log(cam.position.x);
-		console.log(cam.position.y);
-*/
 		prevX = pos.x;
 		prevY = pos.y;
 	};
-
-
 }
 
 function getViewAngle(agent) {
