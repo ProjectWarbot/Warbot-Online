@@ -14,9 +14,9 @@ var wallRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/wall.png");
 var wallBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/wall.png");
 var rocket = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/rocket2.png");;
 var bomb;
-var food = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/food.png");
+var food = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/food02.png");
 
-var map = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/map003.png");
+var map = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/map004.png");
 
 var perceptOther = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/perceptOther.png");
 var perceptBaseRed = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/RED/perceptBase.png");
@@ -77,3 +77,4 @@ var buttonCreateBaseBlueDown = PIXI.Texture.fromImage("/resources/assetWarbot/HU
 var buttonCreateBaseBlueTrans = PIXI.Texture.fromImage("/resources/assetWarbot/HUD/debug/BLUE/buttonCreateBaseTrans.png");
 
 var followAgent = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/followAgent.png");
+var followWall = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/followWall.png");

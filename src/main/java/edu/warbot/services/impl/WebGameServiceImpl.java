@@ -6,7 +6,7 @@ import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.online.WebGame;
 import edu.warbot.online.WebLauncher;
-import edu.warbot.online.messaging.WebGameSettings;
+import edu.warbot.online.WebGameSettings;
 import edu.warbot.repository.PartyRepository;
 import edu.warbot.services.TeamService;
 import edu.warbot.services.WebGameService;

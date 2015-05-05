@@ -1,4 +1,4 @@
-package edu.warbot.online.messaging;
+package edu.warbot.online;
 
 /**
  * Created by beugnon on 05/04/15.
