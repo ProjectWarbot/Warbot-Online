@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{inscription.war}">Sign In</title>
+    <title th:text="#{signin.signin.inscription}">Sign In</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
@@ -13,7 +13,7 @@
         <div th:replace="fragments/alert :: alert (type='danger', message='Sign in error. Please try again.')">Alert</div>
     </th:block>
     <fieldset>
-        <legend th:text="#{please.sign}" >Please Sign In</legend>
+        <legend th:text="#{signin.signin.formulaire}" >Please Sign In</legend>
         <div class="form-group">
             <label for="inputEmail" class="col-lg-2 control-label">Email</label>
             <div class="col-lg-10">
@@ -21,28 +21,28 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="inputPassword" class="col-lg-2 control-label" th:text="#{password}" >Password</label>
+            <label for="inputPassword" class="col-lg-2 control-label" th:text="#{signin.signin.motDePass}" >Password</label>
             <div class="col-lg-10">
-                <input type="password" class="form-control" id="inputPassword" th:placeholder="#{password}" name="password" />
+                <input type="password" class="form-control" id="inputPassword" th:placeholder="#{signin.signin.motDePass}" name="password" />
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" name="_spring_security_remember_me"  th:text="#{remember}" />
+                        <input type="checkbox" name="_spring_security_remember_me"  th:text="#{signin.signin.souvenir}" />
                     </label>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10">
-                <button type="submit" class="btn btn-primary" th:text="#{sign.up}">Sign in</button>
+                <button type="submit" class="btn btn-primary" th:text="#{signin.signin.connexion}">Sign in</button>
             </div>
         </div>
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10">
-                <p th:text="#{new}" >New here? </p><a href="signup" th:href="@{/signup}" th:text="#{sign.in}">Sign Up</a>
+                <p th:text="#{signin.signin.nouveau}" >New here? </p><a href="signup" th:href="@{/signup}" th:text="#{signin.signin.inscrire}">Sign Up</a>
             </div>
         </div>
     </fieldset>

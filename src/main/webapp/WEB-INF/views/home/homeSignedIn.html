@@ -16,16 +16,16 @@
         <!-- /* The message code is returned from the @Controller */ -->
         <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
     </th:block>
-    <p th:text="#{mes}">Welcome to the Warbot Online,</p> <span th:text="${account.email}">email</span> !
+    <p th:text="#{home.SignedIn.Bienvenue}">Welcome to the Warbot Online,</p> <span th:text="${account.email}">email</span> !
 
-    <h2>Actions</h2>
-    <a class="btn btn-primary" th:href="@{/party/create}" th:text="#{link.party.create}">Create a party</a>
-    <a href="./configuration/new" th:href="@{/configuration/new}" class="btn btn-success">Créer une salle d'entrainement</a>
-    <a th:href="@{/partylist}" class="btn btn-danger">Trouver un adversaire</a>
+    <h2 th:text="#{home.SignedIn.action}">Actions</h2>
+    <a class="btn btn-primary" th:href="@{/party/create}" th:text="#{home.SignedIn.creePartie}">Create a party</a>
+    <a href="./configuration/new" th:href="@{/configuration/new}" class="btn btn-success" th:text="#{home.SignedIn.creeSalle}" >Créer une salle d'entrainement</a>
+    <a th:href="@{/partylist}" class="btn btn-danger" th:text="#{home.SignedIn.trouverUnAdversaire}">Trouver un adversaire</a>
 
-    <h2 th:text="#{Team}" >Parties</h2>
+    <h2 th:text="#{home.SignedIn.equipe}" >Parties</h2>
     <p th:if="${parties.size()}==0">
-        <span th:text="#{dont.have.team}">dont have team</span>
+        <span th:text="#{home.SignedIn.pasDequipe}">dont have team</span>
     </p>
 
     <table id="myListParties" class="table table-bordered" th:if="${parties.size()}>0">

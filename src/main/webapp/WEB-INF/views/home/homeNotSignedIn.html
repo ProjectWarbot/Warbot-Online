@@ -12,7 +12,7 @@
 <div th:replace="fragments/header :: header">Header</div>
 <div class="container">
     <div class="text-center">
-        <h1 th:text="#{home}">Bienvenue sur Warbot Online</h1>
+        <h1 th:text="#{home.homeNotSignedIn.messageHome}">Bienvenue sur Warbot Online</h1>
         <p class="lead">
             Warbot est à la fois un jeu et une plate-forme d'évaluation
             et d'analyse de techniques de coordination entre agents, dans
@@ -28,7 +28,7 @@
             coordination proposées
         </p>
         <p>
-            <a href="/signup" th:href="@{/signup}" class="btn btn-success btn-lg" th:text="#{sign.in}" >Sign in</a>
+            <a href="/signup" th:href="@{/signup}" class="btn btn-success btn-lg" th:text="#{home.homeNotSignedIn.inscription}" >Sign in</a>
         </p>
     </div>
     <div th:replace="fragments/footer :: footer">&copy; 2013 The Static Templates</div>

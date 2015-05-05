@@ -10,20 +10,20 @@
     <div th:replace="fragments/header :: header">Header</div>
 
     <fieldset>
-        <h3>Editeur de configuration</h3>
+        <h3 th:text="#{configuration-editor.select.editorConfig}" >Editeur de configuration</h3>
 
         <div class="container searchZoneTest">
             <div class="row">
                 <div class="col-xs-5 col-xs-offset-0">
                     <div class="input-group">
                         <input type="hidden" name="search_param" value="all" id="search_param"/>
-                        <input id ="searchTrainingC" type="text" class="form-control" name="x" placeholder="Salle de test"/>
+                        <input id ="searchTrainingC" type="text" class="form-control" name="x" th:placeholder="#{configuration-editor.select.nomSalle}"/>
                         <span class="input-group-btn">
                             <button id ="btn" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
                         </span>
                     </div>
                 </div>
-                <a href="./new" th:href="@{/configuration/new}" class="btn btn-success">Nouvel salle d'entrainement</a>
+                <a href="./new" th:href="@{/configuration/new}" class="btn btn-success" th:text="#{configuration-editor.select.nouvelSalle}">Nouvel salle d'entrainement</a>
             </div>
         </div>
 
@@ -34,12 +34,12 @@
             <table class="table table-bordered" id="tableListTestZone">
                 <thead>
                     <tr class="titleTestZone">
-                        <td class="idTestZone">ID</td>
-                        <td data-sortable="true">Nom</td>
-                        <td>Description</td>
-                        <td class="levelTestZone">Niveau</td>
-                        <td>Créateur</td>
-                        <td class="toolsTestZone">Outils</td>
+                        <td class="idTestZone" th:text="#{configuration-editor.select.id}" >ID</td>
+                        <td data-sortable="true" th:text="#{configuration-editor.select.nom}">Nom</td>
+                        <td th:text="#{configuration-editor.select.description}">Description</td>
+                        <td class="levelTestZone" th:text="#{configuration-editor.select.niveau}">Niveau</td>
+                        <td th:text="#{configuration-editor.select.createur}" >Créateur</td>
+                        <td class="toolsTestZone" th:text="#{configuration-editor.select.outils}">Outils</td>
                     </tr>
                 </thead>
                 <tbody>

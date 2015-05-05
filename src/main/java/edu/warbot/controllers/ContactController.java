@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ContactController {
 
-    @RequestMapping(value = "contact")
+    @RequestMapping(value = "fragments.header.contact")
     public String about() {
         return "feedback/contact";
     }
