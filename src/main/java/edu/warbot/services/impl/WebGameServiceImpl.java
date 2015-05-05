@@ -1,121 +1,160 @@
 package edu.warbot.services.impl;
 
+import edu.warbot.Application;
+import edu.warbot.exceptions.AlreadyRunningGameException;
 import edu.warbot.game.Team;
+import edu.warbot.game.WarGame;
 import edu.warbot.game.WarGameSettings;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.online.WebGame;
-import edu.warbot.online.WebLauncher;
 import edu.warbot.online.WebGameSettings;
-import edu.warbot.repository.PartyRepository;
-import edu.warbot.services.TeamService;
+import edu.warbot.online.WebLauncher;
+import edu.warbot.process.communication.client.EndMessage;
+import edu.warbot.process.communication.server.LaunchGameCommand;
+import edu.warbot.process.game.MainWarbot;
+import edu.warbot.process.game.ServerWarbotGameAgent;
+import edu.warbot.repository.AccountRepository;
 import edu.warbot.services.WebGameService;
+import edu.warbot.support.process.JVMBuilder;
 import madkit.action.KernelAction;
 import madkit.kernel.Madkit;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.messaging.simp.broker.BrokerAvailabilityEvent;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import turtlekit.kernel.TurtleKit;
 
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Created by beugnon on 05/04/15.
+ * Created by beugnon on 05/05/15.
  *
- * @author beugnon
+ * Classe lançant des processus de parties remplaçant le WebGameService
  */
 @Service
-public class WebGameServiceImpl
-        implements WebGameService, ApplicationListener<BrokerAvailabilityEvent>
-{
-    private static Log logger = LogFactory.getLog(WebGameServiceImpl.class);
+public class WebGameServiceImpl implements WebGameService, ApplicationListener<SessionDisconnectEvent> {
+
+
+    private Map<Account, ServerWarbotGameAgent> parties = new HashMap<>();
 
     @Autowired
-    private SimpMessageSendingOperations messagingTemplate;
+    private AccountRepository accountRepository;
 
     @Autowired
-    private PartyRepository partyRepository;
+    private SimpMessageSendingOperations templateMessaging;
 
-    @Autowired
-    private TeamService teamService;
-
-    private AtomicBoolean brokerAvailable = new AtomicBoolean();
 
     @Override
-    public void onApplicationEvent(BrokerAvailabilityEvent event) {
-        this.brokerAvailable.set(event.isBrokerAvailable());
+    public void onApplicationEvent(SessionDisconnectEvent applicationEvent) {
+        StompHeaderAccessor sha = StompHeaderAccessor.
+                wrap(applicationEvent.getMessage());
+        if(sha.getUser()!=null) {
+            Account account = accountRepository.findByEmail
+                    (sha.getUser().getName());
+            ServerWarbotGameAgent swga = parties.get(account);
+            if(swga!=null) {
+                swga.sendMessage(new EndMessage("terminate-alone"));
+            }
+        }
+
     }
 
-    public void startWebGame(Account account,WebGameSettings settings)
-    {
-        WarGameSettings wgs = new WarGameSettings();
-
-        Party party1 = partyRepository.findOne(settings.getIdTeam1());
-        Party party2 = partyRepository.findOne(settings.getIdTeam2());
-
-        Team t1 = teamService.generateTeamFromParty(party1);
-        Team t2 = teamService.generateTeamFromParty(party2);
-
-        Assert.notNull(t1);
-        Assert.notNull(t2);
-
-        wgs.addSelectedTeam(t1);
-        wgs.addSelectedTeam(t2);
-
-
-        WebGame game = new WebGame(account.getEmail(),
-                messagingTemplate,wgs);
-        WebLauncher wl = new WebLauncher(game);
-
-        new Madkit(Madkit.BooleanOption.desktop.toString(),"false").doAction(KernelAction.LAUNCH_AGENT,wl);
+    public boolean haveAlreadyPartyStarted(Account account) {
+        if(parties.containsKey(account)) {
+            boolean alive = parties.get(account).getAlive().get();
+            if(!alive) {
+                parties.remove(account);
+            }
+            return true;
+        }
+        return false;
     }
 
-    public void startAgainstIA(Account account,Party party)
-    {
-        WarGameSettings wgs = new WarGameSettings();
-        Team t1 = teamService.generateTeamFromParty(party);
-        Team t2  = teamService.getIATeamByName("Engineer");
-        Assert.notNull(t1);
-        wgs.addSelectedTeam(t1);
-        wgs.addSelectedTeam(t2);
-        WebGame game = new WebGame(account.getEmail(),
-                messagingTemplate,wgs);
-        WebLauncher wl = new WebLauncher(game);
+    public boolean constructProcessAndServerWarbotAgent(Account account,LaunchGameCommand lgc) {
+        JVMBuilder jvmBuilder = new JVMBuilder();
+        try {
+            jvmBuilder.addClasspathByClass(WarGame.class)//Warbot
+                    .addClasspathByClass(TurtleKit.class)//Madkit/TurtleKit
+                    .addClasspathByClass(Application.class)//Fairbot
+                    .addClasspathByClass(org.slf4j.Logger.class)//Logger
+                    .addClasspathByClass(org.slf4j.impl.StaticLoggerBinder.class)//Logger impl
+            .addClasspathLibrary("libs/*.jar");//All in libs directory WebApp
+            //Thread classpath
+            if(getClass().getClassLoader() instanceof URLClassLoader) {
+                for(URL url : ((URLClassLoader) getClass().getClassLoader()).getURLs()) {
+                    jvmBuilder.addClasspathLibrary(new File(url.toURI()).getAbsolutePath());
+                }
+            }
+            //System classpath
+            if(getClass().getClassLoader() instanceof URLClassLoader) {
+                for(URL url : ((URLClassLoader) ClassLoader.getSystemClassLoader()).getURLs()) {
+                    jvmBuilder.addClasspathLibrary(new File(url.toURI()).getAbsolutePath());
+                }
+            }
 
-        Madkit m = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
-        m.doAction(KernelAction.LAUNCH_AGENT,wl);
+            jvmBuilder.setMainClass(MainWarbot.class)
+                    .setInputStream(ProcessBuilder.Redirect.PIPE)
+                    .setOutputStream(ProcessBuilder.Redirect.PIPE);
+
+            Process p = jvmBuilder.build();
+            ServerWarbotGameAgent swga = new ServerWarbotGameAgent
+                    (account,p.getInputStream(),p.getOutputStream(),
+                            templateMessaging);
+            parties.put(account,swga);
+
+            swga.sendMessage(lgc);
+            return true;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void startExampleWebGame(Account account)
-    {
-        logger.debug("trying running a example game");
-        WarGameSettings wgs = new WarGameSettings();
-        Team t1 = teamService.getIATeamByName("Engineer");
+    @Override
+    public void startWebGame(Account account, WebGameSettings settings) throws AlreadyRunningGameException {
+        if(haveAlreadyPartyStarted(account))
+            throw new AlreadyRunningGameException();
 
-        Team t2 = t1.duplicate("duplicate");
+        LaunchGameCommand.LaunchGameCommandBuilder lgcb = new LaunchGameCommand.LaunchGameCommandBuilder();
+        LaunchGameCommand lgc = lgcb.setPlayerForTeam1(settings.getIdTeam1()).setPlayerForTeam2(settings.getIdTeam2()).build();
 
-        logger.info("team t1 -> "+t1.getName());
-        logger.info("team t2 -> " + t2.getName());
-
-        wgs.addSelectedTeam(t1);
-        wgs.addSelectedTeam(t2);
-
-        //TODO GIVE UUID TO GAME
-        UUID uuid = UUID.randomUUID();// ID OF GAME
-
-        WebGame game = new WebGame(account.getEmail(),
-                messagingTemplate,wgs);
-        //MUST SAVE WebGame
-
-
-        WebLauncher wl = new WebLauncher(game);
-        Madkit m = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
-        m.doAction(KernelAction.LAUNCH_AGENT,wl);
+        constructProcessAndServerWarbotAgent(account,lgc);
     }
 
+    @Override
+    public void startAgainstIA(Account account, Party party) throws AlreadyRunningGameException {
+        if(haveAlreadyPartyStarted(account))
+            throw new AlreadyRunningGameException();
+
+        LaunchGameCommand.LaunchGameCommandBuilder lgcb = new LaunchGameCommand.LaunchGameCommandBuilder();
+        LaunchGameCommand lgc = lgcb.setPlayerForTeam1(party.getId()).setIAForTeam2(LaunchGameCommand.IA_TEAM_RANDOM).build();
+
+        constructProcessAndServerWarbotAgent(account,lgc);
+    }
+
+
+
+    @Override
+    public void startExampleWebGame(Account account) throws AlreadyRunningGameException {
+        if(haveAlreadyPartyStarted(account))
+            throw new AlreadyRunningGameException();
+        LaunchGameCommand.LaunchGameCommandBuilder lgcb = new LaunchGameCommand.LaunchGameCommandBuilder();
+        LaunchGameCommand lgc = lgcb.setIAForTeam1(LaunchGameCommand.IA_TEAM_RANDOM).setIAForTeam2(LaunchGameCommand.IA_TEAM_RANDOM).build();
+
+        constructProcessAndServerWarbotAgent(account,lgc);
+
+    }
 }
