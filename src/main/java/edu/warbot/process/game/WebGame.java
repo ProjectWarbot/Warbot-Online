@@ -14,6 +14,9 @@ import edu.warbot.process.communication.client.AgentMessage;
 import edu.warbot.process.communication.client.EndMessage;
 import edu.warbot.process.communication.client.InitMessage;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +32,7 @@ import java.util.Map;
  */
 public class WebGame extends WarGame {
 
+    private final Thread thread;
     private GameLog gameLog;
 
     private WarbotGameAgent gameAgent;
@@ -36,11 +40,15 @@ public class WebGame extends WarGame {
     private boolean firstCall;
     private int tick;
 
-    public WebGame(WarbotGameAgent gameAgent, WarGameSettings settings) {
+    private int all3tick=0;
+
+    public WebGame(InputStream is, OutputStream os, WarGameSettings settings) throws IOException {
         super(settings);
         tick = 0;
         this.firstCall = true;
-        this.gameAgent = gameAgent;
+        this.gameAgent = new ClientWarbotGameAgent(this,is,os);
+        thread = new Thread(this.gameAgent);
+        thread.start();
         this.gameLog = new GameLog();
     }
 
@@ -64,41 +72,44 @@ public class WebGame extends WarGame {
             sendInitMessage();
             firstCall = false;
         }
+        all3tick++;
+        if(all3tick==4) {
+            all3tick = 0;
+            getGameLog().obsolete();
 
-        getGameLog().obsolete();
+            for (Team t : getPlayerTeams()) {
+                for (WarAgent a : t.getAllAgents()) {
 
-        for (Team t : getPlayerTeams()) {
-            for (WarAgent a : t.getAllAgents()) {
+                    if (a instanceof ControllableWarAgent) {
+                        Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
 
-                if (a instanceof ControllableWarAgent) {
-                    Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
+                        sendMessage(new AgentMessage(map));
+                    } else {
+                        Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
+                        sendMessage(new AgentMessage(map));
 
-                    sendMessage(new AgentMessage(map));
-                } else {
-                    Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
-                    sendMessage(new AgentMessage(map));
-
+                    }
                 }
             }
-        }
 
-        for (WarAgent a : getMotherNatureTeam().getAllAgents()) {
-            Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
-            sendMessage(new AgentMessage(map));
-        }
+            for (WarAgent a : getMotherNatureTeam().getAllAgents()) {
+                Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
+                sendMessage(new AgentMessage(map));
+            }
 
-        List<EntityLog> agentDead = new ArrayList<>();
+            List<EntityLog> agentDead = new ArrayList<>();
 
-        for (EntityLog el : this.getGameLog().getEntityLog().values())
-            if (!el.isUpdated())
-                agentDead.add(el);
+            for (EntityLog el : this.getGameLog().getEntityLog().values())
+                if (!el.isUpdated())
+                    agentDead.add(el);
 
-        for (EntityLog el : agentDead) {
-            this.getGameLog().getEntityLog().remove(el.getName());
-            Map<String, Object> map = new HashMap<>();
-            map.put("name", el.getName());
-            map.put("state", -1);
-            sendMessage(new AgentMessage(map));
+            for (EntityLog el : agentDead) {
+                this.getGameLog().getEntityLog().remove(el.getName());
+                Map<String, Object> map = new HashMap<>();
+                map.put("name", el.getName());
+                map.put("state", -1);
+                sendMessage(new AgentMessage(map));
+            }
         }
 
         if (getGameMode().getEndCondition().isGameEnded())
@@ -174,7 +185,8 @@ public class WebGame extends WarGame {
     }
 
     public void sendMessage(InterProcessMessage cm) {
-        getMessageSender().pushMessage(cm);
+        if(! (cm instanceof AgentMessage) || ((AgentMessage) cm).getContent().size()>1)
+        gameAgent.getSender().pushMessage(cm);
     }
 
 
@@ -185,5 +197,9 @@ public class WebGame extends WarGame {
 
     public GameLog getGameLog() {
         return gameLog;
+    }
+
+    public Thread getWarbotAgent() {
+        return thread;
     }
 }

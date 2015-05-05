@@ -3,6 +3,7 @@ package edu.warbot.process.game;
 import edu.warbot.process.communication.InterProcessMessage;
 import edu.warbot.process.communication.WarbotProcessReader;
 import edu.warbot.process.communication.WarbotProcessSender;
+import edu.warbot.process.communication.client.EndMessage;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,5 +45,4 @@ public abstract class WarbotGameAgent implements Runnable {
     public AtomicBoolean getAlive() {
         return alive;
     }
-
 }

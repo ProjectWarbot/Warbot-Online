@@ -16,8 +16,6 @@ public class RemoteWarbotCommand extends InterProcessMessage {
         this.warbotCommand = warbotCommand;
     }
 
-    ;
-
     public WarbotCommand getWarbotCommand() {
         return warbotCommand;
     }

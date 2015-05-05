@@ -2,14 +2,11 @@ package edu.warbot.services.impl;
 
 import edu.warbot.Application;
 import edu.warbot.exceptions.AlreadyRunningGameException;
-import edu.warbot.game.Team;
 import edu.warbot.game.WarGame;
-import edu.warbot.game.WarGameSettings;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
-import edu.warbot.online.WebGame;
 import edu.warbot.online.WebGameSettings;
-import edu.warbot.online.WebLauncher;
+import edu.warbot.process.communication.JSONInterProcessMessageTranslater;
 import edu.warbot.process.communication.client.EndMessage;
 import edu.warbot.process.communication.server.LaunchGameCommand;
 import edu.warbot.process.game.MainWarbot;
@@ -17,14 +14,11 @@ import edu.warbot.process.game.ServerWarbotGameAgent;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.services.WebGameService;
 import edu.warbot.support.process.JVMBuilder;
-import madkit.action.KernelAction;
-import madkit.kernel.Madkit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import turtlekit.kernel.TurtleKit;
 
@@ -75,7 +69,7 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
             if(!alive) {
                 parties.remove(account);
             }
-            return true;
+            return alive;
         }
         return false;
     }
@@ -87,6 +81,7 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
                     .addClasspathByClass(TurtleKit.class)//Madkit/TurtleKit
                     .addClasspathByClass(Application.class)//Fairbot
                     .addClasspathByClass(org.slf4j.Logger.class)//Logger
+                    .addClasspathByClass(com.mysql.jdbc.Driver.class)
                     .addClasspathByClass(org.slf4j.impl.StaticLoggerBinder.class)//Logger impl
             .addClasspathLibrary("libs/*.jar");//All in libs directory WebApp
             //Thread classpath
@@ -104,15 +99,17 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
 
             jvmBuilder.setMainClass(MainWarbot.class)
                     .setInputStream(ProcessBuilder.Redirect.PIPE)
-                    .setOutputStream(ProcessBuilder.Redirect.PIPE);
+                    .setOutputStream(ProcessBuilder.Redirect.PIPE)
+                    .addArgument(JSONInterProcessMessageTranslater.convertIntoMessage(lgc));
 
             Process p = jvmBuilder.build();
             ServerWarbotGameAgent swga = new ServerWarbotGameAgent
-                    (account,p.getInputStream(),p.getOutputStream(),
+                    (account,p,p.getInputStream(),p.getOutputStream(),
                             templateMessaging);
             parties.put(account,swga);
 
-            swga.sendMessage(lgc);
+            Thread thread = new Thread(swga);
+            thread.start();
             return true;
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -140,7 +137,7 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
             throw new AlreadyRunningGameException();
 
         LaunchGameCommand.LaunchGameCommandBuilder lgcb = new LaunchGameCommand.LaunchGameCommandBuilder();
-        LaunchGameCommand lgc = lgcb.setPlayerForTeam1(party.getId()).setIAForTeam2(LaunchGameCommand.IA_TEAM_RANDOM).build();
+        LaunchGameCommand lgc = lgcb.setPlayerForTeam1(party.getId()).setValueTeam2(LaunchGameCommand.IA_TEAM_RANDOM).build();
 
         constructProcessAndServerWarbotAgent(account,lgc);
     }
@@ -152,7 +149,7 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
         if(haveAlreadyPartyStarted(account))
             throw new AlreadyRunningGameException();
         LaunchGameCommand.LaunchGameCommandBuilder lgcb = new LaunchGameCommand.LaunchGameCommandBuilder();
-        LaunchGameCommand lgc = lgcb.setIAForTeam1(LaunchGameCommand.IA_TEAM_RANDOM).setIAForTeam2(LaunchGameCommand.IA_TEAM_RANDOM).build();
+        LaunchGameCommand lgc = lgcb.setValueTeam1(LaunchGameCommand.IA_TEAM_RANDOM).setValueTeam2(LaunchGameCommand.IA_TEAM_RANDOM).build();
 
         constructProcessAndServerWarbotAgent(account,lgc);
 

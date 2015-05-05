@@ -22,8 +22,14 @@ public class AccountRepository
     @Transactional
     public Account save(Account account)
     {
-        account.setPassword(passwordEncoder.encode(account.getPassword()));
-        entityManager.persist(account);
+
+        if(account.getId()==null) {
+            entityManager.persist(account);
+            account.setPassword(passwordEncoder.encode(account.getPassword()));
+        }
+        else
+            entityManager.merge(account);
+
         return account;
     }
 

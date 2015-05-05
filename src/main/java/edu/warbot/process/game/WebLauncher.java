@@ -81,7 +81,7 @@ public class WebLauncher extends TKLauncher {
         WebScheduler webScheduler = new WebScheduler(getGame());
         launchAgent(webScheduler);
 
-        this.sendMessage(this.getMadkitProperty(TurtleKit.Option.community), "engine", "scheduler", new SchedulingMessage(SchedulingAction.RUN, new Object[0]));
+        this.sendMessage(this.getMadkitProperty(TurtleKit.Option.community), "engine", "scheduler", new SchedulingMessage(SchedulingAction.RUN));
         getGame().setGameStarted();
 
         logger.trace("sortie dans createSimulationInstance");

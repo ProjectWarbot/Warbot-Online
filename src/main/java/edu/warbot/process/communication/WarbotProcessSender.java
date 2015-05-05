@@ -52,14 +52,13 @@ public class WarbotProcessSender<S extends InterProcessMessage> implements Runna
     public void run() {
         while (isAlive()) {
             while (!results.isEmpty()) {
-
                 S pr = pollMessage();
                 try {
-                    logger.info("prepare to send: " + pr.getHeader());
+                    logger.debug("prepare to send: " + pr.getHeader());
                     String s = JSONInterProcessMessageTranslater.
                             convertIntoMessage(pr);
                     getOutputStream().println(s);
-                    logger.info("Sent data: " + s);
+                    logger.debug("Sent data: " + s);
                 } catch (IOException e) {
                     e.printStackTrace();
                     logger.error("Can't send message with header" + pr.getHeader(), e);
@@ -73,5 +72,20 @@ public class WarbotProcessSender<S extends InterProcessMessage> implements Runna
             }
         }
         this.alive.set(false);
+        logger.warn("Kill Warbot Sender ");
+        while (!results.isEmpty()) {
+            S pr = pollMessage();
+            try {
+                logger.info("prepare to send: " + pr.getHeader());
+                String s = JSONInterProcessMessageTranslater.
+                        convertIntoMessage(pr);
+                getOutputStream().println(s);
+                logger.info("Sent data: " + s);
+            } catch (IOException e) {
+                e.printStackTrace();
+                logger.error("Can't send message with header" + pr.getHeader(), e);
+            }
+
+        }
     }
 }
