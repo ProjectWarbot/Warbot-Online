@@ -1030,6 +1030,24 @@ function modeMapChange() {
 
 }
 
+function sendListAgent() {
+	var agents = [];
+
+	for (i = 0; i < listAgentEditor.length; i++) {
+    	agents.push({
+    		"name"     : listAgentEditor[i].name,
+    		"x"        : listAgentEditor[i].position.x,
+    		"y"        : listAgentEditor[i].position.y,
+    		"angle"    : listAgentEditor[i].angle,
+    		"teamName" : listAgentEditor[i].teamName,
+    		"type"     : listAgentEditor[i].type,
+    		"life"     : getLifeMaxAgent(listAgentEditor[i])
+    	});
+    }
+
+    return agents;
+}
+
 function sendMessageForSaveTrainingConfiguration() {
 
 	var map = {
@@ -1051,7 +1069,6 @@ function sendMessageForSaveTrainingConfiguration() {
 			"life"     : getLifeMaxAgent(listAgentEditor[i])
 		});
 	}
-
 
 	var contentTrainingConfiguration = {
 		"map" : map,
