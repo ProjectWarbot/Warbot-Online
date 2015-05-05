@@ -218,3 +218,13 @@ select {
     margin-top:20px;
     margin-bottom:20px;
 }
+
+#titre-description{
+margin-top:5%;
+}
+
+#home-description{
+    margin-top:10%;
+    margin-bottom:10%;
+    text-align: center;
+}

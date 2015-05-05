@@ -12,8 +12,8 @@
 <div th:replace="fragments/header :: header">Header</div>
 <div class="container">
     <div class="text-center">
-        <h1 th:text="#{home.homeNotSignedIn.messageHome}">Bienvenue sur Warbot Online</h1>
-        <p class="lead">
+        <h1 id="titre-description" th:text="#{home.homeNotSignedIn.messageHome}">Bienvenue sur Warbot Online</h1>
+        <p class="lead" id="home-description">
             Warbot est à la fois un jeu et une plate-forme d'évaluation
             et d'analyse de techniques de coordination entre agents, dans
             une situation de compétition où deux équipes de "robots"
