@@ -17,6 +17,8 @@ var buttonRotateAgentME = false;
 
 var mapVector = 14;
 
+var modeMap = "Duel";
+var timerMap = 0;
 
 //les variables utilisées pour
 //avoir les vrai coordonnées sur
@@ -495,7 +497,7 @@ function cameraMove(stg, cam) {
 
 		if(buttonAddAgentME) {
 
-			if(checkPossibleCreateAgent(tx - vx, ty - vy)) {
+			if(checkPossibleCreateAgent(tx - vx, ty - vy, nameAgentSelected)) {
 
 				if(nameTeamSelected == "mother") {
 					if(nameAgentSelected == "WarFood") {
@@ -555,7 +557,7 @@ function cameraMove(stg, cam) {
 		if(cameraMapEditor.agentInMove) {
 			cameraMapEditor.agentInMove = false;
 
-			if(!checkPossibleCreateAgent(tx - vx, ty - vy)) {
+			if(!checkPossibleCreateAgent(tx - vx, ty - vy, nameAgentSelected)) {
 				cameraMapEditor.agentMove.position.x = oldPositionAgentMoveX;
 				cameraMapEditor.agentMove.position.y = oldPositionAgentMoveY;
 				cameraMapEditor.agentMove.SpritePercept.position.x = cameraMapEditor.agentMove.position.x;
@@ -984,12 +986,20 @@ function resetMapEditor(){
     resetResumeCounterAgent();
 }
 
-function checkPossibleCreateAgent(posX, posY) {
+function checkPossibleCreateAgent(posX, posY, agentType) {
 
 	var minDistance = 13;
+
 	var cont = true;
 	var i = 0;
 	while (i < listAgentEditor.length && cont) {
+		if(agentType == "Wall")
+    		minDistance = 65;
+    	else if (agentType == "WarFood")
+    		minDistance = 5;
+    	else
+    		minDistance = 13;
+
 		if(listAgentEditor[i].name != cameraMapEditor.agentFollow) {
 			var x = (posX - listAgentEditor[i].position.x) * (posX - listAgentEditor[i].position.x);
 			var y = (posY - listAgentEditor[i].position.y) * (posY - listAgentEditor[i].position.y);
@@ -1020,26 +1030,50 @@ function modeMapChange() {
 
 }
 
+function sendListAgent() {
+	var agents = [];
+
+	for (i = 0; i < listAgentEditor.length; i++) {
+    	agents.push({
+    		"name"     : listAgentEditor[i].name,
+    		"x"        : listAgentEditor[i].position.x,
+    		"y"        : listAgentEditor[i].position.y,
+    		"angle"    : listAgentEditor[i].angle,
+    		"teamName" : listAgentEditor[i].teamName,
+    		"type"     : listAgentEditor[i].type,
+    		"life"     : getLifeMaxAgent(listAgentEditor[i])
+    	});
+    }
+
+    return agents;
+}
+
 function sendMessageForSaveTrainingConfiguration() {
 
-	var contentMapTrainingConfiguration = {
+	var map = {
 		"id" : "tutu",
-		"mode" :
-		"type" :
-		"timer" :
-	}
+		"mode" : "",
+		"type" : "closed",
+		"timer" : ""
+	};
 
-	var contentAgentsTrainingConfiguration = {
-		[
-			
-
-		]
+	var agents = [];
+	for (i = 0; i < listAgentEditor.length; i++) {
+		agents.push({
+			"name"     : listAgentEditor[i].name,
+			"x"        : listAgentEditor[i].position.x,
+			"y"        : listAgentEditor[i].position.y,
+			"angle"    : listAgentEditor[i].angle,
+			"teamName" : listAgentEditor[i].teamName,
+			"type"     : listAgentEditor[i].type,
+			"life"     : getLifeMaxAgent(listAgentEditor[i])
+		});
 	}
 
 	var contentTrainingConfiguration = {
-		"map" : contentMapTrainingConfiguration,
-		"agents" : contentAgentsTrainingConfiguration
-	}
+		"map" : map,
+		"agents" : agents
+	};
 
 	var trainingConfiguration = {
 		"header" : "trainingConfiguration",
