@@ -32,6 +32,7 @@ import java.util.Map;
  *
  * @author beugnon
  */
+@Deprecated
 public class WebGame extends WarGame
 {
     private final String user;
@@ -52,7 +53,7 @@ public class WebGame extends WarGame
 
     private int tick;
 
-    public WebGame(String user,SimpMessageSendingOperations messagingTemplate, WarGameSettings settings)
+    public WebGame(String user, SimpMessageSendingOperations messagingTemplate, WarGameSettings settings)
     {
         super(settings);
         tick = 0;
