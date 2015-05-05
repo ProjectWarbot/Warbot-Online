@@ -20,9 +20,10 @@
                 <!--<li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#teamcode" th:href="@{/teamcode}">Team Code</a></li>-->
                 <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#configuration" th:href="@{/configuration/list}" th:text="#{training}" >Training Configuration</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#partylist" th:href="@{/partylist}" th:text="#{vs}">Team List</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#profil" th:href="@{/account/profile}">Profile</a></li>
 
-                <li><a href="#about" th:text="#{about}">About</a></li>
-                <li><a href="#contact" th:text="#{contact}" >Contact</a></li>
+                <li><a href="#about" th:href="@{/about}" th:text="#{about}">About</a></li>
+                <li><a href="#contact" th:href="@{/contact}" th:text="#{contact}" >Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li th:if="${#authorization.expression('!isAuthenticated()')}">

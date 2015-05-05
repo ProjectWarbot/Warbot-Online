@@ -5,6 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
 </head>
 <body>
     <div th:replace="fragments/header :: header">Header</div>
@@ -23,7 +27,7 @@
                         </span>
                     </div>
                 </div>
-                <a href="./new" class="btn btn-success">Nouvel zone de test</a>
+                <a href="./new" th:href="@{/configuration/new}" class="btn btn-success">Nouvel salle d'entrainement</a>
             </div>
         </div>
 
@@ -35,7 +39,7 @@
                 <thead>
                     <tr class="titleTestZone">
                         <td class="idTestZone">ID</td>
-                        <td data-sortable="true">Nom</td>
+                        <td data-align="right">Nom</td>
                         <td>Description</td>
                         <td class="levelTestZone">Niveau</td>
                         <td>Créateur</td>
@@ -49,7 +53,7 @@
                         <td><p th:text="${trainingConf.description}"></p></td>
                         <td class="levelTestZone"><p th:text="${trainingConf.level}"></p></td>
                         <td><p> <!--th:text="${trainingConf.creator.email}"-->CREATOR NE MARCHE PAS</p></td>
-                        <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a> <a href="#" class="btn btn-danger">Editer</a></td>
+                        <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a></td>
                     </tr>
                     <script>
                         $(function() {

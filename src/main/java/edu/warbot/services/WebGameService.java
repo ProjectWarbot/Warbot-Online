@@ -2,7 +2,7 @@ package edu.warbot.services;
 
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
-import edu.warbot.online.messaging.WebGameSettings;
+import edu.warbot.online.WebGameSettings;
 
 /**
  * Created by beugnon on 22/04/15.
