@@ -18,12 +18,10 @@
     </th:block>
     <p th:text="#{mes}">Welcome to the Warbot Online,</p> <span th:text="${account.email}">email</span> !
 
-
     <h2>Actions</h2>
     <a class="btn btn-primary" th:href="@{/party/create}" th:text="#{link.party.create}">Create a party</a>
     <a href="./configuration/new" th:href="@{/configuration/new}" class="btn btn-success">Créer une salle d'entrainement</a>
     <a th:href="@{/partylist}" class="btn btn-danger">Trouver un adversaire</a>
-
 
     <h2 th:text="#{Team}" >Parties</h2>
     <p th:if="${parties.size()}==0">
