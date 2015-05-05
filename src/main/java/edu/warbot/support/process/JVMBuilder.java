@@ -43,6 +43,7 @@ public class JVMBuilder {
     public JVMBuilder() {
         this.command = DEFAULT_JAVA+File.separator;
         this.classPaths = new ArrayList<String>();
+        this.arguments = new ArrayList<>();
         this.pb = new ProcessBuilder();
     }
 
@@ -75,6 +76,10 @@ public class JVMBuilder {
         return this;
     }
 
+    public JVMBuilder addArgument(String arguments) {
+        this.arguments.add(arguments);
+        return this;
+    }
     public JVMBuilder setArguments(List<String> arguments) {
         this.arguments.addAll(arguments);
         return this;
@@ -106,7 +111,7 @@ public class JVMBuilder {
 
         commands.add(clap);
         commands.add(mainClass);
-
+        commands.addAll(arguments);
         pb = new ProcessBuilder(commands);
         return pb.start();
     }
