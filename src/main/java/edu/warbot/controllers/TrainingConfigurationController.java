@@ -4,6 +4,7 @@ import edu.warbot.form.TrainingConfigurationForm;
 import edu.warbot.models.Account;
 import edu.warbot.models.TrainingConfiguration;
 import edu.warbot.repository.AccountRepository;
+import edu.warbot.repository.TrainingConfigurationRepository;
 import edu.warbot.services.TrainingConfigurationService;
 import edu.warbot.services.WarbotOnlineService;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -38,6 +40,9 @@ public class TrainingConfigurationController {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private TrainingConfigurationRepository trainingConfigurationRepository;
+
     @RequestMapping(value = "configuration/list", method = RequestMethod.GET)
     public String listEditor(Model model) {
         Iterable<TrainingConfiguration> trainingConfigurationsList;
@@ -47,8 +52,7 @@ public class TrainingConfigurationController {
     }
 
     @RequestMapping(value = "configuration/create", method = RequestMethod.POST)
-    public String createEditor(Principal principal, @Valid @ModelAttribute("form") TrainingConfigurationForm tcForm,
-                               Errors errors) {
+    public String createEditor(Principal principal, @Valid @ModelAttribute("form") TrainingConfigurationForm tcForm, RedirectAttributes ra) {
 
         Account account = accountRepository.findByEmail(principal.getName());
         if(account!=null)
@@ -57,6 +61,22 @@ public class TrainingConfigurationController {
         TrainingConfiguration tc = tcForm.createTestZone();
         tc.setCreator(account);
         tc = trainingConfigurationService.createTrainingConfiguration(tc);
+        ra.addAttribute("trainingId", tc.getId());
+        return "redirect:/configuration/edit";
+    }
+
+    @RequestMapping(value = "configuration/edit", method = RequestMethod.GET)
+    public String edit(Principal principal, @RequestParam Long trainingId, RedirectAttributes ra) {
+
+        Account account = accountRepository.findByEmail(principal.getName());
+        if(account!=null)
+            logger.debug("Found user");
+
+        TrainingConfiguration tc = trainingConfigurationService.findOne(trainingId);
+
+        if(tc.getCreator() != account) {
+            tc = trainingConfigurationService.copy(tc, account);
+        }
         return "configuration-editor/editor";
     }
 

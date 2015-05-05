@@ -18,23 +18,43 @@
     </th:block>
     <p th:text="#{mes}">Welcome to the Warbot Online,</p> <span th:text="${account.email}">email</span> !
 
-
-    <h2 th:text="#{action}" >Actions</h2>
-    <ul class="action">
-        <li>
-            <a class="btn btn-primary" th:href="@{/party/create}" th:text="#{link.party.create}">Create a party</a>
-        </li>
-    </ul>
+    <h2>Actions</h2>
+    <a class="btn btn-primary" th:href="@{/party/create}" th:text="#{link.party.create}">Create a party</a>
+    <a href="./configuration/new" th:href="@{/configuration/new}" class="btn btn-success">Créer une salle d'entrainement</a>
+    <a th:href="@{/partylist}" class="btn btn-danger">Trouver un adversaire</a>
 
     <h2 th:text="#{Team}" >Parties</h2>
     <p th:if="${parties.size()}==0">
         <span th:text="#{dont.have.team}">dont have team</span>
     </p>
 
-    <ul th:if="${parties.size()}>0">
-        <li th:each="party : ${parties}"><a th:href="@{/teamcode}+'?idParty='+${party.id}" th:text="${party.name}">teamName</a></li>
-    </ul>
-
+    <table id="myListParties" class="table table-bordered" th:if="${parties.size()}>0">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Team name</th>
+            <th>Creator</th>
+            <th>Number of member</th>
+            <th>Langage</th>
+            <th>Rank</th>
+            <th>Tools</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="party : ${parties}">
+            <th><p th:text="${party.id}"></p></th>
+            <th><p th:text="${party.name}"> </p></th>
+            <th></th>
+            <th></th>
+            <th><p th:text="${party.language}"></p></th>
+            <th><p th:text="${party.eloRank}"></p></th>
+            <th>
+                <a th:href="@{/teamcode}+'?idParty='+${party.id}" class="btn btn-primary">Use</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </th>
+        </tr>
+        </tbody>
+    </table>
 
 </div>
 </body>

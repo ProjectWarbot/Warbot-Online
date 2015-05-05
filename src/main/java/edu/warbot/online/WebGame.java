@@ -11,10 +11,10 @@ import edu.warbot.game.WarGameSettings;
 import edu.warbot.online.logs.GameLog;
 import edu.warbot.online.logs.RGB;
 import edu.warbot.online.logs.entity.EntityLog;
-import edu.warbot.online.messaging.AgentMessage;
-import edu.warbot.online.messaging.ClassicMessage;
-import edu.warbot.online.messaging.EndMessage;
-import edu.warbot.online.messaging.InitMessage;
+import edu.warbot.process.communication.InterProcessMessage;
+import edu.warbot.process.communication.client.AgentMessage;
+import edu.warbot.process.communication.client.EndMessage;
+import edu.warbot.process.communication.client.InitMessage;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.util.MimeTypeUtils;
@@ -182,7 +182,7 @@ public class WebGame extends WarGame
 
 
 
-    public void sendMessage(ClassicMessage cm)
+    public void sendMessage(InterProcessMessage cm)
     {
 
         Map<String, Object> map = new HashMap<>();

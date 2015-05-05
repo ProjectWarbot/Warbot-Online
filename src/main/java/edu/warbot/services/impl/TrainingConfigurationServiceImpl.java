@@ -1,5 +1,6 @@
 package edu.warbot.services.impl;
 
+import edu.warbot.models.Account;
 import edu.warbot.models.TrainingConfiguration;
 import edu.warbot.repository.TrainingConfigurationRepository;
 import edu.warbot.services.TrainingConfigurationService;
@@ -39,17 +40,14 @@ public class TrainingConfigurationServiceImpl implements TrainingConfigurationSe
         return trainingConfigurationRepository.findAll();
     }
 
-    @Override
-    public TrainingConfiguration copy(TrainingConfiguration t) {
-        TrainingConfiguration tmp;
-        tmp = t;
-        return tmp;
-    }
 
     @Override
-    public TrainingConfiguration copy(Long id) {
-        TrainingConfiguration tmp;
-        tmp = trainingConfigurationRepository.findOne(id);
+    public TrainingConfiguration copy(TrainingConfiguration tc, Account newCreator) {
+        //Ici le nom de la map copiée est
+        String newName = newCreator.getScreenName()+tc.getName()+tc.getId();
+        TrainingConfiguration tmp = new TrainingConfiguration(newName, tc.getLevel(), tc.getDescription());
+        tmp.setCreator(newCreator);
+        trainingConfigurationRepository.save(tmp);
         return tmp;
     }
 

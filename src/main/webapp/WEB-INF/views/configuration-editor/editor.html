@@ -21,7 +21,6 @@
     <div th:replace="fragments/header :: header">Header</div>
 
     <div id="contenerTools" class="form-group">
-
         <div class="col-xs-2 selectContainer">
             <select id="selectTeamName" class="form-control" name="selectTeam" onchange="nameTeamChange()">
                 <option value="red" selected="selected">Red Team</option>
@@ -46,21 +45,38 @@
         <div class="col-xs-2 selectContainer">
             <select id="selectMapName" class="form-control" name="selectMap" onchange="nameMapChange()">
                 <option value="closed" selected="selected">Closed world</option>
-                <option value="open">Open world</option>
-                <option value="semi">Semi-closed word</option>
+                <!--<option value="open">Open world</option>-->
+                <!--<option value="semi">Semi-closed word</option>-->
             </select>
         </div>
 
+        <!--
         <div class="col-xs-2 selectContainer">
             <input id="teamName" name="textinput" placeholder="teamName" class="form-control" type="text"/>
+        </div>-->
+
+        <div class="col-xs-2 selectContainer">
+            <select id="selectModeMap" class="form-control" name="selectMode" onchange="modeMapChange()">
+                <option value="duel" selected="selected">Duel</option>
+                <option value="timer">Free + Timer</option>
+            </select>
         </div>
 
-        <button id="buttonAddAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-hand-up"></span></button>
-        <button id="buttonRemoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-remove-circle"></span></button>
-        <button id="buttonPercept" class="btn btn-primary" type="submit">Percept</button>
+        <div class="col-xs-1 selectContainer">
+            <input id="timerMap" name="textinput" placeholder="timer" class="form-control" type="text"/>
+        </div>
 
-        <button id="buttonReset" class="btn btn-danger" type="submit">Reset</button>
-        <button class="btn btn-success" type="submit">Save</button>
+        <button id="buttonAddAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-screenshot"></span></button>
+        <button id="buttonRemoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-remove-circle"></span></button>
+        <button id="buttonMoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-move"></span></button>
+        <button id="buttonPercept" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-eye-open"></span></button>
+
+        <button id="buttonAgentAnglePlus" class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-plus-sign"></span></button>
+        <button id="buttonAgentAngleMinus" class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-minus-sign"></span></button>
+
+        <button id="buttonReset" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-refresh"></span></button>
+        <button id="buttonSave" class="btn btn-success" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+        <button class="btn btn-info"><span class="glyphicon glyphicon-info-sign"></span></button>
 
         <!--
         <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
@@ -175,6 +191,29 @@
             var buttonRemoveAgent = document.getElementById('buttonRemoveAgent');
             var buttonPerceptAgent = document.getElementById('buttonPercept');
             var buttonResetMapEditor = document.getElementById('buttonReset');
+            var buttonMoveAgent = document.getElementById('buttonMoveAgent');
+
+            var buttonAgentAnglePlus = document.getElementById('buttonAgentAnglePlus');
+            var buttonAgentAngleMinus = document.getElementById('buttonAgentAngleMinus');
+
+            var contenerMapEditor = document.getElementById('mapEditor');
+
+            var modalAgentOfTeamFull = document.getElementById('modalAgentOfTeamFull');
+
+            $(contenerMapEditor).click(function(event)
+            {
+
+            });
+
+            $(buttonAgentAnglePlus).click(function(event)
+            {
+                incrementAngleAgentFollow();
+            });
+
+            $(buttonAgentAngleMinus).click(function(event)
+            {
+                decrementAngleAgentFollow();
+            });
 
             $(buttonAddAgent).click(function(event)
             {
@@ -185,6 +224,8 @@
                     $(buttonRemoveAgent).attr('class', 'btn btn-primary');
                     buttonRemoveAgentME = false;
                     buttonAddAgentME = true;
+                    buttonMoveAgentME = false;
+                    $(buttonMoveAgentME).attr('class', 'btn btn-primary');
                 }
                 else {
                     $(buttonAddAgent).attr('class', 'btn btn-primary');
@@ -201,12 +242,42 @@
                     $(buttonAddAgent).attr('class', 'btn btn-primary');
                     buttonAddAgentME = false;
                     buttonRemoveAgentME = true;
+                    buttonMoveAgentME = false;
+                    $(buttonMoveAgentME).attr('class', 'btn btn-primary');
                 }
                 else {
                     $(buttonRemoveAgent).attr('class', 'btn btn-primary');
                     buttonRemoveAgentME = false;
                 }
 
+            });
+
+            $(document).ready(function (){
+                 $("#mapEditor").keypress(function( event ) {
+                  // var caractere = String.fromCharCode(e.which);
+                   alert("dd");
+               });
+            });
+
+            $(buttonMoveAgent).click(function(event)
+            {
+                var mouveAgentClassName = $(buttonMoveAgent).attr('class');
+
+                if(mouveAgentClassName == "btn btn-primary") {
+                    $(buttonMoveAgentME).attr('class', 'btn btn-primary active');
+                    buttonMoveAgentME = true;
+
+                    $(buttonAddAgent).attr('class', 'btn btn-primary');
+                    buttonAddAgentME = false;
+
+                    $(buttonRemoveAgent).attr('class', 'btn btn-primary');
+                    buttonRemoveAgentME = false;
+                }
+                else {
+                    buttonMoveAgentME = false;
+                    $(buttonMoveAgentME).attr('class', 'btn btn-primary');
+
+                }
             });
 
             $(buttonPerceptAgent).click(function(event)
@@ -225,6 +296,12 @@
                     perceptAgentMapEditor(-1);
                 }
 
+            });
+
+            $(buttonSave).click(function(event)
+            {
+                var listAgent = saveTrainingConfiguration();
+                console.debug(listAgent);
             });
 
             $(buttonResetMapEditor).click(function(event)
