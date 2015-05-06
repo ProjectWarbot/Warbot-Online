@@ -1,5 +1,6 @@
 package edu.warbot.process.communication.server;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.warbot.process.communication.InterProcessMessage;
 
 /**
@@ -64,18 +65,22 @@ public class LaunchGameCommand extends InterProcessMessage {
         return map;
     }
 
+    @JsonIgnore
     public boolean isDefaultMap() {
         return getMap().equals(DEFAULT_MAP);
     }
 
+    @JsonIgnore
     public boolean isPlayerMap() {
         return getMap().startsWith(PLAYER_MAP_HEADER);
     }
 
+    @JsonIgnore
     public boolean isIATeam1() {
         return getTeam1().startsWith(IA_TEAM_HEADER);
     }
 
+    @JsonIgnore
     public boolean isIATeam2() {
         return getTeam2().startsWith(IA_TEAM_HEADER);
     }
@@ -120,6 +125,11 @@ public class LaunchGameCommand extends InterProcessMessage {
 
         public LaunchGameCommand build() {
             return launch;
+        }
+
+        public LaunchGameCommandBuilder setValueTeam2(String valueTeam2) {
+            launch.team2 = valueTeam2;
+            return this;
         }
     }
 }

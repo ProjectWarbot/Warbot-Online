@@ -1,5 +1,6 @@
 package edu.warbot.process.communication.client;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.warbot.process.communication.InterProcessMessage;
 
 import java.util.Collection;
@@ -23,7 +24,7 @@ public class SynchroMessage extends InterProcessMessage {
         super(HEADER);
         this.content = content;
     }
-
+    @JsonIgnore
     public Collection<Map<String, Object>> getContent() {
         return content;
     }

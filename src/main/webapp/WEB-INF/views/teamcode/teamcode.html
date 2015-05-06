@@ -178,9 +178,10 @@
 <script src="../../../resources/js/streaming/drawStreaming.js" th:src="@{/resources/js/streaming/drawStreaming.js}" ></script>
 <script src="../../../resources/js/duel.js" th:src="@{/resources/js/duel.js}" ></script>
 
-<script>
+<script th:inline="javascript">
 (function() {
-        var socket = new SockJS('/warbot');
+        var path =  /*[[@{/warbot}]]*/ /warbot;
+        var socket = new SockJS(path);
         var stompClient = Stomp.over(socket);
 
         var appModel = new WebGameModel(stompClient);

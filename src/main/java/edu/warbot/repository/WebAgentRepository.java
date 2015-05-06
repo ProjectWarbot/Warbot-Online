@@ -14,8 +14,6 @@ import javax.persistence.PersistenceException;
 import java.util.Collections;
 import java.util.List;
 
-;
-
 @Repository
 @Transactional
 public class WebAgentRepository

@@ -1,5 +1,6 @@
 package edu.warbot.process.communication.client;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.warbot.process.communication.InterProcessMessage;
 
 /**
@@ -24,6 +25,7 @@ public class PingMessage extends InterProcessMessage {
         this.answer = answer;
     }
 
+    @JsonIgnore
     public boolean isPingAnswer() {
         return this.answer;
     }
