@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AboutController {
 
-    @RequestMapping(value = "fragments.header.aPropos")
+    @RequestMapping(value = "/about")
     public String about() {
         return "feedback/about";
     }
