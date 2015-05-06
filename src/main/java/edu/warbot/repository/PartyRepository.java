@@ -47,7 +47,7 @@ public class PartyRepository {
 
     public Party findOne(Long aLong) {
         try {
-        return (Party) entityManager.createQuery(
+        return entityManager.createQuery(
                 "Select p from Party p where p.id = :id",
                 Party.class)
                 .setParameter("id",aLong)

@@ -1,5 +1,6 @@
 package edu.warbot.process.communication;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +34,8 @@ public class JSONInterProcessMessageTranslater {
                 });
         String header = (String) object.get("header");
         switch (header) {
+            case PingMessage.HEADER:
+                return produce(message,PingMessage.class);
             case LaunchGameCommand.HEADER:
                 return produce(message,LaunchGameCommand.class);
             case PreciseAgentCommand.HEADER:

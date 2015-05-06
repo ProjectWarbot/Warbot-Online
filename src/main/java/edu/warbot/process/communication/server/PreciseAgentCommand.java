@@ -15,7 +15,7 @@ public class PreciseAgentCommand extends InterProcessMessage {
     /**
      * Constructeur
      */
-    protected PreciseAgentCommand(String agentID) {
+    public PreciseAgentCommand(String agentID) {
         super(HEADER);
         this.agentId = agentID;
     }

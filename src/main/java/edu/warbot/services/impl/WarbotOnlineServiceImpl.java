@@ -41,16 +41,17 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
     private WebCodeRepository webCodeRepository;
 
     @PostConstruct
-    public void init()
-    {
-        webAgentRepository.save(new WebAgent(WarAgentType.WarBase,true,false));
-        webAgentRepository.save(new WebAgent(WarAgentType.WarExplorer,true,false));
-        webAgentRepository.save(new WebAgent(WarAgentType.WarRocketLauncher,true,false));
-        webAgentRepository.save(new WebAgent(WarAgentType.WarEngineer,true,false));
-        webAgentRepository.save(new WebAgent(WarAgentType.WarTurret,true,false));
-        webAgentRepository.save(new WebAgent(WarAgentType.WarKamikaze, true, false));
-    }
+    public void init() {
+        if (webAgentRepository.findAll().size() == 0) {
+            webAgentRepository.save(new WebAgent(WarAgentType.WarBase, true, false));
+            webAgentRepository.save(new WebAgent(WarAgentType.WarExplorer, true, false));
+            webAgentRepository.save(new WebAgent(WarAgentType.WarRocketLauncher, true, false));
+            webAgentRepository.save(new WebAgent(WarAgentType.WarEngineer, true, false));
+            webAgentRepository.save(new WebAgent(WarAgentType.WarTurret, true, false));
+            webAgentRepository.save(new WebAgent(WarAgentType.WarKamikaze, true, false));
 
+        }
+    }
     @Override
     public Party createParty(Party party) {
         return partyRepository.save(party);
