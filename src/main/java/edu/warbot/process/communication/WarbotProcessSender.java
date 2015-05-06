@@ -33,6 +33,7 @@ public class WarbotProcessSender<S extends InterProcessMessage> implements Runna
     }
 
     public void shutdown() {
+        logger.info("Was shutdowned !");
         this.alive.set(false);
     }
 

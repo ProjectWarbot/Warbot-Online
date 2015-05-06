@@ -7,6 +7,8 @@ import edu.warbot.process.communication.client.AgentMessage;
 import edu.warbot.process.communication.client.EndMessage;
 import edu.warbot.process.communication.client.ExceptionResult;
 import edu.warbot.process.communication.client.PingMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 
 import java.io.IOException;
@@ -29,6 +31,8 @@ public class ServerWarbotGameAgent extends WarbotGameAgent {
 
 
     private final Process process;
+
+    private final Logger logger = LoggerFactory.getLogger(ServerWarbotGameAgent.class);
 
     private Account account;
 
@@ -53,14 +57,6 @@ public class ServerWarbotGameAgent extends WarbotGameAgent {
             getSender().pushMessage(ipm);
         else
             this.ipc.add(ipm);
-    }
-
-    public void pushMessageAndTerminateCommunication(InterProcessMessage ipm) {
-        if(activated)
-            getSender().pushMessage(ipm);
-        else
-            this.ipc.add(ipm);
-        getAlive().set(false);
     }
 
     @Override
@@ -130,10 +126,13 @@ public class ServerWarbotGameAgent extends WarbotGameAgent {
 
     public void handleMessage(InterProcessMessage ipm) {
         if(ipm.getHeader().equals(EndMessage.HEADER)) {
+            logger.info( ((EndMessage) ipm).getContent().toString());
             getAlive().set(false);
         }
 
         if(ipm.getHeader().equals(ExceptionResult.HEADER)) {
+            logger.info( ((ExceptionResult) ipm).getException().getMessage());
+
             getAlive().set(false);
         }
 

@@ -170,6 +170,7 @@ public class WebGame extends WarGame {
         super.setGameOver();
         sendMessage(new EndMessage("game-end"));
         this.gameAgent.getAlive().set(false);
+        System.exit(0);
     }
 
     public void pauseGame() {

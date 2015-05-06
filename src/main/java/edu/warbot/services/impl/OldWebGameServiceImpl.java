@@ -4,9 +4,7 @@ import edu.warbot.game.Team;
 import edu.warbot.game.WarGameSettings;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
-import edu.warbot.online.WebGame;
-import edu.warbot.online.WebLauncher;
-import edu.warbot.online.WebGameSettings;
+import edu.warbot.process.communication.WebGameSettings;
 import edu.warbot.repository.PartyRepository;
 import edu.warbot.services.TeamService;
 import edu.warbot.services.WebGameService;
@@ -65,13 +63,13 @@ public class OldWebGameServiceImpl
 
         wgs.addSelectedTeam(t1);
         wgs.addSelectedTeam(t2);
+//
+//
+//        WebGame game = new WebGame(account.getEmail(),
+//                messagingTemplate,wgs);
+//        WebLauncher wl = new WebLauncher(game);
 
-
-        WebGame game = new WebGame(account.getEmail(),
-                messagingTemplate,wgs);
-        WebLauncher wl = new WebLauncher(game);
-
-        new Madkit(Madkit.BooleanOption.desktop.toString(),"false").doAction(KernelAction.LAUNCH_AGENT,wl);
+//        new Madkit(Madkit.BooleanOption.desktop.toString(),"false").doAction(KernelAction.LAUNCH_AGENT,wl);
     }
 
     public void startAgainstIA(Account account,Party party)
@@ -82,12 +80,12 @@ public class OldWebGameServiceImpl
         Assert.notNull(t1);
         wgs.addSelectedTeam(t1);
         wgs.addSelectedTeam(t2);
-        WebGame game = new WebGame(account.getEmail(),
-                messagingTemplate,wgs);
-        WebLauncher wl = new WebLauncher(game);
-
-        Madkit m = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
-        m.doAction(KernelAction.LAUNCH_AGENT,wl);
+//        WebGame game = new WebGame(account.getEmail(),
+//                messagingTemplate,wgs);
+//        WebLauncher wl = new WebLauncher(game);
+//
+//        Madkit m = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
+//        m.doAction(KernelAction.LAUNCH_AGENT,wl);
     }
 
     public void startExampleWebGame(Account account)
@@ -107,14 +105,14 @@ public class OldWebGameServiceImpl
         //TODO GIVE UUID TO GAME
         UUID uuid = UUID.randomUUID();// ID OF GAME
 
-        WebGame game = new WebGame(account.getEmail(),
-                messagingTemplate,wgs);
-        //MUST SAVE WebGame
-
-
-        WebLauncher wl = new WebLauncher(game);
-        Madkit m = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
-        m.doAction(KernelAction.LAUNCH_AGENT,wl);
+//        WebGame game = new WebGame(account.getEmail(),
+//                messagingTemplate,wgs);
+//        //MUST SAVE WebGame
+//
+//
+//        WebLauncher wl = new WebLauncher(game);
+//        Madkit m = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
+//        m.doAction(KernelAction.LAUNCH_AGENT,wl);
     }
 
 }

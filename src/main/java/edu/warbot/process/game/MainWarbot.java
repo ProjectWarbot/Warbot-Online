@@ -4,6 +4,7 @@ import edu.warbot.config.DataSourceConfig;
 import edu.warbot.config.WarbotProcessConfig;
 import edu.warbot.game.Team;
 import edu.warbot.game.WarGame;
+import edu.warbot.game.WarGameListener;
 import edu.warbot.game.WarGameSettings;
 import edu.warbot.launcher.WarLauncher;
 import edu.warbot.launcher.WarMain;
@@ -118,6 +119,31 @@ public class MainWarbot {
                     WebGame wg = prepareWebGame(ipm,System.in,os, acac);
                     wg.sendMessage(new PingMessage());
                     WebLauncher wl = new WebLauncher(wg);
+                    wg.addWarGameListener(new WarGameListener() {
+                        @Override
+                        public void onNewTeamAdded(Team team) {
+
+                        }
+
+                        @Override
+                        public void onTeamLost(Team team) {
+
+                        }
+
+                        @Override
+                        public void onGameOver() {
+                        }
+
+                        @Override
+                        public void onGameStopped() {
+
+                        }
+
+                        @Override
+                        public void onGameStarted() {
+
+                        }
+                    });
                     Madkit madkit = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
                     madkit.doAction(KernelAction.LAUNCH_AGENT,wl);
                     wg.getWarbotAgent().join();

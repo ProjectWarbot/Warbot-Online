@@ -3,7 +3,7 @@ package edu.warbot.controllers;
 import edu.warbot.exceptions.AlreadyRunningGameException;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
-import edu.warbot.online.WebGameSettings;
+import edu.warbot.process.communication.WebGameSettings;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.services.WarbotOnlineService;
 import edu.warbot.services.WebGameService;
