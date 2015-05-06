@@ -7,7 +7,6 @@ import edu.warbot.process.communication.WebGameSettings;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.services.WarbotOnlineService;
 import edu.warbot.services.WebGameService;
-import edu.warbot.services.impl.OldWebGameServiceImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +50,6 @@ public class WebGameController {
         logger.debug(settings);
         Account account = accountRepository.findByEmail(principal.getName());
         webGameService.startExampleWebGame(account);
-
-        //TODO RETURN RESULT OF WebGameSettings
     }
 
     @MessageMapping("/game/start.against.ia")
@@ -69,11 +66,21 @@ public class WebGameController {
         //else
     }
 
-    @MessageMapping("/game/start.against.ia")
+    @MessageMapping("/game/stop")
     public void stopGame(Principal principal) {
         Assert.notNull(principal);
         Account account = accountRepository.findByEmail(principal.getName());
         Assert.notNull(account);
         webGameService.stopGame(account);
     }
+
+    @MessageMapping("/game/pause")
+    public void pauseGame(Principal principal) {
+        Assert.notNull(principal);
+        Account account = accountRepository.findByEmail(principal.getName());
+        Assert.notNull(account);
+        webGameService.pauseGame(account);
+    }
+
+
 }
