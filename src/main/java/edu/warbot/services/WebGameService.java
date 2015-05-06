@@ -10,7 +10,15 @@ import edu.warbot.process.communication.WebGameSettings;
  */
 
 public interface WebGameService {
-    void startWebGame(Account account,WebGameSettings settings) throws AlreadyRunningGameException;
-    void startAgainstIA(Account account,Party party) throws AlreadyRunningGameException;
+    void startWebGame(Account account, WebGameSettings settings) throws AlreadyRunningGameException;
+
+    void startAgainstIA(Account account, Party party) throws AlreadyRunningGameException;
+
     void startExampleWebGame(Account account) throws AlreadyRunningGameException;
+
+    void stopGame(Account account);
+
+    void pauseGame(Account account);
+
+    void preciseAgentFromGame(Account account,String id);
 }

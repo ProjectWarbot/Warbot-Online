@@ -68,4 +68,12 @@ public class WebGameController {
         webGameService.startAgainstIA(account, party);
         //else
     }
+
+    @MessageMapping("/game/start.against.ia")
+    public void stopGame(Principal principal) {
+        Assert.notNull(principal);
+        Account account = accountRepository.findByEmail(principal.getName());
+        Assert.notNull(account);
+        webGameService.stopGame(account);
+    }
 }

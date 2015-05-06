@@ -9,6 +9,9 @@ import edu.warbot.process.communication.JSONInterProcessMessageTranslater;
 import edu.warbot.process.communication.WebGameSettings;
 import edu.warbot.process.communication.client.EndMessage;
 import edu.warbot.process.communication.server.LaunchGameCommand;
+import edu.warbot.process.communication.server.PreciseAgentCommand;
+import edu.warbot.process.communication.server.RemoteConsoleCommand;
+import edu.warbot.process.communication.server.RemoteWarbotCommand;
 import edu.warbot.process.game.MainWarbot;
 import edu.warbot.process.game.ServerWarbotGameAgent;
 import edu.warbot.repository.AccountRepository;
@@ -154,4 +157,24 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
         constructProcessAndServerWarbotAgent(account,lgc);
 
     }
+
+    @Override
+    public void stopGame(Account account) {
+        if(haveAlreadyPartyStarted(account))
+            parties.get(account).stop();
+    }
+
+    @Override
+    public void pauseGame(Account account) {
+        if(haveAlreadyPartyStarted(account))
+            parties.get(account).sendMessage(new RemoteWarbotCommand(RemoteWarbotCommand.WarbotCommand.PAUSE));
+    }
+
+
+    @Override
+    public void preciseAgentFromGame(Account account,String id) {
+        if(haveAlreadyPartyStarted(account))
+            parties.get(account).sendMessage((id!=null)? new PreciseAgentCommand(id) :  new PreciseAgentCommand(PreciseAgentCommand.NONE));
+    }
+
 }

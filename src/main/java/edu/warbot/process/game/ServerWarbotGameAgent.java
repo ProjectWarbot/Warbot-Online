@@ -59,6 +59,11 @@ public class ServerWarbotGameAgent extends WarbotGameAgent {
             this.ipc.add(ipm);
     }
 
+    public void stop() {
+        process.destroy();
+        getAlive().set(false);
+    }
+
     @Override
     public void run() {
         Thread thr = new Thread(getReader());
