@@ -16,12 +16,18 @@ public class InterProcessMessage implements Serializable {
     /**
      * Entête du message
      */
-    private final String header;
+    private String header;
 
     /**
      * Date d'envoi du message
      */
-    private final Date date;
+    private Date date;
+
+
+    public InterProcessMessage() {
+        this.header = "none";
+        this.date = new Date();
+    }
 
     /**
      * Constructeur
@@ -39,5 +45,13 @@ public class InterProcessMessage implements Serializable {
 
     public Date getDate() {
         return date;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

@@ -1,15 +1,24 @@
 package edu.warbot.services;
 
+import edu.warbot.exceptions.AlreadyRunningGameException;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
-import edu.warbot.online.WebGameSettings;
+import edu.warbot.process.communication.WebGameSettings;
 
 /**
  * Created by beugnon on 22/04/15.
  */
 
 public interface WebGameService {
-    void startWebGame(Account account,WebGameSettings settings);
-    void startAgainstIA(Account account,Party party);
-    void startExampleWebGame(Account account);
+    void startWebGame(Account account, WebGameSettings settings) throws AlreadyRunningGameException;
+
+    void startAgainstIA(Account account, Party party) throws AlreadyRunningGameException;
+
+    void startExampleWebGame(Account account) throws AlreadyRunningGameException;
+
+    void stopGame(Account account);
+
+    void pauseGame(Account account);
+
+    void preciseAgentFromGame(Account account,String id);
 }

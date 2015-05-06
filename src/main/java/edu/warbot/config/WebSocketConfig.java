@@ -38,4 +38,5 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
         codeEditorListener.setAccess("/editor/register");
         return codeEditorListener;
     }
+
 }

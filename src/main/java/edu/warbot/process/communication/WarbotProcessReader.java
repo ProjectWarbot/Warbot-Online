@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by beugnon on 21/04/15.
+ *
  */
 public class WarbotProcessReader implements Runnable {
 
@@ -59,12 +60,10 @@ public class WarbotProcessReader implements Runnable {
     public void run() {
         Scanner sc = new Scanner(getInputStream());
         while (isAlive()) {
-            System.err.println("ReaderiSalive");
             while(sc.hasNextLine()) {
                 try {
                     String s = sc.nextLine();
-                    logger.info("[INFO] Received : "+s);
-                    System.err.println("[INFO] Received : " + s);
+                    logger.debug("[INFO] Received : "+s);
                     if(JSONInterProcessMessageTranslater.isReadableJSON(s)) {
                         InterProcessMessage ipm = JSONInterProcessMessageTranslater.convertIntoObject(s);
                         pushMessage(ipm);
@@ -84,6 +83,7 @@ public class WarbotProcessReader implements Runnable {
             }
         }
         sc.close();
+        logger.info("END of WarbotProcessReader");
         this.alive.set(false);
     }
 }

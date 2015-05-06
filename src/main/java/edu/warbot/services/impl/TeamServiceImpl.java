@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teams.engineer.WarBaseBrainController;
 import teams.engineer.WarExplorerBrainController;
 
 import javax.annotation.PostConstruct;
@@ -29,7 +30,10 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
+
 /**
  * Created by beugnon on 05/04/15.
  *
@@ -53,33 +57,25 @@ public class TeamServiceImpl implements TeamService
     private HashMap<String,Class<? extends WarBrain>> brainControllers = new HashMap<String,Class<? extends WarBrain>>();
 
 
-
-    @PostConstruct
-    public void init()
-    {
-        loadSourceTeams();
-        loadScriptClasses();
-
-    }
-
-    protected void loadScriptClasses() {
+    public void loadScriptClasses() {
         try {
-            ClassPool defaultClassPool = ClassPool.getDefault();
-            brainControllers.put("WarBase", createNewWarBrainImplementationClass(defaultClassPool,"edu.warbot.scriptcore.team.ScriptableWarBase"));
-            brainControllers.put("WarExplorer", createNewWarBrainImplementationClass(defaultClassPool,"edu.warbot.scriptcore.team.ScriptableWarExplorer"));
-            brainControllers.put("WarEngineer", createNewWarBrainImplementationClass(defaultClassPool,"edu.warbot.scriptcore.team.ScriptableWarEngineer"));
-            brainControllers.put("WarRocketLauncher", createNewWarBrainImplementationClass(defaultClassPool,"edu.warbot.scriptcore.team.ScriptableWarRocketLauncher"));
-            brainControllers.put("WarKamikaze", createNewWarBrainImplementationClass(defaultClassPool,"edu.warbot.scriptcore.team.ScriptableWarKamikaze"));
-            brainControllers.put("WarTurret", createNewWarBrainImplementationClass(defaultClassPool,"edu.warbot.scriptcore.team.ScriptableWarTurret"));
+            if(brainControllers.isEmpty()) {
+                ClassPool defaultClassPool = ClassPool.getDefault();
+                brainControllers.put("WarBase", createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarBase"));
+                brainControllers.put("WarExplorer", createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarExplorer"));
+                brainControllers.put("WarEngineer", createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarEngineer"));
+                brainControllers.put("WarRocketLauncher", createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarRocketLauncher"));
+                brainControllers.put("WarKamikaze", createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarKamikaze"));
+                brainControllers.put("WarTurret", createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarTurret"));
+            }
         } catch (NotFoundException | CannotCompileException | IOException e) {
             e.printStackTrace();
         }
     }
 
-    protected void loadSourceTeams()
+    public void loadSourceTeams()
     {
         Map<String,String> teamsSourcesFolders = UserPreferences.getTeamsSourcesFolders();
-
         for(String currentFolder : teamsSourcesFolders.values())
         {
             logger.debug("Introspection in " + currentFolder);
@@ -132,6 +128,8 @@ public class TeamServiceImpl implements TeamService
 
     public Team generateTeamFromParty(Party party)
     {
+        if(getBrains().size()==0)
+            loadScriptClasses();
         ScriptedTeam team = new ScriptedTeam(party.getName(),getBrains());
         team.setInterpreter
                 (ScriptInterpreterFactory.getInstance(party.getLanguage())
@@ -147,7 +145,23 @@ public class TeamServiceImpl implements TeamService
 
     @Override
     public Team getIATeamByName(String name) {
+        if(getTeams().size()==0)
+            loadSourceTeams();
         return getTeams().get(name);
+    }
+
+    @Override
+    public Team getRandomIATeam() {
+        if(getTeams().isEmpty())
+            loadSourceTeams();
+
+        Random r = new Random();
+        int cpt = r.nextInt(getTeams().size());
+        Iterator<Team> it = getTeams().values().iterator();
+        Team t1 = it.next();
+        while( cpt!=0 && it.hasNext())
+            t1 = it.next();
+        return t1;
     }
 
     private Map<String,Team> getTeams()
@@ -250,7 +264,7 @@ public class TeamServiceImpl implements TeamService
                                                     (interfaceImplementationMethod.getName(),
                                                             interfaceImplementationMethod.getParameterTypes()),
                                             brainImplementationClass,
-                                            (ClassMap)null));
+                                            null));
                 }
             }
         }
