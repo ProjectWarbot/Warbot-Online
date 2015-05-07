@@ -44,7 +44,6 @@ public class PartyRepository {
             entityManager.persist(s);
         else
             entityManager.merge(s);
-        LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class), s);
         return s;
     }
 

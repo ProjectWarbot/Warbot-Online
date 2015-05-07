@@ -46,7 +46,7 @@ margin:0;
         }
 
  .ui-layout-toggler {
-        background: #AAA;
+        background: #1E90FF;
         }
 
  .ui-layout-toggler:hover {
@@ -217,4 +217,14 @@ select {
 .searchTeamList {
     margin-top:20px;
     margin-bottom:20px;
+}
+
+#titre-description{
+margin-top:5%;
+}
+
+#home-description{
+    margin-top:10%;
+    margin-bottom:10%;
+    text-align: center;
 }

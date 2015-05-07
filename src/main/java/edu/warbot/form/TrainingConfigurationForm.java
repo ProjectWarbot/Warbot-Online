@@ -19,7 +19,7 @@ public class TrainingConfigurationForm {
     @NotBlank(message = TrainingConfigurationForm.NOT_BLANK_MESSAGE)
     public String level;
 
-    @NotBlank(message = TrainingConfigurationForm.NOT_BLANK_MESSAGE)
+
     public String description;
 
     public TrainingConfiguration createTestZone() {

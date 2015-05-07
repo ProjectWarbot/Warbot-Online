@@ -20,6 +20,7 @@ import java.util.Date;
  *
  * @author Sébastien Beugnon
  */
+@Transactional
 public class GameResultRepository {
 
     @PersistenceContext
