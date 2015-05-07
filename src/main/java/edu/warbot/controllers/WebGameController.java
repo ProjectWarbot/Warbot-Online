@@ -1,11 +1,12 @@
 package edu.warbot.controllers;
 
+import edu.warbot.exceptions.AlreadyRunningGameException;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
-import edu.warbot.online.WebGameSettings;
+import edu.warbot.process.communication.WebGameSettings;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.services.WarbotOnlineService;
-import edu.warbot.services.impl.WebGameServiceImpl;
+import edu.warbot.services.WebGameService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class WebGameController {
     private static final Log logger = LogFactory.getLog(WebGameController.class);
 
     @Autowired
-    private WebGameServiceImpl webGameService;
+    private WebGameService webGameService;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -44,19 +45,16 @@ public class WebGameController {
 
 
     @MessageMapping("/game/start")
-    public void startGame(Principal principal, WebGameSettings settings)
-    {
+    public void startGame(Principal principal, WebGameSettings settings) throws AlreadyRunningGameException {
         Assert.notNull(principal);
         logger.debug(settings);
         Account account = accountRepository.findByEmail(principal.getName());
         webGameService.startExampleWebGame(account);
-
-        //TODO RETURN RESULT OF WebGameSettings
     }
 
     @MessageMapping("/game/start.against.ia")
     public void startGameAgainstIA(Principal principal,
-                          WebGameSettings settings) throws Exception {
+                          WebGameSettings settings) throws Exception, AlreadyRunningGameException {
         Assert.notNull(principal);
         logger.debug(settings);
         Account account = accountRepository.findByEmail(principal.getName());
@@ -67,4 +65,22 @@ public class WebGameController {
         webGameService.startAgainstIA(account, party);
         //else
     }
+
+    @MessageMapping("/game/stop")
+    public void stopGame(Principal principal) {
+        Assert.notNull(principal);
+        Account account = accountRepository.findByEmail(principal.getName());
+        Assert.notNull(account);
+        webGameService.stopGame(account);
+    }
+
+    @MessageMapping("/game/pause")
+    public void pauseGame(Principal principal) {
+        Assert.notNull(principal);
+        Account account = accountRepository.findByEmail(principal.getName());
+        Assert.notNull(account);
+        webGameService.pauseGame(account);
+    }
+
+
 }

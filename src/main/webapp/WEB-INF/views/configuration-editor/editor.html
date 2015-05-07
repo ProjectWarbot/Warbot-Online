@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="icon" href="../../../resources/images/favicon.jpg" th:href="@{resources/images/favicon.jpg}" />
+
     <title>Create Map</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
@@ -55,15 +57,15 @@
             <input id="teamName" name="textinput" placeholder="teamName" class="form-control" type="text"/>
         </div>-->
 
-        <div class="col-xs-2 selectContainer">
+        <div class="col-xs-1 selectContainer">
             <select id="selectModeMap" class="form-control" name="selectMode" onchange="modeMapChange()">
                 <option value="duel" selected="selected">Duel</option>
-                <option value="timer">Free + Timer</option>
+                <!--<option value="timer">Free + Timer</option>-->
             </select>
         </div>
 
         <div class="col-xs-1 selectContainer">
-            <input id="timerMap" name="textinput" placeholder="timer" class="form-control" type="text"/>
+         <!--   <input id="timerMap" name="textinput" placeholder="timer" class="form-control" type="text"/>-->
         </div>
 
         <button id="buttonAddAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-screenshot"></span></button>
@@ -75,7 +77,13 @@
         <button id="buttonAgentAngleMinus" class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-minus-sign"></span></button>
 
         <button id="buttonReset" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-refresh"></span></button>
-        <button id="buttonSave" class="btn btn-success" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+        <form method="POST" th:action="@{/configuration/update}">
+            <button id="buttonSave" class="btn btn-success" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+            <div class="col-xs-0 selectContainer">
+                <input id="saveButtonLink" type="hidden" name="agents" value=""/>
+                <input type="hidden" name="id" th:value="${trainingId}"/>
+            </div>
+        </form>
         <button class="btn btn-info"><span class="glyphicon glyphicon-info-sign"></span></button>
 
         <!--
@@ -300,7 +308,8 @@
 
             $(buttonSave).click(function(event)
             {
-                var listAgent = saveTrainingConfiguration();
+                var listAgent = sendListAgent();
+                document.getElementById("saveButtonLink").value = listAgent;
                 console.debug(listAgent);
             });
 

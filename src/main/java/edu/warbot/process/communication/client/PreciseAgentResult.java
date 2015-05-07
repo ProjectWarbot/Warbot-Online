@@ -21,24 +21,24 @@ public class PreciseAgentResult extends InterProcessMessage {
 
     public final static String HEADER = "PreciseAgentResult";
 
-    private Map<String, Serializable> association;
+    private Map<String, Serializable> statistics;
 
     public PreciseAgentResult(ControllableWarAgent agent) {
         super(HEADER);
-        this.association = new HashMap<String, Serializable>();
-        this.association.put("bagSize", agent.getBagSize());
-        this.association.put("x", agent.getX());
-        this.association.put("y", agent.getY());
-        this.association.put("type", agent.getType());
-        this.association.put("team", agent.getTeamName());
-        this.association.put("messageDebug", agent.getDebugString());
-        this.association.put("currentBagSize", agent.getNbElementsInBag());
-        this.association.put("heading", agent.getHeading());
-        this.association.put("health", agent.getHealth());
-        this.association.put("maxHealth", agent.getMaxHealth());
-        this.association.put("viewDistance", agent.getDistanceOfView());
-        this.association.put("viewAngle", agent.getAngleOfView());
-        this.association.put("viewHeading", agent.getViewDirection());
+        this.statistics = new HashMap<String, Serializable>();
+        this.statistics.put("bagSize", agent.getBagSize());
+        this.statistics.put("x", agent.getX());
+        this.statistics.put("y", agent.getY());
+        this.statistics.put("type", agent.getType());
+        this.statistics.put("team", agent.getTeamName());
+        this.statistics.put("messageDebug", agent.getDebugString());
+        this.statistics.put("currentBagSize", agent.getNbElementsInBag());
+        this.statistics.put("heading", agent.getHeading());
+        this.statistics.put("health", agent.getHealth());
+        this.statistics.put("maxHealth", agent.getMaxHealth());
+        this.statistics.put("viewDistance", agent.getDistanceOfView());
+        this.statistics.put("viewAngle", agent.getAngleOfView());
+        this.statistics.put("viewHeading", agent.getViewDirection());
 
         ArrayList<String> percepts = new ArrayList<String>();
         for (WarAgentPercept wp : agent.getPercepts()) {
@@ -46,11 +46,15 @@ public class PreciseAgentResult extends InterProcessMessage {
                     new String(wp.getTeamName() + ":" + wp.getType() + "-" + wp.getID()));
         }
 
-        this.association.put("percepts", percepts);
+        this.statistics.put("percepts", percepts);
 
     }
 
-    public Map<String, Serializable> getAssociation() {
-        return this.association;
+    public Map<String, Serializable> getStatistics() {
+        return this.statistics;
+    }
+
+    public void setStatistics(Map<String, Serializable> statistics) {
+        this.statistics = statistics;
     }
 }
