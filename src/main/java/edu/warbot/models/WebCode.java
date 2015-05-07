@@ -15,7 +15,7 @@ import java.util.Date;
 @Table(name = "CODE")
 public class WebCode extends AbstractPersistable<Long>
 {
-    @ManyToOne(targetEntity = Party.classgit)
+    @ManyToOne(targetEntity = Party.class)
     private Party party;
 
     @ManyToOne(targetEntity = WebAgent.class)

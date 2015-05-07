@@ -17,9 +17,12 @@ import madkit.action.KernelAction;
 import madkit.kernel.Madkit;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -78,7 +81,7 @@ public class MainWarbot {
 //        JScrollPane jsp = new JScrollPane();
 //        jsp.createVerticalScrollBar();
 //        jsp.setViewportView(jta);
-
+//
 //        jf.getContentPane().add(jsp);
 //        jf.pack();
 //        jf.setVisible(true);
@@ -98,7 +101,7 @@ public class MainWarbot {
         }
         else {
             logger.error("No Argument !");
-            os.println(new ExceptionResult(new Exception("NoArguement")));
+            os.println(new ExceptionResult(new Exception("NoArgument")));
             System.exit(1);
         }
         if(JSONInterProcessMessageTranslater.isReadableJSON(args[0])) {
@@ -129,9 +132,9 @@ public class MainWarbot {
             logger.error("here unreadable");
             System.err.println("unreadable arguments"+args[0]);
             os.println(new ExceptionResult(new Exception("UnreadableArgument")));
-//            System.exit(2);
+            System.exit(2);
         }
-//        System.exit(0);
+        System.exit(0);
     }
 
     private static Team loadTeam(TeamService ts, PartyRepository pr,String teamname, boolean isIATeam) {
