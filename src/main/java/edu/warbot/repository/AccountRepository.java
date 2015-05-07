@@ -3,7 +3,9 @@ package edu.warbot.repository;
 import javax.persistence.*;
 import javax.inject.Inject;
 
+import com.javaetmoi.core.persistence.hibernate.LazyLoadingUtil;
 import edu.warbot.models.Account;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +31,7 @@ public class AccountRepository
         }
         else
             entityManager.merge(account);
-
+        LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),account);
         return account;
     }
 
