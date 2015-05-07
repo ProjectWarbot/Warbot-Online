@@ -10,6 +10,12 @@ var TeamAll = new Array();
 var nameTeamRed;
 var nameTeamBlue;
 
+var partyInGame = false;
+var partyStart = false;
+
+var appM;
+var idP;
+
 requestAnimFrame( animate );
 initStreaming();
 cameraMove(stage, camera);
@@ -69,6 +75,8 @@ function messageServerInit(message) {
 		createAgentJson(camera, agentTab, message.agents[i], TeamAll);
 	}
 
+	partyStart = false;
+	partyInGame = true;
 }
 
 /**
@@ -565,6 +573,24 @@ function animate() {
     var coordCenterX = contener.offsetWidth-1 / 2;
     var coordCenterY = contener.offsetHeight-1 / 2;
 
+	hud.gChargement.position.x = coordCenterX / 2;
+	hud.gChargement.position.y = coordCenterY / 2;
+
+	hud.playBut.position.x = coordCenterX / 2;
+    hud.playBut.position.y = coordCenterY / 2;
+
+	if(partyStart) {
+		hud.gChargement.rotation += 0.05;
+		hud.gChargement.alpha = 1;
+		hud.playBut.alpha = -1;
+	}
+	else {
+		hud.gChargement.alpha = -1;
+		if(!partyInGame) {
+			hud.playBut.alpha = 1;
+		}
+	}
+
 	for (i = 0; i < agentTab.length; i++) {
 		if(camera.follow) {
 			if(camera.agentFollow == agentTab[i].name) {
@@ -596,6 +622,44 @@ function initStreaming() {
     camera.zoom = 1;
     stage.addChild(camera);
     stage.addChild(hud);
+
+    var gifChargement = new PIXI.Sprite(chargementGif);
+    gifChargement.position.x = 0;
+    gifChargement.position.y = 0;
+    gifChargement.alpha = 1;
+    gifChargement.anchor.x = 0.5;
+    gifChargement.anchor.y = 0.5;
+    gifChargement.scale.x = 2;
+    gifChargement.scale.y = 2;
+    hud.gChargement = gifChargement;
+    hud.addChild(gifChargement);
+
+    var playuttonUI = new PIXI.Sprite(playButton);
+    playuttonUI.position.x = 0;
+    playuttonUI.position.y = 0;
+    playuttonUI.alpha = 1;
+    playuttonUI.anchor.x = 0.5;
+    playuttonUI.anchor.y = 0.5;
+    playuttonUI.scale.x = 0.2;
+    playuttonUI.scale.y = 0.2;
+
+    playuttonUI.interactive = true;
+    playuttonUI.buttonMode = true;
+    playuttonUI.defaultCursor = "pointer";
+
+    playuttonUI.mousedown = function(data) {
+		if(!partyInGame) {
+            appM.launchParty(idP,-1);
+            partyInGame = true;
+            partyStart = true;
+        }
+        else {
+
+        }
+    };
+
+    hud.playBut = playuttonUI;
+    hud.addChild(playuttonUI);
 }
 
 function cameraMove(stg, cam) {
@@ -1029,6 +1093,8 @@ function changeDebugMessage(agent, json) {
 
 function messageServerEnd(message) {
 
+	stage.setBackgroundColor(colorStreamOff);
+
 	for (i = 0; i < agentTab.length; i++) {
         camera.removeChild(agentTab[i].SpritePercept);
         camera.removeChild(agentTab[i].SpriteLife);
@@ -1066,6 +1132,9 @@ function messageServerEnd(message) {
 
     cameraMove(stage, camera);
     addWheelLister();
+
+    partyInGame = false;
+    partyStart = false;
 
     requestAnimFrame( animate );
 

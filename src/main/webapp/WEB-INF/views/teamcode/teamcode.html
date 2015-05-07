@@ -50,9 +50,7 @@
 
             <div th:id="${agent.id}" th:each="agent : ${agents}" class="tab-pane fade">
                 <div th:id="${agent.id}+'-editor'" class="editor"></div>
-
-
-                <a href="#" class="btn btn-sm btn-success launch"> Play</a>
+                
                 <a href="#" class="btn btn-sm btn-warning pause"> Pause</a>
                 <a href="#" class="btn btn-sm btn-danger stop"> Stop</a>
                 <a href="#" class="btn btn-sm btn-primary save" th:id="${agent.id}" > Save</a>
@@ -185,13 +183,22 @@
         var stompClient = Stomp.over(socket);
 
         var appModel = new WebGameModel(stompClient);
+        appM = appModel;
+        idP = $("#idParty")[0].value;
         //ko.applyBindings(appModel);
 
         appModel.connect();
         $(".btn.btn-sm.btn-success.launch").click(function (event)
         {
-            var idParty = $("#idParty")[0].value;
-            appModel.launchParty(idParty,-1);
+            /*if(!partyInGame) {
+                var idParty = $("#idParty")[0].value;
+                appModel.launchParty(idParty,-1);
+                partyInGame = true;
+                partyStart = true;
+            }
+            else {
+
+            }*/
         });
 
         $(".webcode-request").click(function(event)
