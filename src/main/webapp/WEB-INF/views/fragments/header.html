@@ -17,19 +17,19 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#configuration" th:href="@{/configuration/list}" th:text="#{training}" >Training Configuration</a></li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#partylist" th:href="@{/partylist}" th:text="#{vs}">Team List</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#configuration" th:href="@{/configuration/list}" th:text="#{fragments.header.sallesEntrainements}" >Training Configuration</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#partylist" th:href="@{/partylist}" th:text="#{fragments.header.duel}">Team List</a></li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}" ><a href="#profil" th:href="@{/account/profile}">Profile</a></li>
 
-                <li><a href="#about" th:href="@{/about}" th:text="#{about}">About</a></li>
-                <li><a href="#contact" th:href="@{/contact}" th:text="#{contact}" >Contact</a></li>
+                <li><a href="#about" th:href="@{/about}" th:text="#{fragments.header.aPropos}">About</a></li>
+                <li><a href="#contact" th:href="@{/contact}"  >Contact</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li th:if="${#authorization.expression('!isAuthenticated()')}">
-                    <a href="/signin" th:href="@{/signin}" th:text="#{sign.up}">Sign up</a>
+                    <a href="/signin" th:href="@{/signin}" th:text="#{fragments.header.connexion}">Sign up</a>
                 </li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a href="/logout" th:href="@{#}" onclick="$('#form').submit();" th:text="#{logout}" >Logout</a>
+                    <a href="/logout" th:href="@{#}" onclick="$('#form').submit();" th:text="#{fragments.header.logout}" >Logout</a>
                     <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
                 </li>
             </ul>
