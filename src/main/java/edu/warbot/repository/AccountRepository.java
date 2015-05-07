@@ -49,7 +49,7 @@ public class AccountRepository
 
     public Iterable<Account> findAll() {
         return  entityManager.createQuery(
-                "Select screenName from Account a ",
+                "Select a from Account a ",
                 Account.class).getResultList();
     }
 }
