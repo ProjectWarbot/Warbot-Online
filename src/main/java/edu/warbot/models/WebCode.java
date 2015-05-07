@@ -15,12 +15,11 @@ import java.util.Date;
 @Table(name = "CODE")
 public class WebCode extends AbstractPersistable<Long>
 {
-    @ManyToOne(targetEntity = Party.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Party.classgit)
     private Party party;
 
     @ManyToOne(targetEntity = WebAgent.class)
     private WebAgent agent;
-
 
     @Lob
     @Column(name = "code_content", length=64000)
