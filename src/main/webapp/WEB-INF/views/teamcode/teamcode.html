@@ -224,6 +224,11 @@
             initHUDDebug();
         });
 
+        $(".btn.btn-sm.btn-danger.stop").click(function(event)
+        {
+            appModel.stop();
+        });
+
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
       })();
 </script>

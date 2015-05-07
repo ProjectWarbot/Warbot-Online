@@ -154,10 +154,7 @@ function messageServerSynchro(message) {
 /**
 * Traitement du message "end" JSON recu
 */
-function messageServerEnd(message) {
 
-
-}
 
 /**
 * Création de la map
@@ -182,6 +179,7 @@ function createMapJson() {
 			teamName.position.x = 30;
 			teamName.position.y = -50;
 			teamName.alpha = 1;
+			camera.teamTextNameRed = teamName;
 			camera.addChild(teamName);
 			document.getElementById('nameRedTeamConsoleMap').innerHTML = TeamAll[i].name;
 			nameTeamRed = TeamAll[i].name;
@@ -191,6 +189,7 @@ function createMapJson() {
 			teamName.position.x = 500;
 			teamName.position.y = -50;
 			teamName.alpha = 1;
+			camera.teamTextNameBlue = teamName;
 			camera.addChild(teamName);
 			document.getElementById('nameBlueTeamConsoleMap').innerHTML = TeamAll[i].name;
 			nameTeamBlue = TeamAll[i].name;
@@ -459,10 +458,12 @@ function agentChangeValue(agent, json) {
 		agent.debug.setText(agent.messageDebug);
     }
 
-    if(agent.name == camera.agentEntityFollow.name) {
-       	document.getElementById('lifeOfAgentFollow').innerHTML = agent.lifeP + " %";
-        document.getElementById('angleOfAgentFollow').innerHTML = agent.angle;
-        document.getElementById('debugMessageOfAgentFollow').innerHTML = agent.messageDebug;
+	if(camera.agentFollow != null) {
+    	if(agent.name == camera.agentEntityFollow.name) {
+       		document.getElementById('lifeOfAgentFollow').innerHTML = agent.lifeP + " %";
+        	document.getElementById('angleOfAgentFollow').innerHTML = agent.angle;
+       		document.getElementById('debugMessageOfAgentFollow').innerHTML = agent.messageDebug;
+    	}
     }
 
 }
@@ -1022,5 +1023,50 @@ function getSpriteLife(lifeP) {
 
 function changeDebugMessage(agent, json) {
 
+
+}
+
+
+function messageServerEnd(message) {
+
+	for (i = 0; i < agentTab.length; i++) {
+        camera.removeChild(agentTab[i].SpritePercept);
+        camera.removeChild(agentTab[i].SpriteLife);
+		camera.removeChild(agentTab[i].debug);
+       	camera.removeChild(agentTab[i]);
+	}
+
+	for (j = 0; j < buttonTab.length; j++) {
+		hud.removeChild(buttonTab[j]);
+	}
+
+	camera.removeChild(camera.map);
+	camera.removeChild(camera.teamTextNameBlue);
+	camera.removeChild(camera.teamTextNameRed);
+
+	agentTab = new Array();
+	buttonTab = new Array();
+	TeamAll = new Array();
+
+	camera.follow = false;
+    camera.agentFollow = null;
+    camera.agentEntityFollow;
+    camera.zoom = 1;
+    camera.position.x = 0;
+    camera.position.y = 0;
+
+    //stage.removeChild(camera);
+    //stage.removeChild(hud);
+
+    //camera = new PIXI.DisplayObjectContainer();
+    //hud = new PIXI.DisplayObjectContainer();
+
+    //stage.addChild(camera);
+    //stage.addChild(hud);
+
+    cameraMove(stage, camera);
+    addWheelLister();
+
+    requestAnimFrame( animate );
 
 }
