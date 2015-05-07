@@ -46,4 +46,10 @@ public class AccountRepository
             return null;
         }
     }
+
+    public Iterable<Account> findAll() {
+        return  entityManager.createQuery(
+                "Select screenName from Account a ",
+                Account.class).getResultList();
+    }
 }
