@@ -29,22 +29,24 @@
 <div class="box">
     <div class="outer-center">
 
-        <!--
-        <a href="#" class="btn btn-sm btn-success launch"><span class="glyphicon glyphicon-play"></span></a>
-        <a href="#" class="btn btn-sm btn-warning pause"><span class="glyphicon glyphicon-pause"></span></a>
-        <a href="#" class="btn btn-sm btn-danger stop"><span class="glyphicon glyphicon-stop"></span></a>
-        <a href="#" class="btn btn-sm btn-primary save" ><span class="glyphicon glyphicon-cloud-upload"></span></a>
-        <a href="#" class="btn btn-sm btn-info load"><span class="glyphicon glyphicon-cloud-download"></span></a>
-        <a href="#" class="btn btn-sm btn-warning debug"><span class="glyphicon glyphicon-cog"></span></a>
-        -->
 
         <input type="hidden" id="idParty" value="" th:value="${party.id}" />
         <ul class="nav nav-tabs" id="myTab">
+
+
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="#">Liste des agents <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+
+
             <li  class="webcode-request" th:each="agent : ${agents}" th:data="${agent.id}">
                 <input type="hidden" value="" th:value="${agent.id}" />
                 <a data-toggle="tab" th:href="'#'+${agent.id}" th:text="${agent.type}">
                     Ag
                 </a>
+            </li>
+
+                </ul>
             </li>
         </ul>
         <div class="tab-content">
@@ -52,10 +54,6 @@
             <div th:id="${agent.id}" th:each="agent : ${agents}" class="tab-pane fade">
                 <div th:id="${agent.id}+'-editor'" class="editor"></div>
 
-
-                <a href="#" class="btn btn-sm btn-success launch"> Play</a>
-                <a href="#" class="btn btn-sm btn-warning pause"> Pause</a>
-                <a href="#" class="btn btn-sm btn-danger stop"> Stop</a>
                 <a href="#" class="btn btn-sm btn-primary save" th:id="${agent.id}"> Save</a>
                 <a href="#" class="btn btn-sm btn-info load" th:id="${agent.id}"> Load</a>
 
