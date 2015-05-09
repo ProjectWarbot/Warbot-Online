@@ -20,7 +20,6 @@ public class AccountRepository
     @Inject
     private PasswordEncoder passwordEncoder;
 
-
     @Transactional
     public Account save(Account account)
     {
