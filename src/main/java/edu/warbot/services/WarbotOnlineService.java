@@ -1,5 +1,6 @@
 package edu.warbot.services;
 
+import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.models.WebAgent;
 import edu.warbot.models.WebCode;
@@ -24,4 +25,6 @@ public interface WarbotOnlineService
     Party findPartyByName(String name);
 
     Iterable<Party> findAllParty();
+
+    List<Party> findPartyByCreator(Account account);
 }
