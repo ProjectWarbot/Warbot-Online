@@ -1,6 +1,7 @@
 package edu.warbot.services.impl;
 
 import edu.warbot.agents.enums.WarAgentType;
+import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.models.WebAgent;
 import edu.warbot.models.WebCode;
@@ -41,16 +42,17 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
     private WebCodeRepository webCodeRepository;
 
     @PostConstruct
-    public void init()
-    {
-        webAgentRepository.save(new WebAgent(WarAgentType.WarBase,true,false));
-        webAgentRepository.save(new WebAgent(WarAgentType.WarExplorer,true,false));
-        webAgentRepository.save(new WebAgent(WarAgentType.WarRocketLauncher,true,false));
-        webAgentRepository.save(new WebAgent(WarAgentType.WarEngineer,true,false));
-        webAgentRepository.save(new WebAgent(WarAgentType.WarTurret,true,false));
-        webAgentRepository.save(new WebAgent(WarAgentType.WarKamikaze, true, false));
-    }
+    public void init() {
+        if (webAgentRepository.findAll().size() == 0) {
+            webAgentRepository.save(new WebAgent(WarAgentType.WarBase, true, false));
+            webAgentRepository.save(new WebAgent(WarAgentType.WarExplorer, true, false));
+            webAgentRepository.save(new WebAgent(WarAgentType.WarRocketLauncher, true, false));
+            webAgentRepository.save(new WebAgent(WarAgentType.WarEngineer, true, false));
+            webAgentRepository.save(new WebAgent(WarAgentType.WarTurret, true, false));
+            webAgentRepository.save(new WebAgent(WarAgentType.WarKamikaze, true, false));
 
+        }
+    }
     @Override
     public Party createParty(Party party) {
         return partyRepository.save(party);
@@ -84,5 +86,10 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
     @Override
     public Iterable<Party> findAllParty() {
         return partyRepository.findAll();
+    }
+
+    @Override
+    public List<Party> findPartyByCreator(Account account) {
+        return partyRepository.findByCreator(account);
     }
 }

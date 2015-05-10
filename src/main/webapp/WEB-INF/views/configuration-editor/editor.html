@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="icon" href="../../../resources/images/favicon.jpg" th:href="@{resources/images/favicon.jpg}" />
+
     <title>Create Map</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
@@ -21,7 +23,6 @@
     <div th:replace="fragments/header :: header">Header</div>
 
     <div id="contenerTools" class="form-group">
-
         <div class="col-xs-2 selectContainer">
             <select id="selectTeamName" class="form-control" name="selectTeam" onchange="nameTeamChange()">
                 <option value="red" selected="selected">Red Team</option>
@@ -46,31 +47,27 @@
         <div class="col-xs-2 selectContainer">
             <select id="selectMapName" class="form-control" name="selectMap" onchange="nameMapChange()">
                 <option value="closed" selected="selected">Closed world</option>
-                <option value="open">Open world</option>
-                <option value="semi">Semi-closed word</option>
+                <!--<option value="open">Open world</option>-->
+                <!--<option value="semi">Semi-closed word</option>-->
             </select>
         </div>
 
-        <div class="col-xs-2 selectContainer">
-            <input id="teamName" name="textinput" placeholder="teamName" class="form-control" type="text"/>
+        <div class="col-xs-1 selectContainer">
+            <select id="selectModeMap" class="form-control" name="selectMode" onchange="modeMapChange()">
+                <option value="duel" selected="selected">Duel</option>
+                <!--<option value="timer">Free + Timer</option>-->
+            </select>
         </div>
 
-        <button id="buttonAddAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-hand-up"></span></button>
-        <button id="buttonRemoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-remove-circle"></span></button>
-        <button id="buttonMoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-move"></span></button>
-        <button id="buttonPercept" class="btn btn-primary" type="submit">Percept</button>
-
-        <button id="buttonAgentAnglePlus" class="btn btn-info" type="submit"><span class="glyphicon glyphicon-plus-sign"></span></button>
-        <button id="buttonAgentAngleMinus" class="btn btn-info" type="submit"><span class="glyphicon glyphicon-minus-sign"></span></button>
-
-        <button id="buttonReset" class="btn btn-danger" type="submit">Reset</button>
-        <button id="buttonSave" class="btn btn-success" type="submit">Save</button>
-
-        <!--
-        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-            Single toggle
-        </button>
-        -->
+        <button id="buttonAddAgent" class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonCreateAgent}"><span class="glyphicon glyphicon-screenshot"></span></button>
+        <button id="buttonRemoveAgent" class="btn btn-danger" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonDeleteAgent}"><span class="glyphicon glyphicon-trash"></span></button>
+        <button id="buttonMoveAgent" class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonMoveAgent}"><span class="glyphicon glyphicon-move"></span></button>
+        <button id="buttonPercept" class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonPerceptAgent}"><span class="glyphicon glyphicon-eye-open"></span></button>
+        <button id="buttonAgentAnglePlus" class="btn btn-warning" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonPlusAngleAgent}"><span class="glyphicon glyphicon-plus-sign"></span></button>
+        <button id="buttonAgentAngleMinus" class="btn btn-warning" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonMinusAngleAgent}"><span class="glyphicon glyphicon-minus-sign"></span></button>
+        <button id="buttonReset" class="btn btn-danger" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonResetMap}"><span class="glyphicon glyphicon-refresh"></span></button>
+        <button id="buttonSave" class="btn btn-success" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonSaveMap}"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+        <button class="btn btn-info" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonHelpMap}"><span class="glyphicon glyphicon-info-sign"></span></button>
     </div>
 
     <div id="contentMapEditor" class="contenerMapEditor">
@@ -170,6 +167,14 @@
 
     </div>
 
+    <form id="formListAgents" method="POST" th:action="@{/configuration/update}">
+        <div class="col-xs-0 selectContainer">
+            <input id="saveButtonLink" type="hidden" name="agents" value=""/>
+            <input type="hidden" name="id" th:value="${trainingId}"/>
+        </div>
+    </form>
+
+
     <script src="../../../resources/js/streaming/mapEditor.js" th:src="@{/resources/js/streaming/mapEditor.js}" ></script>
 
     <script>
@@ -209,7 +214,7 @@
 
                 if(addAgentClassName == "btn btn-primary") {
                     $(buttonAddAgent).attr('class', 'btn btn-primary active');
-                    $(buttonRemoveAgent).attr('class', 'btn btn-primary');
+                    $(buttonRemoveAgent).attr('class', 'btn btn-danger');
                     buttonRemoveAgentME = false;
                     buttonAddAgentME = true;
                     buttonMoveAgentME = false;
@@ -226,7 +231,7 @@
                 var removeAgentClassName = $(buttonRemoveAgent).attr('class');
 
                 if(removeAgentClassName == "btn btn-primary") {
-                    $(buttonRemoveAgent).attr('class', 'btn btn-primary active');
+                    $(buttonRemoveAgent).attr('class', 'btn btn-danger active');
                     $(buttonAddAgent).attr('class', 'btn btn-primary');
                     buttonAddAgentME = false;
                     buttonRemoveAgentME = true;
@@ -234,7 +239,7 @@
                     $(buttonMoveAgentME).attr('class', 'btn btn-primary');
                 }
                 else {
-                    $(buttonRemoveAgent).attr('class', 'btn btn-primary');
+                    $(buttonRemoveAgent).attr('class', 'btn btn-danger');
                     buttonRemoveAgentME = false;
                 }
 
@@ -258,7 +263,7 @@
                     $(buttonAddAgent).attr('class', 'btn btn-primary');
                     buttonAddAgentME = false;
 
-                    $(buttonRemoveAgent).attr('class', 'btn btn-primary');
+                    $(buttonRemoveAgent).attr('class', 'btn btn-danger');
                     buttonRemoveAgentME = false;
                 }
                 else {
@@ -288,8 +293,9 @@
 
             $(buttonSave).click(function(event)
             {
-                var listAgent = saveTrainingConfiguration();
-                console.debug(listAgent);
+                var listAgent = sendListAgent();
+                document.getElementById("saveButtonLink").value = listAgent;
+                document.getElementById("formListAgents").submit();
             });
 
             $(buttonResetMapEditor).click(function(event)
