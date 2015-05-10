@@ -52,11 +52,6 @@
             </select>
         </div>
 
-        <!--
-        <div class="col-xs-2 selectContainer">
-            <input id="teamName" name="textinput" placeholder="teamName" class="form-control" type="text"/>
-        </div>-->
-
         <div class="col-xs-1 selectContainer">
             <select id="selectModeMap" class="form-control" name="selectMode" onchange="modeMapChange()">
                 <option value="duel" selected="selected">Duel</option>
@@ -64,27 +59,15 @@
             </select>
         </div>
 
-        <div class="col-xs-1 selectContainer">
-         <!--   <input id="timerMap" name="textinput" placeholder="timer" class="form-control" type="text"/>-->
-        </div>
-
-        <button id="buttonAddAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-screenshot"></span></button>
-        <button id="buttonRemoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-remove-circle"></span></button>
-        <button id="buttonMoveAgent" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-move"></span></button>
-        <button id="buttonPercept" class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-eye-open"></span></button>
-
-        <button id="buttonAgentAnglePlus" class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-plus-sign"></span></button>
-        <button id="buttonAgentAngleMinus" class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-minus-sign"></span></button>
-
-        <button id="buttonReset" class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-refresh"></span></button>
-        <button id="buttonSave" class="btn btn-success" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span></button>
-        <button class="btn btn-info"><span class="glyphicon glyphicon-info-sign"></span></button>
-
-        <!--
-        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-            Single toggle
-        </button>
-        -->
+        <button id="buttonAddAgent" class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonCreateAgent}"><span class="glyphicon glyphicon-screenshot"></span></button>
+        <button id="buttonRemoveAgent" class="btn btn-danger" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonDeleteAgent}"><span class="glyphicon glyphicon-trash"></span></button>
+        <button id="buttonMoveAgent" class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonMoveAgent}"><span class="glyphicon glyphicon-move"></span></button>
+        <button id="buttonPercept" class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonPerceptAgent}"><span class="glyphicon glyphicon-eye-open"></span></button>
+        <button id="buttonAgentAnglePlus" class="btn btn-warning" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonPlusAngleAgent}"><span class="glyphicon glyphicon-plus-sign"></span></button>
+        <button id="buttonAgentAngleMinus" class="btn btn-warning" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonMinusAngleAgent}"><span class="glyphicon glyphicon-minus-sign"></span></button>
+        <button id="buttonReset" class="btn btn-danger" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonResetMap}"><span class="glyphicon glyphicon-refresh"></span></button>
+        <button id="buttonSave" class="btn btn-success" type="submit" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonSaveMap}"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+        <button class="btn btn-info" data-toggle="tooltip" data-placement="bottom" th:title="#{configuration-editor.select.buttonHelpMap}"><span class="glyphicon glyphicon-info-sign"></span></button>
     </div>
 
     <div id="contentMapEditor" class="contenerMapEditor">
@@ -231,7 +214,7 @@
 
                 if(addAgentClassName == "btn btn-primary") {
                     $(buttonAddAgent).attr('class', 'btn btn-primary active');
-                    $(buttonRemoveAgent).attr('class', 'btn btn-primary');
+                    $(buttonRemoveAgent).attr('class', 'btn btn-danger');
                     buttonRemoveAgentME = false;
                     buttonAddAgentME = true;
                     buttonMoveAgentME = false;
@@ -248,7 +231,7 @@
                 var removeAgentClassName = $(buttonRemoveAgent).attr('class');
 
                 if(removeAgentClassName == "btn btn-primary") {
-                    $(buttonRemoveAgent).attr('class', 'btn btn-primary active');
+                    $(buttonRemoveAgent).attr('class', 'btn btn-danger active');
                     $(buttonAddAgent).attr('class', 'btn btn-primary');
                     buttonAddAgentME = false;
                     buttonRemoveAgentME = true;
@@ -256,7 +239,7 @@
                     $(buttonMoveAgentME).attr('class', 'btn btn-primary');
                 }
                 else {
-                    $(buttonRemoveAgent).attr('class', 'btn btn-primary');
+                    $(buttonRemoveAgent).attr('class', 'btn btn-danger');
                     buttonRemoveAgentME = false;
                 }
 
@@ -280,7 +263,7 @@
                     $(buttonAddAgent).attr('class', 'btn btn-primary');
                     buttonAddAgentME = false;
 
-                    $(buttonRemoveAgent).attr('class', 'btn btn-primary');
+                    $(buttonRemoveAgent).attr('class', 'btn btn-danger');
                     buttonRemoveAgentME = false;
                 }
                 else {
