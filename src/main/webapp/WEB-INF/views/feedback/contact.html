@@ -18,36 +18,36 @@
                 <div class="well well-sm">
                     <form class="form-horizontal" action="" method="post">
                         <fieldset>
-                            <legend class="text-center">Contact us</legend>
+                            <legend class="text-center" th:text="#{feedback.contact.contact}">Contact us</legend>
 
                             <!-- Name input-->
                             <div class="form-group">
-                                <label class="col-md-3 control-label" for="cantactName">Name</label>
+                                <label class="col-md-3 control-label" for="cantactName" th:text="#{feedback.contact.nom}" >Name</label>
                                 <div class="col-md-9">
-                                    <input id="cantactName" name="name" type="text" placeholder="Your name" class="form-control"/>
+                                    <input id="cantactName" name="name" type="text" th:placeholder="#{feedback.contact.nom}" class="form-control"/>
                                 </div>
                             </div>
 
                             <!-- Email input-->
                             <div class="form-group">
-                                <label class="col-md-3 control-label" for="contactEmail">Your E-mail</label>
+                                <label class="col-md-3 control-label" for="contactEmail" th:text="#{feedback.contact.votreMail}" >Your E-mail</label>
                                 <div class="col-md-9">
-                                    <input id="contactEmail" name="email" type="text" placeholder="Your email" class="form-control"/>
+                                    <input id="contactEmail" name="email" type="text" th:placeholder="#{feedback.contact.votreMail}" class="form-control"/>
                                 </div>
                             </div>
 
                             <!-- Message body -->
                             <div class="form-group">
-                                <label class="col-md-3 control-label" for="contactMessage">Your message</label>
+                                <label class="col-md-3 control-label" for="contactMessage" th:text="#{feedback.contact.votreMessage}" >Your message</label>
                                 <div class="col-md-9">
-                                    <textarea class="form-control" id="contactMessage" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
+                                    <textarea class="form-control" id="contactMessage" name="message" th:placeholder="#{feedback.contact.votreMessage}" rows="5"></textarea>
                                 </div>
                             </div>
 
                             <!-- Form actions -->
                             <div class="form-group">
                                 <div class="col-md-12 text-right">
-                                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                                    <button type="submit" class="btn btn-primary btn-lg" th:text="#{feedback.contact.envoyer}" >Submit</button>
                                 </div>
                             </div>
                         </fieldset>

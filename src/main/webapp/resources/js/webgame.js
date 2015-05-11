@@ -66,6 +66,10 @@ function WebGameModel(stompClient) {
       stompClient.send("/app/game/start.against.ia", {}, JSON.stringify(trade));
     };
 
+    self.stop = function() {
+        stompClient.send("/app/game/stop",{},{});
+    }
+
      self.get = function(idParty1,idAgent1) {
           var trade = {
               "idParty" : idParty1,

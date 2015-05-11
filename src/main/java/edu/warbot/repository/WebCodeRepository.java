@@ -18,6 +18,7 @@ import java.util.List;
  * @author Sebastien Beugnon
  */
 @Repository
+@Transactional
 public class WebCodeRepository {
 
     /**

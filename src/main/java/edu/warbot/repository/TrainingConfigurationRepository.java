@@ -3,6 +3,7 @@ package edu.warbot.repository;
 
 import edu.warbot.models.TrainingConfiguration;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,8 +11,11 @@ import javax.persistence.PersistenceException;
 
 /**
  * Created by quent on 23/04/2015.
- */@Repository
-   public class TrainingConfigurationRepository {
+ */
+@Repository
+@Transactional
+
+public class TrainingConfigurationRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
