@@ -1,9 +1,12 @@
 package edu.warbot.repository;
 
 
+import com.javaetmoi.core.persistence.hibernate.LazyLoadingUtil;
 import edu.warbot.agents.enums.WarAgentType;
 import edu.warbot.models.Party;
 import edu.warbot.models.WebAgent;
+import groovy.lang.Lazy;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,17 +26,22 @@ public class WebAgentRepository
 
     public WebAgent save(WebAgent agent)
     {
-        entityManager.persist(agent);
+        if(agent.getId()==null)
+            entityManager.persist(agent);
+        else
+            entityManager.merge(agent);
         return agent;
     }
 
     public WebAgent findByType(String type) {
         try
         {
-            return entityManager.createQuery
+            WebAgent wa = entityManager.createQuery
                     ("Select a From WebAgent a Where a.type LIKE :type", WebAgent.class)
                     .setParameter("type", type)
                     .getSingleResult();
+            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),wa);
+            return wa;
         } catch (PersistenceException e) {
             return null;
         }
@@ -42,9 +50,11 @@ public class WebAgentRepository
     public List<WebAgent> findAllPremiumAndActivated() {
         try
         {
-            return entityManager.createQuery
+            List<WebAgent> wa = entityManager.createQuery
                     ("Select a From WebAgent a Where isPremium = true And a.isActivated = true", WebAgent.class)
                     .getResultList();
+            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),wa);
+            return wa;
         } catch (PersistenceException e) {
             return Collections.emptyList();
         }
@@ -53,10 +63,12 @@ public class WebAgentRepository
     public List<WebAgent> findAllActivated()
     {
         try {
-            return entityManager.createQuery
+            List<WebAgent> wa = entityManager.createQuery
                     ("Select a From WebAgent a Where a.isActivated = true",
                             WebAgent.class)
                     .getResultList();
+            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),wa);
+            return wa;
         } catch (PersistenceException e) {
             return Collections.emptyList();
         }
@@ -65,9 +77,11 @@ public class WebAgentRepository
     {
         try
         {
-            return entityManager.createQuery
+            List<WebAgent> wa = entityManager.createQuery
                     ("Select a From WebAgent a Where isPremium = true", WebAgent.class)
                     .getResultList();
+            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),wa);
+            return wa;
         } catch (PersistenceException e) {
             return Collections.emptyList();
         }
@@ -76,11 +90,13 @@ public class WebAgentRepository
     public WebAgent findOne(Long aLong) {
         try
         {
-            return entityManager.createQuery
+            WebAgent wa = entityManager.createQuery
                     ("Select a From WebAgent a Where a.id = :id",
                             WebAgent.class)
                     .setParameter("id", aLong)
                     .getSingleResult();
+            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),wa);
+            return wa;
         } catch (PersistenceException e) {
             return null;
         }
@@ -89,9 +105,11 @@ public class WebAgentRepository
     public List<WebAgent> findAll() {
         try
         {
-            return entityManager.createQuery
-                    ("Select a From WebAgent a", WebAgent.class)
+            List<WebAgent> wa = entityManager.createQuery
+                ("Select a From WebAgent a", WebAgent.class)
                     .getResultList();
+            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),wa);
+            return wa;
         } catch (PersistenceException e) {
             return Collections.emptyList();
         }
@@ -101,25 +119,28 @@ public class WebAgentRepository
     {
         try
         {
-            return entityManager.createQuery
+            List<WebAgent> list = entityManager.createQuery
                     ("Select a From WebAgent a Where a.isActivated = true " +
                             "And a.isPremium = false", WebAgent.class)
                     .getResultList();
+            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),list);
+            return list;
         } catch (PersistenceException e) {
             return Collections.emptyList();
         }
     }
 
-    @Transactional
     public List<WebAgent> findForParty(Party party)
     {
         try
         {
-            return entityManager.createQuery
+            List<WebAgent> list = entityManager.createQuery
                     ("Select a From WebAgent a Where a.isActivated = true And " +
                             "a.isPremium = :premium", WebAgent.class)
                     .setParameter("premium",party.getCreator().isPremium())
                     .getResultList();
+            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),list);
+            return list;
         } catch (PersistenceException e) {
             return Collections.emptyList();
         }

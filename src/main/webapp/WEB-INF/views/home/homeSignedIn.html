@@ -46,8 +46,8 @@
         <tr th:each="party : ${parties}">
             <th><p th:text="${party.id}"></p></th>
             <th><p th:text="${party.name}"> </p></th>
-            <th></th>
-            <th></th>
+            <th><p th:text="${party.creator.screenName}"></p></th>
+            <th><p th:text="${party.members.size()}"></p></th>
             <th><p th:text="${party.language}"></p></th>
             <th><p th:text="${party.eloRank}"></p></th>
             <th>

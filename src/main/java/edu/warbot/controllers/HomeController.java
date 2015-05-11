@@ -26,7 +26,7 @@ public class HomeController {
 			Account account = accountRepository.findByEmail(principal.getName());
 			Assert.notNull(account);
 			model.addAttribute("account",account);
-			List<Party> l = partyRepository.findByCreator(account);
+			List<Party> l = warbotOnlineService.findPartyByCreator(account);
 			model.addAttribute("parties",l);
 			return "home/homeSignedIn";
 		}
