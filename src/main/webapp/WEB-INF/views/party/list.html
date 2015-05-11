@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="icon" href="../../../resources/images/favicon.jpg" th:href="@{resources/images/favicon.jpg}" />
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}" />
 
     <title>Team List</title>
 
@@ -49,10 +49,9 @@
         <tr th:each="party : ${parties}" th:data="${party.id}">
             <th><p th:text="${party.id}"></p></th>
             <th><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}" data-sortable="true"></a></th>
-            <th><p th:text="${party.creator.email}"></p></th>
+            <th><p th:text="${party.creator.screenName}"></p></th>
             <th><p th:text="${party.language}"></p></th>
             <th><p th:text="${party.eloRank}"></p></th>
-            <th><p th:text="${party.creationDate}" ></p></th>
             <th><a href="#" class="btn btn-primary btn-danger"><span class="glyphicon glyphicon-flash"></span> Duel</a></th>
         </tr>
             <script>
