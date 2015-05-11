@@ -1,6 +1,7 @@
 package edu.warbot.services.impl;
 
 import edu.warbot.agents.enums.WarAgentType;
+import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.models.WebAgent;
 import edu.warbot.models.WebCode;
@@ -85,5 +86,10 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
     @Override
     public Iterable<Party> findAllParty() {
         return partyRepository.findAll();
+    }
+
+    @Override
+    public List<Party> findPartyByCreator(Account account) {
+        return partyRepository.findByCreator(account);
     }
 }

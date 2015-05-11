@@ -60,6 +60,10 @@ public class ServerWarbotGameAgent extends WarbotGameAgent {
     }
 
     public void stop() {
+
+        EndMessage endmessage = new EndMessage("user-forced-end");
+        handleMessage(endmessage);
+        sendMessage(endmessage);
         process.destroy();
         getAlive().set(false);
     }

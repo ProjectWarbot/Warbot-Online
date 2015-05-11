@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="icon" href="../../../resources/images/favicon.jpg" th:href="@{resources/images/favicon.jpg}" />
+
     <title>Team Code</title>
     <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
@@ -12,8 +14,37 @@
 
 
 <div class="well">
+    <div class="container memberList">
+        <div class="row">
+            <div class="col-xs-5 col-xs-offset-0">
+                <div class="input-group">
+                    <input type="hidden" name="search_param" value="all"/>
+                    <input id ="searchParties" type="text" class="form-control" name="x" list="members" placeholder="Member name"/>
+                        <span class="input-group-btn">
+                            <button id ="btn" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <datalist id="members">
+    </datalist>
+
+    <script th:inline="javascript">
+
+        var allMembers = /*[[${allMembers}]]*/ null;
+        if (allMembers != null) {
+            $.each( allMembers, function( index, value ){
+                $('#members').append('<option id="'+ value +'" value="'+ value +'">'+ value +'</option>');
+            });
+        }
+        
+    </script>
+
+
     <span th:text="${party.name}"></span>
-    <!--<span th:text="${party.creator}">x</span>-->
+    <span th:text="${party.creator}">x</span>
     <table id="tableListParties" class="table table-bordered">
         <thead>
             <tr>

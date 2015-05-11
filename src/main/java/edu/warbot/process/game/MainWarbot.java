@@ -3,15 +3,10 @@ package edu.warbot.process.game;
 import edu.warbot.config.DataSourceConfig;
 import edu.warbot.config.WarbotProcessConfig;
 import edu.warbot.game.Team;
-import edu.warbot.game.WarGame;
-import edu.warbot.game.WarGameListener;
 import edu.warbot.game.WarGameSettings;
-import edu.warbot.launcher.WarLauncher;
-import edu.warbot.launcher.WarMain;
 import edu.warbot.models.Party;
 import edu.warbot.process.communication.InterProcessMessage;
 import edu.warbot.process.communication.JSONInterProcessMessageTranslater;
-import edu.warbot.process.communication.client.EndMessage;
 import edu.warbot.process.communication.client.ExceptionResult;
 import edu.warbot.process.communication.client.PingMessage;
 import edu.warbot.process.communication.server.LaunchGameCommand;
@@ -20,10 +15,9 @@ import edu.warbot.repository.PartyRepository;
 import edu.warbot.services.TeamService;
 import madkit.action.KernelAction;
 import madkit.kernel.Madkit;
-import madkit.kernel.MadkitOption;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.util.Assert;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -33,12 +27,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.logging.Logger;
 
 /**
  * Created by beugnon on 23/04/15.
  */
 public class MainWarbot {
+
     public static class DocumentOutputStream extends OutputStream {
 
         private Document doc;
@@ -93,7 +87,9 @@ public class MainWarbot {
 //        jf.setVisible(true);
 //        OutputStream dos = new DocumentOutputStream(jta.getDocument());
         System.setOut(new PrintStream(new NullOutputStream()));
-//        System.setErr(new PrintStream((new NullOutputStream()));
+        System.setErr(new PrintStream((new NullOutputStream())));
+//        System.setOut(new PrintStream(dos));
+//        System.setErr(new PrintStream(dos));
     }
 
     public static void main(String[] args) {
@@ -105,10 +101,9 @@ public class MainWarbot {
         }
         else {
             logger.error("No Argument !");
-            os.println(new ExceptionResult(new Exception("NoArguement")));
+            os.println(new ExceptionResult(new Exception("NoArgument")));
             System.exit(1);
         }
-
         if(JSONInterProcessMessageTranslater.isReadableJSON(args[0])) {
             try {
                 InterProcessMessage ipm = JSONInterProcessMessageTranslater.convertIntoObject(args[0]);
@@ -119,31 +114,6 @@ public class MainWarbot {
                     WebGame wg = prepareWebGame(ipm,System.in,os, acac);
                     wg.sendMessage(new PingMessage());
                     WebLauncher wl = new WebLauncher(wg);
-                    wg.addWarGameListener(new WarGameListener() {
-                        @Override
-                        public void onNewTeamAdded(Team team) {
-
-                        }
-
-                        @Override
-                        public void onTeamLost(Team team) {
-
-                        }
-
-                        @Override
-                        public void onGameOver() {
-                        }
-
-                        @Override
-                        public void onGameStopped() {
-
-                        }
-
-                        @Override
-                        public void onGameStarted() {
-
-                        }
-                    });
                     Madkit madkit = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
                     madkit.doAction(KernelAction.LAUNCH_AGENT,wl);
                     wg.getWarbotAgent().join();
@@ -160,6 +130,7 @@ public class MainWarbot {
         }
         else {
             logger.error("here unreadable");
+            System.err.println("unreadable arguments"+args[0]);
             os.println(new ExceptionResult(new Exception("UnreadableArgument")));
             System.exit(2);
         }

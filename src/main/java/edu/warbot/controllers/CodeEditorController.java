@@ -193,6 +193,7 @@ public class CodeEditorController
         WebAgent agent = webAgentRepository.findOne(trade.getIdWebAgent());
         Assert.notNull(agent);
         WebCode code = codeEditorService.getWebCode(party, agent);
+        //code.getContent().replace("    ", "\t");
         code.setContent(trade.getContent());
         try {
             codeEditorService.saveWebCode(account, code);

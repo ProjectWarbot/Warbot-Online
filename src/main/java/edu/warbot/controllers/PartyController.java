@@ -167,8 +167,8 @@ public class PartyController implements ApplicationContextAware
     {
         Assert.notNull(principal);
         Party party = warbotOnlineService.findPartyById(id);
-        party.getMembers();
         model.addAttribute("party", party);
+        model.addAttribute("allMembers", accountRepository.findAll());
         return "party/showParty";
     }
 
