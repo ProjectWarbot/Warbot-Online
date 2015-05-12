@@ -29,13 +29,13 @@ public class Party extends AbstractPersistable<Long>
     @Column(name = "party_creationDate")
     private Date creationDate;
 
-    @ManyToOne(fetch = FetchType.LAZY,targetEntity = Account.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Account.class)
     private Account creator;
 
     @ManyToMany(targetEntity = Account.class,
             fetch = FetchType.LAZY,
             mappedBy = "teams")
-    private Set<Account> members=new HashSet<>();
+    private Set<Account> members = new HashSet<>();
 
     @OneToMany(targetEntity = WebCode.class, mappedBy = "party")
     private Set<WebCode> agents = new HashSet<>();
