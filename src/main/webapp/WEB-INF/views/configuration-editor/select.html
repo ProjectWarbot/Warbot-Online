@@ -54,7 +54,7 @@
                         <td name="tCName" th:text="${trainingConf.name}"></td>
                         <td><p th:text="${trainingConf.description}"></p></td>
                         <td class="levelTestZone"><p th:text="${trainingConf.level}"></p></td>
-                        <td><p th:text="${trainingConf.creator.screenName}"></p></td>
+                        <td><a th:href="'/account/userProfile?id='+${trainingConf.creator.id}" th:text="${trainingConf.creator.screenName}"></a></td>
                         <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a></td>
                     </tr>
                     <script>

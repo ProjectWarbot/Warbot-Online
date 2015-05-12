@@ -45,8 +45,8 @@
         <tbody>
         <tr th:each="party : ${parties}">
             <th><p th:text="${party.id}"></p></th>
-            <th><p th:text="${party.name}"> </p></th>
-            <th><p th:text="${party.creator.screenName}"></p></th>
+            <th><a th:href="'/party/show?id='+${party.id}" th:text="${party.name}"> </a></th>
+            <th><a th:href="'/account/userProfile?id='+${party.creator.id}" th:text="${party.creator.screenName}"></a></th>
             <th><p th:text="${party.members.size()}"></p></th>
             <th><p th:text="${party.language}"></p></th>
             <th><p th:text="${party.eloRank}"></p></th>
@@ -98,7 +98,6 @@
         });
 
         function createFormDelete(idP, nameP) {
-
             var namePartyToDelete = document.getElementById('namePartyToDelete');
             $(namePartyToDelete).text(nameP);
             var contenerIdParty = document.getElementById('contenerIdParty');
