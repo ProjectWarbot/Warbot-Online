@@ -172,6 +172,15 @@ public class PartyController implements ApplicationContextAware
         return "party/showParty";
     }
 
+    @RequestMapping(value = "party/delete", method = RequestMethod.GET)
+    public String delete(Principal principal, @RequestParam(required = true) Long id)
+    {
+        Assert.notNull(principal);
+        codeEditorService.deleteCodeForParty(id);
+        warbotOnlineService.deleteParty(id);
+        return "/";
+    }
+
     @RequestMapping(value = "/partylist", method = RequestMethod.GET)
     public String partylist(Model model) {
         Iterable<Party> partyList;
