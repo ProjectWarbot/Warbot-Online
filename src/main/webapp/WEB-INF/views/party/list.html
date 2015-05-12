@@ -91,9 +91,8 @@
                     <p>Avec laquelle de vos équipes voulez vous défier cette équipe :</p>
                     <div class="form-group">
                         <div class="col-xs-14 selectContainer">
-                            <select id="selectMyTeam" class="form-control" name="selectMyTeam" onchange="nameMyTeamForFightChange()">
-                                <option value="4">T4 zefdzef zef ze fz</option>
-                                <option value="5">T5</option>>
+                            <select  id="selectMyTeam" class="form-control" name="selectMyTeam" onchange="nameMyTeamForFightChange()">
+                                <option th:each="myParty : ${myParties}" th:value="${myParty.id}" th:text="${myParty.name}"></option>
                             </select>
                         </div>
                     </div>
