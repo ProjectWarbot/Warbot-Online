@@ -52,12 +52,60 @@
             <th><p th:text="${party.eloRank}"></p></th>
             <th>
                 <a th:href="@{/teamcode}+'?idParty='+${party.id}" class="btn btn-primary" th:text="#{home.SignedIn.lancer}">Use</a>
-                <a href="#" class="btn btn-danger" th:text="#{home.SignedIn.supprimer}">Delete</a>
+                <a href="#" class="btn btn-danger deleteParty" th:text="#{home.SignedIn.supprimer}" th:value="${party.id}" th:onclick="'javascript:createFormDelete(\'' + ${party.id} + '\', \'' + ${party.name} + '\');'">Delete</a>
             </th>
         </tr>
         </tbody>
     </table>
 
+    <div id="modalDeleteParty" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" th:text="#{home.SignedIn.modalDelete.title}">Delete Party</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Cette action va supprimer définitivement votre équipe :</p>
+
+                    <p id="namePartyToDelete"></p>
+
+                    <p>Etes vous sur de vouloir vraiment supprimer cette équipe ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                    <button id="confirmDeleteParty" type="button" class="btn btn-danger">Delete</button>
+                </div>
+                <form id="formDeleteParty" method="GET" th:action="@{/party/delete}">
+                    <div class="col-xs-0 selectContainer">
+                        <input type="hidden" id="contenerIdParty" name="idParty"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+<script th:inline="javascript">
+
+
+        var modalDelete = document.getElementById('modalDeleteParty');
+        var formDeleteParty = document.getElementById('formDeleteParty');
+
+        $("#confirmDeleteParty").click(function (event) {
+            formDeleteParty.submit();
+        });
+
+        function createFormDelete(idP, nameP) {
+
+            var namePartyToDelete = document.getElementById('namePartyToDelete');
+            $(namePartyToDelete).text(nameP);
+            var contenerIdParty = document.getElementById('contenerIdParty');
+            $(contenerIdParty).val(idP);
+            $(modalDelete).modal('show');
+        };
+
+</script>
 </body>
 </html>
