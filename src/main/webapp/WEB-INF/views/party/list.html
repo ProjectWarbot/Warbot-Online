@@ -49,7 +49,7 @@
         <tr th:each="party : ${parties}" th:data="${party.id}">
             <th><p th:text="${party.id}"></p></th>
             <th><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}" data-sortable="true"></a></th>
-            <th><p th:text="${party.creator.screenName}"></p></th>
+            <th><a th:href="'/account/userProfile?id='+${party.creator.id}" th:text="${party.creator.screenName}"></a></th>
             <th><p th:text="${party.language}"></p></th>
             <th><p th:text="${party.eloRank}"></p></th>
             <th><a href="#" class="btn btn-primary btn-danger"><span class="glyphicon glyphicon-flash"></span> Duel</a></th>
