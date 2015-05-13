@@ -91,16 +91,20 @@
                     <p>Avec laquelle de vos équipes voulez vous défier cette équipe :</p>
                     <div class="form-group">
                         <div class="col-xs-14 selectContainer">
-                            <select  id="selectMyTeam" class="form-control" name="selectMyTeam" onchange="nameMyTeamForFightChange()">
-                                <option th:each="myParty : ${myParties}" th:value="${myParty.id}" th:text="${myParty.name}"></option>
+
+                            <select  th:if="${myParties.size()} > 0" id="selectMyTeam" class="form-control" name="selectMyTeam" onchange="nameMyTeamForFightChange()">
+                                <option th:each="myParty : ${myParties}" th:value="${myParty.id}" th:text="${myParty.name}" ></option>
                             </select>
+
+                            <p th:if="${myParties.size()} == 0"> Vous n'avez pas d'équipe pour pouvoir faire un duel </p>
                         </div>
                     </div>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                    <button id="confirmDuelParty" type="button" class="btn btn-danger">Go</button>
+                    <button th:if="${myParties.size()} > 0" id="confirmDuelParty" type="button" class="btn btn-danger">Go</button>
+                    <button th:if="${myParties.size()} == 0" id="confirmDuelParty" type="button" class="btn btn-danger" disabled="disabled">Go</button>
                 </div>
                 <form id="formDuelParty" method="GET" th:action="@{/teamcode}">
                     <div class="col-xs-0 selectContainer">
@@ -115,6 +119,7 @@
     <script th:inline="javascript">
         var modalDuelTeam = document.getElementById('modalDuelTeam');
         var formDuelParty = document.getElementById('formDuelParty');
+        var defaultIDTeam = false;
 
         function createFormDuel (idP, nameP, creatorP) {
             var namePartyToFight = document.getElementById('namePartyToFight');
@@ -131,6 +136,7 @@
         });
 
         function nameMyTeamForFightChange() {
+            defaultIDTeam = true;
             var contenerIdParty = document.getElementById('contenerIdParty');
             var selectMyTeam = document.getElementById('selectMyTeam');
             $(contenerIdParty).val(selectMyTeam.value);
