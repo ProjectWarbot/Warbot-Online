@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="icon" href="../../../resources/images/favicon.jpg" th:href="@{resources/images/favicon.jpg}" />
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}" />
 
     <title>Team List</title>
 
@@ -9,8 +9,9 @@
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../../resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
     <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 </head>
 <body>
@@ -49,14 +50,12 @@
         <tr th:each="party : ${parties}" th:data="${party.id}">
             <th><p th:text="${party.id}"></p></th>
             <th><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}" data-sortable="true"></a></th>
-            <th><p th:text="${party.creator.email}"></p></th>
+            <th><a th:href="'/account/userProfile?id='+${party.creator.id}" th:text="${party.creator.screenName}"></a></th>
             <th><p th:text="${party.language}"></p></th>
             <th><p th:text="${party.eloRank}"></p></th>
-            <th><p th:text="${party.creationDate}" ></p></th>
-            <th><a href="#" class="btn btn-primary btn-danger"><span class="glyphicon glyphicon-flash"></span> Duel</a></th>
+            <th><a href="#" class="btn btn-primary btn-danger" th:onclick="'javascript:createFormDuel(\'' + ${party.id} + '\', \'' + ${party.name} + '\', \'' + ${party.creator.screenName} + '\');'"><span class="glyphicon glyphicon-flash"></span> Duel</a></th>
         </tr>
-            <script>
-                Spring.
+            <script th:inline="javascript">
                 (function() {
                     var parties = $('[name="partyName"]');
                     $.each( parties, function( index, value ){
@@ -75,8 +74,82 @@
             </script>
         </tbody>
     </table>
+
+    <div id="modalDuelTeam" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" >Fight team</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Vous êtes sur le point de défiez l'équipe :</p>
+                    <p id="namePartyToFight"></p>
+                    <p>Crée par :</p>
+                    <p id="creatorPartyToFight"></p>
+                    <br/>
+                    <p>Avec laquelle de vos équipes voulez vous défier cette équipe :</p>
+                    <div class="form-group">
+                        <div class="col-xs-14 selectContainer">
+
+                            <select  th:if="${myParties.size()} > 0" id="selectMyTeam" class="form-control" name="selectMyTeam" onchange="nameMyTeamForFightChange()">
+                                <option th:each="myParty : ${myParties}" th:value="${myParty.id}" th:text="${myParty.name}" ></option>
+                            </select>
+
+                            <p th:if="${myParties.size()} == 0"> Vous n'avez pas d'équipe pour pouvoir faire un duel </p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                    <button th:if="${myParties.size()} > 0" id="confirmDuelParty" type="button" class="btn btn-danger">Go</button>
+                    <button th:if="${myParties.size()} == 0" id="confirmDuelParty" type="button" class="btn btn-danger" disabled="disabled">Go</button>
+                </div>
+                <form id="formDuelParty" method="GET" th:action="@{/teamcode}">
+                    <div class="col-xs-0 selectContainer">
+                        <input type="hidden" id="contenerIdParty" name="idParty"/>
+                        <input type="hidden" id="contenerIdParty2" name="idParty2"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        var modalDuelTeam = document.getElementById('modalDuelTeam');
+        var formDuelParty = document.getElementById('formDuelParty');
+        var defaultIDTeam = false;
+
+        function createFormDuel (idP, nameP, creatorP) {
+            var namePartyToFight = document.getElementById('namePartyToFight');
+            $(namePartyToFight).text(nameP);
+            var creatorPartyToFight = document.getElementById('creatorPartyToFight');
+            $(creatorPartyToFight).text(creatorP);
+            var contenerIdParty2 = document.getElementById('contenerIdParty2');
+            $(contenerIdParty2).val(idP);
+            $(modalDuelTeam).modal('show');
+        };
+
+        $("#confirmDuelParty").click(function (event) {
+            formDuelParty.submit();
+        });
+
+        function nameMyTeamForFightChange() {
+            defaultIDTeam = true;
+            var contenerIdParty = document.getElementById('contenerIdParty');
+            var selectMyTeam = document.getElementById('selectMyTeam');
+            $(contenerIdParty).val(selectMyTeam.value);
+
+        }
+
+    </script>
+
     <script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
     <script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}" ></script>
+
+
+
 </body>
 </html>
 
