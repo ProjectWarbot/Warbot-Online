@@ -92,4 +92,7 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
     public List<Party> findPartyByCreator(Account account) {
         return partyRepository.findByCreator(account);
     }
+
+    @Override
+    public boolean deleteParty(Long id) {return partyRepository.delete(id);}
 }

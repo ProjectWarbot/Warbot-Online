@@ -1,13 +1,16 @@
 package edu.warbot.repository;
 
 
+import com.javaetmoi.core.persistence.hibernate.LazyLoadingUtil;
 import edu.warbot.models.TrainingConfiguration;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import java.util.List;
 
 /**
  * Created by quent on 23/04/2015.
@@ -53,7 +56,9 @@ public class TrainingConfigurationRepository {
 
     //    @Override
     public Iterable<TrainingConfiguration> findAll() {
-        return  entityManager.createQuery("Select m from TrainingConfiguration m ", TrainingConfiguration.class).getResultList();
+        List<TrainingConfiguration> list = entityManager.createQuery("Select m from TrainingConfiguration m ", TrainingConfiguration.class).getResultList();
+        LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),list);
+        return list;
     }
 
     //    @Override
