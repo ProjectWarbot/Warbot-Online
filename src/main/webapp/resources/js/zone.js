@@ -5,9 +5,9 @@
 		outerLayout = $('.box').layout({
 			center__paneSelector:	".outer-center",
 			west__paneSelector:		".outer-west",
-			west__size:				1100,
+			west__size:				600,
 			west__minSize:			1,
-			west__maxSize:			2000,
+			west__maxSize:			1000,
 			spacing_open:			8,
 			spacing_closed:			12,
 			center__onresize:		"middleLayout.resizeAll"
