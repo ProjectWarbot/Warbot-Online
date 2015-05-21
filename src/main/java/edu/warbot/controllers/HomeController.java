@@ -10,11 +10,14 @@ import edu.warbot.repository.AccountRepository;
 import edu.warbot.repository.PartyRepository;
 import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.services.WarbotOnlineService;
+import edu.warbot.support.web.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class HomeController {
@@ -56,7 +59,11 @@ public class HomeController {
 		Account account = accountRepository.findByEmail(principal.getName());
 		Party party = warbotOnlineService.findPartyById(idParty);
 		Assert.notNull(party);
-
+		if(!party.getMembers().contains(account) && !party.getCreator().equals(account))
+		{
+			MessageHelper.addErrorAttribute(model,"party.not.members");
+			return "redirect:/partylist";
+		}
 		model.addAttribute("party", party);
 		model.addAttribute("agents", webAgentRepository.findAllStarter());
 		return "teamcode/teamcode";

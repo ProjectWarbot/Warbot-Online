@@ -98,7 +98,7 @@ public class PartyController implements ApplicationContextAware
 
         Party party = partyForm.createParty();
         party.setCreator(account);
-        party.getMembers().add(account);
+        party.addMember(account);
 
         if(warbotOnlineService.findPartyByName(party.getName()) == null)
         {
@@ -131,10 +131,7 @@ public class PartyController implements ApplicationContextAware
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             List<WebAgent> webAgents = webAgentRepository.findAllStarter();
-
-
             for(WebAgent agent : webAgents)
             {
                 WebCode webCode = new WebCode(agent, party);
