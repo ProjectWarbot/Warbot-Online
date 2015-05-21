@@ -50,7 +50,8 @@ public class HomeController {
 	@RequestMapping(value = "/teamcode", method = RequestMethod.GET)
 	public String teamcode(Principal principal,
 						   Model model,
-						   @RequestParam Long idParty) {
+						   @RequestParam Long idParty,
+						   @RequestParam(required = false) Long idParty2) {
 		Assert.notNull(principal);
 		Account account = accountRepository.findByEmail(principal.getName());
 		Party party = warbotOnlineService.findPartyById(idParty);
