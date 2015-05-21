@@ -93,7 +93,7 @@
                         <div class="col-xs-14 selectContainer">
 
                             <select  th:if="${myParties.size()} > 0" id="selectMyTeam" class="form-control" name="selectMyTeam" onchange="nameMyTeamForFightChange()">
-                                <option th:each="myParty : ${myParties}" th:value="${myParty.id}" th:text="${myParty.name}" ></option>
+                                <option  th:each="myParty : ${myParties}" value="0" th:value="${myParty.id}" th:text="${myParty.name}" ></option>
                             </select>
 
                             <p th:if="${myParties.size()} == 0"> Vous n'avez pas d'équipe pour pouvoir faire un duel </p>
