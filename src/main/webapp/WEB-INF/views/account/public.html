@@ -32,12 +32,11 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <span class="text-muted">Email :</span> xxx<br/>
-                                    <span class="text-muted">First name :</span> xxx<br/>
-                                    <span class="text-muted">Last name :</span> xxx<br/>
+                                    <span class="text-muted">Email :</span> <span th:text="${user.email}">email</span><br/>
+                                    <span class="text-muted">First name :</span><span th:text="${user.firstName}">firstname</span><br/>
+                                    <span class="text-muted">Last name :</span> <span th:text="${user.lastName}">lastName</span><br/>
                                     <br/><br/>
-                                    <span class="text-muted">Premium :</span> false<br/>
-                                    <span class="text-muted">Average rank team :</span> 0<br/>
+                                    <span class="text-muted">Premium :</span> <span th:text="${user.isPremium}">premium-state</span><br/>
                                 </div>
                             </div>
                         </div>
