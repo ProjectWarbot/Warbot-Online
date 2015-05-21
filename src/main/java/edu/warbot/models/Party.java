@@ -73,6 +73,8 @@ public class Party extends AbstractPersistable<Long>
         this.members = members;
     }
 
+    public void addMember(Account member) { this.members.add(member);}
+
     public ScriptInterpreterLanguage getLanguage()
     {
         return language;
