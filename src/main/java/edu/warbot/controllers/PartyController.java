@@ -94,7 +94,6 @@ public class PartyController implements ApplicationContextAware {
 
         Party party = partyForm.createParty();
         party.setCreator(account);
-        party.addMember(account);
         if (warbotOnlineService.findPartyByName(party.getName()) == null) {
             logger.debug("Not found party");
             party = warbotOnlineService.createParty(party);
