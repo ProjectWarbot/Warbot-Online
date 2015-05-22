@@ -58,14 +58,19 @@ public class Account extends AbstractPersistable<Long> {
     @ManyToMany(targetEntity = Party.class, cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     private Set<Party> teams= new HashSet<>();
 
-    @OneToMany (mappedBy="creator", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany (mappedBy="creator", cascade={CascadeType.PERSIST, CascadeType.REMOVE},fetch = FetchType.LAZY)
     private Set<Party> created = new HashSet<>();
 
     protected Account() {
 
 	}
 
-    public Account(String email, String password, String firstName, String lastName, String screenName, boolean isActivated, boolean isPremium, Date inscriptionDate, Date premiumExpirationDate, Date lastConnectionDate, String role, Set<Party> teams) {
+    public Account(String email, String password, String firstName,
+                   String lastName, String screenName,
+                   boolean isActivated, boolean isPremium,
+                   Date inscriptionDate, Date premiumExpirationDate,
+                   Date lastConnectionDate, String role, Set<Party> teams,
+    Set<Party> created) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -78,6 +83,7 @@ public class Account extends AbstractPersistable<Long> {
         this.lastConnectionDate = lastConnectionDate;
         this.role = role;
         this.teams = teams;
+        this.created = created;
     }
 
     public String getEmail() {

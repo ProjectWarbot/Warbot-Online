@@ -37,7 +37,7 @@
             <th th:text="#{home.SignedIn.nomEquipe}">Team name</th>
             <th th:text="#{home.SignedIn.createur}">Creator</th>
             <th th:text="#{home.SignedIn.nombreDeMembre}">Number of member</th>
-            <th th:text="#{home.SignedIn.langage}">Langage</th>
+            <th th:text="#{home.SignedIn.langage}">Language</th>
             <th th:text="#{home.SignedIn.rang}">Rank</th>
             <th th:text="#{home.SignedIn.outils}">Tools</th>
         </tr>
@@ -47,7 +47,7 @@
             <th><p th:text="${party.id}"></p></th>
             <th><a th:href="'/party/show?id='+${party.id}" th:text="${party.name}"> </a></th>
             <th><a th:href="'/account/userProfile?id='+${party.creator.id}" th:text="${party.creator.screenName}"></a></th>
-            <th><p th:text="${party.members.size()}"></p></th>
+            <th><p th:text="${party.getMembers().size()}"></p></th>
             <th><p th:text="${party.language}"></p></th>
             <th><p th:text="${party.eloRank}"></p></th>
             <th>

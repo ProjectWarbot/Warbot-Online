@@ -14,7 +14,6 @@ import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.services.CodeEditorService;
 import edu.warbot.services.WarbotOnlineService;
 import edu.warbot.support.web.MessageHelper;
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -45,9 +44,8 @@ import java.util.Scanner;
  * @author Sébastien Beugnon
  */
 @Controller
-@Secured({"ROLE_USER","ROLE_ADMIN"})
-public class PartyController implements ApplicationContextAware
-{
+@Secured({"ROLE_USER", "ROLE_ADMIN"})
+public class PartyController implements ApplicationContextAware {
     final Logger logger = LoggerFactory.getLogger(PartyController.class);
 
 
@@ -75,49 +73,46 @@ public class PartyController implements ApplicationContextAware
     }
 
 
-    @RequestMapping(value = "party/create",method = RequestMethod.GET)
-    public String createParty(Model model)
-    {
+    @RequestMapping(value = "party/create", method = RequestMethod.GET)
+    public String createParty(Model model) {
         model.addAttribute("form", new PartyForm());
         return "party/create";
     }
 
-    @RequestMapping(value = "party/create",method = RequestMethod.POST)
+    @RequestMapping(value = "party/create", method = RequestMethod.POST)
     public String checkParty(Principal principal,
                              @Valid @ModelAttribute("form") PartyForm partyForm,
-                             Errors errors, RedirectAttributes ra)
-    {
+                             Errors errors, RedirectAttributes ra) {
 
         Assert.notNull(principal);
-        if(errors.hasErrors())
+        if (errors.hasErrors())
             return "party/create";
         logger.debug("Pass party");
         Account account = accountRepository.findByEmail(principal.getName());
-        if(account!=null)
+        if (account != null)
             logger.debug("Found user");
 
         Party party = partyForm.createParty();
         party.setCreator(account);
-        party.getMembers().add(account);
-
-        if(warbotOnlineService.findPartyByName(party.getName()) == null)
-        {
+        account.getCreated().add(party);
+        party.addMember(account);
+        if (warbotOnlineService.findPartyByName(party.getName()) == null) {
             logger.debug("Not found party");
             party = warbotOnlineService.createParty(party);
+
             Map<WarAgentType, StringBuilder> codeAgent = new HashMap<>();
 
             try {
                 Resource[] resources = applicationContext.getResources("classpath:script/python/*");
 
-                if(resources.length == 0)
+                if (resources.length == 0)
                     throw new IOException("Probleme avec ressource python");
 
-                for(Resource resource : resources) {
+                for (Resource resource : resources) {
                     Scanner scanner = new Scanner(resource.getFile());
                     StringBuilder sb = new StringBuilder();
 
-                    while(scanner.hasNext())
-                    {
+                    while (scanner.hasNext()) {
                         sb.append(scanner.nextLine());
                         sb.append("\n");
                     }
@@ -131,12 +126,8 @@ public class PartyController implements ApplicationContextAware
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
             List<WebAgent> webAgents = webAgentRepository.findAllStarter();
-
-
-            for(WebAgent agent : webAgents)
-            {
+            for (WebAgent agent : webAgents) {
                 WebCode webCode = new WebCode(agent, party);
                 webCode.setContent(codeAgent.get(agent.getType()).toString());
                 try {
@@ -148,9 +139,8 @@ public class PartyController implements ApplicationContextAware
                 }
 
             }
-        }
-        else
-        {
+            warbotOnlineService.saveParty(party);
+        } else {
             logger.debug("Found party");
             MessageHelper.addErrorAttribute(ra, "party.fail.name");
             return "party/create";
@@ -163,22 +153,30 @@ public class PartyController implements ApplicationContextAware
     @RequestMapping(value = "party/show", method = RequestMethod.GET)
     public String viewTeam(Principal principal,
                            Model model,
-                           @RequestParam(required = true) Long id)
-    {
+                           @RequestParam(required = true) Long id) {
         Assert.notNull(principal);
         Party party = warbotOnlineService.findPartyById(id);
+        Assert.notNull(party);
         model.addAttribute("party", party);
-        model.addAttribute("allMembers", accountRepository.findAll());
         return "party/showParty";
     }
 
     @RequestMapping(value = "party/delete", method = RequestMethod.GET)
-    public String delete(Principal principal, @RequestParam(required = true) Long id)
-    {
+    public String delete(Principal principal, Model model, @RequestParam(required = true) Long id) {
         Assert.notNull(principal);
-        codeEditorService.deleteCodeForParty(id);
-        warbotOnlineService.deleteParty(id);
-        return "/";
+        Account account = accountRepository.findByEmail(principal.getName());
+        Assert.notNull(account);
+        Party party = warbotOnlineService.findPartyById(id);
+        Assert.notNull(party);
+        if (party.getCreator().equals(account)) {
+            codeEditorService.deleteCodeForParty(id);
+            warbotOnlineService.deleteParty(id);
+            MessageHelper.addSuccessAttribute(model, "party.delete", party.getName());
+
+        } else {
+            MessageHelper.addErrorAttribute(model, "party.not.member", party.getName());
+        }
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/partylist", method = RequestMethod.GET)
@@ -190,7 +188,7 @@ public class PartyController implements ApplicationContextAware
         Account account = accountRepository.findByEmail(principal.getName());
         myParties = warbotOnlineService.findPartyByCreator(account);
         model.addAttribute("parties", partyList);
-        model.addAttribute("myParties",myParties);
+        model.addAttribute("myParties", myParties);
         return "party/list";
     }
 
