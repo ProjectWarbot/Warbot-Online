@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}" />
+
+    <title>Team Code</title>
+    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+
+</head>
+<body>
+
+<div th:replace="fragments/header :: header">Header</div>
+
+
+<div class="well">
+    <div class="container memberList">
+        <div class="row">
+            <div class="col-xs-5 col-xs-offset-0">
+                <div class="input-group">
+                    <input type="hidden" name="search_param" value="all"/>
+                    <input id ="searchParties" type="text" class="form-control" name="x" list="members" placeholder="Member name"/>
+                        <span class="input-group-btn">
+                            <button id ="btn" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <datalist id="members">
+    </datalist>
+
+    <script th:inline="javascript">
+
+        var allMembers = /*[[${party.getMembers()}]]*/ null;
+        if (allMembers != null) {
+            $.each( allMembers, function( index, value ){
+                $('#members').append('<option id="'+ value +'" value="'+ value +'">'+ value +'</option>');
+            });
+        }
+        
+    </script>
+
+
+        <span th:text="${party.name}"></span>
+        <span th:text="${party.creator.screenName}"></span>
+        <table id="tableListParties" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Login</th>
+                    <th>Inscription date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="member : ${party.members}" th:data="${member.id}">
+                    <th><p th:text="${member.id}"></p></th>
+                    <th><a name="memberLogin" th:href="" th:text="${member.login}"></a></th>
+                    <th><p th:text="${member.inscriptionDate}"></p></th>
+                </tr>
+            </tbody>
+        </table>
+        <a th:href="@{/teamcode}+'?idParty='+${party.id}" class="btn btn-sm btn-success launch">Editor</a>
+</div>
+
+
+</body>
+</html>
+

@@ -18,6 +18,7 @@ import java.util.List;
  * @author Sebastien Beugnon
  */
 @Repository
+@Transactional
 public class WebCodeRepository {
 
     /**
@@ -91,6 +92,17 @@ public class WebCodeRepository {
                     .getSingleResult();
         } catch (PersistenceException e) {
             return null;
+        }
+    }
+
+    public boolean deleteCodeForParty(Long partyId) {
+        try {
+            entityManager.createQuery
+                    ("DELETE From WebCode a Where"+ " a.party.id = :partyId")
+                    .setParameter("partyId", partyId).executeUpdate();
+            return true;
+        } catch (PersistenceException e) {
+            return false;
         }
     }
 }

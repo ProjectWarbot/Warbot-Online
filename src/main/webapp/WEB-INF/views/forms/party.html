@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}" />
+
     <title>Sign In</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <script src="../../../resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
 </head>
 <body>
 <form class="form-narrow form-horizontal" action="#"  th:object="${form}" method="post" th:action="@{/party/create}"  th:fragment="form">
@@ -12,11 +15,11 @@
         <div th:replace="fragments/alert :: alert (type='danger', message='Creation error')">Alert</div>
     </th:block>
     <fieldset>
-        <legend>Create Team</legend>
+        <legend th:text="#{forms.party.creeEquipe}" >Create Team</legend>
         <div class="form-group">
-            <label for="inputTeamName" class="col-lg-2 control-label">Team name</label>
+            <label for="inputTeamName" class="col-lg-2 control-label" th:text="#{forms.party.nomEquipe}" >Team name</label>
             <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputTeamName" th:field="*{teamName}" placeholder="TeamName" name="teamName"/>
+                <input type="text" class="form-control" id="inputTeamName" th:field="*{teamName}" th:placeholder="#{forms.party.nomEquipe}" name="teamName"/>
             </div>
         </div>
         <div class="form-group">
@@ -27,7 +30,7 @@
         </div>
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10">
-                <button type="submit" class="btn btn-default">Create</button>
+                <button type="submit" class="btn btn-primary" th:text="#{forms.party.creer}" >Create</button>
             </div>
         </div>
     </fieldset>

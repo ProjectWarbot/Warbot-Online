@@ -46,7 +46,7 @@ margin:0;
         }
 
  .ui-layout-toggler {
-        background: #AAA;
+        background: #1E90FF;
         }
 
  .ui-layout-toggler:hover {
@@ -58,3 +58,175 @@ margin:0;
         margin-left: 7px;
         margin-right: 7px;
  }
+
+ .save, .load, .launch, .stop, .pause, .debug {
+    margin:0 auto;
+    margin-left: 10px;
+    margin-top: 10px;
+    font-weight: bold;
+    margin-bottom:0px;
+ }
+
+
+ .mapRed {
+    background:#FE2E2E;
+    font-weight: bold;
+ }
+
+.mapBlue {
+    background:#2E64FE;
+    font-weight: bold;
+
+}
+
+.mapFood {
+    background:#2EFE2E;
+    font-weight: bold;
+}
+
+
+.mapNameAgent {
+    background:#FE9A2E;
+    font-weight: bold;
+}
+
+.mapNameTeam {
+    background:#FE642E;
+    font-weight: bold;
+}
+
+.mapAgentOther {
+    background:#F7FE2E;
+    font-weight: bold;
+}
+
+.mapAgentName {
+    background:#FACC2E;
+    font-weight: bold;
+}
+
+h3 {
+     text-align: center;
+}
+
+.searchZoneTest {
+    margin-top:40px;
+}
+
+#tableListTestZone {
+   width:95%;
+    margin-left:2.5%;
+    margin-right:2.5%;
+}
+
+#tableListParties {
+    width:95%;
+    margin-left:2.5%;
+    margin-right:2.5%;
+}
+
+#contenerTableTestZone {
+    margin-top : 40px;
+}
+
+.toolsTestZone {
+    width:16%;
+}
+
+.levelTestZone {
+    width:5%;
+}
+
+.titleTestZone {
+    font-weight: bold;
+}
+
+.idTestZone {
+    width:6%;
+}
+
+#console{
+overflow: auto;
+}
+
+#contenerTools {
+    background-color: #707070 ;
+    height:60px;
+    width:100%;
+    margin-top: -10px;
+    padding-top: 12px;
+}
+
+select {
+    cursor:pointer;
+}
+
+.contenerMapEditor {
+   height:94%;
+   margin:0 auto;
+   margin-left: 7px;
+   margin-right: 7px;
+}
+
+#resumeMapEditor {
+    overflow: auto;
+}
+
+#resumeMapEditor {
+    background-color: #707070 ;
+}
+
+#tableMap {
+    width:50%;
+    float: left;
+}
+
+#tableAgent {
+    float: left;
+    width:50%;
+}
+
+#ongletMapTitle {
+    text-align: center;
+    font-weight: bold;
+    color: #000000 ;
+    background-color:#F5D0A9;
+}
+
+#ongletAgentTitle {
+    text-align: center;
+    font-weight: bold;
+    color: #000000 ;
+    background-color:#F3E2A9;
+}
+
+#inputTestZonedesc {
+    resize:vertical;
+    overflow:auto;
+}
+
+#contactMessage {
+    resize:vertical;
+    overflow:auto;
+}
+
+.searchTeamList {
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
+#titre-description{
+margin-top:5%;
+}
+
+#home-description{
+    margin-top:10%;
+    margin-bottom:10%;
+    text-align: center;
+}
+
+#page-about{
+    margin-top:10%;
+    margin-bottom:10%;
+    text-align: center;
+}

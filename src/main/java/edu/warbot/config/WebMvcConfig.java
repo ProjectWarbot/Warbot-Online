@@ -105,9 +105,9 @@ class WebMvcConfig extends WebMvcConfigurationSupport {
      */
     @Controller
     static class FaviconController {
-        @RequestMapping("favicon.ico")
+        @RequestMapping("faviconWbO.png")
         String favicon() {
-            return "forward:/resources/images/favicon.ico";
+            return "forward:/resources/images/faviconWbO.png";
         }
     }
 
