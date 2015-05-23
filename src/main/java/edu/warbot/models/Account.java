@@ -25,13 +25,13 @@ public class Account extends AbstractPersistable<Long> {
     @Column(name = "account_password",nullable = false)
 	private String password;
 
-    @Column(name = "account_firstname",nullable = false)
+    @Column(name = "account_firstName",nullable = false)
     private String firstName;
 
-    @Column(name = "account_lastname",nullable = false)
+    @Column(name = "account_lastName",nullable = false)
     private String lastName;
 
-    @Column(name = "account_screenname",nullable = false,unique = true)
+    @Column(name = "account_screenName",nullable = false,unique = true)
     private String screenName;
 
     @Column(name = "account_activated",nullable = false)
@@ -58,14 +58,19 @@ public class Account extends AbstractPersistable<Long> {
     @ManyToMany(targetEntity = Party.class, cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     private Set<Party> teams= new HashSet<>();
 
-    @OneToMany (mappedBy="creator", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany (mappedBy="creator", cascade={CascadeType.PERSIST, CascadeType.REMOVE},fetch = FetchType.LAZY)
     private Set<Party> created = new HashSet<>();
 
     protected Account() {
 
 	}
 
-    public Account(String email, String password, String firstName, String lastName, String screenName, boolean isActivated, boolean isPremium, Date inscriptionDate, Date premiumExpirationDate, Date lastConnectionDate, String role, Set<Party> teams) {
+    public Account(String email, String password, String firstName,
+                   String lastName, String screenName,
+                   boolean isActivated, boolean isPremium,
+                   Date inscriptionDate, Date premiumExpirationDate,
+                   Date lastConnectionDate, String role, Set<Party> teams,
+    Set<Party> created) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -78,6 +83,7 @@ public class Account extends AbstractPersistable<Long> {
         this.lastConnectionDate = lastConnectionDate;
         this.role = role;
         this.teams = teams;
+        this.created = created;
     }
 
     public String getEmail() {
@@ -174,5 +180,13 @@ public class Account extends AbstractPersistable<Long> {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public Set<Party> getCreated() {
+        return created;
+    }
+
+    public void setCreated(Set<Party> created) {
+        this.created = created;
     }
 }

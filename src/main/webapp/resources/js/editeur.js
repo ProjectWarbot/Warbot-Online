@@ -10,6 +10,7 @@ $(document).ready(function(){
 					ed.setTheme("ace/theme/monokai");
                     ed.getSession().setMode("ace/mode/python");
                     ed.setOptions({enableBasicAutocompletion: true});
+                    ed.getSession().setUseSoftTabs(false);
 
                     editors[id] = ed;
                     this.style.position = "absolute";

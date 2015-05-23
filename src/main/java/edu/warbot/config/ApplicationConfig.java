@@ -14,7 +14,7 @@ import static org.springframework.context.annotation.ComponentScan.Filter;
 @Configuration
 @EnableScheduling
 @ComponentScan(basePackageClasses = Application.class, excludeFilters = @Filter({Controller.class, Configuration.class}))
-class ApplicationConfig {
+public class ApplicationConfig {
 	
 	@Bean
 	public static PropertyPlaceholderConfigurer propertyPlaceholderConfigurer() {
