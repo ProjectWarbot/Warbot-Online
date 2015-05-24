@@ -96,10 +96,16 @@ public class PartyRepository {
     }
 
     //    @Override
-    public void delete(Long aLong)
+    public boolean delete(Long id)
     {
-        entityManager.createQuery("Delete FROM Party p WHERE p.id = :id")
-                .setParameter("id",aLong).executeUpdate();
+        try {
+            entityManager.createQuery("Delete FROM Party p WHERE p.id = :id")
+                    .setParameter("id",id).executeUpdate();
+            return true;
+        }
+        catch (PersistenceException e) {
+            return false;
+        }
     }
 
     //    @Override

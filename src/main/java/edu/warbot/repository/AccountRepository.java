@@ -51,4 +51,16 @@ public class AccountRepository
                 "Select a from Account a ",
                 Account.class).getResultList();
     }
+
+    public Account findOne(Long id) {
+        try
+        {
+            return entityManager.createQuery
+                    ("Select a FROM Account a WHERE a.id LIKE :id", Account.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (PersistenceException e) {
+            return null;
+        }
+    }
 }

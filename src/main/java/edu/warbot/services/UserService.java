@@ -27,8 +27,8 @@ public class UserService implements UserDetailsService {
 	public void initialize()
 	{
         if(accountRepository.findByEmail("admin")==null) {
-            accountRepository.save(new Account("user", "demo", "toto", "toto", "demoUser", true, false, new Date(), new Date(), new Date(), "ROLE_USER", new HashSet<Party>()));
-            accountRepository.save(new Account("admin", "admin", "toto", "toto", "demoAdmin", true, true, new Date(), new Date(), new Date(), "ROLE_ADMIN", new HashSet<Party>()));
+            accountRepository.save(new Account("user", "demo", "toto", "toto", "demoUser", true, false, new Date(), new Date(), new Date(), "ROLE_USER", new HashSet<Party>(),new HashSet<Party>()));
+            accountRepository.save(new Account("admin", "admin", "toto", "toto", "demoAdmin", true, true, new Date(), new Date(), new Date(), "ROLE_ADMIN", new HashSet<Party>(),new HashSet<Party>()));
         }
     }
 

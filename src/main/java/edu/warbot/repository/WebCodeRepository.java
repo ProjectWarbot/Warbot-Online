@@ -94,4 +94,15 @@ public class WebCodeRepository {
             return null;
         }
     }
+
+    public boolean deleteCodeForParty(Long partyId) {
+        try {
+            entityManager.createQuery
+                    ("DELETE From WebCode a Where"+ " a.party.id = :partyId")
+                    .setParameter("partyId", partyId).executeUpdate();
+            return true;
+        } catch (PersistenceException e) {
+            return false;
+        }
+    }
 }
