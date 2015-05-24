@@ -29,4 +29,6 @@ public interface WarbotOnlineService
     List<Party> findPartyByCreator(Account account);
 
     boolean deleteParty(Long id);
+
+    void saveParty(Party party);
 }

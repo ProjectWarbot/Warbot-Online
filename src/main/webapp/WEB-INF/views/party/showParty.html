@@ -33,7 +33,7 @@
 
     <script th:inline="javascript">
 
-        var allMembers = /*[[${allMembers}]]*/ null;
+        var allMembers = /*[[${party.getMembers()}]]*/ null;
         if (allMembers != null) {
             $.each( allMembers, function( index, value ){
                 $('#members').append('<option id="'+ value +'" value="'+ value +'">'+ value +'</option>');
@@ -42,7 +42,7 @@
         
     </script>
 
-    <!--
+
         <span th:text="${party.name}"></span>
         <span th:text="${party.creator.screenName}"></span>
         <table id="tableListParties" class="table table-bordered">
@@ -50,8 +50,6 @@
                 <tr>
                     <th>#</th>
                     <th>Login</th>
-                    <th>Email</th>
-                    <th>Activ</th>
                     <th>Inscription date</th>
                 </tr>
             </thead>
@@ -59,13 +57,11 @@
                 <tr th:each="member : ${party.members}" th:data="${member.id}">
                     <th><p th:text="${member.id}"></p></th>
                     <th><a name="memberLogin" th:href="" th:text="${member.login}"></a></th>
-                    <th><p th:text="${member.email}"></p></th>
-                    <th><p th:text="${member.isActivated}"></p></th>
                     <th><p th:text="${member.inscriptionDate}"></p></th>
                 </tr>
             </tbody>
         </table>
-        <a th:href="@{/teamcode}+'?idParty='+${party.id}" class="btn btn-sm btn-success launch">Party Code</a>-->
+        <a th:href="@{/teamcode}+'?idParty='+${party.id}" class="btn btn-sm btn-success launch">Editor</a>
 </div>
 
 

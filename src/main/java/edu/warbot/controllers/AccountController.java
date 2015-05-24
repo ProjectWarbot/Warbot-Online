@@ -11,10 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Sébastien Beugnon
@@ -44,8 +41,11 @@ class AccountController {
     }
 
     @RequestMapping(value = "account/userProfile", method = RequestMethod.GET)
-    public String userProfile(Model model,Principal principal)
+    public String userProfile(Model model,Principal principal,@RequestParam Long id)
     {
+            Account account = accountRepository.findOne(id);
+            Assert.notNull(account);
+            model.addAttribute("account",account);
         return "account/public";
     }
 }
