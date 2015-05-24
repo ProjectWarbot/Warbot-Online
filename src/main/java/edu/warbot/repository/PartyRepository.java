@@ -125,7 +125,6 @@ public class PartyRepository {
     public void deleteAll() {
         //NEVER DEFINED
     }
-
     public List<Party> findByCreator(Account account) {
         try {
             List<Party> list =  entityManager.createQuery(

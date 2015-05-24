@@ -15,11 +15,11 @@
 
 		middleLayout = $('div.outer-west').layout({
 			center__paneSelector:	".middle-center",
-			south__size:			150,
+			south__size:			200,
 			spacing_open:			8,
 			spacing_closed:			12,
-			south__minSize:			45,
-			south__maxSize:			2000,
+			south__minSize:			200,
+			south__maxSize:			500,
 		});
 
 	});

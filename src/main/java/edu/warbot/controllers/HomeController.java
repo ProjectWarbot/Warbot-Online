@@ -7,7 +7,6 @@ import java.util.List;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.repository.AccountRepository;
-import edu.warbot.repository.PartyRepository;
 import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.services.WarbotOnlineService;
 import edu.warbot.support.web.MessageHelper;
@@ -27,6 +26,7 @@ public class HomeController {
 	Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
+
 	public String index(Principal principal,Model model) {
 		if(principal !=null)
 		{
@@ -44,9 +44,6 @@ public class HomeController {
 
 	@Autowired
 	private AccountRepository accountRepository;
-
-	@Autowired
-	private PartyRepository partyRepository;
 
 	@Autowired
 	private WarbotOnlineService warbotOnlineService;
