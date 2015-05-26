@@ -29,7 +29,7 @@ public class Party extends AbstractPersistable<Long>
     @Column(name = "party_creationDate")
     private Date creationDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Account.class,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Account.class)
     private Account creator;
 
     @ManyToMany(targetEntity = Account.class,
@@ -37,7 +37,7 @@ public class Party extends AbstractPersistable<Long>
             mappedBy = "teams",cascade = CascadeType.REFRESH)
     private Set<Account> members = new HashSet<>();
 
-    @OneToMany(targetEntity = WebCode.class, mappedBy = "party",cascade = CascadeType.REMOVE)
+    @OneToMany(targetEntity = WebCode.class, mappedBy = "party")
     private Set<WebCode> agents = new HashSet<>();
 
     protected Party() {

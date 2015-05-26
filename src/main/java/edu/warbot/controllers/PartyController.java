@@ -104,7 +104,7 @@ public class PartyController implements ApplicationContextAware {
                 Resource[] resources = applicationContext.getResources("classpath:script/python/*");
 
                 if (resources.length == 0)
-                    throw new IOException("Probleme avec ressource python");
+                    throw new IOException("Problème avec ressource python");
 
                 for (Resource resource : resources) {
                     Scanner scanner = new Scanner(resource.getFile());
@@ -117,7 +117,6 @@ public class PartyController implements ApplicationContextAware {
                     scanner.close();
                     int index = resource.getFilename().indexOf(".");
                     String typeAgent = resource.getFilename().substring(0, index);
-
                     codeAgent.put(WarAgentType.valueOf(typeAgent), sb);
                 }
 
@@ -137,7 +136,6 @@ public class PartyController implements ApplicationContextAware {
                 }
 
             }
-            warbotOnlineService.saveParty(party);
         } else {
             logger.debug("Found party");
             MessageHelper.addErrorAttribute(ra, "party.fail.name");

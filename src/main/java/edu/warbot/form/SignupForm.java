@@ -73,6 +73,6 @@ public class SignupForm {
     public Account createAccount() {
         return new Account(getEmail(), getPassword(),firstName,lastName,screenName,
                 false,false,
-                new Date(),null,new Date(),"ROLE_USER",new HashSet<Party>());
+                new Date(),null,new Date(),"ROLE_USER",new HashSet<Party>(),new HashSet<Party>());
 	}
 }
