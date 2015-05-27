@@ -19,7 +19,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-12 lead">User profile</div>
+                        <div class="col-md-12 lead" th="#{profile.user.title}">User profile</div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 text-center">
@@ -27,7 +27,7 @@
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h1 class="only-bottom-margin">XXX XXX</h1>
+                                    <h1 class="only-bottom-margin" th:text="${account.screenName}">XXX XXX</h1>
                                 </div>
                             </div>
                             <div class="row">

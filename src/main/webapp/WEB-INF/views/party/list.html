@@ -17,6 +17,8 @@
 <body>
     <div th:replace="fragments/header :: header">Header</div>
 
+    <fieldset>
+        <h3 th:text="#{party-list.title}" >Party List</h3>
     <div class="container searchTeamList">
         <div class="row">
             <div class="col-xs-5 col-xs-offset-0">
@@ -74,6 +76,7 @@
             </script>
         </tbody>
     </table>
+        </fieldset>
 
     <div id="modalDuelTeam" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">
@@ -83,12 +86,12 @@
                     <h4 class="modal-title" >Fight team</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Vous êtes sur le point de défiez l'équipe :</p>
+                    <p th:text="#{duel.list.sentence1}">Vous êtes sur le point de défiez l'équipe :</p>
                     <p id="namePartyToFight"></p>
-                    <p>Crée par :</p>
+                    <p th:text="#{duel.list.sentence2}">Crée par :</p>
                     <p id="creatorPartyToFight"></p>
                     <br/>
-                    <p>Avec laquelle de vos équipes voulez vous défier cette équipe :</p>
+                    <p th:text="#{duel.list.sentence3}">Avec laquelle de vos équipes voulez-vous défier cette équipe ?</p>
                     <div class="form-group">
                         <div class="col-xs-14 selectContainer">
 
@@ -99,7 +102,7 @@
                                 </option>
                             </select>
 
-                            <p th:if="${myParties.size()} == 0"> Vous n'avez pas d'équipe pour pouvoir faire un duel </p>
+                            <p th:if="${myParties.size()} == 0" th:text="#{duel.list.empty}"> Vous n'avez pas d'équipe pour pouvoir faire un duel </p>
                         </div>
                     </div>
 
@@ -135,7 +138,14 @@
         };
 
         $("#confirmDuelParty").click(function (event) {
-            formDuelParty.submit();
+            if(contenerIdParty != selectMyTeam)
+            {
+                formDuelParty.submit();
+            }
+            else
+            {
+                windows.alert("You can't affront the same party");
+            }
         });
 
         function nameMyTeamForFightChange() {
@@ -145,14 +155,8 @@
             $(contenerIdParty).val(selectMyTeam.value);
 
         }
-
+        nameMyTeamForFightChange();
     </script>
-
-    <script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
-    <script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}" ></script>
-
-
-
 </body>
 </html>
 
