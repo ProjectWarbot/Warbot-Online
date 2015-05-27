@@ -73,8 +73,7 @@ public class WebLauncher extends TKLauncher {
         //VIEWER
         if (getGame().getSettings().getSituationLoader() == null) {
             this.launchAllAgents();
-        } else
-        {
+        } else {
             //TODO SITUATION LOADER
         }
         //SCHEDULER

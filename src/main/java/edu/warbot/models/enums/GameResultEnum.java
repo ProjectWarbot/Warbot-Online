@@ -6,5 +6,5 @@ package edu.warbot.models.enums;
  * @author Sébastien Beugnon
  */
 public enum GameResultEnum {
-    TEAM_1_WIN, TEAM_2_WIN,DRAW
+    TEAM_1_WIN, TEAM_2_WIN, DRAW
 }

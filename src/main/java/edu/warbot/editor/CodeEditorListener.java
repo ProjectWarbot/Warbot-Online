@@ -1,7 +1,5 @@
 package edu.warbot.editor;
 
-import java.util.HashMap;
-
 import edu.warbot.models.Account;
 import edu.warbot.models.WebCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +9,8 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+import java.util.HashMap;
 
 
 /**
@@ -35,9 +35,9 @@ public class CodeEditorListener implements ApplicationListener<ApplicationEvent>
 
     public void onApplicationEvent(ApplicationEvent event) {
 
-        if(event instanceof SessionConnectEvent) {
+        if (event instanceof SessionConnectEvent) {
             handleCodeLock((SessionConnectEvent) event);
-        } else if(event instanceof SessionDisconnectEvent) {
+        } else if (event instanceof SessionDisconnectEvent) {
             handleCodeUnlock((SessionDisconnectEvent) event);
         }
     }
@@ -58,7 +58,7 @@ public class CodeEditorListener implements ApplicationListener<ApplicationEvent>
     }
 
 
-    public HashMap<Account,WebCode> getLogs() {
+    public HashMap<Account, WebCode> getLogs() {
         return userCodeLocks;
     }
 
@@ -100,11 +100,11 @@ public class CodeEditorListener implements ApplicationListener<ApplicationEvent>
         codeUserLocks.remove(code);
     }
 
-    public void setAccess(String access) {
-        this.access = access;
-    }
-
     public String getAccess() {
         return access;
+    }
+
+    public void setAccess(String access) {
+        this.access = access;
     }
 }

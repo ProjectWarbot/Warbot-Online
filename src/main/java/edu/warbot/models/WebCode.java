@@ -1,6 +1,5 @@
 package edu.warbot.models;
 
-import org.hibernate.metamodel.source.annotations.attribute.type.LobTypeResolver;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.*;
@@ -13,8 +12,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "CODE")
-public class WebCode extends AbstractPersistable<Long>
-{
+public class WebCode extends AbstractPersistable<Long> {
     @ManyToOne(targetEntity = Party.class)
     private Party party;
 
@@ -22,7 +20,7 @@ public class WebCode extends AbstractPersistable<Long>
     private WebAgent agent;
 
     @Lob
-    @Column(name = "code_content", length=64000)
+    @Column(name = "code_content", length = 64000)
     private String content;
 
     @Column(name = "code_lastModification")
@@ -30,8 +28,7 @@ public class WebCode extends AbstractPersistable<Long>
     private Date lastModification;
 
 
-    public WebCode()
-    {
+    public WebCode() {
 
     }
 

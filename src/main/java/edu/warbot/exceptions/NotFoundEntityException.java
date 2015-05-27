@@ -8,8 +8,7 @@ package edu.warbot.exceptions;
 public class NotFoundEntityException extends Exception {
     private Class<?> entityClass;
 
-    public NotFoundEntityException(Class<?> entityClass)
-    {
+    public NotFoundEntityException(Class<?> entityClass) {
         super();
         this.entityClass = entityClass;
     }

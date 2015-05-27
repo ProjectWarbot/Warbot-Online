@@ -1,14 +1,12 @@
 package edu.warbot.process.communication.client;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.warbot.process.communication.InterProcessMessage;
 
-import java.util.Date;
 import java.util.Map;
 
 /**
  * Created by beugnon on 04/04/15.
- * <p>
+ * <p/>
  * Class représentant un message indiquant des modifications pour un agent
  *
  * @author beugnon
@@ -19,7 +17,7 @@ public class AgentMessage extends InterProcessMessage {
 
     private Map<String, Object> content;
 
-    public AgentMessage(){
+    public AgentMessage() {
         super(HEADER);
     }
 

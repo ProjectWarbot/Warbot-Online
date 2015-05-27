@@ -13,8 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "GAME_RESULT")
-public class GameResult extends AbstractPersistable<Long>
-{
+public class GameResult extends AbstractPersistable<Long> {
     @ManyToOne(targetEntity = Party.class)
     private Party launcher;
 
@@ -29,8 +28,7 @@ public class GameResult extends AbstractPersistable<Long>
     private Date launchDate;
 
 
-    public GameResult()
-    {
+    public GameResult() {
 
     }
 

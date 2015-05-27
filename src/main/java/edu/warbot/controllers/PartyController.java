@@ -141,7 +141,7 @@ public class PartyController implements ApplicationContextAware {
             MessageHelper.addErrorAttribute(ra, "party.fail.name");
             return "party/create";
         }
-        warbotOnlineService.addMember(party,account);
+        warbotOnlineService.addMember(party, account);
         MessageHelper.addSuccessAttribute(ra, "party.success");
         ra.addAttribute("idParty", party.getId());
         return "redirect:/teamcode";
@@ -193,6 +193,5 @@ public class PartyController implements ApplicationContextAware {
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
-
     }
 }

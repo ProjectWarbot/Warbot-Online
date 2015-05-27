@@ -14,8 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "AGENT")
-public class WebAgent extends AbstractPersistable<Long>
-{
+public class WebAgent extends AbstractPersistable<Long> {
 
     @Column(name = "agent_WarType")
     private WarAgentType type;

@@ -23,7 +23,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -34,13 +34,13 @@ import java.util.Map;
  * Created by BEUGNON on 01/04/2015.
  * CodeEditorController, un contrôleur asynchrône pour gérer les requêtes de lecture et d'écriture liées
  * à l'éditeur de code
+ *
  * @author Sébastien Beugnon
  */
 @Async
 @Controller
-@Secured({"ROLE_USER","ROLE_ADMIN"})
-public class CodeEditorController
-{
+@Secured({"ROLE_USER", "ROLE_ADMIN"})
+public class CodeEditorController {
 
     @Autowired
     private WebAgentRepository webAgentRepository;
@@ -58,10 +58,8 @@ public class CodeEditorController
     private CodeEditorListener locks;
 
 
-
     @SubscribeMapping("/editor/register")
-    public void registerUser(Principal principal)
-    {
+    public void registerUser(Principal principal) {
         Assert.notNull(principal);
     }
 
@@ -74,8 +72,78 @@ public class CodeEditorController
         return webAgentRepository.findForParty(party);
     }
 
-    public static class Trade
-    {
+    @MessageMapping("/editor/get")
+    public void getCodeForAgent(Principal principal, Trade trade)
+            throws NotFoundEntityException {
+        Party party = partyRepository.findOne(trade.getIdParty());
+        Assert.notNull(party);
+        WebAgent agent = webAgentRepository.findOne(trade.getIdWebAgent());
+        Assert.notNull(agent);
+        WebCode wc = codeEditorService.getWebCode(party, agent);
+        Assert.notNull(wc);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
+
+        Map<String, Object> m = new HashMap<>();
+        m.put("webAgentId", agent.getId());
+        m.put("content", wc.getContent());
+
+        messagingTemplate.convertAndSendToUser(principal.getName(), "/editor/code", m, map);
+    }
+
+    @MessageMapping("/editor/lock")
+    public boolean lock(@RequestParam Long idParty,
+                        @RequestParam Long idWebAgent,
+                        Principal principal) {
+        Assert.notNull(principal);
+        Account account = accountRepository.findByEmail(principal.getName());
+        Assert.notNull(account);
+        Party party = partyRepository.findOne(idParty);
+        Assert.notNull(party);
+        WebAgent agent = webAgentRepository.findOne(idWebAgent);
+        Assert.notNull(agent);
+        locks.lock(account, warbotOnlineService.findWebCodeForPartyAndAgent(party, agent));
+        return true;
+    }
+
+    @MessageMapping("/editor/save")
+    public boolean save(SaveTrade trade,
+                        Principal principal) {
+        Assert.notNull(principal);
+        Account account = accountRepository.findByEmail(principal.getName());
+        Assert.notNull(account);
+        Party party = partyRepository.findOne(trade.getIdParty());
+        Assert.notNull(party);
+        WebAgent agent = webAgentRepository.findOne(trade.getIdWebAgent());
+        Assert.notNull(agent);
+        WebCode code = codeEditorService.getWebCode(party, agent);
+        //code.getContent().replace("    ", "\t");
+        code.setContent(trade.getContent());
+        try {
+            codeEditorService.saveWebCode(account, code);
+            return true;
+        } catch (UnauthorisedToEditNotMemberException | UnauthorisedToEditLockException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @MessageMapping("/editor/unlock")
+    public boolean unlock(@RequestParam Long idParty,
+                          @RequestParam Long idWebAgent,
+                          Principal principal) {
+        Assert.notNull(principal);
+        Account account = accountRepository.findByEmail(principal.getName());
+        Assert.notNull(account);
+        Party party = partyRepository.findOne(idParty);
+        Assert.notNull(party);
+        WebAgent agent = webAgentRepository.findOne(idWebAgent);
+        Assert.notNull(agent);
+        return true;
+    }
+
+    public static class Trade {
         private Long idParty;
         private Long idWebAgent;
 
@@ -104,42 +172,6 @@ public class CodeEditorController
         }
     }
 
-    @MessageMapping("/editor/get")
-    public void getCodeForAgent(Principal principal, Trade trade)
-            throws NotFoundEntityException {
-        Party party = partyRepository.findOne(trade.getIdParty());
-        Assert.notNull(party);
-        WebAgent agent = webAgentRepository.findOne(trade.getIdWebAgent());
-        Assert.notNull(agent);
-        WebCode wc = codeEditorService.getWebCode(party, agent);
-        Assert.notNull(wc);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
-
-        Map<String,Object> m = new HashMap<>();
-        m.put("webAgentId",agent.getId());
-        m.put("content",wc.getContent());
-
-        messagingTemplate.convertAndSendToUser(principal.getName(),"/editor/code",m,map);
-    }
-
-    @MessageMapping("/editor/lock")
-    public boolean lock(@RequestParam Long idParty,
-                        @RequestParam Long idWebAgent,
-                        Principal principal)
-    {
-        Assert.notNull(principal);
-        Account account = accountRepository.findByEmail(principal.getName());
-        Assert.notNull(account);
-        Party party = partyRepository.findOne(idParty);
-        Assert.notNull(party);
-        WebAgent agent = webAgentRepository.findOne(idWebAgent);
-        Assert.notNull(agent);
-        locks.lock(account, warbotOnlineService.findWebCodeForPartyAndAgent(party, agent));
-        return true;
-    }
-
     public static class SaveTrade
 
     {
@@ -149,7 +181,8 @@ public class CodeEditorController
 
         private String content;
 
-        public SaveTrade(){}
+        public SaveTrade() {
+        }
 
         public SaveTrade(Long idParty, Long idWebAgent, String content) {
             this.idParty = idParty;
@@ -181,44 +214,6 @@ public class CodeEditorController
             this.content = content;
         }
     }
-    @MessageMapping("/editor/save")
-    public boolean save(SaveTrade trade,
-                        Principal principal)
-    {
-        Assert.notNull(principal);
-        Account account = accountRepository.findByEmail(principal.getName());
-        Assert.notNull(account);
-        Party party = partyRepository.findOne(trade.getIdParty());
-        Assert.notNull(party);
-        WebAgent agent = webAgentRepository.findOne(trade.getIdWebAgent());
-        Assert.notNull(agent);
-        WebCode code = codeEditorService.getWebCode(party, agent);
-        //code.getContent().replace("    ", "\t");
-        code.setContent(trade.getContent());
-        try {
-            codeEditorService.saveWebCode(account, code);
-            return true;
-        } catch (UnauthorisedToEditNotMemberException | UnauthorisedToEditLockException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    @MessageMapping("/editor/unlock")
-    public boolean unlock(@RequestParam Long idParty,
-                          @RequestParam Long idWebAgent,
-                          Principal principal)
-    {
-        Assert.notNull(principal);
-        Account account = accountRepository.findByEmail(principal.getName());
-        Assert.notNull(account);
-        Party party = partyRepository.findOne(idParty);
-        Assert.notNull(party);
-        WebAgent agent = webAgentRepository.findOne(idWebAgent);
-        Assert.notNull(agent);
-        return true;
-    }
-
 
 
 }

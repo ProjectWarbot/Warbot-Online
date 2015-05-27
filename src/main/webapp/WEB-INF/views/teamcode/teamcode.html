@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}" />
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
 
     <title>Team Code</title>
 
-    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
-    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
 
-    <script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}" ></script>
-    <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}" ></script>
-    <script src="../../../resources/js/zone/jquery.ui.all.js" th:src="@{/resources/js/zone/jquery.ui.all.js}" ></script>
-    <script src="../../../resources/js/zone.js" th:src="@{/resources/js/zone.js}" ></script>
+    <script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}"></script>
+    <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}"></script>
+    <script src="../../../resources/js/zone/jquery.ui.all.js" th:src="@{/resources/js/zone/jquery.ui.all.js}"></script>
+    <script src="../../../resources/js/zone.js" th:src="@{/resources/js/zone.js}"></script>
 
-    <script src="../../../resources/js/ace-builds-master/src-min-noconflict/ace.js" th:href="@{/resources/js/ace-builds-master/src-min-noconflict/ace.js}"></script>
-    <script src="../../../resources/js/ace-builds-master/src-min-noconflict/ext-language_tools.js" th:href="@{/resources/js/ace-builds-master/src-min-noconflict/ext-language_tools.js}"></script>
-    <script src="../../../resources/js/editeur.js" th:src="@{/resources/js/editeur.js}" ></script>
-    <script src="../../../resources/js/streaming/pixi.js" th:src="@{/resources/js/streaming/pixi.js}" ></script>
-    <script src="../../../resources/js/streaming/importTexture.js" th:src="@{/resources/js/streaming/importTexture.js}" ></script>
+    <script src="../../../resources/js/ace-builds-master/src-min-noconflict/ace.js"
+            th:href="@{/resources/js/ace-builds-master/src-min-noconflict/ace.js}"></script>
+    <script src="../../../resources/js/ace-builds-master/src-min-noconflict/ext-language_tools.js"
+            th:href="@{/resources/js/ace-builds-master/src-min-noconflict/ext-language_tools.js}"></script>
+    <script src="../../../resources/js/editeur.js" th:src="@{/resources/js/editeur.js}"></script>
+    <script src="../../../resources/js/streaming/pixi.js" th:src="@{/resources/js/streaming/pixi.js}"></script>
+    <script src="../../../resources/js/streaming/importTexture.js"
+            th:src="@{/resources/js/streaming/importTexture.js}"></script>
 
 
 </head>
@@ -32,7 +36,7 @@
     <div class="outer-center">
 
 
-        <input type="hidden" id="idParty" value="" th:value="${party.id}" />
+        <input type="hidden" id="idParty" value="" th:value="${party.id}"/>
         <ul class="nav nav-tabs" id="myTab">
 
 
@@ -41,12 +45,12 @@
                 <ul class="dropdown-menu">
 
 
-            <li  class="webcode-request" th:each="agent : ${agents}" th:data="${agent.id}">
-                <input type="hidden" value="" th:value="${agent.id}" />
-                <a data-toggle="tab" th:href="'#'+${agent.id}" th:text="${agent.type}">
-                    Ag
-                </a>
-            </li>
+                    <li class="webcode-request" th:each="agent : ${agents}" th:data="${agent.id}">
+                        <input type="hidden" value="" th:value="${agent.id}"/>
+                        <a data-toggle="tab" th:href="'#'+${agent.id}" th:text="${agent.type}">
+                            Ag
+                        </a>
+                    </li>
 
                 </ul>
             </li>
@@ -78,9 +82,11 @@
         <div id="console" class="ui-layout-south">
 
             <ul class="nav nav-tabs console" role="tablist">
-                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Console</a></li>
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                          data-toggle="tab">Console</a></li>
                 <li role="presentation"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">Map</a></li>
-                <li role="presentation"><a href="#agent" aria-controls="agent" role="tab" data-toggle="tab">Agent</a></li>
+                <li role="presentation"><a href="#agent" aria-controls="agent" role="tab" data-toggle="tab">Agent</a>
+                </li>
             </ul>
 
             <!-- Tab panes -->
@@ -115,7 +121,7 @@
                         </tr>
                         <tr>
                             <td class="mapNameAgent">WarRocketLauncher</td>
-                            <td class="mapRed" id="numberOfRocketLauncherRed" >0</td>
+                            <td class="mapRed" id="numberOfRocketLauncherRed">0</td>
                             <td class="mapBlue" id="numberOfRocketLauncherBlue">0</td>
                         </tr>
                         <tr>
@@ -125,8 +131,8 @@
                         </tr>
                         <tr>
                             <td class="mapNameAgent">WarTurret</td>
-                            <td class="mapRed" id="numberOfTurretRed" >0</td>
-                            <td class="mapBlue" id="numberOfTurretBlue" >0</td>
+                            <td class="mapRed" id="numberOfTurretRed">0</td>
+                            <td class="mapBlue" id="numberOfTurretBlue">0</td>
                         </tr>
                         <tr>
                             <td class="mapNameAgent">Wall</td>
@@ -169,17 +175,18 @@
     </div>
 
 
-
 </div>
 
-<script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
-<script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}" ></script>
+<script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}"></script>
+<script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}"></script>
 <!-- application -->
-<script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}" ></script>
-<script src="../../../resources/js/request-data-editor.js" th:src="@{/resources/js/request-data-editor.js}" ></script>
-<script src="../../../resources/js/streaming/testMessage.js" th:src="@{/resources/js/streaming/testMessage.js}" ></script>
-<script src="../../../resources/js/streaming/drawStreaming.js" th:src="@{/resources/js/streaming/drawStreaming.js}" ></script>
-<script src="../../../resources/js/duel.js" th:src="@{/resources/js/duel.js}" ></script>
+<script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}"></script>
+<script src="../../../resources/js/request-data-editor.js" th:src="@{/resources/js/request-data-editor.js}"></script>
+<script src="../../../resources/js/streaming/testMessage.js"
+        th:src="@{/resources/js/streaming/testMessage.js}"></script>
+<script src="../../../resources/js/streaming/drawStreaming.js"
+        th:src="@{/resources/js/streaming/drawStreaming.js}"></script>
+<script src="../../../resources/js/duel.js" th:src="@{/resources/js/duel.js}"></script>
 
 <script th:inline="javascript">
 (function() {
@@ -243,6 +250,7 @@
 
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
       })();
+
 </script>
 </body>
 </html>
