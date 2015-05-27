@@ -34,8 +34,6 @@ public class HomeController {
 			Assert.notNull(account);
 			model.addAttribute("account", account);
 			List<Party> l = warbotOnlineService.findPartyByCreator(account);
-			for(Party p : l)
-				logger.info("size:"+p.getMembers().size());
 			model.addAttribute("parties", l);
 			return "home/homeSignedIn";
 		}

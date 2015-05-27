@@ -97,7 +97,9 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
     public boolean deleteParty(Long id) {return partyRepository.delete(id);}
 
     @Override
-    public void saveParty(Party party) {
-        partyRepository.save(party);
+    public void addMember(Party party,Account account) {
+        Party party2 = findPartyById(party.getId());
+        party2.addMember(account);
+        partyRepository.save(party2);
     }
 }

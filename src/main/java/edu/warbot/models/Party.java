@@ -33,8 +33,7 @@ public class Party extends AbstractPersistable<Long>
     private Account creator;
 
     @ManyToMany(targetEntity = Account.class,
-            fetch = FetchType.EAGER,
-            mappedBy = "teams",cascade = CascadeType.REFRESH)
+            fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private Set<Account> members = new HashSet<>();
 
     @OneToMany(targetEntity = WebCode.class, mappedBy = "party")

@@ -141,6 +141,7 @@ public class PartyController implements ApplicationContextAware {
             MessageHelper.addErrorAttribute(ra, "party.fail.name");
             return "party/create";
         }
+        warbotOnlineService.addMember(party,account);
         MessageHelper.addSuccessAttribute(ra, "party.success");
         ra.addAttribute("idParty", party.getId());
         return "redirect:/teamcode";

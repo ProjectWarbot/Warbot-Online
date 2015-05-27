@@ -30,5 +30,5 @@ public interface WarbotOnlineService
 
     boolean deleteParty(Long id);
 
-    void saveParty(Party party);
+    void addMember(Party party,Account account);
 }

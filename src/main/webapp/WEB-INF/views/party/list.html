@@ -109,8 +109,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                    <button th:if="${myParties.size()} > 0" id="confirmDuelParty" type="button" class="btn btn-danger">Go</button>
-                    <button th:if="${myParties.size()} == 0" id="confirmDuelParty" type="button" class="btn btn-danger" disabled="disabled">Go</button>
+                    <button id="confirmDuelParty" type="button" class="btn btn-danger" th:disabled="${myParties.size()} == 0">Go</button>
                 </div>
                 <form id="formDuelParty" method="GET" th:action="@{/teamcode}">
                     <div class="col-xs-0 selectContainer">
