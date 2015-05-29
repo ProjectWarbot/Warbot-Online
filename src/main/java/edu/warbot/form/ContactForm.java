@@ -18,8 +18,7 @@ public class ContactForm {
     @NotBlank(message = ContactForm.NOT_BLANK_MESSAGE)
     public String message;
 
-    public String[] createMail()
-    {
+    public String[] createMail() {
         String[] mail = new String[3];
         mail[0] = login;
         mail[1] = email;

@@ -26,8 +26,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackageClasses = Application.class)
-public class DataSourceConfig
-{
+public class DataSourceConfig {
 
 
     @Value("${dataSource.driverClassName}")
@@ -88,7 +87,6 @@ public class DataSourceConfig
             EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
-
 
 
 }

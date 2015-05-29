@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * Created by BEUGNON on 11/03/2015.
- * <p>
+ * <p/>
  * Classe représentant une partie jouée sur le web
  * en streaming
  *
@@ -40,13 +40,13 @@ public class WebGame extends WarGame {
     private boolean firstCall;
     private int tick;
 
-    private int all3tick=0;
+    private int all3tick = 0;
 
     public WebGame(InputStream is, OutputStream os, WarGameSettings settings) throws IOException {
         super(settings);
         tick = 0;
         this.firstCall = true;
-        this.gameAgent = new ClientWarbotGameAgent(this,is,os);
+        this.gameAgent = new ClientWarbotGameAgent(this, is, os);
         thread = new Thread(this.gameAgent);
         thread.start();
         this.gameLog = new GameLog();
@@ -73,7 +73,7 @@ public class WebGame extends WarGame {
             firstCall = false;
         }
         all3tick++;
-        if(all3tick==4) {
+        if (all3tick == 4) {
             all3tick = 0;
             getGameLog().obsolete();
 
@@ -186,8 +186,8 @@ public class WebGame extends WarGame {
     }
 
     public void sendMessage(InterProcessMessage cm) {
-        if(! (cm instanceof AgentMessage) || ((AgentMessage) cm).getContent().size()>1)
-        gameAgent.getSender().pushMessage(cm);
+        if (!(cm instanceof AgentMessage) || ((AgentMessage) cm).getContent().size() > 1)
+            gameAgent.getSender().pushMessage(cm);
     }
 
 

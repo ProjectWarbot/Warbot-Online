@@ -1,5 +1,6 @@
 package edu.warbot.account;
 
+import edu.warbot.config.WebSecurityConfigurationAware;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -14,7 +15,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
-import edu.warbot.config.WebSecurityConfigurationAware;
 @Ignore
 public class UserAuthenticationIntegrationTest extends WebSecurityConfigurationAware {
 

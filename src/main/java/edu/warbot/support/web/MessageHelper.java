@@ -1,9 +1,9 @@
 package edu.warbot.support.web;
 
-import static edu.warbot.support.web.Message.MESSAGE_ATTRIBUTE;
-
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import static edu.warbot.support.web.Message.MESSAGE_ATTRIBUTE;
 
 public final class MessageHelper {
 

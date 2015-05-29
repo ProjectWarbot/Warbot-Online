@@ -1,5 +1,6 @@
 package edu.warbot.controllers.signup;
 
+import edu.warbot.config.WebAppConfigurationAware;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -8,7 +9,6 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import edu.warbot.config.WebAppConfigurationAware;
 @Ignore
 
 public class SignupControllerTest extends WebAppConfigurationAware {
@@ -18,10 +18,10 @@ public class SignupControllerTest extends WebAppConfigurationAware {
                 .andExpect(model().attributeExists("signupForm"))
                 .andExpect(view().name("signup/signup"))
                 .andExpect(content().string(
-                        allOf(
-                                containsString("<title>Signup</title>"),
-                                containsString("<legend>Please Sign Up</legend>")
-                        ))
+                                allOf(
+                                        containsString("<title>Signup</title>"),
+                                        containsString("<legend>Please Sign Up</legend>")
+                                ))
                 );
     }
 }

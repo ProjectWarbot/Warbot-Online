@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}" />
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
 
     <title th:text="#{view.index.title}">Welcome!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.css}"/>
-    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="../../../resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
 </head>
@@ -16,10 +17,12 @@
     <!-- /* Handle the flash message */-->
     <th:block th:if="${message != null}">
         <!-- /* The message code is returned from the @Controller */ -->
-        <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
+        <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">
+            &nbsp;</div>
     </th:block>
     <th:block th:if="${param.error != null}">
-        <div th:replace="fragments/alert :: alert (type='danger', message='Sign in error. Please try again.')">Alert</div>
+        <div th:replace="fragments/alert :: alert (type='danger', message='Sign in error. Please try again.')">Alert
+        </div>
     </th:block>
     <div th:replace="forms/party :: form">&nbsp;</div>
 </div>

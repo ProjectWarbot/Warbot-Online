@@ -22,8 +22,7 @@ import java.util.Date;
  */
 @Service
 @Transactional
-public class CodeEditorServiceImpl implements CodeEditorService
-{
+public class CodeEditorServiceImpl implements CodeEditorService {
 
     @Autowired
     private WebCodeRepository webCodeRepository;
@@ -35,17 +34,18 @@ public class CodeEditorServiceImpl implements CodeEditorService
             throws UnauthorisedToEditLockException,
             UnauthorisedToEditNotMemberException {
 //        if(!webCode.getParty().getMembers().contains(editor))
-  //          throw new UnauthorisedToEditNotMemberException(editor,webCode.getParty());
+        //          throw new UnauthorisedToEditNotMemberException(editor,webCode.getParty());
         webCode.setLastModification(new Date());
         webCodeRepository.save(webCode);
         codeEditorListener.unlock(editor, webCode);
     }
 
-    public WebCode getWebCode(Party party, WebAgent agent)
-    {
+    public WebCode getWebCode(Party party, WebAgent agent) {
         return webCodeRepository.findWebCodeForTeamAndWebAgent(party, agent);
     }
 
-    public boolean deleteCodeForParty(Long partyId) {return webCodeRepository.deleteCodeForParty(partyId);}
+    public boolean deleteCodeForParty(Long partyId) {
+        return webCodeRepository.deleteCodeForParty(partyId);
+    }
 
 }

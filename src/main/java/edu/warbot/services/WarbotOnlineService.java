@@ -10,8 +10,7 @@ import java.util.List;
 /**
  * Created by beugnon on 08/04/15.
  */
-public interface WarbotOnlineService
-{
+public interface WarbotOnlineService {
     Party createParty(Party party);
 
     List<WebAgent> findAgentsForParty(Party party);
@@ -30,5 +29,8 @@ public interface WarbotOnlineService
 
     boolean deleteParty(Long id);
 
-    void saveParty(Party party);
+    void addMember(Party party, Account account);
+
+    void removeMember(Party party, Account member);
+
 }

@@ -1,10 +1,8 @@
 package edu.warbot.online.logs;
 
 
-import java.util.HashMap;
-
-
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -12,14 +10,12 @@ import java.util.Map;
  *
  * @author beugnon
  */
-public class RGB implements Serializable
-{
+public class RGB implements Serializable {
     int r;
     int g;
     int b;
 
-    public RGB(int r, int g, int b)
-    {
+    public RGB(int r, int g, int b) {
         this.r = r;
         this.g = g;
         this.b = b;
@@ -53,21 +49,19 @@ public class RGB implements Serializable
 
     @Override
     public String toString() {
-        return "{'r':"+ r + ","+
-                "'g':" + g + ","+
+        return "{'r':" + r + "," +
+                "'g':" + g + "," +
                 "'b':" + b + "}";
     }
 
     /**
-     *
      * @return une association de couleur rouge, vert, bleu
      */
-    public Map<String,Object> toMap()
-    {
-        Map<String,Object> map = new HashMap<>();
-        map.put("r",r);
-        map.put("g",g);
-        map.put("b",b);
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("r", r);
+        map.put("g", g);
+        map.put("b", b);
         return map;
     }
 }

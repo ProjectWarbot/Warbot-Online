@@ -8,14 +8,9 @@ import edu.warbot.process.communication.InterProcessMessage;
  */
 public class ExceptionResult extends InterProcessMessage {
 
-    private final ExceptionLevel level;
-
-    private Exception exception;
-
-    public enum ExceptionLevel {GRAVE, WARNING}
-
     public final static String HEADER = "ExceptionResult";
-
+    private final ExceptionLevel level;
+    private Exception exception;
 
     public ExceptionResult(Exception exception) {
         super(HEADER);
@@ -23,11 +18,13 @@ public class ExceptionResult extends InterProcessMessage {
         this.level = ExceptionLevel.GRAVE;
     }
 
-    public ExceptionResult(Exception exception,ExceptionLevel level) {
+
+    public ExceptionResult(Exception exception, ExceptionLevel level) {
         super(HEADER);
         this.exception = exception;
         this.level = level;
     }
+
     @JsonIgnore
     public ExceptionLevel getLevel() {
         return level;
@@ -37,4 +34,6 @@ public class ExceptionResult extends InterProcessMessage {
     public Exception getException() {
         return exception;
     }
+
+    public enum ExceptionLevel {GRAVE, WARNING}
 }

@@ -10,8 +10,7 @@ import edu.warbot.models.Party;
  */
 public class UnauthorisedToEditNotMemberException extends Exception {
 
-    public UnauthorisedToEditNotMemberException(Account editor, Party party)
-    {
+    public UnauthorisedToEditNotMemberException(Account editor, Party party) {
 
     }
 }

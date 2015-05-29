@@ -19,7 +19,7 @@ public class WebScheduler extends WarScheduler implements WarGameListener {
 
     }
 
-    public void onGameStopped(){
+    public void onGameStopped() {
         super.onGameStopped();
         sendMessage(TKOrganization.TK_COMMUNITY, TKOrganization.ENGINE_GROUP, TKOrganization.SCHEDULER_ROLE,
                 new SchedulingMessage(SchedulingAction.PAUSE));

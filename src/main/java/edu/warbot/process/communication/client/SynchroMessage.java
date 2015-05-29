@@ -8,15 +8,15 @@ import java.util.Map;
 
 /**
  * Created by beugnon on 04/04/15.
- * <p>
+ * <p/>
  * Classe représentant un message de synchronisation.
  *
  * @author beugnon
  */
 public class SynchroMessage extends InterProcessMessage {
 
-    private final Collection<Map<String, Object>> content;
     public final static String HEADER = "synchro";
+    private final Collection<Map<String, Object>> content;
 
     public SynchroMessage(String header,
                           Collection<Map<String, Object>>
@@ -24,6 +24,7 @@ public class SynchroMessage extends InterProcessMessage {
         super(HEADER);
         this.content = content;
     }
+
     @JsonIgnore
     public Collection<Map<String, Object>> getContent() {
         return content;

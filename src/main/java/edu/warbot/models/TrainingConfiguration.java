@@ -13,31 +13,22 @@ import java.util.Set;
 
 @Entity
 @Table(name = "TRAINING_CONFIGURATION")
-@NamedQuery(name = TrainingConfiguration.FIND_BY_NAME,query = "select z from TrainingConfiguration z where z.name = :name")
+@NamedQuery(name = TrainingConfiguration.FIND_BY_NAME, query = "select z from TrainingConfiguration z where z.name = :name")
 public class TrainingConfiguration extends AbstractPersistable<Long> {
 
     public static final String FIND_BY_NAME = "TrainingConfiguration.findByName";
 
-    @Column(name="training_configuration_name",unique = true)
+    @Column(name = "training_configuration_name", unique = true)
     private String name;
 
-    @Column(name="training_configuration_description")
+    @Column(name = "training_configuration_description")
     private String description;
 
-    @Column(name="training_configuration_level")
+    @Column(name = "training_configuration_level")
     private LevelTrainingConfigurationEnum level;
 
-    @ManyToOne(fetch = FetchType.LAZY,targetEntity = Account.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Account.class)
     private Account creator;
-
-    public Set<TrainingAgent> getTrainingAgents() {
-        return trainingAgents;
-    }
-
-    public void setTrainingAgents(Set<TrainingAgent> trainingAgents) {
-        this.trainingAgents = trainingAgents;
-    }
-
     @ManyToMany(targetEntity = TrainingAgent.class, fetch = FetchType.LAZY)
     private Set<TrainingAgent> trainingAgents = new HashSet<>();
 
@@ -51,32 +42,40 @@ public class TrainingConfiguration extends AbstractPersistable<Long> {
         this.level = level;
     }
 
+    public Set<TrainingAgent> getTrainingAgents() {
+        return trainingAgents;
+    }
+
+    public void setTrainingAgents(Set<TrainingAgent> trainingAgents) {
+        this.trainingAgents = trainingAgents;
+    }
+
     public String getName() {
         return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public LevelTrainingConfigurationEnum getLevel() {
-        return level;
-    }
-
-    public Account getCreator() {
-        return creator;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public LevelTrainingConfigurationEnum getLevel() {
+        return level;
+    }
+
     public void setLevel(LevelTrainingConfigurationEnum level) {
         this.level = level;
+    }
+
+    public Account getCreator() {
+        return creator;
     }
 
     public void setCreator(Account creator) {

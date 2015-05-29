@@ -7,7 +7,6 @@ import edu.warbot.game.Team;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -15,8 +14,7 @@ import java.util.logging.Logger;
  *
  * @author beugnon
  */
-public class EntityLog implements Comparable<EntityLog>
-{
+public class EntityLog implements Comparable<EntityLog> {
 
     private static Logger logger = Logger.getLogger(EntityLog.class.getName());
 
@@ -36,8 +34,7 @@ public class EntityLog implements Comparable<EntityLog>
 
     private int state;
 
-    public EntityLog(String name)
-    {
+    public EntityLog(String name) {
         this.name = name;
         this.team = null;
         this.angle = 0;
@@ -49,71 +46,65 @@ public class EntityLog implements Comparable<EntityLog>
 
     }
 
-    public Map<String,Object> update(WarAgent wa)
-    {
+    public Map<String, Object> update(WarAgent wa) {
         Map<String, Object> map = new HashMap<>();
         //key
 
         this.updated = true;
-        map.put("name",name);
-        if(x != wa.getX()) {
+        map.put("name", name);
+        if (x != wa.getX()) {
             x = wa.getX();
-            map.put("x",x);
+            map.put("x", x);
         }
 
-        if(y != wa.getY()) {
+        if (y != wa.getY()) {
             y = wa.getY();
-            map.put("y",y);
+            map.put("y", y);
         }
 
-        if(type == null)//Only one time
+        if (type == null)//Only one time
         {
             type = wa.getType();
-            map.put("type",type);
+            map.put("type", type);
         }
 
-        if(team == null)
-        {
+        if (team == null) {
             team = wa.getTeam().getName();
             map.put("team", team);
         }
 
-        if(angle != wa.getHeading())
-        {
+        if (angle != wa.getHeading()) {
             angle = wa.getHeading();
-            map.put("angle",angle);
+            map.put("angle", angle);
         }
 
-        if(state == 1)//Was alive
+        if (state == 1)//Was alive
         {
-            map.put("state",state);
+            map.put("state", state);
             state = 0;
         }
 
-        if(wa.getDyingStep() > Team.MAX_DYING_STEP)
-        {
+        if (wa.getDyingStep() > Team.MAX_DYING_STEP) {
             state = -1;
-            map.put("state",state);
+            map.put("state", state);
         }
 
         return map;
     }
 
-    public Map<String,Object> update(ControllableWarAgent wa)
-    {
+    public Map<String, Object> update(ControllableWarAgent wa) {
         return update((WarAgent) wa);
     }
 
-    public Map<String,Object> getCurrentState()
-    {
-        Map<String,Object> map = new HashMap<>();
-        map.put("team",team);
-        map.put("name",name);
-        map.put("type",type);
-        map.put("x",x);
-        map.put("y",y);
-        map.put("state",state);
-        map.put("angle",angle);
+    public Map<String, Object> getCurrentState() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("team", team);
+        map.put("name", name);
+        map.put("type", type);
+        map.put("x", x);
+        map.put("y", y);
+        map.put("state", state);
+        map.put("angle", angle);
         return map;
     }
 
@@ -123,10 +114,10 @@ public class EntityLog implements Comparable<EntityLog>
     }
 
     public boolean isDead() {
-        return state==-1;
+        return state == -1;
     }
 
-    public void flipUpdated(){
+    public void flipUpdated() {
         updated = false;
     }
 
