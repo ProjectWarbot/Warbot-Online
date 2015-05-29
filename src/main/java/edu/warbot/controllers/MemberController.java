@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -32,34 +31,7 @@ public class MemberController {
     @Autowired
     private AccountRepository accountRepository;
 
-    @RequestMapping(value = "/party/add/members")
-    public String addMember(Principal principal, RedirectAttributes ra, @RequestParam Long idParty, @RequestParam Long idUser) {
-        Account account = accountRepository.findByEmail(principal.getName());
-        Party party = warbotOnlineService.findPartyById(idParty);
-        if (party.getCreator().equals(account)) {
-            Account member = accountRepository.findOne(idUser);
-            Assert.notNull(member);
-            if (!party.getMembers().contains(member))
-                warbotOnlineService.addMember(party, member);
-        }
-        ra.addAttribute("id", party.getId());
-        return "redirect:/party/show";
-    }
 
-    @RequestMapping(value = "/party/remove/members")
-    public String removeMember(Principal principal, RedirectAttributes ra, @RequestParam Long idParty, @RequestParam Long idUser) {
-        Account account = accountRepository.findByEmail(principal.getName());
-        Party party = warbotOnlineService.findPartyById(idParty);
-
-        if (party.getCreator().equals(account)) {
-            Account member = accountRepository.findOne(idUser);
-            Assert.notNull(member);
-            if (party.getMembers().contains(member))
-                warbotOnlineService.removeMember(party, member);
-        }
-        ra.addAttribute("id", party.getId());
-        return "redirect:/party/show";
-    }
 
     @Async
     @ResponseBody
@@ -69,7 +41,6 @@ public class MemberController {
         Account account = accountRepository.findByEmail(principal.getName());
         Party party = warbotOnlineService.findPartyById(idParty);
         Assert.notNull(party);
-
         Map<Long, String> unmembers = new HashMap<>();
         if (party.getCreator().equals(account)) {
 
@@ -77,10 +48,11 @@ public class MemberController {
             Iterator<Account> iterator = iterable.iterator();
             while (iterator.hasNext()) {
                 Account acc = iterator.next();
-                if (!party.getMembers().contains(acc))
+                if (!party.getMembers().contains(acc) && acc.getScreenName().toLowerCase().startsWith(letters.toLowerCase()))
                     unmembers.put(acc.getId(), acc.getScreenName());
             }
         }
+
         return unmembers;
     }
 
