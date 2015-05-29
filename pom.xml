@@ -1,6 +1,6 @@
 <project
-        xmlns="http://maven.apache.org/POM/4.0.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://maven.apache.org/POM/4.0.0"
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
         >
     <modelVersion>4.0.0</modelVersion>
@@ -213,11 +213,6 @@
             <version>1.4.186</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>1.0.0.Final</version>
-        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
@@ -243,9 +238,9 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                <url>http://localhost:8080/manager/text/</url>    
-		<path>/</path>
-		<server>Tomcat-Server</server>
+                    <url>http://localhost:8080/manager/text/</url>
+                    <path>/</path>
+                    <server>Tomcat-Server</server>
                 </configuration>
             </plugin>
             <plugin>
@@ -287,23 +282,23 @@
                 </configuration>
             </plugin>
             <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>exec-maven-plugin</artifactId>-->
-                <!--<version>1.3.2</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                       <!--<phase>process-classes</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>java</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-                <!--<configuration>-->
-                    <!--<mainClass>edu.warbot.SchemaGenerator</mainClass>-->
-                    <!--<arguments>-->
-                        <!--<argument>${project.basedir}/src/main/resources/db/</argument>-->
-                    <!--</arguments>-->
-                <!--</configuration>-->
+            <!--<groupId>org.codehaus.mojo</groupId>-->
+            <!--<artifactId>exec-maven-plugin</artifactId>-->
+            <!--<version>1.3.2</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<phase>process-classes</phase>-->
+            <!--<goals>-->
+            <!--<goal>java</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--<configuration>-->
+            <!--<mainClass>edu.warbot.SchemaGenerator</mainClass>-->
+            <!--<arguments>-->
+            <!--<argument>${project.basedir}/src/main/resources/db/</argument>-->
+            <!--</arguments>-->
+            <!--</configuration>-->
             <!--</plugin>-->
         </plugins>
     </build>

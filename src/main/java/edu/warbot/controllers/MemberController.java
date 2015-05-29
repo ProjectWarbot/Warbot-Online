@@ -69,7 +69,6 @@ public class MemberController {
         Account account = accountRepository.findByEmail(principal.getName());
         Party party = warbotOnlineService.findPartyById(idParty);
         Assert.notNull(party);
-
         Map<Long, String> unmembers = new HashMap<>();
         if (party.getCreator().equals(account)) {
 
@@ -77,10 +76,11 @@ public class MemberController {
             Iterator<Account> iterator = iterable.iterator();
             while (iterator.hasNext()) {
                 Account acc = iterator.next();
-                if (!party.getMembers().contains(acc))
+                if (!party.getMembers().contains(acc) && acc.getScreenName().toLowerCase().startsWith(letters.toLowerCase()))
                     unmembers.put(acc.getId(), acc.getScreenName());
             }
         }
+
         return unmembers;
     }
 
