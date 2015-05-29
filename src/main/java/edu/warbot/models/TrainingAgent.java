@@ -3,14 +3,17 @@ package edu.warbot.models;
 import edu.warbot.agents.enums.WarAgentType;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * Created by quent on 23/04/2015.
  */
 @Entity
 @Table(name = "TRAINING_AGENT")
-@NamedQuery(name = TrainingAgent.FIND_BY_NAME,query = "select m from TrainingAgent m where m.name = :name")
+@NamedQuery(name = TrainingAgent.FIND_BY_NAME, query = "select m from TrainingAgent m where m.name = :name")
 public class TrainingAgent extends AbstractPersistable<Long> {
 
     public static final String FIND_BY_NAME = "TrainingAgent.findByName";
@@ -34,7 +37,7 @@ public class TrainingAgent extends AbstractPersistable<Long> {
     @Column(name = "trainingAgent_type")
     private WarAgentType type;
 
-    @Column(name="trainingAgent_life", unique = false)
+    @Column(name = "trainingAgent_life", unique = false)
     private double life;
 
 

@@ -20,5 +20,5 @@ public interface WebGameService {
 
     void pauseGame(Account account);
 
-    void preciseAgentFromGame(Account account,String id);
+    void preciseAgentFromGame(Account account, String id);
 }

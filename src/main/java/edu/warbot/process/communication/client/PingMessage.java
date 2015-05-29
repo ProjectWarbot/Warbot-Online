@@ -11,9 +11,9 @@ public class PingMessage extends InterProcessMessage {
     public static final String HEADER = "PingMessage";
 
     public boolean answer;
+
     /**
      * Constructeur
-     *
      */
     public PingMessage() {
         super(HEADER);

@@ -18,21 +18,24 @@ import java.util.logging.Logger;
  *
  * @author Sébastien Beugnon
  */
-public class SchemaGenerator
-{
+public class SchemaGenerator {
+    private static Logger logger = Logger.getLogger(SchemaGenerator.class.getName());
     private Configuration cfg;
 
-    private static Logger logger = Logger.getLogger(SchemaGenerator.class.getName());
 
+    public SchemaGenerator(String packageName) throws Exception {
+        cfg = new Configuration();
+        cfg.setProperty("hibernate.hbm2ddl.auto", "validate");
 
-
+        for (Class clazz : getClasses(packageName)) {
+            cfg.addAnnotatedClass(clazz);
+        }
+    }
 
     /**
-     * @param args
-     *            first argument is the directory to generate the dll to
+     * @param args first argument is the directory to generate the dll to
      */
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         final String packageName = Account.class.getPackage().getName();
         logger.info(packageName);
         SchemaGenerator gen = new SchemaGenerator(packageName);
@@ -43,57 +46,38 @@ public class SchemaGenerator
         gen.generate(Dialect.H2, directory);
     }
 
-    public SchemaGenerator(String packageName) throws Exception
-    {
-        cfg = new Configuration();
-        cfg.setProperty("hibernate.hbm2ddl.auto", "validate");
-
-        for (Class clazz : getClasses(packageName))
-        {
-            cfg.addAnnotatedClass(clazz);
-        }
-    }
-
     /**
      * Utility method used to fetch Class list based on a package name.
      *
-     * @param packageName
-     *            should be the package containing your annotated beans.
+     * @param packageName should be the package containing your annotated beans.
      */
     @SuppressWarnings("unchecked")
-    private List<Class> getClasses(String packageName) throws Exception
-    {
+    private List<Class> getClasses(String packageName) throws Exception {
         File directory = null;
-        try
-        {
+        try {
             ClassLoader cld = getClassLoader();
             URL resource = getResource(packageName, cld);
             directory = new File(resource.getFile());
-        } catch (NullPointerException ex)
-        {
+        } catch (NullPointerException ex) {
             throw new ClassNotFoundException(packageName + " (" + directory
                     + ") does not appear to be a valid package");
         }
         return collectClasses(packageName, directory);
     }
 
-    private ClassLoader getClassLoader() throws ClassNotFoundException
-    {
+    private ClassLoader getClassLoader() throws ClassNotFoundException {
         ClassLoader cld = Thread.currentThread().getContextClassLoader();
-        if (cld == null)
-        {
+        if (cld == null) {
             throw new ClassNotFoundException("Can't get class loader.");
         }
         return cld;
     }
 
     private URL getResource(String packageName, ClassLoader cld)
-            throws ClassNotFoundException
-    {
+            throws ClassNotFoundException {
         String path = packageName.replace('.', '/');
         URL resource = cld.getResource(path);
-        if (resource == null)
-        {
+        if (resource == null) {
             throw new ClassNotFoundException("No resource for " + path);
         }
         return resource;
@@ -101,31 +85,25 @@ public class SchemaGenerator
 
     @SuppressWarnings("unchecked")
     private List<Class> collectClasses(String packageName, File directory)
-            throws ClassNotFoundException
-    {
+            throws ClassNotFoundException {
         List classes = new ArrayList<>();
-        if (directory.exists())
-        {
+        if (directory.exists()) {
             String[] files = directory.list();
-            for (String file : files)
-            {
-                if (file.endsWith(".class"))
-                {
+            for (String file : files) {
+                if (file.endsWith(".class")) {
                     // removes the .class extension
                     classes.add(Class.forName(packageName + '.'
                             + file.substring(0, file.length() - 6)));
                 }
             }
-        } else
-        {
+        } else {
             throw new ClassNotFoundException(packageName
                     + " is not a valid package");
         }
         return classes;
     }
 
-    private void generate(Dialect dialect, String directory)
-    {
+    private void generate(Dialect dialect, String directory) {
         System.err.println();
         cfg.setProperty("hibernate.dialect", dialect.getDialectClass());
         SchemaExport export = new SchemaExport(cfg);
@@ -140,22 +118,19 @@ public class SchemaGenerator
     /**
      * Holds the classnames of hibernate dialects for easy reference.
      */
-    private static enum Dialect
-    {
+    private static enum Dialect {
         ORACLE("org.hibernate.dialect.Oracle10gDialect"), MYSQL(
-            MySQLDialect.class.getCanonicalName()/*"org.hibernate.dialect.MySQLDialect"*/), HSQL(
-            HSQLDialect.class.getCanonicalName()	/*"org.hibernate.dialect.HSQLDialect"*/), H2(
-            H2Dialect.class.getCanonicalName()/*"org.hibernate.dialect.H2Dialect"*/);
+                MySQLDialect.class.getCanonicalName()/*"org.hibernate.dialect.MySQLDialect"*/), HSQL(
+                HSQLDialect.class.getCanonicalName()	/*"org.hibernate.dialect.HSQLDialect"*/), H2(
+                H2Dialect.class.getCanonicalName()/*"org.hibernate.dialect.H2Dialect"*/);
 
         private String dialectClass;
 
-        private Dialect(String dialectClass)
-        {
+        private Dialect(String dialectClass) {
             this.dialectClass = dialectClass;
         }
 
-        public String getDialectClass()
-        {
+        public String getDialectClass() {
             return dialectClass;
         }
     }

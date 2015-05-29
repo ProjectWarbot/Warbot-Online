@@ -5,7 +5,6 @@ import edu.warbot.repository.PartyRepository;
 import edu.warbot.repository.WebCodeRepository;
 import edu.warbot.services.TeamService;
 import edu.warbot.services.impl.TeamServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Configuration
-@ComponentScan(basePackageClasses = Application.class,excludeFilters = @ComponentScan.Filter({Service.class,Controller.class,Repository.class, Configuration.class}))
+@ComponentScan(basePackageClasses = Application.class, excludeFilters = @ComponentScan.Filter({Service.class, Controller.class, Repository.class, Configuration.class}))
 public class WarbotProcessConfig {
 
     @Bean

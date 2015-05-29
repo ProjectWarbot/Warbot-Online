@@ -1,6 +1,5 @@
 package edu.warbot.process.communication.client;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.warbot.process.communication.InterProcessMessage;
 
 import java.util.Map;
@@ -10,9 +9,8 @@ import java.util.Map;
  */
 public class InitMessage extends InterProcessMessage {
 
-    private Map<String, Object> content;
-
     public final static String HEADER = "init";
+    private Map<String, Object> content;
 
     public InitMessage() {
         super(HEADER);

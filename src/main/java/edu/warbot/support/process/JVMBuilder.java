@@ -9,25 +9,20 @@ import java.util.List;
 
 /**
  * Created by beugnon on 30/04/15.
- *
+ * <p/>
  * Cette classe permet de générer des processus de JVM basé sur la variable d'environnement JAVA_HOME
  * Elle permet ainsi de choisir la classe à exécuter avec ses arguments, ses flux d'entrée/sortie
  * ainsi que son classpath.
+ *
  * @author beugnon
  */
 public class JVMBuilder {
 
-    private static String JAVA_HOME = System.getProperty("java.home");
-
-    public final static String DEFAULT_JAVA = JAVA_HOME+File.separator+"bin"+File.separator;
-
     private final static String JAVA = "java";
-
     private final static String JAVAW = "javaw";
-
     private final static String separator = (File.separatorChar == '/') ? ":" : ";";
-
-
+    private static String JAVA_HOME = System.getProperty("java.home");
+    public final static String DEFAULT_JAVA = JAVA_HOME + File.separator + "bin" + File.separator;
     private String command;
 
     private String mainClass;
@@ -41,7 +36,7 @@ public class JVMBuilder {
     private ProcessBuilder pb;
 
     public JVMBuilder() {
-        this.command = DEFAULT_JAVA+File.separator;
+        this.command = DEFAULT_JAVA + File.separator;
         this.classPaths = new ArrayList<String>();
         this.arguments = new ArrayList<>();
         this.pb = new ProcessBuilder();
@@ -49,7 +44,7 @@ public class JVMBuilder {
 
 
     public JVMBuilder addClasspathLibrary(String path) {
-        if(!classPaths.contains(path))
+        if (!classPaths.contains(path))
             classPaths.add(path);
         return this;
     }
@@ -80,6 +75,7 @@ public class JVMBuilder {
         this.arguments.add(arguments);
         return this;
     }
+
     public JVMBuilder setArguments(List<String> arguments) {
         this.arguments.addAll(arguments);
         return this;
@@ -103,10 +99,10 @@ public class JVMBuilder {
 
     public Process build() throws IOException {
         List<String> commands = new ArrayList<String>();
-        commands.add(command + File.separator + ((isWindowed)? JAVAW : JAVA) );
+        commands.add(command + File.separator + ((isWindowed) ? JAVAW : JAVA));
         commands.add("-classpath");
         String clap = "."; //Default classpath
-        for(String app : classPaths)
+        for (String app : classPaths)
             clap = clap.concat(separator).concat(app);
 
         commands.add(clap);

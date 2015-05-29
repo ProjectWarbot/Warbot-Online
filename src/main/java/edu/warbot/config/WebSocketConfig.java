@@ -20,15 +20,13 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry)
-    {
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/warbot").withSockJS();
     }
 
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry)
-    {
-        registry.enableSimpleBroker("/queue/", "/game/","/editor/");
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.enableSimpleBroker("/queue/", "/game/", "/editor/");
         registry.setApplicationDestinationPrefixes("/app");
     }
 

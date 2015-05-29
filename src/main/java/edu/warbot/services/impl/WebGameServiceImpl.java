@@ -10,7 +10,6 @@ import edu.warbot.process.communication.WebGameSettings;
 import edu.warbot.process.communication.client.EndMessage;
 import edu.warbot.process.communication.server.LaunchGameCommand;
 import edu.warbot.process.communication.server.PreciseAgentCommand;
-import edu.warbot.process.communication.server.RemoteConsoleCommand;
 import edu.warbot.process.communication.server.RemoteWarbotCommand;
 import edu.warbot.process.game.MainWarbot;
 import edu.warbot.process.game.ServerWarbotGameAgent;
@@ -35,7 +34,7 @@ import java.util.Map;
 
 /**
  * Created by beugnon on 05/05/15.
- *
+ * <p/>
  * Classe lançant des processus de parties remplaçant le WebGameService
  */
 @Service
@@ -55,11 +54,11 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
     public void onApplicationEvent(SessionDisconnectEvent applicationEvent) {
         StompHeaderAccessor sha = StompHeaderAccessor.
                 wrap(applicationEvent.getMessage());
-        if(sha.getUser()!=null) {
+        if (sha.getUser() != null) {
             Account account = accountRepository.findByEmail
                     (sha.getUser().getName());
             ServerWarbotGameAgent swga = parties.get(account);
-            if(swga!=null) {
+            if (swga != null) {
                 swga.sendMessage(new EndMessage("terminate-alone"));
             }
         }
@@ -67,9 +66,9 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
     }
 
     public boolean haveAlreadyPartyStarted(Account account) {
-        if(parties.containsKey(account)) {
+        if (parties.containsKey(account)) {
             boolean alive = parties.get(account).getAlive().get();
-            if(!alive) {
+            if (!alive) {
                 parties.remove(account);
             }
             return alive;
@@ -77,7 +76,7 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
         return false;
     }
 
-    public boolean constructProcessAndServerWarbotAgent(Account account,LaunchGameCommand lgc) {
+    public boolean constructProcessAndServerWarbotAgent(Account account, LaunchGameCommand lgc) {
         JVMBuilder jvmBuilder = new JVMBuilder();
         try {
             jvmBuilder.addClasspathByClass(WarGame.class)//Warbot
@@ -86,16 +85,16 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
                     .addClasspathByClass(org.slf4j.Logger.class)//Logger
                     .addClasspathByClass(com.mysql.jdbc.Driver.class)
                     .addClasspathByClass(org.slf4j.impl.StaticLoggerBinder.class)//Logger impl
-            .addClasspathLibrary("libs/*.jar");//All in libs directory WebApp
+                    .addClasspathLibrary("libs/*.jar");//All in libs directory WebApp
             //Thread classpath
-            if(getClass().getClassLoader() instanceof URLClassLoader) {
-                for(URL url : ((URLClassLoader) getClass().getClassLoader()).getURLs()) {
+            if (getClass().getClassLoader() instanceof URLClassLoader) {
+                for (URL url : ((URLClassLoader) getClass().getClassLoader()).getURLs()) {
                     jvmBuilder.addClasspathLibrary(new File(url.toURI()).getAbsolutePath());
                 }
             }
             //System classpath
-            if(getClass().getClassLoader() instanceof URLClassLoader) {
-                for(URL url : ((URLClassLoader) ClassLoader.getSystemClassLoader()).getURLs()) {
+            if (getClass().getClassLoader() instanceof URLClassLoader) {
+                for (URL url : ((URLClassLoader) ClassLoader.getSystemClassLoader()).getURLs()) {
                     jvmBuilder.addClasspathLibrary(new File(url.toURI()).getAbsolutePath());
                 }
             }
@@ -107,9 +106,9 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
 
             Process p = jvmBuilder.build();
             ServerWarbotGameAgent swga = new ServerWarbotGameAgent
-                    (account,p,p.getInputStream(),p.getOutputStream(),
+                    (account, p, p.getInputStream(), p.getOutputStream(),
                             templateMessaging);
-            parties.put(account,swga);
+            parties.put(account, swga);
 
             Thread thread = new Thread(swga);
             thread.start();
@@ -125,56 +124,55 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
 
     @Override
     public void startWebGame(Account account, WebGameSettings settings) throws AlreadyRunningGameException {
-        if(haveAlreadyPartyStarted(account))
+        if (haveAlreadyPartyStarted(account))
             throw new AlreadyRunningGameException();
 
         LaunchGameCommand.LaunchGameCommandBuilder lgcb = new LaunchGameCommand.LaunchGameCommandBuilder();
         LaunchGameCommand lgc = lgcb.setPlayerForTeam1(settings.getIdTeam1()).setPlayerForTeam2(settings.getIdTeam2()).build();
 
-        constructProcessAndServerWarbotAgent(account,lgc);
+        constructProcessAndServerWarbotAgent(account, lgc);
     }
 
     @Override
     public void startAgainstIA(Account account, Party party) throws AlreadyRunningGameException {
-        if(haveAlreadyPartyStarted(account))
+        if (haveAlreadyPartyStarted(account))
             throw new AlreadyRunningGameException();
 
         LaunchGameCommand.LaunchGameCommandBuilder lgcb = new LaunchGameCommand.LaunchGameCommandBuilder();
         LaunchGameCommand lgc = lgcb.setPlayerForTeam1(party.getId()).setValueTeam2(LaunchGameCommand.IA_TEAM_RANDOM).build();
 
-        constructProcessAndServerWarbotAgent(account,lgc);
+        constructProcessAndServerWarbotAgent(account, lgc);
     }
-
 
 
     @Override
     public void startExampleWebGame(Account account) throws AlreadyRunningGameException {
-        if(haveAlreadyPartyStarted(account))
+        if (haveAlreadyPartyStarted(account))
             throw new AlreadyRunningGameException();
         LaunchGameCommand.LaunchGameCommandBuilder lgcb = new LaunchGameCommand.LaunchGameCommandBuilder();
         LaunchGameCommand lgc = lgcb.setValueTeam1(LaunchGameCommand.IA_TEAM_RANDOM).setValueTeam2(LaunchGameCommand.IA_TEAM_RANDOM).build();
 
-        constructProcessAndServerWarbotAgent(account,lgc);
+        constructProcessAndServerWarbotAgent(account, lgc);
 
     }
 
     @Override
     public void stopGame(Account account) {
-        if(haveAlreadyPartyStarted(account))
+        if (haveAlreadyPartyStarted(account))
             parties.get(account).stop();
     }
 
     @Override
     public void pauseGame(Account account) {
-        if(haveAlreadyPartyStarted(account))
+        if (haveAlreadyPartyStarted(account))
             parties.get(account).sendMessage(new RemoteWarbotCommand(RemoteWarbotCommand.WarbotCommand.PAUSE));
     }
 
 
     @Override
-    public void preciseAgentFromGame(Account account,String id) {
-        if(haveAlreadyPartyStarted(account))
-            parties.get(account).sendMessage((id!=null)? new PreciseAgentCommand(id) :  new PreciseAgentCommand(PreciseAgentCommand.NONE));
+    public void preciseAgentFromGame(Account account, String id) {
+        if (haveAlreadyPartyStarted(account))
+            parties.get(account).sendMessage((id != null) ? new PreciseAgentCommand(id) : new PreciseAgentCommand(PreciseAgentCommand.NONE));
     }
 
 }

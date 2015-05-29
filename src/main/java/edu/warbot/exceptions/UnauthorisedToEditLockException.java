@@ -13,6 +13,7 @@ public class UnauthorisedToEditLockException extends Exception {
     private Account account;
 
     private WebAgent agent;
+
     public UnauthorisedToEditLockException(Account editor, WebAgent agent) {
 
     }

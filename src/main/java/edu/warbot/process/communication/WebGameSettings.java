@@ -4,17 +4,15 @@ package edu.warbot.process.communication;
 /**
  * Created by beugnon on 05/04/15.
  */
-public class WebGameSettings
-{
+public class WebGameSettings {
 
     private Long idTeam1;
 
     private Long idTeam2;
 
-    public WebGameSettings()
-    {
-        this.idTeam1= new Long(0);
-        this.idTeam2= new Long(0);
+    public WebGameSettings() {
+        this.idTeam1 = new Long(0);
+        this.idTeam2 = new Long(0);
     }
 
     public WebGameSettings(Long idTeam1, Long idTeam2) {

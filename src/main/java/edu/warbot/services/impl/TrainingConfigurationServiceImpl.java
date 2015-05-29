@@ -18,7 +18,9 @@ public class TrainingConfigurationServiceImpl implements TrainingConfigurationSe
     @Autowired
     private TrainingConfigurationRepository trainingConfigurationRepository;
 
-    public void save(TrainingConfiguration t) { trainingConfigurationRepository.save(t);}
+    public void save(TrainingConfiguration t) {
+        trainingConfigurationRepository.save(t);
+    }
 
     public TrainingConfiguration createTrainingConfiguration(TrainingConfiguration t) {
         trainingConfigurationRepository.save(t);
@@ -44,7 +46,7 @@ public class TrainingConfigurationServiceImpl implements TrainingConfigurationSe
     @Override
     public TrainingConfiguration copy(TrainingConfiguration tc, Account newCreator) {
         //Ici le nom de la map copiée est
-        String newName = newCreator.getScreenName()+tc.getName()+tc.getId();
+        String newName = newCreator.getScreenName() + tc.getName() + tc.getId();
         TrainingConfiguration tmp = new TrainingConfiguration(newName, tc.getLevel(), tc.getDescription());
         tmp.setCreator(newCreator);
         trainingConfigurationRepository.save(tmp);

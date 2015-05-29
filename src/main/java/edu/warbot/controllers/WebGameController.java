@@ -12,7 +12,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
-
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -20,7 +19,7 @@ import org.springframework.util.Assert;
 import java.security.Principal;
 
 @Controller
-@Secured({"ROLE_USER","ROLE_ADMIN"})
+@Secured({"ROLE_USER", "ROLE_ADMIN"})
 public class WebGameController {
 
 
@@ -37,8 +36,7 @@ public class WebGameController {
 
 
     @SubscribeMapping("/game/register")
-    public void registerUser(Principal principal)
-    {
+    public void registerUser(Principal principal) {
         Assert.notNull(principal);
 
     }
@@ -54,7 +52,7 @@ public class WebGameController {
 
     @MessageMapping("/game/start.against.ia")
     public void startGameAgainstIA(Principal principal,
-                          WebGameSettings settings) throws Exception, AlreadyRunningGameException {
+                                   WebGameSettings settings) throws Exception, AlreadyRunningGameException {
         Assert.notNull(principal);
         logger.debug(settings);
         Account account = accountRepository.findByEmail(principal.getName());

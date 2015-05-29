@@ -23,8 +23,7 @@ public class TrainingConfigurationRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public TrainingConfiguration findByName(String name)
-    {
+    public TrainingConfiguration findByName(String name) {
         try {
             return entityManager.createNamedQuery(TrainingConfiguration.FIND_BY_NAME, TrainingConfiguration.class)
                     .setParameter("name", name)
@@ -42,7 +41,7 @@ public class TrainingConfigurationRepository {
     public TrainingConfiguration findOne(Long aLong) {
         try {
             return entityManager.createQuery("Select m from TrainingConfiguration m where m.id = :id", TrainingConfiguration.class)
-                    .setParameter("id",aLong)
+                    .setParameter("id", aLong)
                     .getSingleResult();
         } catch (PersistenceException e) {
             return null;
@@ -51,13 +50,13 @@ public class TrainingConfigurationRepository {
 
     //    @Override
     public boolean exists(Long aLong) {
-        return findOne(aLong)!=null;
+        return findOne(aLong) != null;
     }
 
     //    @Override
     public Iterable<TrainingConfiguration> findAll() {
         List<TrainingConfiguration> list = entityManager.createQuery("Select m from TrainingConfiguration m ", TrainingConfiguration.class).getResultList();
-        LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),list);
+        LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class), list);
         return list;
     }
 
@@ -67,8 +66,7 @@ public class TrainingConfigurationRepository {
     }
 
     //    @Override
-    public void delete(TrainingConfiguration map)
-    {
+    public void delete(TrainingConfiguration map) {
         entityManager.createQuery("Delete FROM TrainingConfiguration m WHERE m.id = :id")
                 .setParameter("id", map.getId()).executeUpdate();
     }

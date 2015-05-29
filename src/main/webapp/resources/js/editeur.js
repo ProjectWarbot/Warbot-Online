@@ -14,8 +14,8 @@ $(document).ready(function(){
 
                     editors[id] = ed;
                     this.style.position = "absolute";
-                    this.style.marginTop = "100px";
-                    this.style.marginBottom = "100px";
+                    this.style.marginTop = "90px";
+                    this.style.marginBottom = "0px";
                     this.style.top = 0;
                     this.style.right = 0;
                     this.style.bottom = 0;

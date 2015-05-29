@@ -5,6 +5,6 @@ package edu.warbot.process.exception;
  */
 public class UnrecognizedInterProcessMessageException extends Throwable {
     public UnrecognizedInterProcessMessageException(String header) {
-        super("Message with header : "+ header + " unhandled");
+        super("Message with header : " + header + " unhandled");
     }
 }

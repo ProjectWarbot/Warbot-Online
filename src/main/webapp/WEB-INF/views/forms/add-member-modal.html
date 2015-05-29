@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
+
+    <title>Create</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+    <script src="../../../resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
+</head>
+<body>
+<div id="add-member" class="modal fade" th:fragment="add-member">
+    <p th:text="${party.id}"></p>
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" th:text="#{link.add.members}">#{link.add.members}</h4>
+            </div>
+
+            <form action="#" method="post" th:action="@{/party/add/members}" id="form-add-members">
+                <div class="modal-body">
+                    <input type="hidden" id="idParty" name="idParty" th:value="${party.id}"></input>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label" for="idUser" th:text="#{forms.add.members.label.user}">#{forms.add.members.label.user}</label>
+
+                        <div class="col-lg-10">
+                            <input list="members" autocomplete="off" type="text" id="idUser" name="idUser"></input>
+                            <datalist id="members"></datalist>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="close-form" class="btn btn-default" data-dismiss="modal"
+                            th:text="#{forms.close}">
+                        #{forms.close}
+                    </button>
+                    <button type="button" class="btn btn-primary" javascript="$('#form-add-members').submit();"
+                            th:text="#{forms.add.members.submit}">#{forms.add.members.submit}
+                    </button>
+                </div>
+            </form>
+            <script th:inline="javascript">
+                var path = /*[[@{/party/list/unmembers}]]*/ "/party/list/unmembers";
+
+                var idParty = $('#idParty').val();
+
+                $('#close-form').click(function() {
+                console.log("test");
+                    $('#form-add-members')[0].reset();
+                 });
+
+                $('#idUser').keyup(function() {
+                    var val = $(this).val();
+			          if(val === "") return;
+                       console.log(val);
+                       $.get(path,{"idParty":idParty,"letters":val},
+                           function(res) {
+                           console.log("test");console.log(res);
+
+                            $("#members").empty();
+                            $.each(res,function(index,e){
+                                        console.log(index);
+                                        console.log(e);
+                            var opt = $("<option>"+e+"</option>").attr("value", index);
+					            $("#members").append(opt);
+
+                                    });
+
+                            },"json");
+
+                    });
+
+
+
+            </script>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+</body>
+</html>
