@@ -32,34 +32,7 @@ public class MemberController {
     @Autowired
     private AccountRepository accountRepository;
 
-    @RequestMapping(value = "/party/add/members")
-    public String addMember(Principal principal, RedirectAttributes ra, @RequestParam Long idParty, @RequestParam Long idUser) {
-        Account account = accountRepository.findByEmail(principal.getName());
-        Party party = warbotOnlineService.findPartyById(idParty);
-        if (party.getCreator().equals(account)) {
-            Account member = accountRepository.findOne(idUser);
-            Assert.notNull(member);
-            if (!party.getMembers().contains(member))
-                warbotOnlineService.addMember(party, member);
-        }
-        ra.addAttribute("id", party.getId());
-        return "redirect:/party/show";
-    }
 
-    @RequestMapping(value = "/party/remove/members")
-    public String removeMember(Principal principal, RedirectAttributes ra, @RequestParam Long idParty, @RequestParam Long idUser) {
-        Account account = accountRepository.findByEmail(principal.getName());
-        Party party = warbotOnlineService.findPartyById(idParty);
-
-        if (party.getCreator().equals(account)) {
-            Account member = accountRepository.findOne(idUser);
-            Assert.notNull(member);
-            if (party.getMembers().contains(member))
-                warbotOnlineService.removeMember(party, member);
-        }
-        ra.addAttribute("id", party.getId());
-        return "redirect:/party/show";
-    }
 
     @Async
     @ResponseBody
