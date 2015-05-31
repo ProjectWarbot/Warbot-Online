@@ -44,12 +44,28 @@
         <table class="table table-bordered" id="tableListTestZone">
             <thead>
             <tr class="titleTestZone">
-                <td class="idTestZone" th:text="#{configuration-editor.select.id}">ID</td>
-                <td data-sortable="true" th:text="#{configuration-editor.select.nom}">Nom</td>
-                <td th:text="#{configuration-editor.select.description}">Description</td>
-                <td class="levelTestZone" th:text="#{configuration-editor.select.niveau}">Niveau</td>
-                <td th:text="#{configuration-editor.select.createur}">Créateur</td>
-                <td class="toolsTestZone" th:text="#{configuration-editor.select.outils}">Outils</td>
+                <td class="idTestZone"
+                    th:text="#{configuration-editor.select.id}">
+                    #{configuration-editor.select.id}
+                </td>
+                <td data-sortable="true"
+                    th:text="#{configuration-editor.select.nom}">
+                    #{configuration-editor.select.nom}
+                </td>
+                <td th:text="#{configuration-editor.select.description}">
+                    #{configuration-editor.select.description}
+                </td>
+                <td class="levelTestZone"
+                    th:text="#{configuration-editor.select.niveau}">
+                    #{configuration-editor.select.niveau}
+                </td>
+                <td th:text="#{configuration-editor.select.createur}">
+                    #{configuration-editor.select.createur}
+                </td>
+                <td class="toolsTestZone"
+                    th:text="#{configuration-editor.select.outils}">
+                    #{configuration-editor.select.outils}
+                </td>
             </tr>
             </thead>
             <tbody>
@@ -58,11 +74,19 @@
                 <td name="tCName" th:text="${trainingConf.name}"></td>
                 <td><p th:text="${trainingConf.description}"></p></td>
                 <td class="levelTestZone"><p th:text="${trainingConf.level}"></p></td>
-                <td><a th:href="'/account/userProfile?id='+${trainingConf.creator.id}"
+                <td><a th:href="@{/account/userProfile(id=${trainingConf.creator.id})}"
                        th:text="${trainingConf.creator.screenName}"></a></td>
-                <td class="toolsTestZone"><a href="#" class="btn btn-warning">Utiliser</a></td>
+                <td class="toolsTestZone">
+                    <a href="#" th:if="${trainingConf.creator.id == account.id}" class="btn btn-warning"
+                       th:text="#{configuration-editor.select.edit}"
+                       th:href="@{/configuration/edit(trainingId=${trainingConf.id})}">#{configuration-editor.select.edit}</a>
+                </td>
             </tr>
-            <script>
+            </tbody>
+        </table>
+    </div>
+</fieldset>
+<script>
                         $(function() {
                             var parties = $('[name="partyName"]');
                             $.each( parties, function( index, value ){
@@ -78,13 +102,6 @@
                                 }
                             });
                         });
-
-
-
             </script>
-            </tbody>
-        </table>
-    </div>
-</fieldset>
 </body>
 </html>
