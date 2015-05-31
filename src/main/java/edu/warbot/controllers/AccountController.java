@@ -32,7 +32,7 @@ class AccountController {
         return accountRepository.findByEmail(principal.getName());
     }
 
-    @RequestMapping(value = "account/profile", method = RequestMethod.GET)
+    @RequestMapping(value = "account/profil", method = RequestMethod.GET)
     public String profile(Model model, Principal principal) {
         Assert.notNull(principal);
         Account account = accounts(principal);
@@ -40,12 +40,12 @@ class AccountController {
         return "account/private";
     }
 
-    @RequestMapping(value = "account/userProfile", method = RequestMethod.GET)
+    @RequestMapping(value = "account/userProfil", method = RequestMethod.GET)
     public String userProfile(Model model, Principal principal, @RequestParam Long id) {
         Account account = accountRepository.findOne(id);
         Assert.notNull(account);
         if (account.getEmail().equals(principal.getName()))
-            return "redirect:/profile";
+            return "redirect:/account/profil";
         model.addAttribute("account", account);
         return "account/public";
     }

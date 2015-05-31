@@ -44,7 +44,7 @@
     <table id="tableListParties" class="table table-bordered">
         <thead>
         <tr>
-            <th>#</th>
+            <!--<th>#</th>-->
             <th th:text="#{party.list.nom}">Team name</th>
             <th th:text="#{party.list.createur}">Creator</th>
             <th th:text="#{party.list.langage}">Langage</th>
@@ -54,10 +54,10 @@
         </thead>
         <tbody>
         <tr th:each="party : ${parties}" th:data="${party.id}">
-            <th><p th:text="${party.id}"></p></th>
+            <!--<th><p th:text="${party.id}"></p></th>-->
             <th><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}"
                    data-sortable="true"></a></th>
-            <th><a th:href="'/account/userProfile?id='+${party.creator.id}" th:text="${party.creator.screenName}"></a>
+            <th><a th:href="'/account/userProfil?id='+${party.creator.id}" th:text="${party.creator.screenName}"></a>
             </th>
             <th><p th:text="${party.language}"></p></th>
             <th><p th:text="${party.eloRank}"></p></th>
