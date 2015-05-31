@@ -7,8 +7,6 @@ var hud = new PIXI.DisplayObjectContainer();
 var agentTab = new Array();
 var buttonTab = new Array();
 var TeamAll = new Array();
-var nameTeamRed;
-var nameTeamBlue;
 
 var partyInGame = false;
 var partyStart = false;
@@ -20,24 +18,6 @@ requestAnimFrame( animate );
 initStreaming();
 cameraMove(stage, camera);
 addWheelLister();
-
-var counterAgent = {
-	food : 0,
-	redBase : 0,
-	blueBase : 0,
-	redExplorer : 0,
-	blueExplorer : 0,
-	redKamikaze : 0,
-	blueKamikaze : 0,
-	redRocketLauncher : 0,
-	blueRocketLauncher : 0,
-	redTurret : 0,
-	blueTurret : 0,
-	redEngineer : 0,
-	blueEngineer : 0,
-	redWall : 0,
-	blueWall : 0
-};
 
 /*
 * Traitement des messages JSON recu
@@ -111,7 +91,6 @@ function messageServerAgent(message) {
 		}
 
 		if(index != -1) {
-			updateDataAgentMap(agentTab[index]);
 			camera.removeChild(agentTab[index].SpriteLife);
 			camera.removeChild(agentTab[index].SpritePercept);
 			camera.removeChild(agentTab[index]);
@@ -119,6 +98,7 @@ function messageServerAgent(message) {
 		}
 	}
 }
+
 
 /**
 * Traitement du message "synchro" JSON recu
@@ -148,7 +128,6 @@ function messageServerSynchro(message) {
 
 			if(indexTab.length != 0) {
 				for(j = 0; j < indexTab.length; j++) {
-					updateDataAgentMap(agentTab[indexTab[j]]);
 					camera.removeChild(agentTab[indexTab[j]].SpriteLife);
 					camera.removeChild(agentTab[indexTab[j]].SpritePercept);
 					camera.removeChild(agentTab[indexTab[j]]);
@@ -189,8 +168,6 @@ function createMapJson() {
 			teamName.alpha = 1;
 			camera.teamTextNameRed = teamName;
 			camera.addChild(teamName);
-			document.getElementById('nameRedTeamConsoleMap').innerHTML = TeamAll[i].name;
-			nameTeamRed = TeamAll[i].name;
 		}
 		else if(TeamAll[i].color.r == 255 && TeamAll[i].color.g == 98 && TeamAll[i].color.b == 255) {
 			var teamName = new PIXI.Text("BLUE : "+TeamAll[i].name, {font:"25px Arial", fill:"blue"});
@@ -199,14 +176,10 @@ function createMapJson() {
 			teamName.alpha = 1;
 			camera.teamTextNameBlue = teamName;
 			camera.addChild(teamName);
-			document.getElementById('nameBlueTeamConsoleMap').innerHTML = TeamAll[i].name;
-			nameTeamBlue = TeamAll[i].name;
 		}
 		else {
 			//console.log("Bug team");
 		}
-
-
 	}
 
 }
@@ -308,7 +281,7 @@ function createAgentJson(scene, tab, json, teams) {
 		indTab++;
 	}
 
-	if(cont || agent.type == "WarFood" || agent.type == "WarRocket") {
+	if(cont || agent.type == "WarFood") {
 		life.alpha = -1;
 	}
 
@@ -362,28 +335,14 @@ function createAgentJson(scene, tab, json, teams) {
    		if (this.isdown) {
    			this.isdown = false;
    			scene.follow = false;
-   			scene.agentFollow = -1;
-   			scene.agentEntityFollow = null;
-   			document.getElementById('nameOfAgentFollow').innerHTML = "null";
-   			document.getElementById('teamOfAgentFollow').innerHTML = "null";
-   			document.getElementById('typeOfAgentFollow').innerHTML = "null";
-   			document.getElementById('lifeOfAgentFollow').innerHTML = "0 %";
-   			document.getElementById('debugMessageOfAgentFollow').innerHTML = "null";
-   			document.getElementById('angleOfAgentFollow').innerHTML = "0";
+   			scene.agentFollow = 0;
    		}
    		else {
    			this.isdown = true;
    			scene.follow = true;
    			scene.agentFollow = agent.name;
-   			scene.agentEntityFollow = this;
    			scene.position.x += (renderer.width / 2) - this.position.x;
    			scene.position.y += (renderer.height / 2) - this.position.y;
-   			document.getElementById('nameOfAgentFollow').innerHTML = this.name;
-   			document.getElementById('teamOfAgentFollow').innerHTML = this.teamName;
-   			document.getElementById('typeOfAgentFollow').innerHTML = this.type;
-   			document.getElementById('lifeOfAgentFollow').innerHTML = this.lifeP + " %";
-   			document.getElementById('debugMessageOfAgentFollow').innerHTML = this.messageDebug;
-   			document.getElementById('angleOfAgentFollow').innerHTML = this.angle;
    		}
     };
 
@@ -445,6 +404,7 @@ function agentChangeValue(agent, json) {
 	{
 		agent.lifeP = json.lifeP;
 		agent.SpriteLife.setTexture(getSpriteLife(agent.lifeP));
+
 	}
 
 	if (typeof(json.angle) != "undefined")
@@ -610,6 +570,7 @@ function initHUD() {
 	addButton(hud, buttonLife, buttonLifeDown, buttonLifeTrans, 20, 20, buttonTab, 1);
 	addButton(hud, buttonMessage, buttonMessageDown, buttonMessageTrans, 60, 20, buttonTab, 2);
 	addButton(hud, buttonPercept, buttonPerceptDown, buttonPerceptTrans, 100, 20, buttonTab, 3);
+	//addButton(hud, buttonStats, buttonStatsDown, buttonStatsTrans, 140, 20, buttonTab, 4);
 }
 
 function initStreaming() {
@@ -618,7 +579,6 @@ function initStreaming() {
     contener.appendChild(renderer.view);
     camera.follow = false;
     camera.agentFollow = null;
-    camera.agentEntityFollow;
     camera.zoom = 1;
     stage.addChild(camera);
     stage.addChild(hud);
@@ -831,73 +791,49 @@ function updateDataAgentMap(agent) {
 function getSpriteAgent(typeAgent, typeColor) {
 	if(typeAgent == "WarExplorer") {
 		if(typeColor == 1) {
-			counterAgent.redExplorer += 1;
-        	document.getElementById('numberOfExplorerRed').innerHTML = counterAgent.redExplorer;
 			return explorerRed;
 		}
 		else {
-			counterAgent.blueExplorer += 1;
-            document.getElementById('numberOfExplorerBlue').innerHTML = counterAgent.blueExplorer;
 			return explorerBlue;
 		}
 	}
 	else if(typeAgent == "WarEngineer") {
 		if(typeColor == 1) {
-			counterAgent.redEngineer += 1;
-            document.getElementById('numberOfEngineerRed').innerHTML = counterAgent.redEngineer;
 			return engineerRed;
 		}
 		else {
-			counterAgent.blueEngineer += 1;
-            document.getElementById('numberOfEngineerBlue').innerHTML = counterAgent.blueEngineer;
 			return engineerBlue;
 		}
 	}
 	else if(typeAgent == "WarRocketLauncher") {
 		if(typeColor == 1) {
-			counterAgent.redRocketLauncher += 1;
-            document.getElementById('numberOfRocketLauncherRed').innerHTML = counterAgent.redRocketLauncher;
 			return rocketLauncherRed;
 		}
 		else {
-			counterAgent.blueRocketLauncher += 1;
-            document.getElementById('numberOfRocketLauncherBlue').innerHTML = counterAgent.blueRocketLauncher;
 			return rocketLauncherBlue;
 		}
 	}
 	else if(typeAgent == "WarKamikaze") {
 		if(typeColor == 1) {
-			counterAgent.redKamikaze += 1;
-            document.getElementById('numberOfKamikazeRed').innerHTML = counterAgent.redKamikaze;
 			return kamikazeRed;
 		}
 		else {
-			counterAgent.blueKamikaze += 1;
-            document.getElementById('numberOfKamikazeBlue').innerHTML = counterAgent.blueKamikaze;
 			return kamikazeBlue;
 		}
 	}
 	else if(typeAgent == "WarTurret") {
 		if(typeColor == 1) {
-			counterAgent.redTurret += 1;
-			document.getElementById('numberOfTurretRed').innerHTML = counterAgent.redTurret;
 			return turretRed;
 		}
 		else {
-			counterAgent.blueTurret += 1;
-			document.getElementById('numberOfTurretBlue').innerHTML = counterAgent.blueTurret;
 			return turretBlue;
 		}
 	}
 	else if(typeAgent == "WarBase") {
 		if(typeColor == 1) {
-			counterAgent.redBase += 1;
-			document.getElementById('numberOfBaseRed').innerHTML = counterAgent.redBase;
 			return baseRed;
 		}
 		else {
-			counterAgent.blueBase += 1;
-			document.getElementById('numberOfBaseBlue').innerHTML = counterAgent.blueBase;
 			return baseBlue;
 		}
 	}
@@ -920,8 +856,6 @@ function getSpriteAgent(typeAgent, typeColor) {
 		return bomb;
 	}
 	else if(typeAgent == "WarFood") {
-        counterAgent.food += 1;
-        document.getElementById('numberOfFoodConsoleMap').innerHTML = counterAgent.food;
 		return food;
 	}
 	else {

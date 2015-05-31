@@ -3,7 +3,6 @@ package edu.warbot.controllers;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.repository.AccountRepository;
-import edu.warbot.repository.PartyRepository;
 import edu.warbot.repository.WebAgentRepository;
 import edu.warbot.services.WarbotOnlineService;
 import edu.warbot.support.web.MessageHelper;
@@ -23,6 +22,7 @@ import java.util.List;
 @Controller
 public class HomeController {
 
+
     Logger logger = LoggerFactory.getLogger(HomeController.class);
     @Autowired
     private AccountRepository accountRepository;
@@ -32,6 +32,7 @@ public class HomeController {
     private WarbotOnlineService warbotOnlineService;
     @Autowired
     private WebAgentRepository webAgentRepository;
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Principal principal, Model model) {
