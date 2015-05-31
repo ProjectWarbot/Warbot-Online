@@ -54,12 +54,15 @@
                 var idParty = $('#idParty').val();
                 var data ={};
 
-
+                console.log(jQuery.fn.jquery);
 
                 $('#close-form').click(function() {
-                console.log("test");
                     $('#form-add-members')[0].reset();
+                    data= {};
                  });
+
+
+
 
                 $('#submit-form').click(function()
                 {
@@ -71,6 +74,21 @@
                     //console.log($('#members option [value="' + value + '"]'));
                     $("#hiddenIdUser").val(data[value]);
                     $("#form-add-members").submit();
+                });
+
+                $('#form-add-members').keyup(function(e) {
+                    var code = e.keyCode || e.which;
+                    if (code  == 13) {
+                        e.preventDefault();
+                    return false;
+                }
+                });
+                $('#form-add-members').keypress(function(e) {
+                    var code = e.keyCode || e.which;
+                    if (code  == 13) {
+                        e.preventDefault();
+                    return false;
+                }
                 });
 
 
