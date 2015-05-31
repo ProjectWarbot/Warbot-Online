@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.css}"/>
+</head>
+<body>
+<div th:fragment="functionsWarbot">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Function Name</th>
+                <th>Parameters</th>
+                <th>Effect</th>
+            </tr>
+        </thead>
+        <tbody >
+        <tr>
+            <th>sendMessage</th>
+            <th><p>1) idAgent -- int -- l'ID de l'agent qui doit reçevoir notre message</p>
+                <p>2) message -- String -- le titre de notre message</p>
+                <p>3) content -- String[] -- les contenus de notre message</p>
+            </th>
+            <th>Envoi un message à un autre agent</th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

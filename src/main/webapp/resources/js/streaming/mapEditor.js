@@ -461,6 +461,8 @@ function animate() {
     var coordCenterX = contener.offsetWidth-1 / 2;
     var coordCenterY = contener.offsetHeight-1 / 2;
 
+
+
     if(buttonAddAgentME) {
         contener.style.cursor = "crosshair";
     }
