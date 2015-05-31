@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}" />
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
 
     <title>Team List</title>
 
-    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
-    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
 
@@ -15,16 +16,21 @@
     <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 </head>
 <body>
-    <div th:replace="fragments/header :: header">Header</div>
+<div th:replace="fragments/header :: header">Header</div>
+
+<fieldset>
+    <h3 th:text="#{party-list.title}">Party List</h3>
 
     <div class="container searchTeamList">
         <div class="row">
             <div class="col-xs-5 col-xs-offset-0">
                 <div class="input-group">
                     <input type="hidden" name="search_param" value="all"/>
-                    <input id ="searchParties" type="text" class="form-control" name="x" list="parties" placeholder="Team name"/>
+                    <input id="searchParties" type="text" class="form-control" name="x" list="parties"
+                           placeholder="Team name"/>
                         <span class="input-group-btn">
-                            <button id ="btn" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                            <button id="btn" class="btn btn-primary" type="button"><span
+                                    class="glyphicon glyphicon-search"></span></button>
                         </span>
                 </div>
             </div>
@@ -39,23 +45,27 @@
         <thead>
         <tr>
             <th>#</th>
-            <th th:text="#{party.list.nom}" >Team name</th>
-            <th th:text="#{party.list.createur}" >Creator</th>
-            <th th:text="#{party.list.langage}" >Langage</th>
+            <th th:text="#{party.list.nom}">Team name</th>
+            <th th:text="#{party.list.createur}">Creator</th>
+            <th th:text="#{party.list.langage}">Langage</th>
             <th th:text="#{party.list.rang}">Rank</th>
-            <th th:text="#{party.list.outils}" >Tools</th>
+            <th th:text="#{party.list.outils}">Tools</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="party : ${parties}" th:data="${party.id}">
             <th><p th:text="${party.id}"></p></th>
-            <th><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}" data-sortable="true"></a></th>
-            <th><a th:href="'/account/userProfile?id='+${party.creator.id}" th:text="${party.creator.screenName}"></a></th>
+            <th><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}"
+                   data-sortable="true"></a></th>
+            <th><a th:href="'/account/userProfile?id='+${party.creator.id}" th:text="${party.creator.screenName}"></a>
+            </th>
             <th><p th:text="${party.language}"></p></th>
             <th><p th:text="${party.eloRank}"></p></th>
-            <th><a href="#" class="btn btn-primary btn-danger" th:onclick="'javascript:createFormDuel(\'' + ${party.id} + '\', \'' + ${party.name} + '\', \'' + ${party.creator.screenName} + '\');'"><span class="glyphicon glyphicon-flash"></span> Duel</a></th>
+            <th><a href="#" class="btn btn-primary btn-danger"
+                   th:onclick="'javascript:createFormDuel(\'' + ${party.id} + '\', \'' + ${party.name} + '\', \'' + ${party.creator.screenName} + '\');'"><span
+                    class="glyphicon glyphicon-flash"></span> Duel</a></th>
         </tr>
-            <script th:inline="javascript">
+        <script th:inline="javascript">
                 (function() {
                     var parties = $('[name="partyName"]');
                     $.each( parties, function( index, value ){
@@ -71,55 +81,69 @@
                         }
                     });
                 });
-            </script>
+
+
+
+        </script>
         </tbody>
     </table>
+</fieldset>
 
-    <div id="modalDuelTeam" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" >Fight team</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Vous êtes sur le point de défiez l'équipe :</p>
-                    <p id="namePartyToFight"></p>
-                    <p>Crée par :</p>
-                    <p id="creatorPartyToFight"></p>
-                    <br/>
-                    <p>Avec laquelle de vos équipes voulez vous défier cette équipe :</p>
-                    <div class="form-group">
-                        <div class="col-xs-14 selectContainer">
-
-                            <select  th:if="${myParties.size()} > 0" id="selectMyTeam" class="form-control" name="selectMyTeam" onchange="nameMyTeamForFightChange()">
-                                <option  th:each="myParty : ${myParties}"
-                                         th:selected="${myParty.id == myParties.get(0).id}"
-                                         th:value="${myParty.id}" th:text="${myParty.name}" >
-                                </option>
-                            </select>
-
-                            <p th:if="${myParties.size()} == 0"> Vous n'avez pas d'équipe pour pouvoir faire un duel </p>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
-                    <button th:if="${myParties.size()} > 0" id="confirmDuelParty" type="button" class="btn btn-danger">Go</button>
-                    <button th:if="${myParties.size()} == 0" id="confirmDuelParty" type="button" class="btn btn-danger" disabled="disabled">Go</button>
-                </div>
-                <form id="formDuelParty" method="GET" th:action="@{/teamcode}">
-                    <div class="col-xs-0 selectContainer">
-                        <input type="hidden" id="contenerIdParty" name="idParty"/>
-                        <input type="hidden" id="contenerIdParty2" name="idParty2"/>
-                    </div>
-                </form>
+<div id="modalDuelTeam" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Fight team</h4>
             </div>
+            <div class="modal-body">
+                <p th:text="#{duel.list.sentence1}">Vous êtes sur le point de défiez l'équipe :</p>
+
+                <p id="namePartyToFight"></p>
+
+                <p th:text="#{duel.list.sentence2}">Crée par :</p>
+
+                <p id="creatorPartyToFight"></p>
+                <br/>
+
+                <p th:text="#{duel.list.sentence3}">Avec laquelle de vos équipes voulez-vous défier cette équipe ?</p>
+
+                <div class="form-group">
+                    <div class="col-xs-14 selectContainer">
+
+                        <select th:if="${myParties.size()} > 0" id="selectMyTeam" class="form-control"
+                                name="selectMyTeam" onchange="nameMyTeamForFightChange()">
+                            <option th:each="myParty : ${myParties}"
+                                    th:selected="${myParty.id == myParties.get(0).id}"
+                                    th:value="${myParty.id}" th:text="${myParty.name}">
+                            </option>
+                        </select>
+
+                        <p th:if="${myParties.size()} == 0" th:text="#{duel.list.empty}"> Vous n'avez pas d'équipe pour
+                            pouvoir faire un duel </p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
+                <button id="confirmDuelParty" type="button" class="btn btn-danger"
+                        th:disabled="${myParties.size()} == 0">Go
+                </button>
+            </div>
+            <form id="formDuelParty" method="GET" th:action="@{/teamcode}">
+                <div class="col-xs-0 selectContainer">
+                    <input type="hidden" id="contenerIdParty" name="idParty"/>
+                    <input type="hidden" id="contenerIdParty2" name="idParty2"/>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
-    <script th:inline="javascript">
+<script th:inline="javascript">
         var modalDuelTeam = document.getElementById('modalDuelTeam');
         var formDuelParty = document.getElementById('formDuelParty');
         var defaultIDTeam = false;
@@ -135,7 +159,14 @@
         };
 
         $("#confirmDuelParty").click(function (event) {
-            formDuelParty.submit();
+            if(contenerIdParty != selectMyTeam)
+            {
+                formDuelParty.submit();
+            }
+            else
+            {
+                windows.alert("You can't affront the same party");
+            }
         });
 
         function nameMyTeamForFightChange() {
@@ -145,14 +176,11 @@
             $(contenerIdParty).val(selectMyTeam.value);
 
         }
-
-    </script>
-
-    <script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.js}" ></script>
-    <script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.js}" ></script>
+        nameMyTeamForFightChange();
 
 
 
+</script>
 </body>
 </html>
 

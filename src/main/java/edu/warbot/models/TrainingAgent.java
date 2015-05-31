@@ -1,5 +1,6 @@
 package edu.warbot.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.warbot.agents.enums.WarAgentType;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "TRAINING_AGENT")
-@NamedQuery(name = TrainingAgent.FIND_BY_NAME,query = "select m from TrainingAgent m where m.name = :name")
+@NamedQuery(name = TrainingAgent.FIND_BY_NAME, query = "select m from TrainingAgent m where m.name = :name")
 public class TrainingAgent extends AbstractPersistable<Long> {
 
     public static final String FIND_BY_NAME = "TrainingAgent.findByName";
@@ -34,9 +35,22 @@ public class TrainingAgent extends AbstractPersistable<Long> {
     @Column(name = "trainingAgent_type")
     private WarAgentType type;
 
-    @Column(name="trainingAgent_life", unique = false)
+    @Column(name = "trainingAgent_life", unique = false)
     private double life;
 
+    @JsonIgnore
+    @ManyToOne(targetEntity = TrainingConfiguration.class, fetch = FetchType.LAZY)
+    private TrainingConfiguration trainingConfiguration;
+
+    @JsonIgnore
+    public TrainingConfiguration getTrainingConfiguration() {
+        return trainingConfiguration;
+    }
+
+    @JsonIgnore
+    public void setTrainingConfiguration(TrainingConfiguration trainingConfiguration) {
+        this.trainingConfiguration = trainingConfiguration;
+    }
 
     public String getName() {
         return name;

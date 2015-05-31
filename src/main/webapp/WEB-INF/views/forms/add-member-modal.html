@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
+
+    <title>Create</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+    <script src="../../../resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
+</head>
+<body>
+<div id="add-member" class="modal fade" th:fragment="add-member">
+    <p th:text="${party.id}"></p>
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" th:text="#{link.add.members}">#{link.add.members}</h4>
+            </div>
+
+            <form action="#" method="post" th:action="@{/party/add/members}" id="form-add-members">
+                <div class="modal-body">
+                    <input type="hidden" id="idParty" name="idParty" th:value="${party.id}"/>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label" for="idUser" th:text="#{forms.add.members.label.user}">#{forms.add.members.label.user}</label>
+
+                        <div class="col-lg-10">
+                            <input list="members" autocomplete="off" type="text" id="idUser"/>
+                            <input type="hidden" name="idUser" id="hiddenIdUser"/>
+                            <datalist id="members"></datalist>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="close-form" class="btn btn-default" data-dismiss="modal"
+                            th:text="#{forms.close}">
+                        #{forms.close}
+                    </button>
+                    <button id="submit-form" type="button" class="btn btn-primary"
+
+                            th:text="#{forms.add.members.submit}">#{forms.add.members.submit}
+                    </button>
+                </div>
+            </form>
+            <script th:inline="javascript">
+                var path = /*[[@{/party/list/unmembers}]]*/ "/party/list/unmembers";
+
+                var idParty = $('#idParty').val();
+                var data ={};
+
+                console.log(jQuery.fn.jquery);
+
+                $('#close-form').click(function() {
+                    $('#form-add-members')[0].reset();
+                    data= {};
+                 });
+
+
+
+
+                $('#submit-form').click(function()
+                {
+                    var value = $('#idUser').val();
+                    //console.log("Value is "+value);
+                    //console.log("data -> "+ data);
+                    //console.log(data);
+                    //console.log("by data :"+ data[value]);
+                    //console.log($('#members option [value="' + value + '"]'));
+                    $("#hiddenIdUser").val(data[value]);
+                    $("#form-add-members").submit();
+                });
+
+                $('#form-add-members').keyup(function(e) {
+                    var code = e.keyCode || e.which;
+                    if (code  == 13) {
+                        e.preventDefault();
+                    return false;
+                }
+                });
+                $('#form-add-members').keypress(function(e) {
+                    var code = e.keyCode || e.which;
+                    if (code  == 13) {
+                        e.preventDefault();
+                    return false;
+                }
+                });
+
+
+                $('#idUser').keyup(function() {
+                    var val = $(this).val();
+			          if(val === "") return;
+                       //console.log(val);
+                       $.get(path,{"idParty":idParty,"letters":val},
+                           function(res) {
+                           //console.log("test");console.log(res);
+
+                            $("#members").empty();
+                            $.each(res,function(index,e){
+                                        console.log(index);
+                                        console.log(e);
+                            var opt = $("<option></option>").data("value", index).attr("value",e);
+					            $("#members").append(opt);
+
+                                    });
+
+                            },"json");
+                            data = {};
+                            $("#members option").each(function(i,el) {
+                            //console.log("data: "+$(el).val()+" -> "+$(el).data("value"));
+                            data[$(el).val()] = $(el).data("value");
+                            });
+
+                    });
+            </script>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+</body>
+</html>

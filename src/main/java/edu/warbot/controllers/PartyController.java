@@ -104,7 +104,7 @@ public class PartyController implements ApplicationContextAware {
                 Resource[] resources = applicationContext.getResources("classpath:script/python/*");
 
                 if (resources.length == 0)
-                    throw new IOException("Probleme avec ressource python");
+                    throw new IOException("Problème avec ressource python");
 
                 for (Resource resource : resources) {
                     Scanner scanner = new Scanner(resource.getFile());
@@ -117,7 +117,6 @@ public class PartyController implements ApplicationContextAware {
                     scanner.close();
                     int index = resource.getFilename().indexOf(".");
                     String typeAgent = resource.getFilename().substring(0, index);
-
                     codeAgent.put(WarAgentType.valueOf(typeAgent), sb);
                 }
 
@@ -137,12 +136,12 @@ public class PartyController implements ApplicationContextAware {
                 }
 
             }
-            warbotOnlineService.saveParty(party);
         } else {
             logger.debug("Found party");
             MessageHelper.addErrorAttribute(ra, "party.fail.name");
             return "party/create";
         }
+        warbotOnlineService.addMember(party, account);
         MessageHelper.addSuccessAttribute(ra, "party.success");
         ra.addAttribute("idParty", party.getId());
         return "redirect:/teamcode";
@@ -153,8 +152,10 @@ public class PartyController implements ApplicationContextAware {
                            Model model,
                            @RequestParam(required = true) Long id) {
         Assert.notNull(principal);
+        Account account = accountRepository.findByEmail(principal.getName());
         Party party = warbotOnlineService.findPartyById(id);
         Assert.notNull(party);
+        model.addAttribute("account", account);
         model.addAttribute("party", party);
         return "party/showParty";
     }
@@ -190,10 +191,40 @@ public class PartyController implements ApplicationContextAware {
         return "party/list";
     }
 
+    @RequestMapping(value = "/party/add/members")
+    public String addMember(Principal principal, RedirectAttributes ra,
+                            @RequestParam Long idParty, @RequestParam Long idUser) {
+        Account account = accountRepository.findByEmail(principal.getName());
+        Party party = warbotOnlineService.findPartyById(idParty);
+        if (party.getCreator().equals(account)) {
+            Account member = accountRepository.findOne(idUser);
+            Assert.notNull(member);
+            if (!party.getMembers().contains(member))
+                warbotOnlineService.addMember(party, member);
+        }
+        ra.addAttribute("id", party.getId());
+        return "redirect:/party/show";
+    }
+
+    @RequestMapping(value = "/party/remove/members")
+    public String removeMember(Principal principal, RedirectAttributes ra,
+                               @RequestParam Long idParty, @RequestParam Long idUser) {
+        Account account = accountRepository.findByEmail(principal.getName());
+        Party party = warbotOnlineService.findPartyById(idParty);
+
+        if (party.getCreator().equals(account)) {
+            Account member = accountRepository.findOne(idUser);
+            Assert.notNull(member);
+            if (party.getMembers().contains(member))
+                warbotOnlineService.removeMember(party, member);
+        }
+        ra.addAttribute("id", party.getId());
+        return "redirect:/party/show";
+    }
+
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
-
     }
 }

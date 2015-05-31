@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * Created by beugnon on 21/04/15.
- * <p>
+ * <p/>
  * Classe abstraite pour la création des messages interprocessus pour
  * Warbot
  *
@@ -43,12 +43,12 @@ public class InterProcessMessage implements Serializable {
         return header;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
     public void setHeader(String header) {
         this.header = header;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public void setDate(Date date) {

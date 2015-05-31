@@ -17,12 +17,9 @@ import madkit.action.KernelAction;
 import madkit.kernel.Madkit;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
-import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -33,43 +30,8 @@ import java.io.PrintStream;
  */
 public class MainWarbot {
 
-    public static class DocumentOutputStream extends OutputStream {
-
-        private Document doc;
-
-        public DocumentOutputStream(Document doc) {
-            this.doc = doc;
-        }
-
-
-        public void write(int b) throws IOException {
-            write(new byte[]{(byte)b}, 0, 1);
-        }
-
-        public void write(byte b[], int off, int len) throws IOException {
-            try {
-                doc.insertString(doc.getLength(),
-                        new String(b, off, len), null);
-                if(doc.getLength()>10000)
-                    doc.remove(0,10000);
-            }
-            catch (BadLocationException ble) {
-                throw new IOException(ble.getMessage());
-            }
-        }
-    }
-
-    /**Writes to nowhere*/
-    public static class NullOutputStream extends OutputStream {
-        @Override
-        public void write(int b) throws IOException {
-        }
-    }
-
-    private static org.slf4j.Logger logger = LoggerFactory.getLogger(MainWarbot.class);
-
-
     protected static PrintStream os;
+    private static org.slf4j.Logger logger = LoggerFactory.getLogger(MainWarbot.class);
 
     static {
         os = System.out;
@@ -93,29 +55,27 @@ public class MainWarbot {
     }
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext acac = new AnnotationConfigApplicationContext(WarbotProcessConfig.class,DataSourceConfig.class);
-        if(args.length>0) {
+        AnnotationConfigApplicationContext acac = new AnnotationConfigApplicationContext(WarbotProcessConfig.class, DataSourceConfig.class);
+        if (args.length > 0) {
             logger.info("Arguments ->");
-            for(String s : args)
+            for (String s : args)
                 logger.info(s);
-        }
-        else {
+        } else {
             logger.error("No Argument !");
             os.println(new ExceptionResult(new Exception("NoArgument")));
             System.exit(1);
         }
-        if(JSONInterProcessMessageTranslater.isReadableJSON(args[0])) {
+        if (JSONInterProcessMessageTranslater.isReadableJSON(args[0])) {
             try {
                 InterProcessMessage ipm = JSONInterProcessMessageTranslater.convertIntoObject(args[0]);
-                if(!ipm.getHeader().equals(LaunchGameCommand.HEADER)) {
+                if (!ipm.getHeader().equals(LaunchGameCommand.HEADER)) {
                     os.println(JSONInterProcessMessageTranslater.convertIntoMessage(new ExceptionResult(new Exception("NotLaunchGame"))));
-                }
-                else {
-                    WebGame wg = prepareWebGame(ipm,System.in,os, acac);
+                } else {
+                    WebGame wg = prepareWebGame(ipm, System.in, os, acac);
                     wg.sendMessage(new PingMessage());
                     WebLauncher wl = new WebLauncher(wg);
-                    Madkit madkit = new Madkit(Madkit.BooleanOption.desktop.toString(),"false");
-                    madkit.doAction(KernelAction.LAUNCH_AGENT,wl);
+                    Madkit madkit = new Madkit(Madkit.BooleanOption.desktop.toString(), "false");
+                    madkit.doAction(KernelAction.LAUNCH_AGENT, wl);
                     wg.getWarbotAgent().join();
                 }
             } catch (UnrecognizedInterProcessMessageException e) {
@@ -127,40 +87,36 @@ public class MainWarbot {
                 e.printStackTrace();
             }
 
-        }
-        else {
+        } else {
             logger.error("here unreadable");
-            System.err.println("unreadable arguments"+args[0]);
+            System.err.println("unreadable arguments" + args[0]);
             os.println(new ExceptionResult(new Exception("UnreadableArgument")));
             System.exit(2);
         }
         System.exit(0);
     }
 
-    private static Team loadTeam(TeamService ts, PartyRepository pr,String teamname, boolean isIATeam) {
-        Team t1=null;
-        if(isIATeam) {
-            if(!LaunchGameCommand.IA_TEAM_RANDOM.equals(teamname)) {
+    private static Team loadTeam(TeamService ts, PartyRepository pr, String teamname, boolean isIATeam) {
+        Team t1 = null;
+        if (isIATeam) {
+            if (!LaunchGameCommand.IA_TEAM_RANDOM.equals(teamname)) {
                 String name = teamname.substring(LaunchGameCommand.IA_TEAM_HEADER.length());
                 t1 = ts.getIATeamByName(name);
-            }
-            else
+            } else
                 t1 = ts.getRandomIATeam();
-        }
-        else {
+        } else {
             Long id = Long.parseLong(teamname.
                     substring(LaunchGameCommand.PLAYER_TEAM_HEADER.length()));
             Party party = pr.findOne(id);
-            if(party==null) {
-                System.out.println("NOT FOUND ID:"+id);
-            }
-            else
+            if (party == null) {
+                System.out.println("NOT FOUND ID:" + id);
+            } else
                 t1 = ts.generateTeamFromParty(party);
         }
         return t1;
     }
 
-    private static WebGame prepareWebGame(InterProcessMessage ipm,InputStream is, OutputStream os, AnnotationConfigApplicationContext acac) throws IOException {
+    private static WebGame prepareWebGame(InterProcessMessage ipm, InputStream is, OutputStream os, AnnotationConfigApplicationContext acac) throws IOException {
         LaunchGameCommand lgc = (LaunchGameCommand) ipm;
         TeamService ts = (TeamService) acac.getBean("teamService");
         WarGameSettings wgs = new WarGameSettings();
@@ -182,5 +138,39 @@ public class MainWarbot {
             return wg;
         }
 
+    }
+
+    public static class DocumentOutputStream extends OutputStream {
+
+        private Document doc;
+
+        public DocumentOutputStream(Document doc) {
+            this.doc = doc;
+        }
+
+
+        public void write(int b) throws IOException {
+            write(new byte[]{(byte) b}, 0, 1);
+        }
+
+        public void write(byte b[], int off, int len) throws IOException {
+            try {
+                doc.insertString(doc.getLength(),
+                        new String(b, off, len), null);
+                if (doc.getLength() > 10000)
+                    doc.remove(0, 10000);
+            } catch (BadLocationException ble) {
+                throw new IOException(ble.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Writes to nowhere
+     */
+    public static class NullOutputStream extends OutputStream {
+        @Override
+        public void write(int b) throws IOException {
+        }
     }
 }

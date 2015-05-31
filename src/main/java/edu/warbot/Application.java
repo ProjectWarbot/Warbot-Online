@@ -1,3 +1,4 @@
 package edu.warbot;
 
-public interface Application {}
+public interface Application {
+}

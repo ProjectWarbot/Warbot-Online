@@ -16,16 +16,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Queue;
-import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Created by beugnon on 29/04/15.
- *
+ * <p/>
  * Traitement des messages de la communication inter-processus côté serveur
  *
  * @author beugnon
- *
- *
  */
 public class ServerWarbotGameAgent extends WarbotGameAgent {
 
@@ -42,7 +39,7 @@ public class ServerWarbotGameAgent extends WarbotGameAgent {
 
     private boolean activated = false;
 
-    private int cpt=0;
+    private int cpt = 0;
 
     public ServerWarbotGameAgent(Account account, Process p, InputStream decoder, OutputStream encoder, SimpMessageSendingOperations simp) throws IOException {
         super(decoder, encoder);
@@ -53,7 +50,7 @@ public class ServerWarbotGameAgent extends WarbotGameAgent {
     }
 
     public void pushMessage(InterProcessMessage ipm) {
-        if(activated)
+        if (activated)
             getSender().pushMessage(ipm);
         else
             this.ipc.add(ipm);
@@ -83,7 +80,7 @@ public class ServerWarbotGameAgent extends WarbotGameAgent {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.err.println("ending waitFor Process return : "+i);
+                System.err.println("ending waitFor Process return : " + i);
                 getAlive().set(false);
             }
         });
@@ -92,20 +89,19 @@ public class ServerWarbotGameAgent extends WarbotGameAgent {
         processNotifier.start();
         while (getAlive().get()) {
             if (getReader().haveMessage()) {
-                cpt=0;
+                cpt = 0;
                 InterProcessMessage ipm = getReader().pollMessage();
-                if(activated)
+                if (activated)
                     handleMessage(ipm);
-                else if(ipm.getHeader().equals(PingMessage.HEADER)) {
-                    activated=true;
+                else if (ipm.getHeader().equals(PingMessage.HEADER)) {
+                    activated = true;
                     getSender().pushMessage(new PingMessage(true));
-                    while(!ipc.isEmpty())
+                    while (!ipc.isEmpty())
                         getSender().pushMessage(ipc.poll());
-                }
-                else {
+                } else {
                     //Received message without be activated
                     cpt++;
-                    if(cpt== 300) {
+                    if (cpt == 300) {
                         getSender().pushMessage(new PingMessage());
                     } else if (cpt >= 30000) {
                         getSender().pushMessage(new EndMessage("timeout"));
@@ -134,13 +130,13 @@ public class ServerWarbotGameAgent extends WarbotGameAgent {
     }
 
     public void handleMessage(InterProcessMessage ipm) {
-        if(ipm.getHeader().equals(EndMessage.HEADER)) {
-            logger.info( ((EndMessage) ipm).getContent().toString());
+        if (ipm.getHeader().equals(EndMessage.HEADER)) {
+            logger.info(((EndMessage) ipm).getContent().toString());
             getAlive().set(false);
         }
 
-        if(ipm.getHeader().equals(ExceptionResult.HEADER)) {
-            logger.info( ((ExceptionResult) ipm).getException().getMessage());
+        if (ipm.getHeader().equals(ExceptionResult.HEADER)) {
+            logger.info(((ExceptionResult) ipm).getException().getMessage());
 
             getAlive().set(false);
         }

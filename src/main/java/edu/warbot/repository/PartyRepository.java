@@ -26,13 +26,12 @@ public class PartyRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Party findByName(String name)
-    {
+    public Party findByName(String name) {
         try {
             Party p = entityManager.createNamedQuery(Party.FIND_BY_NAME, Party.class)
                     .setParameter("name", name)
                     .getSingleResult();
-            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),p);
+            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class), p);
             return p;
         } catch (PersistenceException e) {
             return null;
@@ -40,7 +39,7 @@ public class PartyRepository {
     }
 
     public <S extends Party> S save(S s) {
-        if(s.getId()==null)
+        if (s.getId() == null)
             entityManager.persist(s);
         else
             entityManager.merge(s);
@@ -52,9 +51,9 @@ public class PartyRepository {
             Party p = entityManager.createQuery(
                     "Select p from Party p where p.id = :id",
                     Party.class)
-                    .setParameter("id",aLong)
+                    .setParameter("id", aLong)
                     .getSingleResult();
-            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),p);
+            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class), p);
             return p;
         } catch (PersistenceException e) {
             return null;
@@ -63,15 +62,15 @@ public class PartyRepository {
 
     //    @Override
     public boolean exists(Long aLong) {
-        return findOne(aLong)!=null;
+        return findOne(aLong) != null;
     }
 
     //    @Override
     public Iterable<Party> findAll() {
-        List<Party> list =  entityManager.createQuery(
+        List<Party> list = entityManager.createQuery(
                 "Select p from Party p ",
                 Party.class).getResultList();
-        LazyLoadingUtil.deepHydrate(entityManager.unwrap(org.hibernate.Session.class),list);
+        LazyLoadingUtil.deepHydrate(entityManager.unwrap(org.hibernate.Session.class), list);
         return list;
     }
 
@@ -79,13 +78,12 @@ public class PartyRepository {
     public Iterable<Party> findAll(Iterable<Long> iterable) {
         List<Party> parties = new ArrayList<>();
 
-        for(Long l : iterable)
-        {
+        for (Long l : iterable) {
             Party p = findOne(l);
-            if(p!=null)
+            if (p != null)
                 parties.add(p);
         }
-        LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),parties);
+        LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class), parties);
         return parties;
     }
 
@@ -96,28 +94,24 @@ public class PartyRepository {
     }
 
     //    @Override
-    public boolean delete(Long id)
-    {
+    public boolean delete(Long id) {
         try {
             entityManager.createQuery("Delete FROM Party p WHERE p.id = :id")
-                    .setParameter("id",id).executeUpdate();
+                    .setParameter("id", id).executeUpdate();
             return true;
-        }
-        catch (PersistenceException e) {
+        } catch (PersistenceException e) {
             return false;
         }
     }
 
     //    @Override
-    public void delete(Party party)
-    {
+    public void delete(Party party) {
         entityManager.createQuery("Delete FROM Party p WHERE p.id = :id")
-                .setParameter("id",party.getId()).executeUpdate();
+                .setParameter("id", party.getId()).executeUpdate();
     }
 
     //    @Override
-    public void delete(Iterable<? extends Party> iterable)
-    {
+    public void delete(Iterable<? extends Party> iterable) {
         //NEVER DEFINED
     }
 
@@ -127,12 +121,12 @@ public class PartyRepository {
     }
     public List<Party> findByCreator(Account account) {
         try {
-            List<Party> list =  entityManager.createQuery(
+            List<Party> list = entityManager.createQuery(
                     "Select p from Party p where p.creator = :creator",
                     Party.class)
-                    .setParameter("creator",account)
+                    .setParameter("creator", account)
                     .getResultList();
-            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class),list);
+            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class), list);
             return list;
         } catch (PersistenceException e) {
             return Collections.emptyList();

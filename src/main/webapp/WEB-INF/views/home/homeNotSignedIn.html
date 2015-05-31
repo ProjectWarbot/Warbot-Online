@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}" />
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
 
-    <title th:text="#{view.index.title}" >Warbot - Online</title>
+    <title th:text="#{view.index.title}">Warbot - Online</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<<<<<<< HEAD
+    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+=======
     <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+>>>>>>> master
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
 </head>
@@ -15,6 +21,7 @@
 <div class="container">
     <div class="text-center">
         <h1 id="titre-description" th:text="#{home.homeNotSignedIn.messageHome}">Bienvenue sur Warbot Online</h1>
+
         <p class="lead" id="home-description">
             Warbot est à la fois un jeu et une plate-forme d'évaluation
             et d'analyse de techniques de coordination entre agents, dans
@@ -29,8 +36,10 @@
             programmation de ces cerveaux, et dans les stratégies de
             coordination proposées
         </p>
+
         <p>
-            <a href="/signup" th:href="@{/signup}" class="btn btn-success btn-lg" th:text="#{home.homeNotSignedIn.inscription}" >Sign in</a>
+            <a href="/signup" th:href="@{/signup}" class="btn btn-success btn-lg"
+               th:text="#{home.homeNotSignedIn.inscription}">Sign in</a>
         </p>
     </div>
     <div th:replace="fragments/footer :: footer">&copy; 2013 The Static Templates</div>

@@ -6,7 +6,6 @@ import edu.warbot.repository.AccountRepository;
 import edu.warbot.repository.PartyRepository;
 import edu.warbot.scriptcore.interpreter.ScriptInterpreterLanguage;
 import edu.warbot.services.UserService;
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,16 +14,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.security.Principal;
 import java.util.Date;
 import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.notNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -37,21 +32,17 @@ import static org.mockito.Mockito.*;
 public class PartyRepositoryTest {
 
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
     @InjectMocks
     private UserService userService = new UserService();
-
     @Mock
     private AccountRepository accountRepositoryMock;
-
     @Mock
     private PartyRepository partyRepository;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Test
-    public void shouldInitializeWithTwoDemoUsers()
-    {
+    public void shouldInitializeWithTwoDemoUsers() {
         // act
         userService.initialize();
         // assert
@@ -59,11 +50,10 @@ public class PartyRepositoryTest {
     }
 
     @Test
-    public void shouldCreateParty()
-    {
+    public void shouldCreateParty() {
         // arrange
-        Account demoUser = new Account("user@example.com", "demo","firstName","lastName","screeName",
-                true,false,new Date(),new Date(),new Date(),"ROLE_USER",new HashSet<Party>());
+        Account demoUser = new Account("user@example.com", "demo", "firstName", "lastName", "screeName",
+                true, false, new Date(), new Date(), new Date(), "ROLE_USER", new HashSet<Party>(), new HashSet<Party>());
         when(accountRepositoryMock.save(demoUser)).thenReturn(demoUser);
         when(accountRepositoryMock.findByEmail("user@example.com")).thenReturn(demoUser);
         Party party = new Party("toto", ScriptInterpreterLanguage.PYTHON);
@@ -81,14 +71,13 @@ public class PartyRepositoryTest {
     }
 
     @Test
-    public void shouldThrowNotFoundException()
-    {
+    public void shouldThrowNotFoundException() {
         // arrange
         thrown.expect(Exception.class);
         Account demoUser = new Account("user@example.com", "demo",
-                "firstName","lastName","screeName",
-                true,false,new Date(),new Date(),
-                new Date(),"ROLE_USER",new HashSet<Party>());
+                "firstName", "lastName", "screeName",
+                true, false, new Date(), new Date(),
+                new Date(), "ROLE_USER", new HashSet<Party>(), new HashSet<Party>());
         when(accountRepositoryMock.save(demoUser)).thenReturn(demoUser);
         when(accountRepositoryMock.findByEmail(demoUser.getEmail())).thenReturn(demoUser);
         Party party = new Party("toto", ScriptInterpreterLanguage.PYTHON);
@@ -100,7 +89,6 @@ public class PartyRepositoryTest {
         partyRepository.findByName("toto");
 
     }
-
 
 
 }

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}" />
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
 
     <title th:text="#{view.index.title}">Welcome!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
-    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+
+    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
+          th:href="@{/resources/css/bootstrap.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
 </head>
@@ -16,18 +19,23 @@
     <!-- /* Handle the flash message */-->
     <th:block th:if="${message != null}">
         <!-- /* The message code is returned from the @Controller */ -->
-        <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">&nbsp;</div>
+        <div th:replace="fragments/alert :: alert (type=${#strings.toLowerCase(message.type)}, message=#{${message.message}(${#authentication.name})})">
+            &nbsp;</div>
     </th:block>
-    <p th:text="#{home.SignedIn.Bienvenue}">Welcome to the Warbot Online,</p> <span th:text="${account.email}">email</span> !
+    <p th:text="#{home.SignedIn.Bienvenue}">Welcome to the Warbot Online,</p> <span
+        th:text="${account.email}">email</span> !
 
     <h2 th:text="#{home.SignedIn.action}">Actions</h2>
     <a class="btn btn-primary" th:href="@{/party/create}" th:text="#{home.SignedIn.creePartie}">Create a party</a>
-    <a href="./configuration/new" th:href="@{/configuration/new}" class="btn btn-success" th:text="#{home.SignedIn.creeSalle}" >Créer une salle d'entrainement</a>
-    <a th:href="@{/partylist}" class="btn btn-danger" th:text="#{home.SignedIn.trouverUnAdversaire}">Trouver un adversaire</a>
+    <a href="./configuration/new" th:href="@{/configuration/new}" class="btn btn-success"
+       th:text="#{home.SignedIn.creeSalle}">Créer une salle d'entrainement</a>
+    <a th:href="@{/partylist}" class="btn btn-danger" th:text="#{home.SignedIn.trouverUnAdversaire}">Trouver un
+        adversaire</a>
 
-    <h2 th:text="#{home.SignedIn.equipe}" >Parties</h2>
+    <h2 th:text="#{home.SignedIn.equipe}">#{home.SignedIn.equipe}</h2>
+
     <p th:if="${parties.size()}==0">
-        <span th:text="#{home.SignedIn.pasDequipe}">dont have team</span>
+        <span th:text="#{home.SignedIn.pasDequipe}">#{home.SignedIn.pasDequipe}</span>
     </p>
 
     <table id="myListParties" class="table table-bordered" th:if="${parties.size()}>0">
@@ -44,25 +52,38 @@
         </thead>
         <tbody>
         <tr th:each="party : ${parties}">
-            <th><p th:text="${party.id}"></p></th>
-            <th><a th:href="'/party/show?id='+${party.id}" th:text="${party.name}"> </a></th>
-            <th><a th:href="'/account/userProfile?id='+${party.creator.id}" th:text="${party.creator.screenName}"></a></th>
-            <th><p th:text="${party.getMembers().size()}"></p></th>
-            <th><p th:text="${party.language}"></p></th>
-            <th><p th:text="${party.eloRank}"></p></th>
-            <th>
-                <a th:href="@{/teamcode}+'?idParty='+${party.id}" class="btn btn-primary" th:text="#{home.SignedIn.lancer}">Use</a>
-                <a href="#" class="btn btn-danger deleteParty" th:text="#{home.SignedIn.supprimer}" th:value="${party.id}" th:onclick="'javascript:createFormDelete(\'' + ${party.id} + '\', \'' + ${party.name} + '\');'">Delete</a>
-            </th>
+            <td><p th:text="${party.id}"></p></td>
+            <td><a href="#"
+                   th:href="@{/party/show(id=${party.id})}"
+                   th:text="${party.name}"></a>
+            </td>
+            <td><a th:href="@{/account/userProfile(id=${party.creator.id})}"
+                   th:text="${party.creator.screenName}"></a>
+            </td>
+            <td><p th:text="${party.getMembers().size()}"></p></td>
+            <td><p th:text="${party.language}"></p></td>
+            <td><p th:text="${party.eloRank}"></p></td>
+            <td>
+                <a th:href="@{/teamcode(idParty=${party.id})}" class="btn btn-primary"
+                   th:text="#{home.SignedIn.lancer}">#{home.SignedIn.lancer}</a>
+                <a href="#" class="btn btn-danger deleteParty"
+                   th:text="#{home.SignedIn.supprimer}"
+                   th:value="${party.id}"
+                   th:onclick="'javascript:createFormDelete(\'' + ${party.id} + '\',
+                    \'' + ${party.name} + '\');'">#{home.SignedIn.supprimer}</a>
+            </td>
         </tr>
         </tbody>
     </table>
 
-    <div id="modalDeleteParty" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div id="modalDeleteParty"
+         class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+         aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" th:text="#{home.SignedIn.modalDelete.title}">Delete Party</h4>
                 </div>
                 <div class="modal-body">
@@ -70,7 +91,7 @@
 
                     <p id="namePartyToDelete"></p>
 
-                    <p>Etes vous sur de vouloir vraiment supprimer cette équipe ?</p>
+                    <p>Êtes-vous sur de vouloir vraiment supprimer cette équipe ?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
@@ -87,8 +108,6 @@
 </div>
 
 <script th:inline="javascript">
-
-
         var modalDelete = document.getElementById('modalDeleteParty');
         var formDeleteParty = document.getElementById('formDeleteParty');
 
@@ -103,6 +122,7 @@
             $(contenerIdParty).val(idP);
             $(modalDelete).modal('show');
         };
+
 
 </script>
 </body>

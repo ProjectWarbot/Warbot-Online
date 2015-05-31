@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * Created by BEUGNON on 11/03/2015.
- * <p>
+ * <p/>
  * Classe représentant une partie jouée sur le web
  * en streaming
  *
@@ -40,13 +40,13 @@ public class WebGame extends WarGame {
     private boolean firstCall;
     private int tick;
 
-    private int all3tick=0;
+    private int all3tick = 0;
 
     public WebGame(InputStream is, OutputStream os, WarGameSettings settings) throws IOException {
         super(settings);
         tick = 0;
         this.firstCall = true;
-        this.gameAgent = new ClientWarbotGameAgent(this,is,os);
+        this.gameAgent = new ClientWarbotGameAgent(this, is, os);
         thread = new Thread(this.gameAgent);
         thread.start();
         this.gameLog = new GameLog();
@@ -72,48 +72,48 @@ public class WebGame extends WarGame {
             sendInitMessage();
             firstCall = false;
         }
-        all3tick++;
-        if(all3tick==4) {
-            all3tick = 0;
-            getGameLog().obsolete();
 
-            for (Team t : getPlayerTeams()) {
-                for (WarAgent a : t.getAllAgents()) {
+        getGameLog().obsolete();
 
-                    if (a instanceof ControllableWarAgent) {
-                        Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
+        for (Team t : getPlayerTeams()) {
+            for (WarAgent a : t.getAllAgents()) {
 
-                        sendMessage(new AgentMessage(map));
-                    } else {
-                        Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
-                        sendMessage(new AgentMessage(map));
+                if (a instanceof ControllableWarAgent) {
+                    Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
 
-                    }
+                    sendMessage(new AgentMessage(map));
+                } else {
+                    Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
+                    sendMessage(new AgentMessage(map));
+
                 }
-            }
-
-            for (WarAgent a : getMotherNatureTeam().getAllAgents()) {
-                Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
-                sendMessage(new AgentMessage(map));
-            }
-
-            List<EntityLog> agentDead = new ArrayList<>();
-
-            for (EntityLog el : this.getGameLog().getEntityLog().values())
-                if (!el.isUpdated())
-                    agentDead.add(el);
-
-            for (EntityLog el : agentDead) {
-                this.getGameLog().getEntityLog().remove(el.getName());
-                Map<String, Object> map = new HashMap<>();
-                map.put("name", el.getName());
-                map.put("state", -1);
-                sendMessage(new AgentMessage(map));
             }
         }
 
-        if (getGameMode().getEndCondition().isGameEnded())
+        for (WarAgent a : getMotherNatureTeam().getAllAgents()) {
+            Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
+            sendMessage(new AgentMessage(map));
+        }
+
+        List<EntityLog> agentDead = new ArrayList<>();
+
+        for (EntityLog el : this.getGameLog().getEntityLog().values())
+            if (!el.isUpdated())
+                agentDead.add(el);
+
+        for (EntityLog el : agentDead) {
+            this.getGameLog().getEntityLog().remove(el.getName());
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", el.getName());
+            map.put("state", -1);
+            sendMessage(new AgentMessage(map));
+        }
+
+
+        if (getGameMode().getEndCondition().isGameEnded()) {
             setGameOver();
+
+        }
     }
 
     protected boolean isFirstCall() {
@@ -167,8 +167,11 @@ public class WebGame extends WarGame {
 
     @Override
     public void setGameOver() {
+        HashMap<String, String> map = new HashMap<>();
+        for (Team t : getPlayerTeams())
+            map.put(t.getName(), "" + t.hasLost());
+        sendMessage(new EndMessage("game-end", map));
         super.setGameOver();
-        sendMessage(new EndMessage("game-end"));
         this.gameAgent.getAlive().set(false);
         System.exit(0);
     }
@@ -186,8 +189,8 @@ public class WebGame extends WarGame {
     }
 
     public void sendMessage(InterProcessMessage cm) {
-        if(! (cm instanceof AgentMessage) || ((AgentMessage) cm).getContent().size()>1)
-        gameAgent.getSender().pushMessage(cm);
+        if (!(cm instanceof AgentMessage) || ((AgentMessage) cm).getContent().size() > 1)
+            gameAgent.getSender().pushMessage(cm);
     }
 
 

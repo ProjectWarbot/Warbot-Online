@@ -9,8 +9,7 @@ import org.hibernate.validator.constraints.NotBlank;
  *
  * @author Sébastien Beugnon
  */
-public class PartyForm
-{
+public class PartyForm {
 
     private static final String NOT_BLANK_MESSAGE = "{notBlank.message}";
 
@@ -20,8 +19,7 @@ public class PartyForm
     @NotBlank(message = PartyForm.NOT_BLANK_MESSAGE)
     public String language;
 
-    public Party createParty()
-    {
+    public Party createParty() {
         Party p = new Party(teamName, ScriptInterpreterLanguage.valueOf(language));
         return p;
     }

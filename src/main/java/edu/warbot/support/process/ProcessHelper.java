@@ -51,10 +51,10 @@ public class ProcessHelper {
             command.addAll(Arrays.asList(options));
         command.add(mainClass);
         command.addAll(Arrays.asList(arguments));
-        log.info("Show: "+command+ " ("+command.size()+")");
+        log.info("Show: " + command + " (" + command.size() + ")");
         ProcessBuilder processBuilder = new ProcessBuilder(command);
         Map<String, String> environment = processBuilder.environment();
-        environment.put("CLASSPATH",classpath);
+        environment.put("CLASSPATH", classpath);
         return processBuilder;
     }
 

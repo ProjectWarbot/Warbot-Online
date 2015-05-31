@@ -10,16 +10,14 @@ import java.util.HashMap;
 
 /**
  * Created by beugnon on 29/04/15.
- *
- *
  */
 public class CrossProcessTeam implements Serializable {
 
     private String teamName;
 
-    private HashMap<String,Class<? extends WarBrain>> brainByAgent;
+    private HashMap<String, Class<? extends WarBrain>> brainByAgent;
 
-    private HashMap<WarAgentType,Script> scriptByAgent;
+    private HashMap<WarAgentType, Script> scriptByAgent;
 
     private ScriptInterpreterLanguage language = null;
 

@@ -25,12 +25,11 @@ public class ContactController {
 
     @RequestMapping(value = "/contact")
     public String about(Model model, Principal principal) {
-        if(principal !=null)
-        {
+        if (principal != null) {
             Account account = accountRepository.findByEmail(principal.getName());
             Assert.notNull(account);
-            model.addAttribute("email",account.getEmail());
-            model.addAttribute("login",account.getScreenName());
+            model.addAttribute("email", account.getEmail());
+            model.addAttribute("login", account.getScreenName());
         }
         return "feedback/contact";
     }

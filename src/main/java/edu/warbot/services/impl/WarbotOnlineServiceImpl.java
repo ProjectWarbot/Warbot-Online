@@ -20,12 +20,10 @@ import java.util.List;
 
 /**
  * Created by beugnon on 08/04/15.
- *
  */
 @Service
 @Transactional
-public class WarbotOnlineServiceImpl implements WarbotOnlineService
-{
+public class WarbotOnlineServiceImpl implements WarbotOnlineService {
     @Autowired
     private WebAgentRepository webAgentRepository;
 
@@ -52,6 +50,7 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
             webAgentRepository.save(new WebAgent(WarAgentType.WarKamikaze, true, false));
         }
     }
+
     @Override
     public Party createParty(Party party) {
         return partyRepository.save(party);
@@ -93,10 +92,21 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService
     }
 
     @Override
-    public boolean deleteParty(Long id) {return partyRepository.delete(id);}
+    public boolean deleteParty(Long id) {
+        return partyRepository.delete(id);
+    }
 
     @Override
-    public void saveParty(Party party) {
-        partyRepository.save(party);
+    public void addMember(Party party, Account account) {
+        Party party2 = findPartyById(party.getId());
+        party2.addMember(account);
+        partyRepository.save(party2);
+    }
+
+    @Override
+    public void removeMember(Party party, Account member) {
+        Party party2 = findPartyById(party.getId());
+        party2.getMembers().remove(member);
+        partyRepository.save(party2);
     }
 }
