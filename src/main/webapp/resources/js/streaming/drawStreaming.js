@@ -194,7 +194,7 @@ function createMapJson() {
 		}
 		else if(TeamAll[i].color.r == 255 && TeamAll[i].color.g == 98 && TeamAll[i].color.b == 255) {
 			var teamName = new PIXI.Text("BLUE : "+TeamAll[i].name, {font:"25px Arial", fill:"blue"});
-			teamName.position.x = 500;
+			teamName.position.x = 800;
 			teamName.position.y = -50;
 			teamName.alpha = 1;
 			camera.teamTextNameBlue = teamName;
@@ -457,7 +457,7 @@ function agentChangeValue(agent, json) {
 	if(typeof(json.colorDebug) != "undefined")
 	{
 		agent.colorDebug = json.colorDebug;
-		agent.debug.setStyle({font:"12px Arial", fill:agent.colorDebug});
+		agent.debug.setStyle({fill:agent.colorDebug});
 	}
 
 	if(typeof(json.messageDebug) != "undefined")
@@ -530,6 +530,9 @@ function addButton(scene, form, formDown, formTrans, cX, cY, tab, type) {
         		else if (type == 3){
         			agentTab[i].SpritePercept.alpha = -1;
         		}
+        		else if (type == 4){
+                	// nothing
+                }
         	}
    		}
    		else {
@@ -549,6 +552,9 @@ function addButton(scene, form, formDown, formTrans, cX, cY, tab, type) {
         		else if (type == 3){
         			agentTab[i].SpritePercept.alpha = 1;
         		}
+        		else if (type == 4){
+                	stopGame();
+                }
         	}
    		}
     };
@@ -610,6 +616,7 @@ function initHUD() {
 	addButton(hud, buttonLife, buttonLifeDown, buttonLifeTrans, 20, 20, buttonTab, 1);
 	addButton(hud, buttonMessage, buttonMessageDown, buttonMessageTrans, 60, 20, buttonTab, 2);
 	addButton(hud, buttonPercept, buttonPerceptDown, buttonPerceptTrans, 100, 20, buttonTab, 3);
+	addButton(hud, buttonStop, buttonStopDown, buttonStopTrans, 20, 60, buttonTab, 4);
 }
 
 function initStreaming() {
@@ -724,6 +731,14 @@ function cameraZoome(e) {
 		camera.map.scale.y *= factor;
 		camera.map.position.x *= factor;
         camera.map.position.y *= factor;
+        camera.teamTextNameBlue.scale.x *= factor;
+        camera.teamTextNameBlue.scale.y *= factor;
+        camera.teamTextNameBlue.position.x *= factor;
+        camera.teamTextNameBlue.position.y *= factor;
+        camera.teamTextNameRed.scale.x *= factor;
+        camera.teamTextNameRed.scale.y *= factor;
+        camera.teamTextNameRed.position.x *= factor;
+        camera.teamTextNameRed.position.y *= factor;
 	//}
 
 	for (i = 0; i < agentTab.length; i++) {
@@ -734,14 +749,18 @@ function cameraZoome(e) {
             agentTab[i].position.y *= factor;
 			agentTab[i].SpriteLife.scale.x *= factor;
 			agentTab[i].SpriteLife.scale.y *= factor;
-			agentTab[i].SpriteLife.position.x = agentTab[i].position.x;
-			agentTab[i].SpriteLife.position.y = agentTab[i].position.y - Math.sqrt(agentTab[i].height * agentTab[i].scale.x * agentTab[i].height * agentTab[i].scale.x);
+			agentTab[i].SpriteLife.position.x *= factor;
+			agentTab[i].SpriteLife.position.y *= factor;
 			agentTab[i].SpritePercept.scale.x *= factor;
 			agentTab[i].SpritePercept.scale.y *= factor;
 			agentTab[i].SpritePercept.position.x = agentTab[i].position.x;
 			agentTab[i].SpritePercept.position.y = agentTab[i].position.y;
 			changePositionPercept(agentTab[i]);
-			agentTab[i].debug.setStyle();
+			agentTab[i].debug.scale.x *= factor;
+			agentTab[i].debug.scale.y *= factor;
+			agentTab[i].debug.position.x *= factor;
+			agentTab[i].debug.position.y *= factor;
+
 		//}
 	}
 };
@@ -905,12 +924,12 @@ function getSpriteAgent(typeAgent, typeColor) {
 		if(typeColor == 1) {
 			counterAgent.redWall += 1;
 			document.getElementById('numberOfWallRed').innerHTML = counterAgent.redWall;
-			return redWall;
+			return wallRed;
 		}
 		else {
 			counterAgent.blueWall += 1;
 			document.getElementById('numberOfWallBlue').innerHTML = counterAgent.blueWall;
-			return blueWall;
+			return wallBlue;
 		}
 	}
 	else if(typeAgent == "WarRocket") {
@@ -1138,5 +1157,12 @@ function messageServerEnd(message) {
     partyStart = false;
 
     requestAnimFrame( animate );
+}
 
+function chargeAppModel(appModel) {
+	stage.appM = appModel;
+}
+
+function stopGame() {
+	stage.appM.stop();
 }
