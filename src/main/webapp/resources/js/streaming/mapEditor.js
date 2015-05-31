@@ -1041,7 +1041,7 @@ function sendListAgent() {
     		"angle"    : listAgentEditor[i].angle,
     		"teamName" : listAgentEditor[i].teamName,
     		"type"     : listAgentEditor[i].type,
-    		"life"     : getLifeMaxAgent(listAgentEditor[i])
+    		"life"     : getLifeMaxAgent(listAgentEditor[i]),
     	});
     }
 
@@ -1066,7 +1066,7 @@ function sendMessageForSaveTrainingConfiguration() {
 			"angle"    : listAgentEditor[i].angle,
 			"teamName" : listAgentEditor[i].teamName,
 			"type"     : listAgentEditor[i].type,
-			"life"     : getLifeMaxAgent(listAgentEditor[i])
+			"life"     : getLifeMaxAgent(listAgentEditor[i]),
 		});
 	}
 
@@ -1096,7 +1096,6 @@ function saveTrainingConfiguration() {
 			teamName : listAgentEditor[i].teamName,
 			type : listAgentEditor[i].type,
 			life : getLifeMaxAgent(listAgentEditor[i])
-
 		};
 
 		listAgentForSave.push(agent);
