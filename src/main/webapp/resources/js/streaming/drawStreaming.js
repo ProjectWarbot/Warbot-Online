@@ -1113,6 +1113,50 @@ function changeDebugMessage(agent, json) {
 
 function messageServerEnd(message) {
 
+    counterAgent = {
+    	food : 0,
+    	redBase : 0,
+    	blueBase : 0,
+    	redExplorer : 0,
+    	blueExplorer : 0,
+    	redKamikaze : 0,
+    	blueKamikaze : 0,
+    	redRocketLauncher : 0,
+    	blueRocketLauncher : 0,
+    	redTurret : 0,
+    	blueTurret : 0,
+    	redEngineer : 0,
+    	blueEngineer : 0,
+    	redWall : 0,
+    	blueWall : 0
+    };
+
+    document.getElementById('numberOfExplorerRed').innerHTML = 0;
+    document.getElementById('numberOfExplorerBlue').innerHTML = 0;
+    document.getElementById('numberOfEngineerRed').innerHTML = 0;
+    document.getElementById('numberOfEngineerBlue').innerHTML = 0;
+    document.getElementById('numberOfRocketLauncherRed').innerHTML = 0;
+    document.getElementById('numberOfRocketLauncherBlue').innerHTML = 0;
+    document.getElementById('numberOfKamikazeRed').innerHTML = 0;
+    document.getElementById('numberOfKamikazeBlue').innerHTML = 0;
+    document.getElementById('numberOfTurretRed').innerHTML = 0;
+    document.getElementById('numberOfTurretBlue').innerHTML = 0;
+    document.getElementById('numberOfBaseRed').innerHTML = 0;
+    document.getElementById('numberOfBaseBlue').innerHTML = 0;
+    document.getElementById('numberOfWallRed').innerHTML = 0;
+    document.getElementById('numberOfWallBlue').innerHTML = 0;
+    document.getElementById('numberOfFoodConsoleMap').innerHTML = 0;
+
+    document.getElementById('nameRedTeamConsoleMap').innerHTML = "Null";
+    document.getElementById('nameBlueTeamConsoleMap').innerHTML = "Null";
+
+    document.getElementById('nameOfAgentFollow').innerHTML = "null";
+    document.getElementById('teamOfAgentFollow').innerHTML = "null";
+    document.getElementById('typeOfAgentFollow').innerHTML = "null";
+    document.getElementById('lifeOfAgentFollow').innerHTML = "0 %";
+    document.getElementById('debugMessageOfAgentFollow').innerHTML = "null";
+    document.getElementById('angleOfAgentFollow').innerHTML = "0";
+
 	stage.setBackgroundColor(colorStreamOff);
 
 	for (i = 0; i < agentTab.length; i++) {
