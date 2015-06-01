@@ -327,6 +327,32 @@
             {
                 resetMapEditor();
             });
+
+                            var listAgentsEdit = { "header" : "agentsMap",
+                                                "content": [{
+                                                                "name"     : "WarBase-0",
+                                                                "x"        : 50,
+                                                                "y"        : 50,
+                                                                "angle"    : 45,
+                                                                "teamName" : "Other Team",
+                                                                "type"     : "WarBase",
+                                                                "life"     : 100
+                                                            },
+                                                            {
+                                                                "name"     : "WarBase-0",
+                                                                "x"        : 100,
+                                                                "y"        : 100,
+                                                                "angle"    : 0,
+                                                                "teamName" : "Other Team",
+                                                                "type"     : "WarBase",
+                                                                "life"     : 100
+                                                            }
+
+                                                            ]
+
+                            };
+
+                            replaceAgents(listAgentsEdit.content);
       })();
 
 

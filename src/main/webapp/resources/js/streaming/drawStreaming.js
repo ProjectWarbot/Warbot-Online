@@ -205,8 +205,6 @@ function createMapJson() {
 		else {
 			//console.log("Bug team");
 		}
-
-
 	}
 
 }
@@ -359,20 +357,36 @@ function createAgentJson(scene, tab, json, teams) {
 
 	agent.mousedown = function(data) {
 
-   		if (this.isdown) {
-   			this.isdown = false;
-   			scene.follow = false;
-   			scene.agentFollow = -1;
-   			scene.agentEntityFollow = null;
-   			document.getElementById('nameOfAgentFollow').innerHTML = "null";
-   			document.getElementById('teamOfAgentFollow').innerHTML = "null";
-   			document.getElementById('typeOfAgentFollow').innerHTML = "null";
-   			document.getElementById('lifeOfAgentFollow').innerHTML = "0 %";
-   			document.getElementById('debugMessageOfAgentFollow').innerHTML = "null";
-   			document.getElementById('angleOfAgentFollow').innerHTML = "0";
+		alert(scene.follow + scene.agentFollow );
+
+   		if (scene.follow) {
+   			if(scene.agentFollow == this.name) {
+				scene.follow = false;
+				scene.agentFollow = -1;
+				scene.agentEntityFollow = null;
+				document.getElementById('nameOfAgentFollow').innerHTML = "null";
+				document.getElementById('teamOfAgentFollow').innerHTML = "null";
+				document.getElementById('typeOfAgentFollow').innerHTML = "null";
+				document.getElementById('lifeOfAgentFollow').innerHTML = "0 %";
+				document.getElementById('debugMessageOfAgentFollow').innerHTML = "null";
+				document.getElementById('angleOfAgentFollow').innerHTML = "0";
+				}
+
+				else {
+				   			scene.follow = true;
+                   			scene.agentFollow = agent.name;
+                   			scene.agentEntityFollow = this;
+                   			scene.position.x += (renderer.width / 2) - this.position.x;
+                   			scene.position.y += (renderer.height / 2) - this.position.y;
+                   			document.getElementById('nameOfAgentFollow').innerHTML = this.name;
+                   			document.getElementById('teamOfAgentFollow').innerHTML = this.teamName;
+                   			document.getElementById('typeOfAgentFollow').innerHTML = this.type;
+                   			document.getElementById('lifeOfAgentFollow').innerHTML = this.lifeP + " %";
+                   			document.getElementById('debugMessageOfAgentFollow').innerHTML = this.messageDebug;
+                   			document.getElementById('angleOfAgentFollow').innerHTML = this.angle;
+				}
    		}
    		else {
-   			this.isdown = true;
    			scene.follow = true;
    			scene.agentFollow = agent.name;
    			scene.agentEntityFollow = this;
@@ -597,8 +611,8 @@ function animate() {
 		}
 	}
 
-	for (i = 0; i < agentTab.length; i++) {
-		if(camera.follow) {
+	if(camera.follow) {
+		for (i = 0; i < agentTab.length; i++) {
 			if(camera.agentFollow == agentTab[i].name) {
    				camera.position.x = (renderer.width / 2) - agentTab[i].position.x;
    				camera.position.y = (renderer.height / 2) - agentTab[i].position.y;
