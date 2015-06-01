@@ -33,7 +33,7 @@
     <h2 th:text="#{home.SignedIn.equipe}">Parties</h2>
 
     <p th:if="${parties.size()}==0">
-        <span th:text="#{home.SignedIn.pasDequipe}">dont have team</span>
+        <span th:text="#{home.SignedIn.pasDequipe}">#{home.SignedIn.pasDequipe}</span>
     </p>
 
     <table id="myListParties" class="table table-bordered" th:if="${parties.size()}>0">
@@ -50,25 +50,32 @@
         </thead>
         <tbody>
         <tr th:each="party : ${parties}">
-            <!--<th><p th:text="${party.id}"></p></th>-->
-            <th><a th:href="'/party/show?id='+${party.id}" th:text="${party.name}"> </a></th>
-            <th><a th:href="'/account/userProfil?id='+${party.creator.id}" th:text="${party.creator.screenName}"></a>
-            </th>
-            <th><p th:text="${party.getMembers().size()}"></p></th>
-            <th><p th:text="${party.language}"></p></th>
-            <th><p th:text="${party.eloRank}"></p></th>
-            <th>
-                <a th:href="@{/teamcode}+'?idParty='+${party.id}" class="btn btn-primary"
-                   th:text="#{home.SignedIn.lancer}">Use</a>
-                <a href="#" class="btn btn-danger deleteParty" th:text="#{home.SignedIn.supprimer}"
+            <td><p th:text="${party.id}"></p></td>
+            <td><a href="#"
+                   th:href="@{/party/show(id=${party.id})}"
+                   th:text="${party.name}"></a>
+            </td>
+            <td><a th:href="@{/account/userProfile(id=${party.creator.id})}"
+                   th:text="${party.creator.screenName}"></a>
+            </td>
+            <td><p th:text="${party.getMembers().size()}"></p></td>
+            <td><p th:text="${party.language}"></p></td>
+            <td><p th:text="${party.eloRank}"></p></td>
+            <td>
+                <a th:href="@{/teamcode(idParty=${party.id})}" class="btn btn-primary"
+                   th:text="#{home.SignedIn.lancer}">#{home.SignedIn.lancer}</a>
+                <a href="#" class="btn btn-danger deleteParty"
+                   th:text="#{home.SignedIn.supprimer}"
                    th:value="${party.id}"
-                   th:onclick="'javascript:createFormDelete(\'' + ${party.id} + '\', \'' + ${party.name} + '\');'">Delete</a>
-            </th>
+                   th:onclick="'javascript:createFormDelete(\'' + ${party.id} + '\',
+                    \'' + ${party.name} + '\');'">#{home.SignedIn.supprimer}</a>
+            </td>
         </tr>
         </tbody>
     </table>
 
-    <div id="modalDeleteParty" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+    <div id="modalDeleteParty"
+         class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
          aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -82,7 +89,7 @@
 
                     <p id="namePartyToDelete"></p>
 
-                    <p>Etes vous sur de vouloir vraiment supprimer cette équipe ?</p>
+                    <p>Êtes-vous sur de vouloir vraiment supprimer cette équipe ?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" data-dismiss="modal">Cancel</button>
@@ -100,8 +107,6 @@
 </div>
 
 <script th:inline="javascript">
-
-
         var modalDelete = document.getElementById('modalDeleteParty');
         var formDeleteParty = document.getElementById('formDeleteParty');
 

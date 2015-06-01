@@ -152,8 +152,10 @@ public class PartyController implements ApplicationContextAware {
                            Model model,
                            @RequestParam(required = true) Long id) {
         Assert.notNull(principal);
+        Account account = accountRepository.findByEmail(principal.getName());
         Party party = warbotOnlineService.findPartyById(id);
         Assert.notNull(party);
+        model.addAttribute("account", account);
         model.addAttribute("party", party);
         return "party/showParty";
     }
@@ -187,6 +189,37 @@ public class PartyController implements ApplicationContextAware {
         model.addAttribute("parties", partyList);
         model.addAttribute("myParties", myParties);
         return "party/list";
+    }
+
+    @RequestMapping(value = "/party/add/members")
+    public String addMember(Principal principal, RedirectAttributes ra,
+                            @RequestParam Long idParty, @RequestParam Long idUser) {
+        Account account = accountRepository.findByEmail(principal.getName());
+        Party party = warbotOnlineService.findPartyById(idParty);
+        if (party.getCreator().equals(account)) {
+            Account member = accountRepository.findOne(idUser);
+            Assert.notNull(member);
+            if (!party.getMembers().contains(member))
+                warbotOnlineService.addMember(party, member);
+        }
+        ra.addAttribute("id", party.getId());
+        return "redirect:/party/show";
+    }
+
+    @RequestMapping(value = "/party/remove/members")
+    public String removeMember(Principal principal, RedirectAttributes ra,
+                               @RequestParam Long idParty, @RequestParam Long idUser) {
+        Account account = accountRepository.findByEmail(principal.getName());
+        Party party = warbotOnlineService.findPartyById(idParty);
+
+        if (party.getCreator().equals(account)) {
+            Account member = accountRepository.findOne(idUser);
+            Assert.notNull(member);
+            if (party.getMembers().contains(member))
+                warbotOnlineService.removeMember(party, member);
+        }
+        ra.addAttribute("id", party.getId());
+        return "redirect:/party/show";
     }
 
 

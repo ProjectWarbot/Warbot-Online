@@ -1,12 +1,10 @@
 package edu.warbot.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.warbot.agents.enums.WarAgentType;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by quent on 23/04/2015.
@@ -40,6 +38,19 @@ public class TrainingAgent extends AbstractPersistable<Long> {
     @Column(name = "trainingAgent_life", unique = false)
     private double life;
 
+    @JsonIgnore
+    @ManyToOne(targetEntity = TrainingConfiguration.class, fetch = FetchType.LAZY)
+    private TrainingConfiguration trainingConfiguration;
+
+    @JsonIgnore
+    public TrainingConfiguration getTrainingConfiguration() {
+        return trainingConfiguration;
+    }
+
+    @JsonIgnore
+    public void setTrainingConfiguration(TrainingConfiguration trainingConfiguration) {
+        this.trainingConfiguration = trainingConfiguration;
+    }
 
     public String getName() {
         return name;
