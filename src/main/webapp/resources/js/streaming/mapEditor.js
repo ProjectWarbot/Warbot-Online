@@ -1135,12 +1135,9 @@ function decrementAngleAgentFollow() {
 	}
 }
 
-
 function replaceAgents(tabAgent) {
-
 	for (i = 0; i < tabAgent.length; i++) {
 		var currentAgent = tabAgent[i];
 		createAgentMapEditor(cameraMapEditor, currentAgent.teamName, currentAgent.type , currentAgent.x, currentAgent.y, currentAgent.angle);
 	}
-
 }
