@@ -27,9 +27,11 @@ public class TrainingConfiguration extends AbstractPersistable<Long> {
     @Column(name = "training_configuration_level")
     private LevelTrainingConfigurationEnum level;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Account.class)
+    @ManyToOne(targetEntity = Account.class, fetch = FetchType.EAGER)
     private Account creator;
-    @ManyToMany(targetEntity = TrainingAgent.class, fetch = FetchType.LAZY)
+
+    @OneToMany(targetEntity = TrainingAgent.class, mappedBy = "trainingConfiguration")
+
     private Set<TrainingAgent> trainingAgents = new HashSet<>();
 
     public TrainingConfiguration() {
