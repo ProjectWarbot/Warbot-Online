@@ -304,11 +304,11 @@
                 }
 
             });
-
+            var trainingId = /*[[${tc.id}]]*/ undefined;
             $(buttonSave).click(function(event)
             {
                 var listAgent = JSON.stringify(sendListAgent());
-                var trainingId = /*[[${tc.id}]]*/ undefined;
+
                 var path = /*[[@{/configuration/update}]]*/ /configuration/update;
                 console.log(listAgent);
                 $.get(path,
@@ -328,31 +328,15 @@
                 resetMapEditor();
             });
 
-                            var listAgentsEdit = { "header" : "agentsMap",
-                                                "content": [{
-                                                                "name"     : "WarBase-0",
-                                                                "x"        : 50,
-                                                                "y"        : 50,
-                                                                "angle"    : 45,
-                                                                "teamName" : "Other Team",
-                                                                "type"     : "WarBase",
-                                                                "life"     : 100
-                                                            },
-                                                            {
-                                                                "name"     : "WarBase-0",
-                                                                "x"        : 100,
-                                                                "y"        : 100,
-                                                                "angle"    : 0,
-                                                                "teamName" : "Other Team",
-                                                                "type"     : "WarBase",
-                                                                "life"     : 100
-                                                            }
+            $.get(/*[[@{/configuration/agents}]]*/ /configuration/agents,
+                {"trainingId":trainingId},
+                    function(res) {
+                        console.log(res);
+                         replaceAgents(res);
+                    }
+            ,"json");
 
-                                                            ]
 
-                            };
-
-                            replaceAgents(listAgentsEdit.content);
       })();
 
 

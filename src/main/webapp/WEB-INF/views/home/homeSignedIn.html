@@ -50,7 +50,6 @@
         </thead>
         <tbody>
         <tr th:each="party : ${parties}">
-            <!--<td><p th:text="${party.id}"></p></td>-->
             <td><a href="#"
                    th:href="@{/party/show(id=${party.id})}"
                    th:text="${party.name}"></a>
