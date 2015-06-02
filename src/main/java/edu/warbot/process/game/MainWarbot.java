@@ -7,6 +7,7 @@ import edu.warbot.game.WarGameSettings;
 import edu.warbot.models.Party;
 import edu.warbot.process.communication.InterProcessMessage;
 import edu.warbot.process.communication.JSONInterProcessMessageTranslater;
+import edu.warbot.process.communication.client.EndMessage;
 import edu.warbot.process.communication.client.ExceptionResult;
 import edu.warbot.process.communication.client.PingMessage;
 import edu.warbot.process.communication.server.LaunchGameCommand;
@@ -77,6 +78,9 @@ public class MainWarbot {
                     Madkit madkit = new Madkit(Madkit.BooleanOption.desktop.toString(), "false");
                     madkit.doAction(KernelAction.LAUNCH_AGENT, wl);
                     wg.getWarbotAgent().join();
+                    wg.sendMessage(new EndMessage("classic end"));
+                    Thread.sleep(100);
+                    System.exit(0);
                 }
             } catch (UnrecognizedInterProcessMessageException e) {
                 e.printStackTrace();
@@ -93,6 +97,7 @@ public class MainWarbot {
             os.println(new ExceptionResult(new Exception("UnreadableArgument")));
             System.exit(2);
         }
+
         System.exit(0);
     }
 

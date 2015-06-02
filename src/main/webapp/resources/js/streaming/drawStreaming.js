@@ -9,7 +9,7 @@ var buttonTab = new Array();
 var TeamAll = new Array();
 var nameTeamRed;
 var nameTeamBlue;
-
+var playuttonUI;
 var partyInGame = false;
 var partyStart = false;
 var appM;
@@ -356,7 +356,7 @@ function createAgentJson(scene, tab, json, teams) {
 
 	agent.mousedown = function(data) {
 
-		alert(scene.follow + scene.agentFollow );
+//		alert(scene.follow + scene.agentFollow );
 
    		if (scene.follow) {
    			if(scene.agentFollow == this.name) {
@@ -657,7 +657,7 @@ function initStreaming() {
     hud.gChargement = gifChargement;
     hud.addChild(gifChargement);
 
-    var playuttonUI = new PIXI.Sprite(playButton);
+    playuttonUI = new PIXI.Sprite(playButton);
     playuttonUI.position.x = 0;
     playuttonUI.position.y = 0;
     playuttonUI.alpha = 1;

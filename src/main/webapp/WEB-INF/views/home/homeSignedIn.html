@@ -54,7 +54,7 @@
                    th:href="@{/party/show(id=${party.id})}"
                    th:text="${party.name}"></a>
             </td>
-            <td><a th:href="@{/account/userProfile(id=${party.creator.id})}"
+            <td><a th:href="@{/account/userProfil(id=${party.creator.id})}"
                    th:text="${party.creator.screenName}"></a>
             </td>
             <td><p th:text="${party.getMembers().size()}"></p></td>

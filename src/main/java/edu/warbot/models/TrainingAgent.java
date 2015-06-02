@@ -17,25 +17,25 @@ public class TrainingAgent extends AbstractPersistable<Long> {
     public static final String FIND_BY_NAME = "TrainingAgent.findByName";
 
 
-    @Column(name = "trainingAgent_name", unique = true)
+    @Column(name = "trainingAgent_name")
     private String name;
 
-    @Column(name = "trainingAgent_x", unique = false)
+    @Column(name = "trainingAgent_x")
     private double x;
 
-    @Column(name = "trainingAgent_y", unique = false)
+    @Column(name = "trainingAgent_y")
     private double y;
 
-    @Column(name = "trainingAgent_angle", unique = false)
+    @Column(name = "trainingAgent_angle")
     private double angle;
 
-    @Column(name = "trainingAgent_team", unique = false)
+    @Column(name = "trainingAgent_team")
     private String teamName;
 
     @Column(name = "trainingAgent_type")
     private WarAgentType type;
 
-    @Column(name = "trainingAgent_life", unique = false)
+    @Column(name = "trainingAgent_life")
     private double life;
 
     @JsonIgnore

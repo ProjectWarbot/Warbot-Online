@@ -1,7 +1,6 @@
 package edu.warbot.process.communication;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by beugnon on 21/04/15.
@@ -18,15 +17,9 @@ public class InterProcessMessage implements Serializable {
      */
     private String header;
 
-    /**
-     * Date d'envoi du message
-     */
-    private Date date;
-
 
     public InterProcessMessage() {
         this.header = "none";
-        this.date = new Date();
     }
 
     /**
@@ -36,7 +29,6 @@ public class InterProcessMessage implements Serializable {
      */
     public InterProcessMessage(String header) {
         this.header = header;
-        this.date = new Date();
     }
 
     public String getHeader() {
@@ -47,11 +39,4 @@ public class InterProcessMessage implements Serializable {
         this.header = header;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }
