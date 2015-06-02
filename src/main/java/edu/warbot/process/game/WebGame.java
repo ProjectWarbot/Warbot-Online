@@ -111,6 +111,10 @@ public class WebGame extends WarGame {
 
 
         if (getGameMode().getEndCondition().isGameEnded()) {
+            HashMap<String, String> map = new HashMap<>();
+            for (Team t : getPlayerTeams())
+                map.put(t.getName(), "" + t.hasLost());
+            sendMessage(new EndMessage("game-end", map));
             setGameOver();
 
         }
@@ -167,10 +171,7 @@ public class WebGame extends WarGame {
 
     @Override
     public void setGameOver() {
-        HashMap<String, String> map = new HashMap<>();
-        for (Team t : getPlayerTeams())
-            map.put(t.getName(), "" + t.hasLost());
-        sendMessage(new EndMessage("game-end", map));
+
         super.setGameOver();
         this.gameAgent.getAlive().set(false);
         System.exit(0);
