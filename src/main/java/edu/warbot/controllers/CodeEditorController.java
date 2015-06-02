@@ -4,7 +4,6 @@ import edu.warbot.editor.CodeEditorListener;
 import edu.warbot.exceptions.NotFoundEntityException;
 import edu.warbot.exceptions.UnauthorisedToEditLockException;
 import edu.warbot.exceptions.UnauthorisedToEditNotMemberException;
-import edu.warbot.game.Team;
 import edu.warbot.models.Account;
 import edu.warbot.models.Party;
 import edu.warbot.models.WebAgent;
@@ -97,7 +96,7 @@ public class CodeEditorController {
     public boolean lock(@RequestParam Long idParty,
                         @RequestParam Long idWebAgent,
                         Principal principal) {
-        Team
+
         Assert.notNull(principal);
         Account account = accountRepository.findByEmail(principal.getName());
         Assert.notNull(account);

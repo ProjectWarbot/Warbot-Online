@@ -259,23 +259,25 @@ function createAgentMapEditor(scene, teamName, type , posX, posY, angle) {
 
     var agent = null;
 
-    if(nameTeamSelected == "red") {
+    if(teamName == "red") {
         agent = new PIXI.Sprite(getSpriteAgent(type, 1));
         agent.teamType = 1;
-        agent.teamName = "My Team";
+        agent.teamName = "red";
     }
-    else if (nameTeamSelected == "blue") {
+    else if (nameTeamSelected == "blue" || teamName == "blue") {
         agent = new PIXI.Sprite(getSpriteAgent(type, 2));
         agent.teamType = 2;
-        agent.teamName = "Other Team";
+        agent.teamName = "blue";
     }
-    else if (nameTeamSelected == "mother") {
+    else if (nameTeamSelected == "mother" || teamName == "mother") {
     	agent = new PIXI.Sprite(getSpriteAgent(type, 0));
         agent.teamType = 0;
-        agent.teamName = "Mother Team";
+        agent.teamName = "mother";
     }
     else {
-        console.log("Bug selected team");
+        agent = new PIXI.Sprite(getSpriteAgent(type, 1));
+        agent.teamType = 1;
+        agent.teamName = "red";
     }
 
     agent.type = type;
@@ -1034,8 +1036,8 @@ function sendListAgent() {
 	for (i = 0; i < listAgentEditor.length; i++) {
     	agents.push({
     		"name"     : listAgentEditor[i].name,
-    		"x"        : listAgentEditor[i].position.x,
-    		"y"        : listAgentEditor[i].position.y,
+    		"x"        : listAgentEditor[i].position.x / cameraMapEditor.zoom,
+    		"y"        : listAgentEditor[i].position.y / cameraMapEditor.zoom,
     		"angle"    : listAgentEditor[i].angle,
     		"teamName" : listAgentEditor[i].teamName,
     		"type"     : listAgentEditor[i].type,
@@ -1138,6 +1140,7 @@ function decrementAngleAgentFollow() {
 function replaceAgents(tabAgent) {
 	for (i = 0; i < tabAgent.length; i++) {
 		var currentAgent = tabAgent[i];
+		console.log(currentAgent.teamName);
 		createAgentMapEditor(cameraMapEditor, currentAgent.teamName, currentAgent.type , currentAgent.x, currentAgent.y, currentAgent.angle);
 	}
 }
