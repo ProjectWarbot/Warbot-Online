@@ -64,5 +64,23 @@ public class HomeController {
         return "teamcode/teamcode";
     }
 
+    @RequestMapping(value = "/duel")
+    public String duel(Principal principal,
+                       Model model,
+                       @RequestParam Long idParty,
+                       @RequestParam Long idParty2) {
+        Assert.notNull(principal);
+        Account account = accountRepository.findByEmail(principal.getName());
+        Party party = warbotOnlineService.findPartyById(idParty);
+        Assert.notNull(party);
+        Party party2 = warbotOnlineService.findPartyById(idParty2);
+        if (!party.getMembers().contains(account) && !party.getCreator().equals(account)) {
+            MessageHelper.addErrorAttribute(model, "party.not.members");
+            return "redirect:/partylist";
+        }
+        model.addAttribute("party", party);
+        model.addAttribute("party2", party2);
+        return "duel/duel";
+    }
 
 }

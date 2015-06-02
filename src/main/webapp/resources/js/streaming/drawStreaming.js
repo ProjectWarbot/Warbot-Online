@@ -12,7 +12,7 @@ var nameTeamBlue;
 
 var partyInGame = false;
 var partyStart = false;
-
+var playuttonUI;
 var appM;
 var idP;
 
@@ -655,7 +655,7 @@ function initStreaming() {
     hud.gChargement = gifChargement;
     hud.addChild(gifChargement);
 
-    var playuttonUI = new PIXI.Sprite(playButton);
+    playuttonUI = new PIXI.Sprite(playButton);
     playuttonUI.position.x = 0;
     playuttonUI.position.y = 0;
     playuttonUI.alpha = 1;
