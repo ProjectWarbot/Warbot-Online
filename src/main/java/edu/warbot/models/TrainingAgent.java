@@ -107,4 +107,8 @@ public class TrainingAgent extends AbstractPersistable<Long> {
     public void setLife(double life) {
         this.life = life;
     }
+
+    public void resetId() {
+        setId(null);
+    }
 }

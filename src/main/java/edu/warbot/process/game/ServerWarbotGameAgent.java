@@ -133,6 +133,11 @@ public class ServerWarbotGameAgent extends WarbotGameAgent {
         if (ipm.getHeader().equals(EndMessage.HEADER)) {
             logger.info(((EndMessage) ipm).getContent().toString());
             getAlive().set(false);
+            if (((EndMessage) ipm).getContent().toString().equals("game-end")) {
+                logger.info("game-end is detected");
+                messagingTemplate.convertAndSendToUser
+                        (account.getEmail(), "/queue/game.", ipm);
+            }
         }
 
         if (ipm.getHeader().equals(ExceptionResult.HEADER)) {

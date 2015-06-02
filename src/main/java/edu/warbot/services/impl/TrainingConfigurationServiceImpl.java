@@ -46,6 +46,8 @@ public class TrainingConfigurationServiceImpl implements TrainingConfigurationSe
         trainingAgentRepository.deleteAll(tc.getTrainingAgents());
         logger.info("before saving");
         for (TrainingAgent t : agents) {
+            logger.info("new -> " + t.isNew());
+            t.resetId();
             t.setTrainingConfiguration(tc);
             trainingAgentRepository.save(t);
         }
