@@ -13,22 +13,41 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
 
+    <script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}"></script>
+    <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}"></script>
+    <script src="../../../resources/js/zone/jquery.ui.all.js" th:src="@{/resources/js/zone/jquery.ui.all.js}"></script>
+    <script src="../../../resources/js/duelZone.js"
+            th:src="@{/resources/js/duelZone.js}"></script>
 
+    <script src="../../../resources/js/streaming/pixi.js" th:src="@{/resources/js/streaming/pixi.js}"></script>
+    <script src="../../../resources/js/streaming/importTexture.js"
+            th:src="@{/resources/js/streaming/importTexture.js}"></script>
 </head>
 <body>
 
 <div th:replace="fragments/header :: header">Header</div>
+<div id="hudDuel">
+    <a id="stop" class="btn btn-danger"><span class="glyphicon glyphicon-stop"></span> Force stop</a>
 
-<div class="box">
+    <p id="teamNameDuel">
+        <span th:text="#{duel.duel.team}">Team</span>
+        <span th:text="${party.name}"></span>
+        Contre
+        <span th:text="#{duel.duel.team}">Team</span>
+        <span th:text="${party2.name}"></span>
+    </p>
 
-    <div class="outer-center">
-        <button id="stop">Force stop</button>
-        <div id="stream">
+
+</div>
+
+<div id="contentDuel" class="contenerMapEditor">
+
+        <div id="stream" class="outer-center">
 
             <!-- STREAM -->
 
         </div>
-        <div id="console" class="ui-layout-south">
+        <div id="console" class="outer-south">
 
             <ul class="nav nav-tabs console" role="tablist">
                 <!--<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
@@ -37,8 +56,6 @@
                 </li>
                 <li role="presentation"><a href="#agent" aria-controls="agent" role="tab" data-toggle="tab">Agent</a>
                 </li>
-                <li role="presentation"><a href="#functions" aria-controls="functions" role="tab" data-toggle="tab">Fonctions
-                    Warbot</a></li>
             </ul>
 
             <!-- Tab panes -->
@@ -121,25 +138,13 @@
                         </tr>
                     </table>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="functions">
-                    <div th:replace="fragments/functionsWarbot :: functionsWarbot"></div>
-                </div>
             </div>
-
         </div>
-
-
     </div>
-
-
-</div>
 
 <script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.min.js}"></script>
 <script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.min.js}"></script>
 <!-- application -->
-<script src="../../../resources/js/streaming/pixi.js" th:src="@{/resources/js/streaming/pixi.js}"></script>
-<script src="../../../resources/js/streaming/importTexture.js"
-        th:src="@{/resources/js/streaming/importTexture.js}"></script>
 <script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}"></script>
 <script src="../../../resources/js/streaming/drawStreaming.js"
         th:src="@{/resources/js/streaming/drawStreaming.js}"></script>
