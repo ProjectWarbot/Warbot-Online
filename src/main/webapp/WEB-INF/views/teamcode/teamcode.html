@@ -59,8 +59,7 @@
 
             <div th:id="${agent.id}" th:each="agent : ${agents}" class="tab-pane fade">
                 <div th:id="${agent.id}+'-editor'" class="editor"></div>
-                <a href="#" class="btn btn-sm btn-warning pause"> Pause</a>
-                <a href="#" class="btn btn-sm btn-danger stop"> Stop</a>
+                <!--<a href="#" class="btn btn-sm btn-warning pause"> Pause</a> -->
                 <a href="#" class="btn btn-sm btn-primary save" th:id="${agent.id}"> Save</a>
                 <a href="#" class="btn btn-sm btn-info load" th:id="${agent.id}"> Load</a>
 
@@ -82,17 +81,17 @@
         <div id="console" class="ui-layout-south">
 
             <ul class="nav nav-tabs console" role="tablist">
-                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
-                                                          data-toggle="tab">Console</a></li>
-                <li role="presentation"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">Map</a></li>
-                <li role="presentation"><a href="#agent" aria-controls="agent" role="tab" data-toggle="tab">Agent</a>
-                </li>
+                <!--<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                          data-toggle="tab">Console</a></li>-->
+                <li role="presentation" class="active"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">Map</a></li>
+                <li role="presentation"><a href="#agent" aria-controls="agent" role="tab" data-toggle="tab">Agent</a></li>
+                <li role="presentation"><a href="#functions" aria-controls="functions" role="tab" data-toggle="tab">Functions Warbot</a></li>
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content console">
-                <div role="tabpanel" class="tab-pane active" id="home">Sortie de console générale avec les bugs</div>
-                <div role="tabpanel" class="tab-pane" id="map">
+                <!--<div role="tabpanel" class="tab-pane active" id="home" ></div>-->
+                <div role="tabpanel" class="tab-pane active" id="map">
                     <table class="table table-bordered">
                         <tr class="mapFood">
                             <td>Food</td>
@@ -169,6 +168,9 @@
                         </tr>
                     </table>
                 </div>
+                <div role="tabpanel" class="tab-pane" id="functions">
+                    <div th:replace="fragments/functionsWarbot :: functionsWarbot"></div>
+                </div>
             </div>
 
         </div>
@@ -198,6 +200,8 @@
         appM = appModel;
         idP = $("#idParty")[0].value;
         //ko.applyBindings(appModel);
+
+        chargeAppModel(appModel);
 
         appModel.connect();
         $(".btn.btn-sm.btn-success.launch").click(function (event)
@@ -241,11 +245,6 @@
         $(".btn.btn-sm.btn-warning.debug").click(function(event)
         {
             initHUDDebug();
-        });
-
-        $(".btn.btn-sm.btn-danger.stop").click(function(event)
-        {
-            appModel.stop();
         });
 
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");

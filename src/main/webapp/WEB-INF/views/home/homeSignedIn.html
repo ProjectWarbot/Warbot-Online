@@ -30,7 +30,7 @@
     <a th:href="@{/partylist}" class="btn btn-danger" th:text="#{home.SignedIn.trouverUnAdversaire}">Trouver un
         adversaire</a>
 
-    <h2 th:text="#{home.SignedIn.equipe}">#{home.SignedIn.equipe}</h2>
+    <h2 th:text="#{home.SignedIn.equipe}">Parties</h2>
 
     <p th:if="${parties.size()}==0">
         <span th:text="#{home.SignedIn.pasDequipe}">#{home.SignedIn.pasDequipe}</span>
@@ -39,7 +39,7 @@
     <table id="myListParties" class="table table-bordered" th:if="${parties.size()}>0">
         <thead>
         <tr>
-            <th>#</th>
+            <!--<th>#</th>-->
             <th th:text="#{home.SignedIn.nomEquipe}">Team name</th>
             <th th:text="#{home.SignedIn.createur}">Creator</th>
             <th th:text="#{home.SignedIn.nombreDeMembre}">Number of member</th>

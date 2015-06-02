@@ -21,7 +21,7 @@
 <fieldset>
     <h3 th:text="#{party-list.title}">Party List</h3>
 
-    <div class="container searchTeamList">
+    <!--<div class="container searchTeamList">
         <div class="row">
             <div class="col-xs-5 col-xs-offset-0">
                 <div class="input-group">
@@ -35,7 +35,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
+
+    <br/>
 
     <datalist id="parties">
     </datalist>
@@ -44,7 +46,7 @@
     <table id="tableListParties" class="table table-bordered">
         <thead>
         <tr>
-            <th>#</th>
+            <!--<th>#</th>-->
             <th th:text="#{party.list.nom}">Team name</th>
             <th th:text="#{party.list.createur}">Creator</th>
             <th th:text="#{party.list.langage}">Langage</th>
@@ -54,10 +56,10 @@
         </thead>
         <tbody>
         <tr th:each="party : ${parties}" th:data="${party.id}">
-            <th><p th:text="${party.id}"></p></th>
+            <!--<th><p th:text="${party.id}"></p></th>-->
             <th><a name="partyName" th:href="'/party/show?id='+${party.id}" th:text="${party.name}"
                    data-sortable="true"></a></th>
-            <th><a th:href="'/account/userProfile?id='+${party.creator.id}" th:text="${party.creator.screenName}"></a>
+            <th><a th:href="'/account/userProfil?id='+${party.creator.id}" th:text="${party.creator.screenName}"></a>
             </th>
             <th><p th:text="${party.language}"></p></th>
             <th><p th:text="${party.eloRank}"></p></th>

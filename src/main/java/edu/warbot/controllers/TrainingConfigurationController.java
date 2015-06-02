@@ -87,10 +87,4 @@ public class TrainingConfigurationController {
         return "configuration-editor/editor";
     }
 
-
-
-
-
-
-
 }

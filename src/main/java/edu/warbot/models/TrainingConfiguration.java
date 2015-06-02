@@ -31,6 +31,7 @@ public class TrainingConfiguration extends AbstractPersistable<Long> {
     private Account creator;
 
     @OneToMany(targetEntity = TrainingAgent.class, mappedBy = "trainingConfiguration")
+
     private Set<TrainingAgent> trainingAgents = new HashSet<>();
 
     public TrainingConfiguration() {

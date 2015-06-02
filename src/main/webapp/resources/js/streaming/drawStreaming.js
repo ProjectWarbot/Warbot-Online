@@ -194,7 +194,7 @@ function createMapJson() {
 		}
 		else if(TeamAll[i].color.r == 255 && TeamAll[i].color.g == 98 && TeamAll[i].color.b == 255) {
 			var teamName = new PIXI.Text("BLUE : "+TeamAll[i].name, {font:"25px Arial", fill:"blue"});
-			teamName.position.x = 500;
+			teamName.position.x = 800;
 			teamName.position.y = -50;
 			teamName.alpha = 1;
 			camera.teamTextNameBlue = teamName;
@@ -205,8 +205,6 @@ function createMapJson() {
 		else {
 			//console.log("Bug team");
 		}
-
-
 	}
 
 }
@@ -359,20 +357,36 @@ function createAgentJson(scene, tab, json, teams) {
 
 	agent.mousedown = function(data) {
 
-   		if (this.isdown) {
-   			this.isdown = false;
-   			scene.follow = false;
-   			scene.agentFollow = -1;
-   			scene.agentEntityFollow = null;
-   			document.getElementById('nameOfAgentFollow').innerHTML = "null";
-   			document.getElementById('teamOfAgentFollow').innerHTML = "null";
-   			document.getElementById('typeOfAgentFollow').innerHTML = "null";
-   			document.getElementById('lifeOfAgentFollow').innerHTML = "0 %";
-   			document.getElementById('debugMessageOfAgentFollow').innerHTML = "null";
-   			document.getElementById('angleOfAgentFollow').innerHTML = "0";
+		alert(scene.follow + scene.agentFollow );
+
+   		if (scene.follow) {
+   			if(scene.agentFollow == this.name) {
+				scene.follow = false;
+				scene.agentFollow = -1;
+				scene.agentEntityFollow = null;
+				document.getElementById('nameOfAgentFollow').innerHTML = "null";
+				document.getElementById('teamOfAgentFollow').innerHTML = "null";
+				document.getElementById('typeOfAgentFollow').innerHTML = "null";
+				document.getElementById('lifeOfAgentFollow').innerHTML = "0 %";
+				document.getElementById('debugMessageOfAgentFollow').innerHTML = "null";
+				document.getElementById('angleOfAgentFollow').innerHTML = "0";
+				}
+
+				else {
+				   			scene.follow = true;
+                   			scene.agentFollow = agent.name;
+                   			scene.agentEntityFollow = this;
+                   			scene.position.x += (renderer.width / 2) - this.position.x;
+                   			scene.position.y += (renderer.height / 2) - this.position.y;
+                   			document.getElementById('nameOfAgentFollow').innerHTML = this.name;
+                   			document.getElementById('teamOfAgentFollow').innerHTML = this.teamName;
+                   			document.getElementById('typeOfAgentFollow').innerHTML = this.type;
+                   			document.getElementById('lifeOfAgentFollow').innerHTML = this.lifeP + " %";
+                   			document.getElementById('debugMessageOfAgentFollow').innerHTML = this.messageDebug;
+                   			document.getElementById('angleOfAgentFollow').innerHTML = this.angle;
+				}
    		}
    		else {
-   			this.isdown = true;
    			scene.follow = true;
    			scene.agentFollow = agent.name;
    			scene.agentEntityFollow = this;
@@ -457,7 +471,7 @@ function agentChangeValue(agent, json) {
 	if(typeof(json.colorDebug) != "undefined")
 	{
 		agent.colorDebug = json.colorDebug;
-		agent.debug.setStyle({font:"12px Arial", fill:agent.colorDebug});
+		agent.debug.setStyle({fill:agent.colorDebug});
 	}
 
 	if(typeof(json.messageDebug) != "undefined")
@@ -530,6 +544,9 @@ function addButton(scene, form, formDown, formTrans, cX, cY, tab, type) {
         		else if (type == 3){
         			agentTab[i].SpritePercept.alpha = -1;
         		}
+        		else if (type == 4){
+                	// nothing
+                }
         	}
    		}
    		else {
@@ -549,6 +566,9 @@ function addButton(scene, form, formDown, formTrans, cX, cY, tab, type) {
         		else if (type == 3){
         			agentTab[i].SpritePercept.alpha = 1;
         		}
+        		else if (type == 4){
+                	stopGame();
+                }
         	}
    		}
     };
@@ -591,8 +611,8 @@ function animate() {
 		}
 	}
 
-	for (i = 0; i < agentTab.length; i++) {
-		if(camera.follow) {
+	if(camera.follow) {
+		for (i = 0; i < agentTab.length; i++) {
 			if(camera.agentFollow == agentTab[i].name) {
    				camera.position.x = (renderer.width / 2) - agentTab[i].position.x;
    				camera.position.y = (renderer.height / 2) - agentTab[i].position.y;
@@ -610,6 +630,7 @@ function initHUD() {
 	addButton(hud, buttonLife, buttonLifeDown, buttonLifeTrans, 20, 20, buttonTab, 1);
 	addButton(hud, buttonMessage, buttonMessageDown, buttonMessageTrans, 60, 20, buttonTab, 2);
 	addButton(hud, buttonPercept, buttonPerceptDown, buttonPerceptTrans, 100, 20, buttonTab, 3);
+	addButton(hud, buttonStop, buttonStopDown, buttonStopTrans, 20, 60, buttonTab, 4);
 }
 
 function initStreaming() {
@@ -724,6 +745,14 @@ function cameraZoome(e) {
 		camera.map.scale.y *= factor;
 		camera.map.position.x *= factor;
         camera.map.position.y *= factor;
+        camera.teamTextNameBlue.scale.x *= factor;
+        camera.teamTextNameBlue.scale.y *= factor;
+        camera.teamTextNameBlue.position.x *= factor;
+        camera.teamTextNameBlue.position.y *= factor;
+        camera.teamTextNameRed.scale.x *= factor;
+        camera.teamTextNameRed.scale.y *= factor;
+        camera.teamTextNameRed.position.x *= factor;
+        camera.teamTextNameRed.position.y *= factor;
 	//}
 
 	for (i = 0; i < agentTab.length; i++) {
@@ -734,14 +763,18 @@ function cameraZoome(e) {
             agentTab[i].position.y *= factor;
 			agentTab[i].SpriteLife.scale.x *= factor;
 			agentTab[i].SpriteLife.scale.y *= factor;
-			agentTab[i].SpriteLife.position.x = agentTab[i].position.x;
-			agentTab[i].SpriteLife.position.y = agentTab[i].position.y - Math.sqrt(agentTab[i].height * agentTab[i].scale.x * agentTab[i].height * agentTab[i].scale.x);
+			agentTab[i].SpriteLife.position.x *= factor;
+			agentTab[i].SpriteLife.position.y *= factor;
 			agentTab[i].SpritePercept.scale.x *= factor;
 			agentTab[i].SpritePercept.scale.y *= factor;
 			agentTab[i].SpritePercept.position.x = agentTab[i].position.x;
 			agentTab[i].SpritePercept.position.y = agentTab[i].position.y;
 			changePositionPercept(agentTab[i]);
-			agentTab[i].debug.setStyle();
+			agentTab[i].debug.scale.x *= factor;
+			agentTab[i].debug.scale.y *= factor;
+			agentTab[i].debug.position.x *= factor;
+			agentTab[i].debug.position.y *= factor;
+
 		//}
 	}
 };
@@ -905,12 +938,12 @@ function getSpriteAgent(typeAgent, typeColor) {
 		if(typeColor == 1) {
 			counterAgent.redWall += 1;
 			document.getElementById('numberOfWallRed').innerHTML = counterAgent.redWall;
-			return redWall;
+			return wallRed;
 		}
 		else {
 			counterAgent.blueWall += 1;
 			document.getElementById('numberOfWallBlue').innerHTML = counterAgent.blueWall;
-			return blueWall;
+			return wallBlue;
 		}
 	}
 	else if(typeAgent == "WarRocket") {
@@ -1094,6 +1127,50 @@ function changeDebugMessage(agent, json) {
 
 function messageServerEnd(message) {
 
+    counterAgent = {
+    	food : 0,
+    	redBase : 0,
+    	blueBase : 0,
+    	redExplorer : 0,
+    	blueExplorer : 0,
+    	redKamikaze : 0,
+    	blueKamikaze : 0,
+    	redRocketLauncher : 0,
+    	blueRocketLauncher : 0,
+    	redTurret : 0,
+    	blueTurret : 0,
+    	redEngineer : 0,
+    	blueEngineer : 0,
+    	redWall : 0,
+    	blueWall : 0
+    };
+
+    document.getElementById('numberOfExplorerRed').innerHTML = 0;
+    document.getElementById('numberOfExplorerBlue').innerHTML = 0;
+    document.getElementById('numberOfEngineerRed').innerHTML = 0;
+    document.getElementById('numberOfEngineerBlue').innerHTML = 0;
+    document.getElementById('numberOfRocketLauncherRed').innerHTML = 0;
+    document.getElementById('numberOfRocketLauncherBlue').innerHTML = 0;
+    document.getElementById('numberOfKamikazeRed').innerHTML = 0;
+    document.getElementById('numberOfKamikazeBlue').innerHTML = 0;
+    document.getElementById('numberOfTurretRed').innerHTML = 0;
+    document.getElementById('numberOfTurretBlue').innerHTML = 0;
+    document.getElementById('numberOfBaseRed').innerHTML = 0;
+    document.getElementById('numberOfBaseBlue').innerHTML = 0;
+    document.getElementById('numberOfWallRed').innerHTML = 0;
+    document.getElementById('numberOfWallBlue').innerHTML = 0;
+    document.getElementById('numberOfFoodConsoleMap').innerHTML = 0;
+
+    document.getElementById('nameRedTeamConsoleMap').innerHTML = "Null";
+    document.getElementById('nameBlueTeamConsoleMap').innerHTML = "Null";
+
+    document.getElementById('nameOfAgentFollow').innerHTML = "null";
+    document.getElementById('teamOfAgentFollow').innerHTML = "null";
+    document.getElementById('typeOfAgentFollow').innerHTML = "null";
+    document.getElementById('lifeOfAgentFollow').innerHTML = "0 %";
+    document.getElementById('debugMessageOfAgentFollow').innerHTML = "null";
+    document.getElementById('angleOfAgentFollow').innerHTML = "0";
+
 	stage.setBackgroundColor(colorStreamOff);
 
 	for (i = 0; i < agentTab.length; i++) {
@@ -1138,5 +1215,12 @@ function messageServerEnd(message) {
     partyStart = false;
 
     requestAnimFrame( animate );
+}
 
+function chargeAppModel(appModel) {
+	stage.appM = appModel;
+}
+
+function stopGame() {
+	stage.appM.stop();
 }

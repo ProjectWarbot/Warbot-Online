@@ -9,7 +9,9 @@ import java.util.HashMap;
  */
 public class EndMessage extends InterProcessMessage {
     public final static String HEADER = "end";
+
     private HashMap<String, String> supp = new HashMap<>();
+
     private Object content;
 
     public EndMessage() {
