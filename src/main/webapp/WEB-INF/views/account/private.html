@@ -21,7 +21,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-12 lead" th="#{profile.user.title}">User profile</div>
+                        <div class="col-md-12 lead" th:text="#{profile.user.title}">#{profile.user.title}</div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 text-center">
@@ -36,10 +36,15 @@
                                 <div class="col-md-6">
                                     <span class="text-muted">Email :</span> <span
                                         th:text="${account.email}">email</span><br/>
-                                    <span class="text-muted">First name :</span><span th:text="${account.firstName}">firstname</span><br/>
-                                    <span class="text-muted">Last name :</span> <span th:text="${account.lastName}">lastName</span><br/>
+                                    <span class="text-muted" th:text="#{signup.signup.prenom}">First name </span>: <span
+                                        th:text="${account.firstName}">firstname</span><br/>
+                                    <span class="text-muted" th:text="#{signup.signup.nom}">Last name</span>: <span
+                                        th:text="${account.lastName}">lastName</span><br/>
                                     <br/><br/>
-                                    <span class="text-muted">Premium :</span> <span th:text="${account.isPremium()}">premium-state</span><br/>
+                                    <span class="text-muted" th:text="#{profile.label.type}">Type</span>:
+                                    <span th:if="${account.isPremium()}">premium</span>
+                                    <span th:if="${!account.isPremium()}" th:text="#{profile.label.basic}"></span>
+                                    <br/>
                                 </div>
                             </div>
                         </div>

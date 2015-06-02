@@ -53,14 +53,16 @@ public class WebGameController {
     @MessageMapping("/game/start.duel")
     public void startWebGame(Principal principal, WebGameSettings settings) throws AlreadyRunningGameException {
         Assert.notNull(principal);
-        logger.debug(settings);
+        logger.info(settings);
         Account account = accountRepository.findByEmail(principal.getName());
         Assert.notNull(account);
         Party party = warbotOnlineService.findPartyById(settings.getIdTeam1());
         Assert.notNull(party);
-        if (settings.getIdTeam2() != -1)
-            party = warbotOnlineService.findPartyById(settings.getIdTeam2());
-        Assert.notNull(party);
+
+        Party party2;
+        party2 = warbotOnlineService.findPartyById(settings.getIdTeam2());
+        Assert.notNull(party2);
+
         if (party.getMembers().contains(account) || party.getCreator().equals(account))
             webGameService.startWebGame(account, settings);
     }
