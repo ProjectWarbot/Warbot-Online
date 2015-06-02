@@ -234,3 +234,19 @@ margin-top:5%;
     margin-bottom:10%;
     text-align: center;
 }
+
+
+#hudDuel {
+    margin-left:10px;
+}
+
+#contentDuel {
+ background-color:#F3E2A9;
+}
+
+#teamNameDuel {
+    font-weight: bold;
+    text-align:center;
+    font-size: 250%;
+    margin-top:-25px;
+}

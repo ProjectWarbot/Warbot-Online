@@ -8,6 +8,7 @@
     <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
           th:href="@{/resources/css/bootstrap.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
@@ -15,76 +16,46 @@
     <script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}"></script>
     <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}"></script>
     <script src="../../../resources/js/zone/jquery.ui.all.js" th:src="@{/resources/js/zone/jquery.ui.all.js}"></script>
-    <script src="../../../resources/js/zone.js" th:src="@{/resources/js/zone.js}"></script>
+    <script src="../../../resources/js/duelZone.js"
+            th:src="@{/resources/js/duelZone.js}"></script>
 
-    <script src="../../../resources/js/ace-builds-master/src-min-noconflict/ace.js"
-            th:href="@{/resources/js/ace-builds-master/src-min-noconflict/ace.js}"></script>
-    <script src="../../../resources/js/ace-builds-master/src-min-noconflict/ext-language_tools.js"
-            th:href="@{/resources/js/ace-builds-master/src-min-noconflict/ext-language_tools.js}"></script>
-    <script src="../../../resources/js/editeur.js" th:src="@{/resources/js/editeur.js}"></script>
     <script src="../../../resources/js/streaming/pixi.js" th:src="@{/resources/js/streaming/pixi.js}"></script>
     <script src="../../../resources/js/streaming/importTexture.js"
             th:src="@{/resources/js/streaming/importTexture.js}"></script>
-
-
 </head>
 <body>
 
 <div th:replace="fragments/header :: header">Header</div>
+<div id="hudDuel">
+    <a id="stop" class="btn btn-danger"><span class="glyphicon glyphicon-stop"></span> Force stop</a>
 
-<div class="box">
-    <div class="outer-center">
-
-
-        <input type="hidden" id="idParty" value="" th:value="${party.id}"/>
-        <ul class="nav nav-tabs" id="myTab">
-
-
-            <li class="dropdown">
-                <a data-toggle="dropdown" class="dropdown-toggle" href="#">Liste des agents <b class="caret"></b></a>
-                <ul class="dropdown-menu">
+    <p id="teamNameDuel">
+        <span th:text="#{duel.duel.team}">Team</span>
+        <span th:text="${party.name}"></span>
+        Contre
+        <span th:text="#{duel.duel.team}">Team</span>
+        <span th:text="${party2.name}"></span>
+    </p>
 
 
-                    <li class="webcode-request" th:each="agent : ${agents}" th:data="${agent.id}">
-                        <input type="hidden" value="" th:value="${agent.id}"/>
-                        <a data-toggle="tab" th:href="'#'+${agent.id}" th:text="${agent.type}">
-                            Ag
-                        </a>
-                    </li>
+</div>
 
-                </ul>
-            </li>
-        </ul>
-        <div class="tab-content">
+<div id="contentDuel" class="contenerMapEditor">
 
-            <div th:id="${agent.id}" th:each="agent : ${agents}" class="tab-pane fade">
-                <div th:id="${agent.id}+'-editor'" class="editor"></div>
-                <!--<a href="#" class="btn btn-sm btn-warning pause"> Pause</a> -->
-                <a href="#" class="btn btn-sm btn-primary save" th:id="${agent.id}"> Save</a>
-                <a href="#" class="btn btn-sm btn-info load" th:id="${agent.id}"> Load</a>
-
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="outer-west">
-
-        <div id="stream" class="middle-center">
+        <div id="stream" class="outer-center">
 
             <!-- STREAM -->
 
         </div>
-
-        <div id="console" class="ui-layout-south">
+        <div id="console" class="outer-south">
 
             <ul class="nav nav-tabs console" role="tablist">
                 <!--<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
                                                           data-toggle="tab">Console</a></li>-->
-                <li role="presentation" class="active"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">Map</a></li>
-                <li role="presentation"><a href="#agent" aria-controls="agent" role="tab" data-toggle="tab">Agent</a></li>
+                <li role="presentation" class="active"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">Map</a>
+                </li>
+                <li role="presentation"><a href="#agent" aria-controls="agent" role="tab" data-toggle="tab">Agent</a>
+                </li>
             </ul>
 
             <!-- Tab panes -->
@@ -168,21 +139,15 @@
                     </table>
                 </div>
             </div>
-
         </div>
     </div>
-
-
-</div>
 
 <script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.min.js}"></script>
 <script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.min.js}"></script>
 <!-- application -->
 <script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}"></script>
-<script src="../../../resources/js/request-data-editor.js" th:src="@{/resources/js/request-data-editor.js}"></script>
 <script src="../../../resources/js/streaming/drawStreaming.js"
         th:src="@{/resources/js/streaming/drawStreaming.js}"></script>
-<script src="../../../resources/js/duel.js" th:src="@{/resources/js/duel.js}"></script>
 
 <script th:inline="javascript">
 (function() {
@@ -191,8 +156,9 @@
         var stompClient = Stomp.over(socket);
 
         var appModel = new WebGameModel(stompClient);
-        appM = appModel;
-        idP = $("#idParty")[0].value;
+        appM = appModel;//Adaptateur
+        idP = /*[[${party.id}]]*/ -1;
+        idP2 = /*[[${party2.id}]]*/ -1;
         //ko.applyBindings(appModel);
 
         chargeAppModel(appModel);
@@ -241,8 +207,17 @@
             initHUDDebug();
         });
 
+        playuttonUI.mousedown = function() {
+           appModel.launchParty2(idP,idP2);
+           partyInGame = true;
+           partyStart = true;
+        };
+
+        $("#stop").click(function() {stopGame();});
+
         //appModel.pushNotification("Trade results take a 2-3 second simulated delay. Notifications will appear.");
       })();
+
 
 </script>
 </body>

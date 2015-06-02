@@ -188,17 +188,10 @@
 
 </div>
 
-<form id="formListAgents" method="POST" th:action="@{/configuration/update}">
-    <div class="col-xs-0 selectContainer">
-        <input id="saveButtonLink" type="hidden" name="agents" value=""/>
-        <input type="hidden" name="id" th:value="${trainingId}"/>
-    </div>
-</form>
-
 
 <script src="../../../resources/js/streaming/mapEditor.js" th:src="@{/resources/js/streaming/mapEditor.js}"></script>
 
-<script>
+<script th:inline="javascript">
         (function() {
 
             var buttonAddAgent = document.getElementById('buttonAddAgent');
@@ -251,7 +244,7 @@
             {
                 var removeAgentClassName = $(buttonRemoveAgent).attr('class');
 
-                if(removeAgentClassName == "btn btn-primary") {
+                if(removeAgentClassName == "btn btn-danger") {
                     $(buttonRemoveAgent).attr('class', 'btn btn-danger active');
                     $(buttonAddAgent).attr('class', 'btn btn-primary');
                     buttonAddAgentME = false;
@@ -311,22 +304,44 @@
                 }
 
             });
-
+            var trainingId = /*[[${tc.id}]]*/ undefined;
             $(buttonSave).click(function(event)
             {
-                var listAgent = sendListAgent();
-                document.getElementById("saveButtonLink").value = listAgent;
-                document.getElementById("formListAgents").submit();
+                var listAgent = JSON.stringify(sendListAgent());
+
+                var path = /*[[@{/configuration/update}]]*/ /configuration/update;
+                console.log(listAgent);
+                $.get(path,
+                {"trainingId":trainingId,"agents":listAgent},
+                    function(res) {
+                        //console.log("test");
+                        console.log(res);
+
+
+
+                },"json");
+
             });
 
             $(buttonResetMapEditor).click(function(event)
             {
                 resetMapEditor();
             });
+
+            $.get(/*[[@{/configuration/agents}]]*/ /configuration/agents,
+                {"trainingId":trainingId},
+                    function(res) {
+                        console.log(res);
+                         replaceAgents(res);
+                    }
+            ,"json");
+
+
       })();
 
 
 
 </script>
+
 </body>
 </html>

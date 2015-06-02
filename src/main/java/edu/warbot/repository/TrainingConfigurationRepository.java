@@ -34,15 +34,20 @@ public class TrainingConfigurationRepository {
     }
 
     public <S extends TrainingConfiguration> S save(S s) {
-        entityManager.persist(s);
+        if (s.getId() == null)
+            entityManager.persist(s);
+        else
+            entityManager.merge(s);
         return s;
     }
 
     public TrainingConfiguration findOne(Long aLong) {
         try {
-            return entityManager.createQuery("Select m from TrainingConfiguration m where m.id = :id", TrainingConfiguration.class)
+            TrainingConfiguration tc = entityManager.createQuery("Select m from TrainingConfiguration m where m.id = :id", TrainingConfiguration.class)
                     .setParameter("id", aLong)
                     .getSingleResult();
+            LazyLoadingUtil.deepHydrate(entityManager.unwrap(Session.class), tc);
+            return tc;
         } catch (PersistenceException e) {
             return null;
         }

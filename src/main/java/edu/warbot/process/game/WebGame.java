@@ -72,48 +72,52 @@ public class WebGame extends WarGame {
             sendInitMessage();
             firstCall = false;
         }
-        all3tick++;
-        if (all3tick == 4) {
-            all3tick = 0;
-            getGameLog().obsolete();
 
-            for (Team t : getPlayerTeams()) {
-                for (WarAgent a : t.getAllAgents()) {
+        getGameLog().obsolete();
 
-                    if (a instanceof ControllableWarAgent) {
-                        Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
+        for (Team t : getPlayerTeams()) {
+            for (WarAgent a : t.getAllAgents()) {
 
-                        sendMessage(new AgentMessage(map));
-                    } else {
-                        Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
-                        sendMessage(new AgentMessage(map));
+                if (a instanceof ControllableWarAgent) {
+                    Map<String, Object> map = (this.getGameLog().addOrUpdateControllableEntity((ControllableWarAgent) a));
 
-                    }
+                    sendMessage(new AgentMessage(map));
+                } else {
+                    Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
+                    sendMessage(new AgentMessage(map));
+
                 }
-            }
-
-            for (WarAgent a : getMotherNatureTeam().getAllAgents()) {
-                Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
-                sendMessage(new AgentMessage(map));
-            }
-
-            List<EntityLog> agentDead = new ArrayList<>();
-
-            for (EntityLog el : this.getGameLog().getEntityLog().values())
-                if (!el.isUpdated())
-                    agentDead.add(el);
-
-            for (EntityLog el : agentDead) {
-                this.getGameLog().getEntityLog().remove(el.getName());
-                Map<String, Object> map = new HashMap<>();
-                map.put("name", el.getName());
-                map.put("state", -1);
-                sendMessage(new AgentMessage(map));
             }
         }
 
-        if (getGameMode().getEndCondition().isGameEnded())
+        for (WarAgent a : getMotherNatureTeam().getAllAgents()) {
+            Map<String, Object> map = this.getGameLog().addOrUpdateEntity(a);
+            sendMessage(new AgentMessage(map));
+        }
+
+        List<EntityLog> agentDead = new ArrayList<>();
+
+        for (EntityLog el : this.getGameLog().getEntityLog().values())
+            if (!el.isUpdated())
+                agentDead.add(el);
+
+        for (EntityLog el : agentDead) {
+            this.getGameLog().getEntityLog().remove(el.getName());
+            Map<String, Object> map = new HashMap<>();
+            map.put("name", el.getName());
+            map.put("state", -1);
+            sendMessage(new AgentMessage(map));
+        }
+
+
+        if (getGameMode().getEndCondition().isGameEnded()) {
+            HashMap<String, String> map = new HashMap<>();
+            for (Team t : getPlayerTeams())
+                map.put(t.getName(), "" + t.hasLost());
+            sendMessage(new EndMessage("game-end", map));
             setGameOver();
+
+        }
     }
 
     protected boolean isFirstCall() {
@@ -167,8 +171,8 @@ public class WebGame extends WarGame {
 
     @Override
     public void setGameOver() {
+
         super.setGameOver();
-        sendMessage(new EndMessage("game-end"));
         this.gameAgent.getAlive().set(false);
         System.exit(0);
     }
