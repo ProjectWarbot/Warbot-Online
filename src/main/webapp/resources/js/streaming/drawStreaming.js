@@ -599,6 +599,9 @@ function animate() {
 	hud.playBut.position.x = coordCenterX / 2;
     hud.playBut.position.y = coordCenterY / 2;
 
+    hud.playBut.scale.x = 0.8;
+    hud.playBut.scale.y = 0.8;
+
 	if(partyStart) {
 		hud.gChargement.rotation += 0.05;
 		hud.gChargement.alpha = 1;
