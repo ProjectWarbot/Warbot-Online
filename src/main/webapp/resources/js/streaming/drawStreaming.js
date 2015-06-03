@@ -605,11 +605,13 @@ function animate() {
 		hud.gChargement.rotation += 0.05;
 		hud.gChargement.alpha = 1;
 		hud.playBut.alpha = -1;
+		hud.playBut.interactive = false;
 	}
 	else {
 		hud.gChargement.alpha = -1;
 		if(!partyInGame) {
 			hud.playBut.alpha = 1;
+			hud.playBut.interactive = true;
 		}
 	}
 
