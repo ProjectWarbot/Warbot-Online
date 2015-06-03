@@ -77,7 +77,7 @@ public class TrainingConfigurationServiceImpl implements TrainingConfigurationSe
 
     @Override
     public TrainingConfiguration copy(TrainingConfiguration tc, Account newCreator) {
-        //Ici le nom de la map copiée est
+        //Ici le nom de la map est copiée
         String newName = newCreator.getScreenName() + tc.getName() + tc.getId();
         TrainingConfiguration tmp = new TrainingConfiguration(newName, tc.getLevel(), tc.getDescription());
         tmp.setCreator(newCreator);
