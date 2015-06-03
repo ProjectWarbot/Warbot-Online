@@ -27,7 +27,7 @@
 
 <div th:replace="fragments/header :: header">Header</div>
 <div id="hudDuel">
-    <a id="stop" class="btn btn-danger"><span class="glyphicon glyphicon-stop"></span> Force stop</a>
+    <a id="stop" class="btn btn-danger"><span class="glyphicon glyphicon-stop"></span> Forcer l'arrêt</a>
 
     <p id="teamNameDuel">
         <span th:text="#{duel.duel.team}">Team</span>
@@ -69,9 +69,9 @@
                             <td></td>
                         </tr>
                         <tr>
-                            <td class="mapNameTeam">Team</td>
-                            <td class="mapRed" id="nameRedTeamConsoleMap">Null</td>
-                            <td class="mapBlue" id="nameBlueTeamConsoleMap">Null</td>
+                            <td class="mapNameTeam">Equipe</td>
+                            <td class="mapRed" id="nameRedTeamConsoleMap">aucune</td>
+                            <td class="mapBlue" id="nameBlueTeamConsoleMap">aucune</td>
                         </tr>
                         <tr>
                             <td class="mapNameAgent">WarBase</td>
@@ -113,24 +113,24 @@
                 <div role="tabpanel" class="tab-pane" id="agent">
                     <table class="table table-bordered">
                         <tr class="">
-                            <td class="mapNameTeam">Name</td>
-                            <td class="mapAgentName" id="nameOfAgentFollow">null</td>
+                            <td class="mapNameTeam">Nom</td>
+                            <td class="mapAgentName" id="nameOfAgentFollow">aucun</td>
                         </tr>
                         <tr class="">
-                            <td class="mapNameAgent">Team</td>
-                            <td class="mapAgentOther" id="teamOfAgentFollow">null</td>
+                            <td class="mapNameAgent">Equipe</td>
+                            <td class="mapAgentOther" id="teamOfAgentFollow">aucun</td>
                         </tr>
                         <tr class="">
                             <td class="mapNameAgent">Type</td>
-                            <td class="mapAgentOther" id="typeOfAgentFollow">null</td>
+                            <td class="mapAgentOther" id="typeOfAgentFollow">aucun</td>
                         </tr>
                         <tr class="">
-                            <td class="mapNameAgent">Life (%)</td>
+                            <td class="mapNameAgent">Vie (%)</td>
                             <td class="mapAgentOther" id="lifeOfAgentFollow">0 %</td>
                         </tr>
                         <tr class="">
-                            <td class="mapNameAgent">Debug message</td>
-                            <td class="mapAgentOther" id="debugMessageOfAgentFollow">null</td>
+                            <td class="mapNameAgent">Message</td>
+                            <td class="mapAgentOther" id="debugMessageOfAgentFollow">aucun</td>
                         </tr>
                         <tr class="">
                             <td class="mapNameAgent">Angle</td>

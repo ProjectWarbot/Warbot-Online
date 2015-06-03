@@ -363,11 +363,11 @@ function createAgentJson(scene, tab, json, teams) {
 				scene.follow = false;
 				scene.agentFollow = -1;
 				scene.agentEntityFollow = null;
-				document.getElementById('nameOfAgentFollow').innerHTML = "null";
-				document.getElementById('teamOfAgentFollow').innerHTML = "null";
-				document.getElementById('typeOfAgentFollow').innerHTML = "null";
+				document.getElementById('nameOfAgentFollow').innerHTML = "aucun";
+				document.getElementById('teamOfAgentFollow').innerHTML = "aucun";
+				document.getElementById('typeOfAgentFollow').innerHTML = "aucun";
 				document.getElementById('lifeOfAgentFollow').innerHTML = "0 %";
-				document.getElementById('debugMessageOfAgentFollow').innerHTML = "null";
+				document.getElementById('debugMessageOfAgentFollow').innerHTML = "aucun";
 				document.getElementById('angleOfAgentFollow').innerHTML = "0";
 				}
 
@@ -605,11 +605,13 @@ function animate() {
 		hud.gChargement.rotation += 0.05;
 		hud.gChargement.alpha = 1;
 		hud.playBut.alpha = -1;
+		hud.playBut.interactive = false;
 	}
 	else {
 		hud.gChargement.alpha = -1;
 		if(!partyInGame) {
 			hud.playBut.alpha = 1;
+			hud.playBut.interactive = true;
 		}
 	}
 
@@ -1163,14 +1165,14 @@ function messageServerEnd(message) {
     document.getElementById('numberOfWallBlue').innerHTML = 0;
     document.getElementById('numberOfFoodConsoleMap').innerHTML = 0;
 
-    document.getElementById('nameRedTeamConsoleMap').innerHTML = "Null";
-    document.getElementById('nameBlueTeamConsoleMap').innerHTML = "Null";
+    document.getElementById('nameRedTeamConsoleMap').innerHTML = "aucune";
+    document.getElementById('nameBlueTeamConsoleMap').innerHTML = "aucune";
 
-    document.getElementById('nameOfAgentFollow').innerHTML = "null";
-    document.getElementById('teamOfAgentFollow').innerHTML = "null";
-    document.getElementById('typeOfAgentFollow').innerHTML = "null";
+    document.getElementById('nameOfAgentFollow').innerHTML = "aucun";
+    document.getElementById('teamOfAgentFollow').innerHTML = "aucun";
+    document.getElementById('typeOfAgentFollow').innerHTML = "aucun";
     document.getElementById('lifeOfAgentFollow').innerHTML = "0 %";
-    document.getElementById('debugMessageOfAgentFollow').innerHTML = "null";
+    document.getElementById('debugMessageOfAgentFollow').innerHTML = "aucun";
     document.getElementById('angleOfAgentFollow').innerHTML = "0";
 
 	stage.setBackgroundColor(colorStreamOff);
