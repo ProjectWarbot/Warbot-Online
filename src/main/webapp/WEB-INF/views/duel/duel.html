@@ -164,48 +164,6 @@
         chargeAppModel(appModel);
 
         appModel.connect();
-        $(".btn.btn-sm.btn-success.launch").click(function (event)
-        {
-            /*if(!partyInGame) {
-                var idParty = $("#idParty")[0].value;
-                appModel.launchParty(idParty,-1);
-                partyInGame = true;
-                partyStart = true;
-            }
-            else {
-
-            }*/
-        });
-
-        $(".webcode-request").click(function(event)
-        {
-          //var child = $(this).children("input");
-          //var vidAgent = child[0].value;
-          //var vidParty = $("#idParty")[0].value;
-          //appModel.get(vidParty,vidAgent);
-        });
-
-         $(".btn.btn-sm.btn-primary.save").click(function(event)
-        {
-          var child = $(this);
-          var vidAgent = child[0].id;
-          var vidParty = $("#idParty")[0].value;
-          var vCode = editors[vidAgent+"-editor"].getSession().getValue();
-          appModel.save(vidParty,vidAgent, vCode);
-        });
-
-        $(".btn.btn-sm.btn-info.load").click(function(event)
-        {
-          var child = $(this);
-          var vidAgent = child[0].id;
-          var vidParty = $("#idParty")[0].value;
-          appModel.get(vidParty,vidAgent);
-        });
-
-        $(".btn.btn-sm.btn-warning.debug").click(function(event)
-        {
-            initHUDDebug();
-        });
 
         playuttonUI.mousedown = function() {
            appModel.launchParty2(idP,idP2);

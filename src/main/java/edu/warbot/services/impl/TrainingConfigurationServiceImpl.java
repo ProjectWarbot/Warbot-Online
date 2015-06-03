@@ -6,6 +6,8 @@ import edu.warbot.models.TrainingConfiguration;
 import edu.warbot.repository.TrainingAgentRepository;
 import edu.warbot.repository.TrainingConfigurationRepository;
 import edu.warbot.services.TrainingConfigurationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,8 @@ public class TrainingConfigurationServiceImpl implements TrainingConfigurationSe
     @Autowired
     private TrainingAgentRepository trainingAgentRepository;
 
+    private Logger logger = LoggerFactory.getLogger(TrainingConfigurationServiceImpl.class);
+
     public void save(TrainingConfiguration t) {
         trainingConfigurationRepository.save(t);
     }
@@ -38,12 +42,15 @@ public class TrainingConfigurationServiceImpl implements TrainingConfigurationSe
     @Override
     public void updateConfiguration(TrainingConfiguration tc, Set<TrainingAgent> agents) {
 
-        tc.getTrainingAgents().removeAll(agents);
-
+        logger.info("before remove All");
         trainingAgentRepository.deleteAll(tc.getTrainingAgents());
-
-        for (TrainingAgent t : agents)
+        logger.info("before saving");
+        for (TrainingAgent t : agents) {
+            logger.info("new -> " + t.isNew());
+            t.resetId();
+            t.setTrainingConfiguration(tc);
             trainingAgentRepository.save(t);
+        }
     }
 
     @Override

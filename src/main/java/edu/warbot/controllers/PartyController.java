@@ -191,9 +191,13 @@ public class PartyController implements ApplicationContextAware {
         return "party/list";
     }
 
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
     @RequestMapping(value = "/party/add/members")
-    public String addMember(Principal principal, RedirectAttributes ra,
-                            @RequestParam Long idParty, @RequestParam Long idUser) {
+    public String addMember(Principal principal, RedirectAttributes ra, @RequestParam Long idParty, @RequestParam Long idUser) {
         Account account = accountRepository.findByEmail(principal.getName());
         Party party = warbotOnlineService.findPartyById(idParty);
         if (party.getCreator().equals(account)) {
@@ -207,8 +211,7 @@ public class PartyController implements ApplicationContextAware {
     }
 
     @RequestMapping(value = "/party/remove/members")
-    public String removeMember(Principal principal, RedirectAttributes ra,
-                               @RequestParam Long idParty, @RequestParam Long idUser) {
+    public String removeMember(Principal principal, RedirectAttributes ra, @RequestParam Long idParty, @RequestParam Long idUser) {
         Account account = accountRepository.findByEmail(principal.getName());
         Party party = warbotOnlineService.findPartyById(idParty);
 
@@ -220,11 +223,5 @@ public class PartyController implements ApplicationContextAware {
         }
         ra.addAttribute("id", party.getId());
         return "redirect:/party/show";
-    }
-
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
     }
 }

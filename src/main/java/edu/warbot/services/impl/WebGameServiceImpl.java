@@ -16,6 +16,8 @@ import edu.warbot.process.game.ServerWarbotGameAgent;
 import edu.warbot.repository.AccountRepository;
 import edu.warbot.services.WebGameService;
 import edu.warbot.support.process.JVMBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -48,6 +50,8 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
 
     @Autowired
     private SimpMessageSendingOperations templateMessaging;
+
+    private Logger logger = LoggerFactory.getLogger(WebGameServiceImpl.class);
 
 
     @Override
@@ -140,7 +144,7 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
 
         LaunchGameCommand.LaunchGameCommandBuilder lgcb = new LaunchGameCommand.LaunchGameCommandBuilder();
         LaunchGameCommand lgc = lgcb.setPlayerForTeam1(party.getId()).setValueTeam2(LaunchGameCommand.IA_TEAM_RANDOM).build();
-
+        logger.info("launch process");
         constructProcessAndServerWarbotAgent(account, lgc);
     }
 

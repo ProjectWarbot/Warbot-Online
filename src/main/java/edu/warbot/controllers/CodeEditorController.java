@@ -96,6 +96,7 @@ public class CodeEditorController {
     public boolean lock(@RequestParam Long idParty,
                         @RequestParam Long idWebAgent,
                         Principal principal) {
+
         Assert.notNull(principal);
         Account account = accountRepository.findByEmail(principal.getName());
         Assert.notNull(account);
