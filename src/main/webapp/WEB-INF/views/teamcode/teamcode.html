@@ -3,7 +3,7 @@
 <head>
     <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
 
-    <title>Team Code</title>
+    <title>Warbot Online</title>
 
     <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
           th:href="@{/resources/css/bootstrap.css}"/>
@@ -29,7 +29,6 @@
 
 </head>
 <body>
-
 <div th:replace="fragments/header :: header">Header</div>
 
 <div class="box">
@@ -60,8 +59,8 @@
             <div th:id="${agent.id}" th:each="agent : ${agents}" class="tab-pane fade">
                 <div th:id="${agent.id}+'-editor'" class="editor"></div>
                 <!--<a href="#" class="btn btn-sm btn-warning pause"> Pause</a> -->
-                <a href="#" class="btn btn-sm btn-primary save" th:id="${agent.id}"> Save</a>
-                <a href="#" class="btn btn-sm btn-info load" th:id="${agent.id}"> Load</a>
+                <a href="#" class="btn btn-sm btn-primary save" th:id="${agent.id}"> Sauvegarder</a>
+                <a href="#" class="btn btn-sm btn-info load" th:id="${agent.id}"> Charger</a>
 
 
             </div>
@@ -83,7 +82,7 @@
             <ul class="nav nav-tabs console" role="tablist">
                 <!--<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
                                                           data-toggle="tab">Console</a></li>-->
-                <li role="presentation" class="active"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">Map</a></li>
+                <li role="presentation" class="active"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">Carte</a></li>
                 <li role="presentation"><a href="#agent" aria-controls="agent" role="tab" data-toggle="tab">Agent</a></li>
             </ul>
 
@@ -174,6 +173,7 @@
 
 
 </div>
+
 
 <script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.min.js}"></script>
 <script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.min.js}"></script>

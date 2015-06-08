@@ -8,10 +8,9 @@ $(document).ready(function(){
 					var id = $(this).attr("id");
 					var ed = ace.edit(id);
 					ed.setTheme("ace/theme/monokai");
-                    ed.getSession().setMode("ace/mode/python");
                     ed.setOptions({enableBasicAutocompletion: true});
+                    ed.getSession().setMode("ace/mode/python");
                     ed.getSession().setUseSoftTabs(false);
-
                     editors[id] = ed;
                     this.style.position = "absolute";
                     this.style.marginTop = "90px";
@@ -20,7 +19,5 @@ $(document).ready(function(){
                     this.style.right = 0;
                     this.style.bottom = 0;
                     this.style.left = 0;
-
-
 				});
  });
