@@ -112,6 +112,7 @@ function HUDTexture(pathToTexture)
 	};
 }
 
+
 /**
 * Create an instance of TextureFolder containing all textures for teams, maps, hud
 **/
@@ -125,8 +126,8 @@ function TextureFolder(pathToTexture,nbTeam,quality = null)
 	}
 	this.rocket = initTex
 	(pathToTexture+"/"+TEXTURE_CONSTANTS.AGENTS.ROCKET,this.quality);
-	this.map =
-	(pathToTexture+"/"+TEXTURE_CONSTANTS.AGENTS.ROCKET,this.quality);
+	this.map =initTex
+	(pathToTexture+"/"+TEXTURE_CONSTANTS.MAP[4],this.quality);
 
 }
 
@@ -135,7 +136,27 @@ TextureFolder.prototype.reloadTexture = function(pathToTexture) {};
 TextureFolder.prototype.reloadTexture = function(pathToTexture,quality) {};
 
 
+
 // OLD SYSTEM
+var explorerRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/explorer.png");
+var explorerBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/explorer.png");
+var engineerRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/engineer.png");
+var engineerBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/engineer.png");
+var rocketLauncherRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/rocketLauncher.png");
+var rocketLauncherBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/rocketLauncher.png");
+var kamikazeRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/kamikaze.png");
+var kamikazeBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/kamikaze.png");
+var turretRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/turret.png");
+var turretBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/turret.png");
+var baseRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/base.png");
+var baseBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/base.png");
+var wallRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/wall.png");
+var wallBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/wall.png");
+var rocket = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/rocket2.png");;
+var bomb;
+var food = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/food02.png");
+
+var map = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/map004.png");
 
 var perceptOther = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/perceptOther.png");
 var perceptBaseRed = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/RED/perceptBase.png");
