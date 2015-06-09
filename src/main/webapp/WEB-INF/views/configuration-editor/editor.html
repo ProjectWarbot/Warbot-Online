@@ -1,24 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
-
     <title>Create Map</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
-          th:href="@{/resources/css/bootstrap.css}"/>
-    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
+    <object th:include="fragments/header :: head" th:remove="tag"/>
 
-    <script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}"></script>
-    <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}"></script>
-    <script src="../../../resources/js/zone/jquery.ui.all.js" th:src="@{/resources/js/zone/jquery.ui.all.js}"></script>
-    <script src="../../../resources/js/trainingConfigurationZone.js"
-            th:src="@{/resources/js/trainingConfigurationZone.js}"></script>
+    <script src="../../../resources/js/libs/jquery-ui.min.js" th:src="@{/resources/js/libs/jquery-ui.min.js}"></script>
+    <script src="../../../resources/js/libs/jquery.layout_and_plugins.min.js" th:src="@{/resources/js/libs/jquery.layout_and_plugins.min.js}"></script>
+    <script src="../../../resources/js/layout/trainingEditorLayout.js"
+            th:src="@{/resources/js/layout/trainingEditorLayout.js}"></script>
 
-    <script src="../../../resources/js/streaming/pixi.js" th:src="@{/resources/js/streaming/pixi.js}"></script>
+    <script src="../../../resources/js/libs/pixi.js" th:src="@{/resources/js/libs/pixi.js}"></script>
     <script src="../../../resources/js/streaming/importTexture.js"
             th:src="@{/resources/js/streaming/importTexture.js}"></script>
 </head>

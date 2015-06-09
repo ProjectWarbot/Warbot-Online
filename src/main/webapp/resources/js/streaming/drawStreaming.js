@@ -15,7 +15,7 @@ var partyStart = false;
 var appM;
 var idP;
 
-requestAnimFrame( animate );
+requestAnimationFrame( animate );
 initStreaming();
 cameraMove(stage, camera);
 addWheelLister();
@@ -585,7 +585,7 @@ function rgb2hex2(r, g, b){
 
 function animate() {
 
-    requestAnimFrame( animate );
+    requestAnimationFrame( animate );
 
     renderer.resize(contener.offsetWidth-1, contener.offsetHeight-1);
 
@@ -688,11 +688,9 @@ function initStreaming() {
 }
 
 function cameraMove(stg, cam) {
-
-	var isDragging = false;
-	var prevX;
-	var prevY;
-
+var prevX;
+var prevY;
+var isDragging = false;
 	stg.mousedown = function (moveData) {
 		var pos = moveData.global;
 		prevX = pos.x;
@@ -1218,7 +1216,7 @@ function messageServerEnd(message) {
     partyInGame = false;
     partyStart = false;
 
-    requestAnimFrame( animate );
+    requestAnimationFrame( animate );
 }
 
 function chargeAppModel(appModel) {

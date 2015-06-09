@@ -64,7 +64,7 @@ var counterAgent = {
 	blueWall           : 0
 };
 
-requestAnimFrame( animate );
+requestAnimationFrame( animate );
 initDebug();
 cameraMove(stage, cameraMapEditor);
 addWheelLister();
@@ -452,7 +452,7 @@ function changeCursorAgentMapEditor() {
 
 function animate() {
 
-    requestAnimFrame( animate );
+    requestAnimationFrame( animate );
 
     renderer.resize(contener.offsetWidth-1, contener.offsetHeight-1);
 
@@ -482,9 +482,9 @@ function cameraMove(stg, cam) {
 	var isDragging = false;
 	var prevX;
 	var prevY;
-
-    var dx;
+   var dx;
     var dy;
+
 
 
 
@@ -574,7 +574,6 @@ function cameraMove(stg, cam) {
 
 
 	stg.mousemove = function (moveData) {
-
 	    var pos = moveData.global;
 	    dx = pos.x - prevX;
         dy = pos.y - prevY;

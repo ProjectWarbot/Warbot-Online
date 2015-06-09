@@ -45,8 +45,6 @@ public class CodeEditorListener implements ApplicationListener<ApplicationEvent>
     private void handleCodeLock(SessionConnectEvent event) {
         SimpMessageHeaderAccessor headers = SimpMessageHeaderAccessor.wrap(event.getMessage());
         String nameAccount = headers.getUser().getName();
-
-
     }
 
     private void handleCodeUnlock(SessionDisconnectEvent event) {
