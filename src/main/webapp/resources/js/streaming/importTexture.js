@@ -36,7 +36,19 @@ var TEXTURE_CONSTANTS = {
 
 		EXPLOSION : "",
 	},
-	HUD :{},
+	HUD :{
+		PATH: "hud",
+		LIFE: {
+			ON: "buttonLifeOn",
+			OFF: "buttonLifeOff",
+			TRANSPARENT: "buttonLifeTrans"
+		},
+		STOP: {
+			ON: "buttonStopGameOn",
+            OFF: "buttonStopGameOff",
+            TRANSPARENT: "buttonStopGameTrans"
+		}
+	},
 	MAP: {1 : "map001",2:"map002",3:"map003",4:"map004"},
 
 	TEAM: "team",
@@ -78,16 +90,25 @@ function HUDTexture(pathToTexture)
 {
 	this.buttonLife = {
 		ON :initTex
-		(pathToTexture+TEXTURE_CONSTANTS.HUD.LIFE.ON),
+		(pathToTexture+TEXTURE_CONSTANTS.HUD.PATH+"/"
+		+TEXTURE_CONSTANTS.HUD.LIFE.ON),
 		OFF:initTex
-		(pathToTexture+TEXTURE_CONSTANTS.HUD.LIFE.OFF),
+		(pathToTexture+TEXTURE_CONSTANTS.HUD.PATH+"/"
+		+TEXTURE_CONSTANTS.HUD.LIFE.OFF),
 		TRANSPARENT:initTex
-		(pathToTexture+TEXTURE_CONSTANTS.HUD.LIFE.TRANSPARENT)
+		(pathToTexture+TEXTURE_CONSTANTS.HUD.PATH+"/"
+		+TEXTURE_CONSTANTS.HUD.LIFE.TRANSPARENT)
 	};
 	this.buttonStop = {
-		ON : "",
-		OFF :"",
-		TRANSPARENT:""
+		ON : initTex
+        (pathToTexture+TEXTURE_CONSTANTS.HUD.PATH+"/"
+        +TEXTURE_CONSTANTS.HUD.STOP.ON),
+		OFF :initTex
+        (pathToTexture+TEXTURE_CONSTANTS.HUD.PATH+"/"
+        +TEXTURE_CONSTANTS.HUD.STOP.OFF),
+		TRANSPARENT:initTex
+        (pathToTexture+TEXTURE_CONSTANTS.HUD.PATH+"/"
+        +TEXTURE_CONSTANTS.HUD.STOP.TRANSPARENT),
 	};
 }
 
@@ -115,26 +136,6 @@ TextureFolder.prototype.reloadTexture = function(pathToTexture,quality) {};
 
 
 // OLD SYSTEM
-
-var explorerRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/explorer.png");
-var explorerBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/explorer.png");
-var engineerRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/engineer.png");
-var engineerBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/engineer.png");
-var rocketLauncherRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/rocketLauncher.png");
-var rocketLauncherBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/rocketLauncher.png");
-var kamikazeRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/kamikaze.png");
-var kamikazeBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/kamikaze.png");
-var turretRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/turret.png");
-var turretBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/turret.png");
-var baseRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/base.png");
-var baseBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/base.png");
-var wallRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/wall.png");
-var wallBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/wall.png");
-var rocket = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/rocket2.png");;
-var bomb;
-var food = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/food02.png");
-
-var map = PIXI.Texture.fromImage("/resources/assetWarbot/MotherTeam/map004.png");
 
 var perceptOther = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/perceptOther.png");
 var perceptBaseRed = PIXI.Texture.fromImage("/resources/assetWarbot/InfoAgent/percept/RED/perceptBase.png");
