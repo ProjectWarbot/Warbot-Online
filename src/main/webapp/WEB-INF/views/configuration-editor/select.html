@@ -4,14 +4,8 @@
     <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
 
     <title>Editor</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
-          th:href="@{/resources/css/bootstrap.css}"/>
-    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+    <object th:include="fragments/header :: head" th:remove="tag"/>
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
 </head>
 <body>
 <div th:replace="fragments/header :: header">Header</div>

@@ -2,8 +2,8 @@ var contener = document.getElementById('stream');
 var colorStreamOff = 0x000000;
 var stage = new PIXI.Stage(colorStreamOff);
 var renderer = new PIXI.autoDetectRenderer(0 , 0);
-var camera = new PIXI.DisplayObjectContainer();
-var hud = new PIXI.DisplayObjectContainer();
+var camera = new PIXI.Container();
+var hud = new PIXI.Container();
 var agentTab = new Array();
 var buttonTab = new Array();
 var TeamAll = new Array();
@@ -15,7 +15,7 @@ var partyStart = false;
 var appM;
 var idP;
 
-requestAnimFrame( animate );
+requestAnimationFrame( animate );
 initStreaming();
 cameraMove(stage, camera);
 addWheelLister();
@@ -585,7 +585,7 @@ function rgb2hex2(r, g, b){
 
 function animate() {
 
-    requestAnimFrame( animate );
+    requestAnimationFrame( animate );
 
     renderer.resize(contener.offsetWidth-1, contener.offsetHeight-1);
 
@@ -688,13 +688,11 @@ function initStreaming() {
 }
 
 function cameraMove(stg, cam) {
-
-	var isDragging = false;
-	var prevX;
-	var prevY;
-
+var prevX;
+var prevY;
+var isDragging = false;
 	stg.mousedown = function (moveData) {
-		var pos = moveData.global;
+		var pos = moveData.data.global;
 		prevX = pos.x;
 		prevY = pos.y;
 		isDragging = true;
@@ -710,7 +708,7 @@ function cameraMove(stg, cam) {
 			return;
 		}
 
-		var pos = moveData.global;
+		var pos = moveData.data.global;
 		var dx = pos.x - prevX;
 		var dy = pos.y - prevY;
 
@@ -1218,7 +1216,7 @@ function messageServerEnd(message) {
     partyInGame = false;
     partyStart = false;
 
-    requestAnimFrame( animate );
+    requestAnimationFrame( animate );
 }
 
 function chargeAppModel(appModel) {

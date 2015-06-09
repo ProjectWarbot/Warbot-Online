@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:fragment="head">
     <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
-    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
-          th:href="@{/resources/css/bootstrap.css}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8" />
+    <!-- CSS -->
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
+          th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+
+    <!-- SCRIPTS -->
+    <script src="../../../resources/js/libs/jquery-2.1.4.min.js" th:src="@{/resources/js/libs/jquery-2.1.4.min.js}"></script>
+    <script src="../../../resources/js/libs/bootstrap.min.js" th:src="@{/resources/js/libs/bootstrap.min.js}"></script>
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" th:href="@{/}">WarbotOnline</a>
         </div>
-        <div class="navbar-collapse collapse">
+        <div id="menu" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li th:if="${#authorization.expression('isAuthenticated()')}"><a href="#configuration"
-                                                                                 th:href="@{/configuration/list}"
-                                                                                 th:text="#{fragments.header.sallesEntrainements}">Training
-                    Configuration</a></li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}"><a href="#partylist"
-                                                                                 th:href="@{/partylist}"
-                                                                                 th:text="#{fragments.header.duel}">Team
-                    List</a></li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a href="#configuration"
+                       th:href="@{/configuration/list}"
+                       th:text="#{fragments.header.sallesEntrainements}">
+                        Training Configuration
+                    </a>
+                </li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a href="#partylist"
+                       th:href="@{/partylist}"
+                       th:text="#{fragments.header.duel}">
+                        Team List
+                    </a>
+                </li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}"><a href="#profil"
                                                                                  th:href="@{/account/profil}"
                                                                                  th:text="#{fragments.header.profile}">Profile</a>
