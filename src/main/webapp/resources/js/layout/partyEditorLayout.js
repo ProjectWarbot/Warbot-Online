@@ -1,7 +1,6 @@
 	var outerLayout, middleLayout;
 
 	$(document).ready(function () {
-
 		outerLayout = $('.box').layout({
 			center__paneSelector:	".outer-center",
 			west__paneSelector:		".outer-west",

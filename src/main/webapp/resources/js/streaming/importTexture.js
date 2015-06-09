@@ -1,3 +1,121 @@
+/**
+* Constant values used for Warbot and Pixi JS Texture loading
+*
+* @lends Jimmy Lopez, Sébastien Beugnon
+**/
+
+//NEW SYSTEM
+var TEXTURE_CONSTANTS = {
+	/**
+	* @static
+	* @constant
+	* @property {object} AGENTS - Agents texture names
+	**/
+	AGENTS : {
+		/**
+		* @static
+		* @constant
+		* @property {string} EXPLORER - Explorer texture name
+		**/
+		EXPLORER : "explorer",
+		/**
+		* @static
+		* @constant
+		* @property {string} P_EXPLORER - Explorer Perception Field texture name
+		**/
+		P_EXPLORER : "p_explorer",
+		ENGINEER : "engineer",
+		ROCKET_LAUNCHER :"rocketLauncher",
+		KAMIKAZE : "kamikaze",
+		TURRET : "turret",
+		BASE : "base",
+		WALL : "wall",
+		ROCKET : "rocket",
+		BOMB : "bomb",
+		FOOD : "food",
+
+		EXPLOSION : "",
+	},
+	HUD :{},
+	MAP: {1 : "map001",2:"map002",3:"map003",4:"map004"},
+
+	TEAM: "team",
+
+	QUALITY: {
+		FAST: "-fast.png",
+		NORMAL: ".png"
+	}
+
+};
+
+function initTex(path,quality) {
+	return PIXI.Texture.fromImage(path+quality);
+}
+
+/**
+* Create an instance of TeamTexture with a specific path
+*
+**/
+function TeamTexture(pathToTextureWithTeam,quality)
+{
+	this.explorer = initTex
+	(pathToTextureWithTeam+TEXTURE_CONSTANTS.AGENTS.EXPLORER,quality);
+	this.engineer = initTex
+	(pathToTextureWithTeam+TEXTURE_CONSTANTS.AGENTS.ENGINEER,quality);
+	this.rocketLauncher = initTex
+	(pathToTextureWithTeam+TEXTURE_CONSTANTS.AGENTS.ROCKET_LAUNCHER,quality);
+	this.kamikaze = initTex
+	(pathToTextureWithTeam+TEXTURE_CONSTANTS.AGENTS.KAMIKAZE,quality);
+	this.turret = initTex
+	(pathToTextureWithTeam+TEXTURE_CONSTANTS.AGENTS.TURRET,quality);
+	this.base = initTex
+	(pathToTextureWithTeam+TEXTURE_CONSTANTS.AGENTS.BASE,quality);
+	this.wall = initTex
+	(pathToTextureWithTeam+TEXTURE_CONSTANTS.AGENTS.WALL,quality);
+}
+
+function HUDTexture(pathToTexture)
+{
+	this.buttonLife = {
+		ON :initTex
+		(pathToTexture+TEXTURE_CONSTANTS.HUD.LIFE.ON),
+		OFF:initTex
+		(pathToTexture+TEXTURE_CONSTANTS.HUD.LIFE.OFF),
+		TRANSPARENT:initTex
+		(pathToTexture+TEXTURE_CONSTANTS.HUD.LIFE.TRANSPARENT)
+	};
+	this.buttonStop = {
+		ON : "",
+		OFF :"",
+		TRANSPARENT:""
+	};
+}
+
+/**
+* Create an instance of TextureFolder containing all textures for teams, maps, hud
+**/
+function TextureFolder(pathToTexture,nbTeam,quality = null)
+{
+	this.quality = quality || TEXTURE_CONSTANTS.QUALITY.NORMAL;
+	this.teams = [];
+	for (i = 0;i<nbTeam;i++) {
+		console.log(pathToTexture+"/"+TEXTURE_CONSTANTS.TEAM+""+i+"/");
+		this.teams.push(new TeamTexture(pathToTexture+"/"+TEXTURE_CONSTANTS.TEAM+""+i+"/",this.quality));
+	}
+	this.rocket = initTex
+	(pathToTexture+"/"+TEXTURE_CONSTANTS.AGENTS.ROCKET,this.quality);
+	this.map =
+	(pathToTexture+"/"+TEXTURE_CONSTANTS.AGENTS.ROCKET,this.quality);
+
+}
+
+TextureFolder.prototype.reloadTexture = function() {};
+TextureFolder.prototype.reloadTexture = function(pathToTexture) {};
+TextureFolder.prototype.reloadTexture = function(pathToTexture,quality) {};
+
+
+// OLD SYSTEM
+
 var explorerRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/explorer.png");
 var explorerBlue = PIXI.Texture.fromImage("/resources/assetWarbot/BlueTeam/explorer.png");
 var engineerRed = PIXI.Texture.fromImage("/resources/assetWarbot/RedTeam/engineer.png");

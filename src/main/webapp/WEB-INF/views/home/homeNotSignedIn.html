@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
-
-    <title th:text="#{view.index.title}">Warbot - Online</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
-          th:href="@{/resources/css/bootstrap.css}"/>
-    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="../../../resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
+    <title>Warbot Online</title>
+    <object th:include="fragments/header :: head" th:remove="tag"/>
 </head>
 <body>
 <div th:replace="fragments/header :: header">Header</div>

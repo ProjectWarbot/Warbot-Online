@@ -3,8 +3,8 @@ var contener = document.getElementById('mapEditor');
 var colorStreamOff = 0x666666;
 var stage = new PIXI.Stage(colorStreamOff);
 var renderer = new PIXI.autoDetectRenderer(0 , 0);
-var cameraMapEditor = new PIXI.DisplayObjectContainer();
-var hudMapEditor = new PIXI.DisplayObjectContainer();
+var cameraMapEditor = new PIXI.Container();
+var hudMapEditor = new PIXI.Container();
 
 //La liste des agents que l'on crée sur la map
 var listAgentEditor = new Array();
@@ -64,7 +64,7 @@ var counterAgent = {
 	blueWall           : 0
 };
 
-requestAnimFrame( animate );
+requestAnimationFrame( animate );
 initDebug();
 cameraMove(stage, cameraMapEditor);
 addWheelLister();
@@ -452,7 +452,7 @@ function changeCursorAgentMapEditor() {
 
 function animate() {
 
-    requestAnimFrame( animate );
+    requestAnimationFrame( animate );
 
     renderer.resize(contener.offsetWidth-1, contener.offsetHeight-1);
 
@@ -482,14 +482,14 @@ function cameraMove(stg, cam) {
 	var isDragging = false;
 	var prevX;
 	var prevY;
-
-    var dx;
+   var dx;
     var dy;
 
 
 
+
 	stg.mousedown = function (moveData) {
-		var pos = moveData.global;
+		var pos = moveData.data.global;
 		prevX = pos.x;
 		prevY = pos.y;
 
@@ -574,8 +574,7 @@ function cameraMove(stg, cam) {
 
 
 	stg.mousemove = function (moveData) {
-
-	    var pos = moveData.global;
+	    var pos = moveData.data.global;
 	    dx = pos.x - prevX;
         dy = pos.y - prevY;
 

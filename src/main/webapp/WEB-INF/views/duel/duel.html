@@ -1,30 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
+    <title>Warbot Online - Duel</title>
+    <object th:include="fragments/header :: head" th:remove="tag"/>
+    <script src="../../../resources/js/libs/jquery-ui.min.js" th:src="@{/resources/js/libs/jquery-ui.min.js}"></script>
+    <script src="../../../resources/js/libs/jquery.layout_and_plugins.min.js" th:src="@{/resources/js/libs/jquery.layout_and_plugins.min.js}"></script>
 
-    <title>Team Code</title>
-
-    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
-          th:href="@{/resources/css/bootstrap.css}"/>
-    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
-
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js"></script>
-
-    <script src="../../../resources/js/zone/jquery.js" th:src="@{/resources/js/zone/jquery.js}"></script>
-    <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}"></script>
-    <script src="../../../resources/js/zone/jquery.ui.all.js" th:src="@{/resources/js/zone/jquery.ui.all.js}"></script>
-    <script src="../../../resources/js/duelZone.js"
-            th:src="@{/resources/js/duelZone.js}"></script>
-
-    <script src="../../../resources/js/streaming/pixi.js" th:src="@{/resources/js/streaming/pixi.js}"></script>
+    <script src="../../../resources/js/libs/pixi.min.js" th:src="@{/resources/js/libs/pixi.min.js}"></script>
     <script src="../../../resources/js/streaming/importTexture.js"
             th:src="@{/resources/js/streaming/importTexture.js}"></script>
 </head>
 <body>
-
 <div th:replace="fragments/header :: header">Header</div>
 <div id="hudDuel">
     <a id="stop" class="btn btn-danger"><span class="glyphicon glyphicon-stop"></span> Forcer l'arrêt</a>
@@ -140,12 +126,14 @@
         </div>
     </div>
 
-<script src="../../../resources/js/sockjs.min.js" th:src="@{/resources/js/sockjs.min.js}"></script>
-<script src="../../../resources/js/stomp.min.js" th:src="@{/resources/js/stomp.min.js}"></script>
+<script src="../../../resources/js/libs/sockjs.min.js" th:src="@{/resources/js/libs/sockjs.min.js}"></script>
+<script src="../../../resources/js/libs/stomp.min.js" th:src="@{/resources/js/libs/stomp.min.js}"></script>
 <!-- application -->
 <script src="../../../resources/js/webgame.js" th:src="@{/resources/js/webgame.js}"></script>
 <script src="../../../resources/js/streaming/drawStreaming.js"
         th:src="@{/resources/js/streaming/drawStreaming.js}"></script>
+<script src="../../../resources/js/layout/duelLayout.js"
+        th:src="@{/resources/js/layout/duelLayout.js}"></script>
 
 <script th:inline="javascript">
 (function() {

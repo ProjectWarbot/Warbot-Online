@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
-
-    <title>Team Code</title>
-    <link href="../../../resources/css/bootstrap.css" rel="stylesheet" media="screen"
-          th:href="@{/resources/css/bootstrap.css}"/>
-    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
-
+    <title>Warbot Online - About</title>
+    <object th:include="fragments/header :: head" th:remove="tag"/>
 </head>
 <body>
-
 <div th:replace="fragments/header :: header">Header</div>
 <div class="container">
     <div class="text-center">

@@ -1,9 +1,8 @@
-var contener = document.getElementById('stream');
-var colorStreamOff = 0x000000;
-var stage = new PIXI.Stage(colorStreamOff);
-var renderer = new PIXI.autoDetectRenderer(0 , 0);
-var camera = new PIXI.DisplayObjectContainer();
-var hud = new PIXI.DisplayObjectContainer();
+var contener = $('#stream');
+var renderer = new PIXI.autoDetectRenderer(contener.width(),contener.height(),{backgroundColor : 0x1099bb});
+var stage = new PIXI.Container();
+var camera = new PIXI.Container();
+var hud = new PIXI.Container();
 var agentTab = new Array();
 var buttonTab = new Array();
 var TeamAll = new Array();
@@ -15,7 +14,8 @@ var partyStart = false;
 var appM;
 var idP;
 
-requestAnimFrame( animate );
+
+requestAnimationFrame( animate );
 initStreaming();
 cameraMove(stage, camera);
 addWheelLister();
@@ -584,9 +584,7 @@ function rgb2hex2(r, g, b){
 }
 
 function animate() {
-
-    requestAnimFrame( animate );
-
+    requestAnimationFrame( animate );
     renderer.resize(contener.offsetWidth-1, contener.offsetHeight-1);
 
     var coordCenterX = contener.offsetWidth-1 / 2;
@@ -640,13 +638,13 @@ function initHUD() {
 function initStreaming() {
 	stage.interactive = true;
 	renderer.view.style.display = "block";
-    contener.appendChild(renderer.view);
+    contener.append(renderer.view);
     camera.follow = false;
     camera.agentFollow = null;
     camera.agentEntityFollow;
     camera.zoom = 1;
-    stage.addChild(camera);
-    stage.addChild(hud);
+    //stage.addChild(camera);
+    //stage.addChild(hud);
 
     var gifChargement = new PIXI.Sprite(chargementGif);
     gifChargement.position.x = 0;
@@ -688,13 +686,11 @@ function initStreaming() {
 }
 
 function cameraMove(stg, cam) {
-
-	var isDragging = false;
-	var prevX;
-	var prevY;
-
+var prevX;
+var prevY;
+var isDragging = false;
 	stg.mousedown = function (moveData) {
-		var pos = moveData.global;
+		var pos = moveData.data.global;
 		prevX = pos.x;
 		prevY = pos.y;
 		isDragging = true;
@@ -710,7 +706,7 @@ function cameraMove(stg, cam) {
 			return;
 		}
 
-		var pos = moveData.global;
+		var pos = moveData.data.global;
 		var dx = pos.x - prevX;
 		var dy = pos.y - prevY;
 
@@ -725,16 +721,16 @@ function cameraMove(stg, cam) {
 function addWheelLister() {
 	if (contener.addEventListener) {
 	// IE9, Chrome, Safari, Opera
-	contener.addEventListener("mousewheel", cameraZoome, false);
+	contener.bind('mousewheel', cameraZoome);
 	// Firefox
-	contener.addEventListener("DOMMouseScroll", cameraZoome, false);
+	contener[0].addEventListener("DOMMouseScroll", cameraZoome, false);
 	}
 	// IE 6/7/8
-	else contener.attachEvent("onmousewheel", cameraZoome);
+	else contener.bind("mousewheel", cameraZoome);
 }
 
 function cameraZoome(e) {
-
+	console.log("cameraZoome");
 	var e = window.event || e; // old IE support
 	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
   	var x = e.clientX;
@@ -1218,7 +1214,7 @@ function messageServerEnd(message) {
     partyInGame = false;
     partyStart = false;
 
-    requestAnimFrame( animate );
+    requestAnimationFrame( animate );
 }
 
 function chargeAppModel(appModel) {
