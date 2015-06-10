@@ -1,12 +1,16 @@
-var contener = document.getElementById('stream');
-var colorStreamOff = 0x000000;
-var stage = new PIXI.Stage(colorStreamOff);
-var renderer = new PIXI.autoDetectRenderer(0 , 0);
+var container = $('#stream')[0];//Load js vanilla
+var renderer = new PIXI.autoDetectRenderer(container.offsetWidth,container.offsetHeight,{backgroundColor : 0x1099bb});
+//ROOT
+var stage = new PIXI.Container();
+//CAMERA
 var camera = new PIXI.Container();
+//HUD
 var hud = new PIXI.Container();
-var agentTab = new Array();
-var buttonTab = new Array();
-var TeamAll = new Array();
+
+var agentTab = [];
+var buttonTab = [];
+var TeamAll = [];
+
 var nameTeamRed;
 var nameTeamBlue;
 var playuttonUI;
@@ -15,10 +19,6 @@ var partyStart = false;
 var appM;
 var idP;
 
-requestAnimationFrame( animate );
-initStreaming();
-cameraMove(stage, camera);
-addWheelLister();
 
 var counterAgent = {
 	food : 0,
@@ -58,7 +58,9 @@ function analyseMessageServer(message) {
 * Traitement du message "init" JSON recu
 */
 function messageServerInit(message) {
+	console.warn("message INIT");
 	initHUD();
+	console.warn("after HUD INIT");
 
 	var team1 = message.teams[0];
 	var team2 = message.teams[1];
@@ -67,6 +69,7 @@ function messageServerInit(message) {
 	TeamAll.push(team1);
 	TeamAll.push(team2);
 	TeamAll.push(team3);
+	console.warn("before Map JSON");
 
 	createMapJson();
 
@@ -82,7 +85,6 @@ function messageServerInit(message) {
 * Traitement du message "agent" JSON recu
 */
 function messageServerAgent(message) {
-
 	if(typeof(message.state) != "undefined" && (message.state == 1)) {
 		createAgentJson(camera, agentTab, message, TeamAll);
 	}
@@ -120,54 +122,9 @@ function messageServerAgent(message) {
 }
 
 /**
-* Traitement du message "synchro" JSON recu
-*/
-function messageServerSynchro(message) {
-	for(i = 0; i < message.length; i++) {
-		if(typeof(message.state) != "undefined" && (message.state == 1)) {
-			createAgentJson(camera, agentTab, message, TeamAll);
-		}
-		else {
-
-			var indexTab = new Array();
-
-			for(i = 0; i < agentTab.length; i++) {
-				if(agentTab[i].name == message.name) {
-					if(typeof(message.state) != "undefined") {
-						if(message.state == -1) {
-
-							indexTab.add(i);
-						}
-					}
-					else {
-						//agentSynchroValue(message, index);
-					}
-				}
-			}
-
-			if(indexTab.length != 0) {
-				for(j = 0; j < indexTab.length; j++) {
-					updateDataAgentMap(agentTab[indexTab[j]]);
-					camera.removeChild(agentTab[indexTab[j]].SpriteLife);
-					camera.removeChild(agentTab[indexTab[j]].SpritePercept);
-					camera.removeChild(agentTab[indexTab[j]]);
-					agentTab.splice(indexTab[j], 1);
-				}
-			}
-		}
-	}
-}
-
-/**
-* Traitement du message "end" JSON recu
-*/
-
-
-/**
 * Création de la map
 **/
 function createMapJson() {
-	console.log("Create Map")
 
 	var mapWarbot = new PIXI.Sprite(map);
 
@@ -490,7 +447,7 @@ function agentChangeValue(agent, json) {
 }
 
 function addButton(scene, form, formDown, formTrans, cX, cY, tab, type) {
-
+	console.warn("addButton");
 	var button = new PIXI.Sprite(formTrans);
 
 	button.position.x = cX;
@@ -584,6 +541,14 @@ function rgb2hex2(r, g, b){
 }
 
 function animate() {
+<<<<<<< HEAD
+    requestAnimationFrame( animate );
+    renderer.resize(container.offsetWidth-1, container.offsetHeight-1);
+//
+    var coordCenterX = container.offsetWidth-1 / 2;
+    var coordCenterY = container.offsetHeight-1 / 2;
+//
+=======
 
     requestAnimationFrame( animate );
 
@@ -592,15 +557,16 @@ function animate() {
     var coordCenterX = contener.offsetWidth-1 / 2;
     var coordCenterY = contener.offsetHeight-1 / 2;
 
+>>>>>>> develop
 	hud.gChargement.position.x = coordCenterX / 2;
 	hud.gChargement.position.y = coordCenterY / 2;
-
+//
 	hud.playBut.position.x = coordCenterX / 2;
     hud.playBut.position.y = coordCenterY / 2;
-
+//
     hud.playBut.scale.x = 0.8;
     hud.playBut.scale.y = 0.8;
-
+//
 	if(partyStart) {
 		hud.gChargement.rotation += 0.05;
 		hud.gChargement.alpha = 1;
@@ -614,7 +580,7 @@ function animate() {
 			hud.playBut.interactive = true;
 		}
 	}
-
+//
 	if(camera.follow) {
 		for (i = 0; i < agentTab.length; i++) {
 			if(camera.agentFollow == agentTab[i].name) {
@@ -630,7 +596,6 @@ function animate() {
 function initHUD() {
 	camera.position.x = 0;
 	camera.position.y = 0;
-	stage.setBackgroundColor(0x666666);
 	addButton(hud, buttonLife, buttonLifeDown, buttonLifeTrans, 20, 20, buttonTab, 1);
 	addButton(hud, buttonMessage, buttonMessageDown, buttonMessageTrans, 60, 20, buttonTab, 2);
 	addButton(hud, buttonPercept, buttonPerceptDown, buttonPerceptTrans, 100, 20, buttonTab, 3);
@@ -640,7 +605,7 @@ function initHUD() {
 function initStreaming() {
 	stage.interactive = true;
 	renderer.view.style.display = "block";
-    contener.appendChild(renderer.view);
+    container.appendChild(renderer.view);
     camera.follow = false;
     camera.agentFollow = null;
     camera.agentEntityFollow;
@@ -721,18 +686,17 @@ var isDragging = false;
 }
 
 function addWheelLister() {
-	if (contener.addEventListener) {
+	if (container.addEventListener) {
 	// IE9, Chrome, Safari, Opera
-	contener.addEventListener("mousewheel", cameraZoome, false);
+	container.addEventListener('onmousewheel', cameraZoome);
 	// Firefox
-	contener.addEventListener("DOMMouseScroll", cameraZoome, false);
+	container.addEventListener("DOMMouseScroll", cameraZoome, false);
 	}
 	// IE 6/7/8
-	else contener.attachEvent("onmousewheel", cameraZoome);
+	else container.addEventListener("onmousewheel", cameraZoome);
 }
 
 function cameraZoome(e) {
-
 	var e = window.event || e; // old IE support
 	var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
   	var x = e.clientX;
@@ -1147,6 +1111,7 @@ function messageServerEnd(message) {
     	blueWall : 0
     };
 
+{
     document.getElementById('numberOfExplorerRed').innerHTML = 0;
     document.getElementById('numberOfExplorerBlue').innerHTML = 0;
     document.getElementById('numberOfEngineerRed').innerHTML = 0;
@@ -1172,8 +1137,8 @@ function messageServerEnd(message) {
     document.getElementById('lifeOfAgentFollow').innerHTML = "0 %";
     document.getElementById('debugMessageOfAgentFollow').innerHTML = "aucun";
     document.getElementById('angleOfAgentFollow').innerHTML = "0";
-
-	stage.setBackgroundColor(colorStreamOff);
+}
+	//stage.setBackgroundColor(colorStreamOff);
 
 	for (i = 0; i < agentTab.length; i++) {
         camera.removeChild(agentTab[i].SpritePercept);
@@ -1211,7 +1176,7 @@ function messageServerEnd(message) {
     //stage.addChild(hud);
 
     cameraMove(stage, camera);
-    addWheelLister();
+    //addWheelLister();
 
     partyInGame = false;
     partyStart = false;
@@ -1226,3 +1191,10 @@ function chargeAppModel(appModel) {
 function stopGame() {
 	stage.appM.stop();
 }
+
+//animate();
+initStreaming();
+animate();
+
+cameraMove(stage, camera);
+//addWheelLister();
