@@ -24,7 +24,7 @@ public class JSONInterProcessMessageTranslater {
      * @param message
      * @return
      * @throws edu.warbot.process.exception.UnrecognizedInterProcessMessageException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public static InterProcessMessage convertIntoObject(String message) throws UnrecognizedInterProcessMessageException, IOException {
         ObjectMapper om = new ObjectMapper();
@@ -71,7 +71,7 @@ public class JSONInterProcessMessageTranslater {
      * @param message
      * @return
      * @throws edu.warbot.process.exception.UnrecognizedInterProcessMessageException
-     * @throws java.io.IOException
+     * @throws IOException
      */
     protected static InterProcessMessage produce(String message, Class<? extends InterProcessMessage> ipmClass) throws IOException {
         ObjectMapper om = new ObjectMapper();
