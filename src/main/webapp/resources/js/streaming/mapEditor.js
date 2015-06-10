@@ -3,8 +3,8 @@ var contener = document.getElementById('mapEditor');
 var colorStreamOff = 0x666666;
 var stage = new PIXI.Stage(colorStreamOff);
 var renderer = new PIXI.autoDetectRenderer(0 , 0);
-var cameraMapEditor = new PIXI.DisplayObjectContainer();
-var hudMapEditor = new PIXI.DisplayObjectContainer();
+var cameraMapEditor = new PIXI.Container();
+var hudMapEditor = new PIXI.Container();
 
 //La liste des agents que l'on crée sur la map
 var listAgentEditor = new Array();
@@ -574,7 +574,7 @@ function cameraMove(stg, cam) {
 
 
 	stg.mousemove = function (moveData) {
-	    var pos = moveData.global;
+	    var pos = moveData.data.global;
 
 	    dx = pos.x - prevX;
         dy = pos.y - prevY;
