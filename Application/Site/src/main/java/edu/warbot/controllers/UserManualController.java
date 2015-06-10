@@ -1,9 +1,7 @@
 package edu.warbot.controllers;
 
-import edu.warbot.models.Account;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;

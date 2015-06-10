@@ -7,9 +7,9 @@
     <groupId>edu.warbot</groupId>
     <artifactId>fairbot</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <modules>
-        <module>Warbot-Online/Site</module>
+        <module>Site</module>
     </modules>
     <name>Warbot Online</name>
 
