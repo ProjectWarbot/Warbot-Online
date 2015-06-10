@@ -575,6 +575,7 @@ function cameraMove(stg, cam) {
 
 	stg.mousemove = function (moveData) {
 	    var pos = moveData.data.global;
+
 	    dx = pos.x - prevX;
         dy = pos.y - prevY;
 
