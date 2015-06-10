@@ -281,7 +281,7 @@
             <!--</execution>-->
             <!--</executions>-->
             <!--<configuration>-->
-            <!--<mainClass>edu.warbot.SchemaGenerator</mainClass>-->
+            <!--<mainClass>SchemaGenerator</mainClass>-->
             <!--<arguments>-->
             <!--<argument>${project.basedir}/src/main/resources/db/</argument>-->
             <!--</arguments>-->

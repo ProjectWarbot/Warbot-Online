@@ -1,5 +1,6 @@
 package edu.warbot.config;
 
+import edu.online.config.SecurityConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 

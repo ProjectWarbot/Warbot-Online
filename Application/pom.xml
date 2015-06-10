@@ -10,6 +10,7 @@
     <version>1.0.0</version>
     <modules>
         <module>Site</module>
+        <module>Cluster</module>
     </modules>
     <name>Warbot Online</name>
 

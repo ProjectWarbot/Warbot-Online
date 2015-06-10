@@ -1,11 +1,11 @@
 package edu.warbot.party;
 
-import edu.warbot.models.Account;
-import edu.warbot.models.Party;
-import edu.warbot.repository.AccountRepository;
-import edu.warbot.repository.PartyRepository;
+import edu.warbot.online.models.Account;
+import edu.warbot.online.models.Party;
+import edu.warbot.online.repository.AccountRepository;
+import edu.warbot.online.repository.PartyRepository;
+import edu.warbot.online.services.UserService;
 import edu.warbot.scriptcore.interpreter.ScriptInterpreterLanguage;
-import edu.warbot.services.UserService;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
