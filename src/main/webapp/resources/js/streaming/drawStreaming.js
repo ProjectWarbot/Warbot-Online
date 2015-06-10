@@ -541,23 +541,12 @@ function rgb2hex2(r, g, b){
 }
 
 function animate() {
-<<<<<<< HEAD
     requestAnimationFrame( animate );
     renderer.resize(container.offsetWidth-1, container.offsetHeight-1);
 //
     var coordCenterX = container.offsetWidth-1 / 2;
     var coordCenterY = container.offsetHeight-1 / 2;
 //
-=======
-
-    requestAnimationFrame( animate );
-
-    renderer.resize(contener.offsetWidth-1, contener.offsetHeight-1);
-
-    var coordCenterX = contener.offsetWidth-1 / 2;
-    var coordCenterY = contener.offsetHeight-1 / 2;
-
->>>>>>> develop
 	hud.gChargement.position.x = coordCenterX / 2;
 	hud.gChargement.position.y = coordCenterY / 2;
 //
