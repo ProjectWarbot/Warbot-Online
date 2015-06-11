@@ -88,6 +88,7 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
                     .addClasspathByClass(Application.class)//Fairbot
                     .addClasspathByClass(org.slf4j.Logger.class)//Logger
                     .addClasspathByClass(com.mysql.jdbc.Driver.class)
+                    .addClasspathByClass(Account.class)//Fairbot-core
                     .addClasspathByClass(org.slf4j.impl.StaticLoggerBinder.class)//Logger impl
                     .addClasspathLibrary("libs/*.jar");//All in libs directory WebApp
             //Thread classpath

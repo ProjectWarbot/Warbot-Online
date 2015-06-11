@@ -59,17 +59,17 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService {
 
     @Override
     public List<WebAgent> findAgentsForParty(Party party) {
-        return webAgentRepository.findForParty(party);
+        return webAgentRepository.findAll();
     }
 
     @Override
     public List<WebCode> findWebCodesForParty(Party party) {
-        return webCodeRepository.findWebCodeForTeam(party);
+        return webCodeRepository.findWebCodeByParty(party);
     }
 
     @Override
     public WebCode findWebCodeForPartyAndAgent(Party party, WebAgent agent) {
-        return webCodeRepository.findWebCodeForTeamAndWebAgent(party, agent);
+        return webCodeRepository.findWebCodeByPartyAndAgent(party, agent);
     }
 
     @Override
@@ -89,12 +89,12 @@ public class WarbotOnlineServiceImpl implements WarbotOnlineService {
 
     @Override
     public List<Party> findPartyByCreator(Account account) {
-        return partyRepository.findByCreator(account);
+        return partyRepository.findAllByCreator(account);
     }
 
     @Override
-    public boolean deleteParty(Long id) {
-        return partyRepository.delete(id);
+    public void deleteParty(Long id) {
+        partyRepository.delete(id);
     }
 
     @Override

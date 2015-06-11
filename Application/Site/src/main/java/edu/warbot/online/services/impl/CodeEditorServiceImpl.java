@@ -41,11 +41,11 @@ public class CodeEditorServiceImpl implements CodeEditorService {
     }
 
     public WebCode getWebCode(Party party, WebAgent agent) {
-        return webCodeRepository.findWebCodeForTeamAndWebAgent(party, agent);
+        return webCodeRepository.findWebCodeByPartyAndAgent(party, agent);
     }
 
-    public boolean deleteCodeForParty(Long partyId) {
-        return webCodeRepository.deleteCodeForParty(partyId);
+    public void deleteCodeForParty(Party partyId) {
+        webCodeRepository.deleteByParty(partyId);
     }
 
 }

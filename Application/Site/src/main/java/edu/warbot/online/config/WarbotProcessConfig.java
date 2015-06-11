@@ -1,8 +1,6 @@
 package edu.warbot.online.config;
 
 import edu.warbot.online.Application;
-import edu.warbot.online.repository.PartyRepository;
-import edu.warbot.online.repository.WebCodeRepository;
 import edu.warbot.online.services.TeamService;
 import edu.warbot.online.services.impl.TeamServiceImpl;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -28,16 +26,6 @@ public class WarbotProcessConfig {
         PropertyPlaceholderConfigurer ppc = new PropertyPlaceholderConfigurer();
         ppc.setLocation(new ClassPathResource("/persistence.properties"));
         return ppc;
-    }
-
-    @Bean
-    public PartyRepository partyRepository() {
-        return new PartyRepository();
-    }
-
-    @Bean
-    public WebCodeRepository webCodeRepository() {
-        return new WebCodeRepository();
     }
 
     @Bean

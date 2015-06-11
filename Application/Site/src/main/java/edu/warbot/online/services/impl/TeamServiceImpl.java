@@ -125,7 +125,7 @@ public class TeamServiceImpl implements TeamService {
                 (ScriptInterpreterFactory.getInstance(party.getLanguage())
                         .createScriptInterpreter());
 
-        for (WebCode webcode : webCodeRepository.findWebCodeForTeam(party)) {
+        for (WebCode webcode : webCodeRepository.findWebCodeByParty(party)) {
             StringBuilder sb = new StringBuilder(webcode.getContent());
             team.getInterpreter().addScript(sb, webcode.getAgent().getType());
         }

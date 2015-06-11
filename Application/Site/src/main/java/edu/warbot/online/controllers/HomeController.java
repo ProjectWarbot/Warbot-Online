@@ -60,7 +60,7 @@ public class HomeController {
             return "redirect:/partylist";
         }
         model.addAttribute("party", party);
-        model.addAttribute("agents", webAgentRepository.findAllStarter());
+        model.addAttribute("agents", webAgentRepository.findAllByIsPremiumFalseAndIsActivatedTrue());
         return "teamcode/teamcode";
     }
 

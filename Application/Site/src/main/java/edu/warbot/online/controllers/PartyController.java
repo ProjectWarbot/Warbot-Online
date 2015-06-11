@@ -123,7 +123,7 @@ public class PartyController implements ApplicationContextAware {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            List<WebAgent> webAgents = webAgentRepository.findAllStarter();
+            List<WebAgent> webAgents = webAgentRepository.findAll();
             for (WebAgent agent : webAgents) {
                 WebCode webCode = new WebCode(agent, party);
                 webCode.setContent(codeAgent.get(agent.getType()).toString());
@@ -168,7 +168,7 @@ public class PartyController implements ApplicationContextAware {
         Party party = warbotOnlineService.findPartyById(id);
         Assert.notNull(party);
         if (party.getCreator().equals(account)) {
-            codeEditorService.deleteCodeForParty(id);
+            codeEditorService.deleteCodeForParty(party);
             warbotOnlineService.deleteParty(id);
             MessageHelper.addSuccessAttribute(model, "party.delete", party.getName());
 

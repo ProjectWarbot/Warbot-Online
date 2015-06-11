@@ -22,6 +22,6 @@ public interface CodeEditorService {
      * @param partyId
      * @return
      */
-    boolean deleteCodeForParty(Long partyId);
+    void deleteCodeForParty(Party partyId);
 
 }

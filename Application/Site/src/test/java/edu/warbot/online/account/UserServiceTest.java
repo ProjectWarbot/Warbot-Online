@@ -39,7 +39,7 @@ public class UserServiceTest {
     @Test
     public void shouldInitializeWithTwoDemoUsers() {
         // act
-        userService.initialize();
+//        userService.initialize();
         // assert
         verify(accountRepositoryMock, times(2)).save(any(Account.class));
     }

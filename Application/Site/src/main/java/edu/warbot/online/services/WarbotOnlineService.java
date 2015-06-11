@@ -36,7 +36,7 @@ public interface WarbotOnlineService {
 
     List<Party> findPartyByCreator(Account account);
 
-    boolean deleteParty(Long id);
+    void deleteParty(Long id);
 
     void addMember(Party party, Account account);
 

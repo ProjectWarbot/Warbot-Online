@@ -6,6 +6,7 @@ import edu.warbot.online.repository.AccountRepository;
 import edu.warbot.online.services.UserService;
 import edu.warbot.online.support.web.MessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
 
 @Controller
@@ -26,6 +28,9 @@ public class SignupController {
 
     @Autowired
     private UserService userService;
+
+    @Inject
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "signup")
     public String signup(Model model) {
@@ -43,7 +48,12 @@ public class SignupController {
             errors.rejectValue("email", "signup.fail.already.used");
             return SIGNUP_VIEW_NAME;
         }
-        Account account = accountRepository.save(signupForm.createAccount());
+
+        Account account = signupForm.createAccount();
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
+        account = accountRepository.save(account);
+
+
         userService.signin(account);
         // see /WEB-INF/i18n/messages.properties and /WEB-INF/views/homeSignedIn.html
         MessageHelper.addSuccessAttribute(ra, "signup.success");
