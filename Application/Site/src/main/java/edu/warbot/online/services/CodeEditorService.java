@@ -18,6 +18,10 @@ public interface CodeEditorService {
 
     WebCode getWebCode(Party party, WebAgent agent);
 
+    /**
+     * @param partyId
+     * @return
+     */
     boolean deleteCodeForParty(Long partyId);
 
 }

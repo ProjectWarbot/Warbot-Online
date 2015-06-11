@@ -9,8 +9,17 @@ import java.util.List;
 
 /**
  * Created by beugnon on 08/04/15.
+ *
+ * @author beugnon
  */
 public interface WarbotOnlineService {
+
+    /**
+     * Création d'une équipe
+     *
+     * @param party
+     * @return
+     */
     Party createParty(Party party);
 
     List<WebAgent> findAgentsForParty(Party party);

@@ -80,7 +80,7 @@ public class WebGameServiceImpl implements WebGameService, ApplicationListener<S
         return false;
     }
 
-    public boolean constructProcessAndServerWarbotAgent(Account account, LaunchGameCommand lgc) {
+    private boolean constructProcessAndServerWarbotAgent(Account account, LaunchGameCommand lgc) {
         JVMBuilder jvmBuilder = new JVMBuilder();
         try {
             jvmBuilder.addClasspathByClass(WarGame.class)//Warbot
