@@ -1,4 +1,4 @@
-package edu.warbot.config;
+package edu.warbot.online.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

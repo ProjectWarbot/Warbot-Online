@@ -7,8 +7,9 @@ import edu.warbot.online.process.communication.WebGameSettings;
 import edu.warbot.online.repository.AccountRepository;
 import edu.warbot.online.services.WarbotOnlineService;
 import edu.warbot.online.services.WebGameService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
@@ -23,7 +24,7 @@ import java.security.Principal;
 public class WebGameController {
 
 
-    private static final Log logger = LogFactory.getLog(WebGameController.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebGameController.class);
 
     @Autowired
     private WebGameService webGameService;
@@ -45,7 +46,7 @@ public class WebGameController {
     @MessageMapping("/game/start")
     public void startGame(Principal principal, WebGameSettings settings) throws AlreadyRunningGameException {
         Assert.notNull(principal);
-        logger.debug(settings);
+        logger.debug(settings.toString());
         Account account = accountRepository.findByEmail(principal.getName());
         webGameService.startExampleWebGame(account);
     }
@@ -53,7 +54,7 @@ public class WebGameController {
     @MessageMapping("/game/start.duel")
     public void startWebGame(Principal principal, WebGameSettings settings) throws AlreadyRunningGameException {
         Assert.notNull(principal);
-        logger.info(settings);
+        logger.info(settings.toString());
         Account account = accountRepository.findByEmail(principal.getName());
         Assert.notNull(account);
         Party party = warbotOnlineService.findPartyById(settings.getIdTeam1());
@@ -71,7 +72,7 @@ public class WebGameController {
     public void startGameAgainstIA(Principal principal,
                                    WebGameSettings settings) throws Exception, AlreadyRunningGameException {
         Assert.notNull(principal);
-        logger.debug(settings);
+        logger.debug(settings.toString());
         Account account = accountRepository.findByEmail(principal.getName());
         Assert.notNull(account);
         Party party = warbotOnlineService.findPartyById(settings.getIdTeam1());

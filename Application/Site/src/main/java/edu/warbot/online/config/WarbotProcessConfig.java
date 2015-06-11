@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Created by beugnon on 05/05/15.
+ *
  */
 
 @Configuration

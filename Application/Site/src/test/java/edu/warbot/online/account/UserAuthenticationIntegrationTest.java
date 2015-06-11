@@ -1,6 +1,6 @@
-package edu.warbot.account;
+package edu.warbot.online.account;
 
-import edu.warbot.config.WebSecurityConfigurationAware;
+import edu.warbot.online.config.WebSecurityConfigurationAware;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

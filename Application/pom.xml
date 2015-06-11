@@ -25,6 +25,7 @@
 
     <!-- Dependency Management -->
     <dependencyManagement>
+        <!-- Spring management -->
         <dependencies>
             <dependency>
                 <groupId>io.spring.platform</groupId>
@@ -36,6 +37,7 @@
         </dependencies>
     </dependencyManagement>
 
+    <!-- Repositories -->
     <repositories>
         <repository>
             <id>springsource-repo</id>
@@ -43,5 +45,14 @@
             <url>http://repo.springsource.org/release</url>
         </repository>
     </repositories>
+
+    <!-- Common dependencies -->
+    <dependencies>
+        <dependency>
+            <groupId>edu</groupId>
+            <artifactId>warbot</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+    </dependencies>
 
 </project>

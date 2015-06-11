@@ -1,4 +1,4 @@
-package edu.warbot.party;
+package edu.warbot.online.party;
 
 import edu.warbot.online.models.Account;
 import edu.warbot.online.models.Party;

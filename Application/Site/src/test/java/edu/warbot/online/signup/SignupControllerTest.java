@@ -1,6 +1,6 @@
-package edu.warbot.controllers.signup;
+package edu.warbot.online.signup;
 
-import edu.warbot.config.WebAppConfigurationAware;
+import edu.warbot.online.config.WebAppConfigurationAware;
 import org.junit.Ignore;
 import org.junit.Test;
 

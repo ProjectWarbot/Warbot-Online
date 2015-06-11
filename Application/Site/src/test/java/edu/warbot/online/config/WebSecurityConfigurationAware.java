@@ -1,4 +1,4 @@
-package edu.warbot.config;
+package edu.warbot.online.config;
 
 import org.junit.Before;
 import org.springframework.security.web.FilterChainProxy;

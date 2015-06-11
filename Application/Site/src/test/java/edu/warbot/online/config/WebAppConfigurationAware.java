@@ -1,9 +1,5 @@
-package edu.warbot.config;
+package edu.warbot.online.config;
 
-import edu.online.config.WebMvcConfig;
-import edu.warbot.online.config.ApplicationConfig;
-import edu.warbot.online.config.DataSourceConfig;
-import edu.warbot.online.config.WebSocketConfig;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
