@@ -83,7 +83,7 @@ public class PartyRepositoryTest {
         Party party = new Party("toto", ScriptInterpreterLanguage.PYTHON);
         when(partyRepository.save(party)).thenReturn(party);
         when(partyRepository.findByName(party.getName())).thenReturn(null);
-        when(partyRepository.findByName("toto")).thenThrow(NullPointerException.class);
+//        when(partyRepository.findByName("toto")).thenThrow(NullPointerException.class);
 
         //act
         partyRepository.findByName("toto");
