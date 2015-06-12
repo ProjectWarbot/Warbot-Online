@@ -1,4 +1,4 @@
-package edu.warbot.online.services;
+package edu.warbot.online.exceptions;
 
 /**
  * Created by beugnon on 12/06/15.

@@ -1,6 +1,7 @@
 package edu.warbot.online.services;
 
 import edu.warbot.online.exceptions.NotFoundEntityException;
+import edu.warbot.online.exceptions.NotMemberException;
 import edu.warbot.online.exceptions.service.party.AlreadyExistPartyException;
 import edu.warbot.online.exceptions.service.party.AlreadyMemberException;
 import edu.warbot.online.exceptions.service.party.TooManyMemberException;
