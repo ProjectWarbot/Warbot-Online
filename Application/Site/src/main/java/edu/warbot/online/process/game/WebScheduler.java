@@ -14,9 +14,7 @@ import turtlekit.agr.TKOrganization;
 public class WebScheduler extends WarScheduler implements WarGameListener {
 
     public WebScheduler(WebGame game) {
-        super();
-        setGame(game);
-
+        super(game);
     }
 
     public void onGameStopped() {

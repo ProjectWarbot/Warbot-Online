@@ -3,7 +3,7 @@ package edu.warbot.online.online.logs.entity;
 import edu.warbot.agents.ControllableWarAgent;
 import edu.warbot.agents.WarAgent;
 import edu.warbot.agents.enums.WarAgentType;
-import edu.warbot.game.Team;
+import edu.warbot.game.InGameTeam;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -84,7 +84,7 @@ public class EntityLog implements Comparable<EntityLog> {
             state = 0;
         }
 
-        if (wa.getDyingStep() > Team.MAX_DYING_STEP) {
+        if (wa.getDyingStep() > InGameTeam.MAX_DYING_STEP) {
             state = -1;
             map.put("state", state);
         }

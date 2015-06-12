@@ -1,6 +1,7 @@
 package edu.warbot.online.process.game;
 
-import edu.warbot.game.Team;
+import edu.warbot.agents.teams.Team;
+import edu.warbot.game.InGameTeam;
 import edu.warbot.game.WarGameSettings;
 import edu.warbot.online.config.DataSourceConfig;
 import edu.warbot.online.config.WarbotProcessConfig;
@@ -19,8 +20,10 @@ import madkit.kernel.Madkit;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -36,23 +39,23 @@ public class MainWarbot {
 
     static {
         os = System.out;
-//        JFrame jf = new JFrame("");
-//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        jf.setPreferredSize(new Dimension(800,600));
-//        JTextArea jta = new JTextArea();
-//        jta.setEditable(true);
-//        JScrollPane jsp = new JScrollPane();
-//        jsp.createVerticalScrollBar();
-//        jsp.setViewportView(jta);
-//
-//        jf.getContentPane().add(jsp);
-//        jf.pack();
-//        jf.setVisible(true);
-//        OutputStream dos = new DocumentOutputStream(jta.getDocument());
-        System.setOut(new PrintStream(new NullOutputStream()));
-        System.setErr(new PrintStream((new NullOutputStream())));
-//        System.setOut(new PrintStream(dos));
-//        System.setErr(new PrintStream(dos));
+        JFrame jf = new JFrame("");
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jf.setPreferredSize(new Dimension(800, 600));
+        JTextArea jta = new JTextArea();
+        jta.setEditable(true);
+        JScrollPane jsp = new JScrollPane();
+        jsp.createVerticalScrollBar();
+        jsp.setViewportView(jta);
+
+        jf.getContentPane().add(jsp);
+        jf.pack();
+        jf.setVisible(true);
+        OutputStream dos = new DocumentOutputStream(jta.getDocument());
+//        System.setOut(new PrintStream(new NullOutputStream()));
+//        System.setErr(new PrintStream((new NullOutputStream())));
+        System.setOut(new PrintStream(dos));
+        System.setErr(new PrintStream(dos));
     }
 
     public static void main(String[] args) {
@@ -137,8 +140,8 @@ public class MainWarbot {
             System.out.println(" T2 IS " + ((t2 == null) ? "NULL" : "NOT NULL"));
             throw new IOException();
         } else {
-            wgs.addSelectedTeam(t1);
-            wgs.addSelectedTeam(t2);
+            wgs.addSelectedTeam(new InGameTeam(t1));
+            wgs.addSelectedTeam(new InGameTeam(t2));
             WebGame wg = new WebGame(is, MainWarbot.os, wgs);
             return wg;
         }
@@ -162,8 +165,8 @@ public class MainWarbot {
             try {
                 doc.insertString(doc.getLength(),
                         new String(b, off, len), null);
-                if (doc.getLength() > 10000)
-                    doc.remove(0, 10000);
+                if (doc.getLength() > 100000)
+                    doc.remove(0, 100000);
             } catch (BadLocationException ble) {
                 throw new IOException(ble.getMessage());
             }

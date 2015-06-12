@@ -2,7 +2,7 @@ package edu.warbot.online.process.game;
 
 import edu.warbot.agents.ControllableWarAgent;
 import edu.warbot.agents.WarAgent;
-import edu.warbot.game.Team;
+import edu.warbot.game.InGameTeam;
 import edu.warbot.game.WarGame;
 import edu.warbot.game.WarGameSettings;
 import edu.warbot.online.online.logs.GameLog;
@@ -75,7 +75,7 @@ public class WebGame extends WarGame {
 
         getGameLog().obsolete();
 
-        for (Team t : getPlayerTeams()) {
+        for (InGameTeam t : getPlayerTeams()) {
             for (WarAgent a : t.getAllAgents()) {
 
                 if (a instanceof ControllableWarAgent) {
@@ -112,7 +112,7 @@ public class WebGame extends WarGame {
 
         if (getGameMode().getEndCondition().isGameEnded()) {
             HashMap<String, String> map = new HashMap<>();
-            for (Team t : getPlayerTeams())
+            for (InGameTeam t : getPlayerTeams())
                 map.put(t.getName(), "" + t.hasLost());
             sendMessage(new EndMessage("game-end", map));
             setGameOver();
@@ -138,9 +138,9 @@ public class WebGame extends WarGame {
 
         content.put("environment", environment);
 
-        //Prepare Team Variables for client
+        //Prepare InGameTeam Variables for client
         List<Map<String, Object>> teams = new ArrayList<>();
-        for (Team t : getAllTeams()) {
+        for (InGameTeam t : getAllTeams()) {
             Map<String, Object> team = new HashMap<>();
             team.put("name", t.getName());
 
@@ -152,7 +152,7 @@ public class WebGame extends WarGame {
 
         //Prepare Agent Variables for client
         List<Map<String, Object>> agents = new ArrayList<>();
-        for (Team t : getAllTeams()) {
+        for (InGameTeam t : getAllTeams()) {
             for (WarAgent a : t.getAllAgents()) {
                 if (a instanceof ControllableWarAgent)
                     agents.add(this.getGameLog().addControllableAgent((ControllableWarAgent) a));

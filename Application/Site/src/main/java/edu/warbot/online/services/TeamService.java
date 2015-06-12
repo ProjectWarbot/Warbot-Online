@@ -1,6 +1,6 @@
 package edu.warbot.online.services;
 
-import edu.warbot.game.Team;
+import edu.warbot.agents.teams.Team;
 import edu.warbot.online.models.Party;
 
 /**

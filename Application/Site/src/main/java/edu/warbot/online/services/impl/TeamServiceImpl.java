@@ -1,10 +1,13 @@
 package edu.warbot.online.services.impl;
 
+import edu.warbot.agents.enums.WarAgentType;
+import edu.warbot.agents.teams.JavaTeam;
+import edu.warbot.agents.teams.ScriptedTeam;
+import edu.warbot.agents.teams.Team;
 import edu.warbot.brains.WarBrain;
 import edu.warbot.brains.capacities.Agressive;
 import edu.warbot.brains.implementations.AgentBrainImplementer;
 import edu.warbot.brains.implementations.WarBrainImplementation;
-import edu.warbot.game.Team;
 import edu.warbot.launcher.TeamConfigReader;
 import edu.warbot.launcher.UserPreferences;
 import edu.warbot.online.models.Party;
@@ -12,7 +15,6 @@ import edu.warbot.online.models.WebCode;
 import edu.warbot.online.repository.PartyRepository;
 import edu.warbot.online.repository.WebCodeRepository;
 import edu.warbot.online.services.TeamService;
-import edu.warbot.scriptcore.ScriptedTeam;
 import edu.warbot.scriptcore.interpreter.ScriptInterpreterFactory;
 import edu.warbot.tools.WarIOTools;
 import javassist.*;
@@ -48,19 +50,19 @@ public class TeamServiceImpl implements TeamService {
     private WebCodeRepository webCodeRepository;
     private Map<String, Team> sourcesTeam = new HashMap<>();
 
-    private HashMap<String, Class<? extends WarBrain>> brainControllers = new HashMap<String, Class<? extends WarBrain>>();
+    private HashMap<WarAgentType, Class<? extends WarBrain>> brainControllers = new HashMap<WarAgentType, Class<? extends WarBrain>>();
 
 
     public void loadScriptClasses() {
         try {
             if (brainControllers.isEmpty()) {
                 ClassPool defaultClassPool = ClassPool.getDefault();
-                brainControllers.put("WarBase", createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarBase"));
-                brainControllers.put("WarExplorer", createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarExplorer"));
-                brainControllers.put("WarEngineer", createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarEngineer"));
-                brainControllers.put("WarRocketLauncher", createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarRocketLauncher"));
-                brainControllers.put("WarKamikaze", createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarKamikaze"));
-                brainControllers.put("WarTurret", createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarTurret"));
+                brainControllers.put(WarAgentType.WarBase, createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarBase"));
+                brainControllers.put(WarAgentType.WarExplorer, createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarExplorer"));
+                brainControllers.put(WarAgentType.WarEngineer, createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarEngineer"));
+                brainControllers.put(WarAgentType.WarRocketLauncher, createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarRocketLauncher"));
+                brainControllers.put(WarAgentType.WarKamikaze, createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarKamikaze"));
+                brainControllers.put(WarAgentType.WarTurret, createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarTurret"));
             }
         } catch (NotFoundException | CannotCompileException | IOException e) {
             e.printStackTrace();
@@ -70,23 +72,26 @@ public class TeamServiceImpl implements TeamService {
     public void loadSourceTeams() {
         Map<String, String> teamsSourcesFolders = UserPreferences.getTeamsSourcesFolders();
         for (String currentFolder : teamsSourcesFolders.values()) {
-            logger.debug("Introspection in " + currentFolder);
+            logger.info("Introspection in " + currentFolder);
             try {
 
                 InputStream input = WarExplorerBrainController.class.getClassLoader().getResourceAsStream("" + currentFolder + "/" + TeamConfigReader.FILE_NAME);
                 if (input != null) {
-                    logger.debug("Introspection starting in " + currentFolder);
+                    logger.info("Introspection starting in " + currentFolder);
 
                     TeamConfigReader teamConfigReader = new TeamConfigReader();
                     teamConfigReader.load(input);
                     input.close();
                     Team e = this.loadTeamFromSources(teamsSourcesFolders, teamConfigReader);
-
-                    if (getTeams().containsKey(e.getName()))
-                        logger.error("Erreur lors de la lecture d\'une équipe : le nom " + e.getName() +
+                    System.out.println((e == null) ? "is NULL" : null);
+                    System.out.println(e.getTeamName());
+                    if (getTeams().containsKey(e.getTeamName()))
+                        logger.error("Erreur lors de la lecture d\'une équipe : le nom " + e.getTeamName() +
                                 " est déjà utilisé.");
-                    else
-                        getTeams().put(e.getName(), e);
+                    else {
+                        logger.info("Source team added", e.getTeamName());
+                        getTeams().put(e.getTeamName(), e);
+                    }
                     input.close();
                 }
 
@@ -120,7 +125,7 @@ public class TeamServiceImpl implements TeamService {
     public Team generateTeamFromParty(Party party) {
         if (getBrains().size() == 0)
             loadScriptClasses();
-        ScriptedTeam team = new ScriptedTeam(party.getName(), getBrains());
+        ScriptedTeam team = new ScriptedTeam(party.getName(), "", null, getBrains());
         team.setInterpreter
                 (ScriptInterpreterFactory.getInstance(party.getLanguage())
                         .createScriptInterpreter());
@@ -163,7 +168,7 @@ public class TeamServiceImpl implements TeamService {
         URL teamDirectoryURL = WarExplorerBrainController.class.getClassLoader().getResource("" + teamsSourcesFolders.get(teamConfigReader.getTeamName()));
         if (teamDirectoryURL != null) {
             File teamDirectory = new File(teamDirectoryURL.getFile());
-            Team currentTeam = new Team(teamConfigReader.getTeamName());
+
 
             File l[] = teamDirectory.listFiles(new FilenameFilter() {
                 @Override
@@ -171,28 +176,37 @@ public class TeamServiceImpl implements TeamService {
                     return s.equalsIgnoreCase(teamConfigReader.getIconPath());
                 }
             });
-            if (l != null && l.length == 1)
-                currentTeam.setLogo
-                        (new ImageIcon(WarIOTools.toByteArray
-                                (new FileInputStream(l[0]))));
 
-            currentTeam.setDescription
-                    (teamConfigReader.getTeamDescription().trim());
             Map<String, String> brainControllersClassesName = teamConfigReader.
                     getBrainControllersClassesNameOfEachAgentType();
 
+            Map<WarAgentType, Class<? extends WarBrain>> brains = new HashMap<>();
             if (!teamConfigReader.isFSMTeam()) {
                 ClassPool defaultClassPool = ClassPool.getDefault();
                 for (String agentName : brainControllersClassesName.keySet()) {
-                    currentTeam.addBrainControllerClassForAgent
-                            (agentName,
-                                    this.createNewWarBrainImplementationClass
-                                            (defaultClassPool,
-                                                    teamConfigReader.getBrainsPackageName()
-                                                            + "."
-                                                            + brainControllersClassesName.get(agentName)));
+                    brains.put(WarAgentType.valueOf(agentName),
+                            this.createNewWarBrainImplementationClass
+                                    (defaultClassPool,
+                                            teamConfigReader.getBrainsPackageName()
+                                                    + "."
+                                                    + brainControllersClassesName.get(agentName)));
                 }
             }
+
+            String team = teamConfigReader.getTeamName();
+            String description = teamConfigReader.getTeamDescription();
+            ImageIcon imageIcon = (l.length > 0) ? new ImageIcon(WarIOTools.toByteArray
+                    (new FileInputStream(l[0]))) : null;
+
+            System.out.println("teamName: " + team);
+            System.out.println("teamDesc: " + description);
+            System.out.println((imageIcon != null) ? "have Image" : "have no image");
+
+            Team currentTeam = new JavaTeam(
+                    team,
+                    description,
+                    imageIcon,
+                    brains);
             return currentTeam;
         }
         throw new IOException("File classpath:" + teamsSourcesFolders.get(teamConfigReader.getTeamName())
@@ -255,7 +269,7 @@ public class TeamServiceImpl implements TeamService {
         return constructClass.asSubclass(WarBrain.class);
     }
 
-    private HashMap<String, Class<? extends WarBrain>> getBrains() {
+    private HashMap<WarAgentType, Class<? extends WarBrain>> getBrains() {
         return brainControllers;
     }
 }

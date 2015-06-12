@@ -2,12 +2,13 @@ package edu.warbot.online.process.game;
 
 import edu.warbot.agents.ControllableWarAgent;
 import edu.warbot.agents.enums.WarAgentType;
+import edu.warbot.game.InGameTeam;
 import edu.warbot.game.MotherNatureTeam;
-import edu.warbot.game.Team;
 import edu.warbot.game.WarGame;
 import edu.warbot.game.WarGameSettings;
 import edu.warbot.gui.viewer.WarDefaultViewer;
 import edu.warbot.launcher.WarEnvironment;
+import edu.warbot.launcher.WarLauncher;
 import edu.warbot.maps.AbstractWarMap;
 import edu.warbot.tools.geometry.WarCircle;
 import madkit.action.SchedulingAction;
@@ -15,7 +16,6 @@ import madkit.kernel.Madkit;
 import madkit.message.SchedulingMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import turtlekit.kernel.TKLauncher;
 import turtlekit.kernel.TurtleKit;
 
 import java.lang.reflect.InvocationTargetException;
@@ -25,17 +25,16 @@ import java.util.Random;
 /**
  * Created by beugnon on 05/04/15.
  *
- * @author beugnon²
+ * @author beugnon
  */
-public class WebLauncher extends TKLauncher {
+public class WebLauncher extends WarLauncher {
 
     private static Logger logger = LoggerFactory.getLogger(WebLauncher.class);
 
-    private WebGame game;
 
 
     public WebLauncher(WebGame game) {
-        this.game = game;
+        super(game);
     }
 
     @Override
@@ -75,20 +74,21 @@ public class WebLauncher extends TKLauncher {
             this.launchAllAgents();
         } else {
             //TODO SITUATION LOADER
+            getGame().getSettings().getSituationLoader().
+                    launchAllAgentsFromSituation(this, getGame());
         }
         //SCHEDULER
-        WebScheduler webScheduler = new WebScheduler(getGame());
+        WebScheduler webScheduler = new WebScheduler
+                ((WebGame) getGame());
         launchAgent(webScheduler);
 
-        this.sendMessage(this.getMadkitProperty(TurtleKit.Option.community), "engine", "scheduler", new SchedulingMessage(SchedulingAction.RUN));
+        this.sendMessage(this.getMadkitProperty
+                (TurtleKit.Option.community), "engine", "scheduler", new SchedulingMessage(SchedulingAction.RUN));
         getGame().setGameStarted();
 
         logger.trace("sortie dans createSimulationInstance");
     }
 
-    public WebGame getGame() {
-        return game;
-    }
 
     protected void launchAllAgents() {
         WarGame game = getGame();
@@ -98,7 +98,7 @@ public class WebLauncher extends TKLauncher {
         MotherNatureTeam motherNatureTeam = game.getMotherNatureTeam();
 
         try {
-            for (Team t : game.getPlayerTeams()) {
+            for (InGameTeam t : game.getPlayerTeams()) {
                 WarCircle selectedPosition = (WarCircle) ((ArrayList) teamsPositions.get(teamCount)).get((new Random()).nextInt(((ArrayList) teamsPositions.get(teamCount)).size()));
 
                 for (WarAgentType agentType : WarAgentType.values()) {
@@ -106,6 +106,7 @@ public class WebLauncher extends TKLauncher {
 
                     for (int e = 0; e < game.getSettings().getNbAgentOfType(agentType); ++e) {
                         try {
+
                             ControllableWarAgent e1 = t.instantiateNewControllableWarAgent(agentType.toString());
                             this.launchAgent(e1);
                             e1.setRandomPositionInCircle(selectedPosition);
@@ -117,7 +118,7 @@ public class WebLauncher extends TKLauncher {
                             var16.printStackTrace();
                         }
 
-                        motherNatureTeam.createAndLaunchNewResource(game.getMap(), this, WarAgentType.WarFood);
+                        motherNatureTeam.createAndLaunchResource(game.getMap(), this, WarAgentType.WarFood);
                     }
                 }
                 teamCount++;
