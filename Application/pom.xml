@@ -12,6 +12,7 @@
         <module>Site</module>
         <module>Cluster</module>
         <module>Domain</module>
+        <module>Service</module>
     </modules>
     <name>Warbot Online</name>
 

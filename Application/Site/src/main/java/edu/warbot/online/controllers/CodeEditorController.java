@@ -69,7 +69,7 @@ public class CodeEditorController {
             throws NotFoundEntityException {
         Party party = partyRepository.findOne(idParty);
         Assert.notNull(party);
-        return webAgentRepository.findForParty(party);
+        return webAgentRepository.findAllByIsPremiumFalseAndIsActivatedTrue();
     }
 
     @MessageMapping("/editor/get")
