@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+
     <title>Warbot Online</title>
     <object th:include="fragments/header :: head" th:remove="tag"/>
+
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
+
+    <title th:text="#{view.index.title}">Warbot - Online</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
 <div th:replace="fragments/header :: header">Header</div>

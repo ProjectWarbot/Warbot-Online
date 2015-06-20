@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-
     <title>Warbot Online</title>
     <object th:include="fragments/header :: head" th:remove="tag"/>
     <script src="../../../resources/js/libs/jquery-ui.min.js" th:src="@{/resources/js/libs/jquery-ui.min.js}"></script>
@@ -9,13 +8,6 @@
     <script src="../../../resources/js/layout/partyEditorLayout.js" th:src="@{/resources/js/layout/partyEditorLayout.js}"></script>
 
     <!-- Ace editor -->
-    <script src="../../../resources/js/ace-builds-master/src-min-noconflict/ace.js"
-            th:href="@{/resources/js/ace-builds-master/src-min-noconflict/ace.js}"></script>
-    <script src="../../../resources/js/ace-builds-master/src-min-noconflict/ext-language_tools.js"
-            th:href="@{/resources/js/ace-builds-master/src-min-noconflict/ext-language_tools.js}"></script>
-
-
-    <script src="../../../resources/js/editeur.js" th:src="@{/resources/js/editeur.js}"></script>
 
     <script src="../../../resources/js/libs/pixi.min.js" th:src="@{/resources/js/libs/pixi.min.js}"></script>
 
@@ -27,8 +19,6 @@
 
 <div class="box">
     <div class="outer-center">
-
-
         <input type="hidden" id="idParty" value="" th:value="${party.id}"/>
         <ul class="nav nav-tabs" id="myTab">
 
@@ -164,8 +154,6 @@
 
         </div>
     </div>
-
-
 </div>
 
 
