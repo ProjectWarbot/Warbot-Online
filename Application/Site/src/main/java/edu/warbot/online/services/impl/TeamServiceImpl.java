@@ -50,24 +50,6 @@ public class TeamServiceImpl implements TeamService {
     private WebCodeRepository webCodeRepository;
     private Map<String, Team> sourcesTeam = new HashMap<>();
 
-    private HashMap<WarAgentType, Class<? extends WarBrain>> brainControllers = new HashMap<WarAgentType, Class<? extends WarBrain>>();
-
-
-    public void loadScriptClasses() {
-        try {
-            if (brainControllers.isEmpty()) {
-                ClassPool defaultClassPool = ClassPool.getDefault();
-                brainControllers.put(WarAgentType.WarBase, createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarBase"));
-                brainControllers.put(WarAgentType.WarExplorer, createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarExplorer"));
-                brainControllers.put(WarAgentType.WarEngineer, createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarEngineer"));
-                brainControllers.put(WarAgentType.WarRocketLauncher, createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarRocketLauncher"));
-                brainControllers.put(WarAgentType.WarKamikaze, createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarKamikaze"));
-                brainControllers.put(WarAgentType.WarTurret, createNewWarBrainImplementationClass(defaultClassPool, "edu.warbot.scriptcore.team.ScriptableWarTurret"));
-            }
-        } catch (NotFoundException | CannotCompileException | IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void loadSourceTeams() {
         Map<String, String> teamsSourcesFolders = UserPreferences.getTeamsSourcesFolders();
@@ -123,9 +105,8 @@ public class TeamServiceImpl implements TeamService {
 
 
     public Team generateTeamFromParty(Party party) {
-        if (getBrains().size() == 0)
-            loadScriptClasses();
-        ScriptedTeam team = new ScriptedTeam(party.getName(), "", null, getBrains());
+
+        ScriptedTeam team = new ScriptedTeam(party.getName(), "", null);
         team.setInterpreter
                 (ScriptInterpreterFactory.getInstance(party.getLanguage())
                         .createScriptInterpreter());
@@ -267,9 +248,5 @@ public class TeamServiceImpl implements TeamService {
         brainImplementationClass.setSuperclass(brainClass);
         Class<?> constructClass = classPool.toClass(brainImplementationClass, WarExplorerBrainController.class.getClassLoader(), null);
         return constructClass.asSubclass(WarBrain.class);
-    }
-
-    private HashMap<WarAgentType, Class<? extends WarBrain>> getBrains() {
-        return brainControllers;
     }
 }

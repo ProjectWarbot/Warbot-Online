@@ -20,10 +20,8 @@ import madkit.kernel.Madkit;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
-import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -38,24 +36,24 @@ public class MainWarbot {
     private static org.slf4j.Logger logger = LoggerFactory.getLogger(MainWarbot.class);
 
     static {
-        os = System.out;
-        JFrame jf = new JFrame("");
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jf.setPreferredSize(new Dimension(800, 600));
-        JTextArea jta = new JTextArea();
-        jta.setEditable(true);
-        JScrollPane jsp = new JScrollPane();
-        jsp.createVerticalScrollBar();
-        jsp.setViewportView(jta);
-
-        jf.getContentPane().add(jsp);
-        jf.pack();
-        jf.setVisible(true);
-        OutputStream dos = new DocumentOutputStream(jta.getDocument());
-//        System.setOut(new PrintStream(new NullOutputStream()));
-//        System.setErr(new PrintStream((new NullOutputStream())));
-        System.setOut(new PrintStream(dos));
-        System.setErr(new PrintStream(dos));
+//        os = System.out;
+//        JFrame jf = new JFrame("");
+//        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        jf.setPreferredSize(new Dimension(800, 600));
+//        JTextArea jta = new JTextArea();
+//        jta.setEditable(true);
+//        JScrollPane jsp = new JScrollPane();
+//        jsp.createVerticalScrollBar();
+//        jsp.setViewportView(jta);
+//
+//        jf.getContentPane().add(jsp);
+//        jf.pack();
+//        jf.setVisible(true);
+//        OutputStream dos = new DocumentOutputStream(jta.getDocument());
+        System.setOut(new PrintStream(new NullOutputStream()));
+        System.setErr(new PrintStream((new NullOutputStream())));
+//        System.setOut(new PrintStream(dos));
+//        System.setErr(new PrintStream(dos));
     }
 
     public static void main(String[] args) {
