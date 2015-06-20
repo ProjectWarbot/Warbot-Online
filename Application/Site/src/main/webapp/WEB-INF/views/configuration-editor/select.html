@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" href="../../../resources/images/faviconWbO.png" th:href="@{resources/images/faviconWbO.png}"/>
+
+    <title>Editor</title>
+    <object th:include="fragments/header :: head" th:remove="tag"/>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header">Header</div>
+
+<fieldset>
+    <h3 th:text="#{configuration-editor.select.editorConfig}">Editeur de configuration</h3>
+
+    <div class="container searchZoneTest">
+        <div class="row">
+            <!--<div class="col-xs-5 col-xs-offset-0">
+                <div class="input-group">
+                    <input type="hidden" name="search_param" value="all" id="search_param"/>
+                    <input id="searchTrainingC" type="text" class="form-control" name="x"
+                           th:placeholder="#{configuration-editor.select.nomSalle}"/>
+                        <span class="input-group-btn">
+                            <button id="btn" class="btn btn-primary" type="button"><span
+                                    class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                </div>
+            </div>-->
+            <a href="./new" th:href="@{/configuration/new}" class="btn btn-success"
+               th:text="#{configuration-editor.select.nouvelSalle}">Nouvel salle d'entrainement</a>
+        </div>
+    </div>
+
+    <datalist id="trainingC">
+    </datalist>
+
+    <div id="contenerTableTestZone">
+        <table class="table table-bordered" id="tableListTestZone">
+            <thead>
+            <tr class="titleTestZone">
+                <!--<td class="idTestZone"
+                    th:text="#{configuration-editor.select.id}">
+                    #{configuration-editor.select.id}
+                </td>-->
+                <td data-sortable="true"
+                    th:text="#{configuration-editor.select.nom}">
+                    #{configuration-editor.select.nom}
+                </td>
+                <td th:text="#{configuration-editor.select.description}">
+                    #{configuration-editor.select.description}
+                </td>
+                <td class="levelTestZone"
+                    th:text="#{configuration-editor.select.niveau}">
+                    #{configuration-editor.select.niveau}
+                </td>
+                <td th:text="#{configuration-editor.select.createur}">
+                    #{configuration-editor.select.createur}
+                </td>
+                <td class="toolsTestZone"
+                    th:text="#{configuration-editor.select.outils}">
+                    #{configuration-editor.select.outils}
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="trainingConf : ${trainingConfigurations}">
+                <!--<td class="idTestZone" th:text="${trainingConf.id}"><p></p></td>-->
+                <td name="tCName" th:text="${trainingConf.name}"></td>
+                <td><p th:text="${trainingConf.description}"></p></td>
+                <td class="levelTestZone"><p th:text="${trainingConf.level}"></p></td>
+                <td><a th:href="@{/account/userProfil(id=${trainingConf.creator.id})}"
+                       th:text="${trainingConf.creator.screenName}"></a></td>
+                <td class="toolsTestZone">
+                    <a href="#" th:if="${trainingConf.creator.id == account.id}" class="btn btn-warning"
+                       th:text="#{configuration-editor.select.edit}"
+                       th:href="@{/configuration/edit(trainingId=${trainingConf.id})}">#{configuration-editor.select.edit}</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</fieldset>
+<script>
+                        $(function() {
+                            var parties = $('[name="partyName"]');
+                            $.each( parties, function( index, value ){
+                                $('#parties').append('<option id="'+ value +'" value="'+ value.text +'">'+ value.text +'</option>');
+                            });
+
+                        });
+
+                        $('#btn').click(function(){
+                            var textval = $('#searchTrainingC').val();
+                            $('#trainingC option').each(function(){
+                                if($(this).val() == textval){
+                                    window.location = $(this).attr('id');
+                                }
+                            });
+                        });
+            </script>
+</body>
+</html>
