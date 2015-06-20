@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Warbot Online</title>
+    <object th:include="fragments/header :: head" th:remove="tag"/>
+</head>
+<body>
+<div th:fragment="alert (type, message)" class="alert alert-dismissable" th:classappend="'alert-' + ${type}">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <span th:text="${message}">Test</span>
+</div>
+</body>
+</html>
+

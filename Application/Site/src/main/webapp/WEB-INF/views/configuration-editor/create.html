@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="Create Map"></title>
+    <object th:include="fragments/header :: head" th:remove="tag"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header">Header</div>
+
+<div th:replace="forms/zone :: formZone">&nbsp;</div>
+</body>
+</html>

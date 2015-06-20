@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Show Party</title>
+    <object th:include="fragments/header :: head" th:remove="tag"/>
+    <script src="../../../resources/js/zone/jquery.layout.js" th:src="@{/resources/js/zone/jquery.layout.js}"></script>
+    <script src="../../../resources/js/zone/jquery.ui.all.js" th:src="@{/resources/js/zone/jquery.ui.all.js}"></script>
+    <script src="../../../resources/js/zone.js" th:src="@{/resources/js/zone.js}"></script>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header">fragments/header :: header</div>
+
+<h3 th:text="${party.name}">${party.name}</h3>
+
+<div class="container">
+    <div>
+        <a th:href="@{/teamcode(idParty=${party.id})}" class="btn btn-sm btn-success launch"
+           th:text="#{link.editor}">Editor</a>
+        <a href="#" class="btn btn-sm btn-success launch" data-toggle="modal" data-target="#add-member"
+           th:text="#{link.add.member}">#{link.add.member}</a>
+    </div>
+    <h4 th:text="#{word.description}">#{word.description}</h4>
+
+    <p><span th:text="#{page.show.party.sentence}">#{page.show.party.sentence}</span> <span
+            th:text="${party.creator.screenName}">${party.creator.screenName}</span></p>
+    <h4 th:text="#{word.members}">#{word.members}</h4>
+    <table id="tableListParties" class="table table-bordered">
+        <thead>
+        <tr>
+            <th th:text="#{feedback.contact.nom}">#{feedback.contact.nom}</th>
+            <th th:text="#{feedback.actions}">#{feedback.actions}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${party.members}" th:data="${member.id}">
+
+            <td>
+                <a name="memberLogin" th:href="@{/userProfile(id=${member.id})}"
+                   th:text="${member.screenName}">${member.screeName}</a>
+            </td>
+            <td>
+                <a th:if="${(account.id == party.creator.id) and (member.id != account.id)}"
+                   th:href="@{/party/remove/members(idUser=${member.id},idParty=${party.id})}"
+                   href="#"
+                   th:text="#{link.remove.member}">
+                    #{link.remove.member}
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<!-- ADD-MEMBER FORM -->
+<div th:replace="forms/add-member-modal :: add-member(party=${party})">add-member</div>
+
+</body>
+</html>
+
